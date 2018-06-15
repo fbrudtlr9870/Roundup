@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="freeboard">
+
+<select id="selectfreeBoardList" resultType="freeboard">
+	select * from free_board order by free_board_no desc
+</select>
+
+<select id="selectfreeBoardListCount" resultType="_int">
+	select count(*) from free_board
+</select>
+</mapper>
