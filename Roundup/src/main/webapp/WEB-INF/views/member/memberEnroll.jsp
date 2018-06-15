@@ -14,6 +14,15 @@ div#update-container{
 }
 </style>
 <script>
+$(function(){
+	$("#password_chk").blur(function(){
+		var p1 = $("#password_").val();
+		var p2 = $(this).val();
+		if(p1!=p2){
+			alert("패스워드가 일치하지 않습니다.");
+			$("#password_").focus();			
+		}
+	});
 /*
  * 유효성검사함수
  */
@@ -31,47 +40,56 @@ function validate(){
 	<div id="update-container">
 		<form action="memberEnrollEnd.do" method="post">
 			<div id="userId-container">
-				<input type="text" name="userId" id="userId_" class="input" placeholder="아이디" required/>
+				<input type="text" name="userId" id="userId_" class="input form-control" placeholder="아이디" required/>
 			</div>
 			<br/>
-			<input type="password" name="password" id="password_" class="input" placeholder="비밀번호" required/>
-			<br/><br/>
-			<input type="password" id="password_chk" placeholder="비밀번호 확인" class="input" required/>
-			<br/><br/>
-			<input type="text" name="userName" id="userName_" class="input" placeholder="이름" required/>
-			<br/><br/>
-			<input type="number" name="age" id="age_" class="input" placeholder="나이" required/>
-			<br/><br/>
-			<input type="text" name="phone" id="phone_" class="input" placeholder="전화번호" required/>
-			<br/><br/>
-			<input type="text" name="address" id="address_" class="input" placeholder="주소"/>
-			<br/><br/>
-			<select name="gender" id="gender" class="input" required>
+			<input type="password" name="password" id="password_" class="input form-control" placeholder="비밀번호" required/>
+			<br/>
+			<input type="password" id="password_chk" class="input form-control" placeholder="비밀번호 확인"  required/>
+			<br/>
+			<input type="text" name="userName" id="userName_" class="input form-control" placeholder="이름" required/>
+			<br/>
+			<input type="number" name="age" id="age_" class="input form-control" placeholder="나이" required/>
+			<br/>
+			<input type="text" name="phone" id="phone_" class="input form-control" placeholder="전화번호" required/>
+			<br/>
+			<input type="text" name="address" id="address_" class="input form-control" placeholder="주소"/>
+			<br/>
+			<select name="gender" id="gender" class="input form-control" required>
 				<option value=""disabled selected>성별</option>
 				<option value="M">남자</option>
 				<option value="F">여자</option>
 			</select>
-			<br/><br/>
+			<br/>
+			<select name="food" id="food" class="input form-control" required>
+				<option value=""disabled selected>좋아하는 편의점</option>
+				<option value="CU">CU</option>
+				<option value="GS25">GS25</option>
+				<option value="MINISTOP">MINISTOP</option>
+				<option value="emart24">emart24</option>
+				<option value="with me">with me</option>
+			</select>
+			<!-- <br/>
 			<div class="form-check-inline form-check">
-			취미 : &nbsp;
-			<input type="checkbox" value="독서"
+			편의점 : &nbsp;
+			<input type="checkbox" value="CU"
 				   class="form-check-input" 
 				   name="hobby" id="hobby1" />
 			<label for="hobby1" 
-				   class="form-check-label" >독서</label>
+				   class="form-check-label" >CU</label>
 			&nbsp;
-			<input type="checkbox" class="form-check-input" value="공부" name="hobby" id="hobby2" />
-			<label for="hobby2" class="form-check-label">공부</label>
+			<input type="checkbox" class="form-check-input" value="MINISTOP" name="hobby" id="hobby2" />
+			<label for="hobby2" class="form-check-label">미니스탑</label>
 			&nbsp;
-			<input type="checkbox" class="form-check-input" value="산책" name="hobby" id="hobby3" />
-			<label for="hobby3" class="form-check-label">산책</label>
+			<input type="checkbox" class="form-check-input" value="emart24" name="hobby" id="hobby3" />
+			<label for="hobby3" class="form-check-label">이마트24</label>
 			&nbsp;
-			<input type="checkbox" class="form-check-input" value="게임" name="hobby" id="hobby4" />
-			<label for="hobby4" class="form-check-label">게임</label>
+			<input type="checkbox" class="form-check-input" value="gs25" name="hobby" id="hobby4" />
+			<label for="hobby4" class="form-check-label">gs25</label>
 			&nbsp;
-			<input type="checkbox" class="form-check-input" value="여행" name="hobby" id="hobby5" />
-			<label for="hobby5" class="form-check-label">여행</label>
-		</div>
+			<input type="checkbox" class="form-check-input" value="세븐일레븐" name="hobby" id="hobby5" />
+			<label for="hobby5" class="form-check-label">의드미</label>
+		</div> -->
 		<br />
 		<input type="submit" value="가입" class="btn btn-outline-success" /> 
 		</form>

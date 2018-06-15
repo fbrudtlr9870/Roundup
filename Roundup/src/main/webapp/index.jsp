@@ -70,65 +70,65 @@
                             <div class="pprice">1,000원</div>
                         </li>
                         <li class="main-li">
-                                <img src="${pageContext.request.contextPath}/resources/img/test1.png">
-                                <div class="buy-btn">
-                                        <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                        <button type="button" class="btn btn-success">구매</button>
-                                    </div>
-                                <div class="ptext">GS25</div>
-                                <div class="ptext">핑크죠스바</div>
-                                <div class="pprice">1,000원</div>
-                            </li>
-                            <li class="main-li">
-                                    <img src="${pageContext.request.contextPath}/resources/img/test1.png">
-                                    <div class="buy-btn">
-                                            <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                            <button type="button" class="btn btn-success">구매</button>
-                                        </div>
-                                    <div class="ptext">GS25</div>
-                                    <div class="ptext">핑크죠스바</div>
-                                    <div class="pprice">1,000원</div>
-                                </li>
-                                <li class="main-li">
-                                        <img src="${pageContext.request.contextPath}/resources/img/test1.png">
-                                        <div class="buy-btn">
-                                                <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                                <button type="button" class="btn btn-success">구매</button>
-                                            </div>
-                                        <div class="ptext">GS25</div>
-                                        <div class="ptext">핑크죠스바</div>
-                                        <div class="pprice">1,000원</div>
-                                    </li>
-                                    <li class="main-li">
-                                            <img src="${pageContext.request.contextPath}/resources/img/test1.png">
-                                            <div class="buy-btn">
-                                                    <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                                    <button type="button" class="btn btn-success">구매</button>
-                                                </div>
-                                            <div class="ptext">GS25</div>
-                                            <div class="ptext">핑크죠스바</div>
-                                            <div class="pprice">1,000원</div>
-                                        </li>
-                                        <li class="main-li">
-                                                <img src="${pageContext.request.contextPath}/resources/img/test1.png">
-                                                <div class="buy-btn">
-                                                        <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                                        <button type="button" class="btn btn-success">구매</button>
-                                                    </div>
-                                                <div class="ptext">GS25</div>
-                                                <div class="ptext">핑크죠스바</div>
-                                                <div class="pprice">1,000원</div>
-                                            </li>
-                                            <li class="main-li">
-                                                    <img src="${pageContext.request.contextPath}/resources/img/test1.png">
-                                                    <div class="buy-btn">
-                                                            <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                                            <button type="button" class="btn btn-success">구매</button>
-                                                        </div>
-                                                    <div class="ptext">GS25</div>
-                                                    <div class="ptext">핑크죠스바</div>
-                                                    <div class="pprice">1,000원</div>
-                                                </li>
+                           <img src="${pageContext.request.contextPath}/resources/img/test1.png">
+                           <div class="buy-btn">
+                                   <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
+                                   <button type="button" class="btn btn-success">구매</button>
+                               </div>
+                           <div class="ptext">GS25</div>
+                           <div class="ptext">핑크죠스바</div>
+                           <div class="pprice">1,000원</div>
+                       </li>
+                       <li class="main-li">
+                            <img src="${pageContext.request.contextPath}/resources/img/test1.png">
+                            <div class="buy-btn">
+                                    <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
+                                    <button type="button" class="btn btn-success">구매</button>
+                                </div>
+                            <div class="ptext">GS25</div>
+                            <div class="ptext">핑크죠스바</div>
+                            <div class="pprice">1,000원</div>
+                        </li>
+                        <li class="main-li">
+                            <img src="${pageContext.request.contextPath}/resources/img/test1.png">
+                            <div class="buy-btn">
+                                    <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
+                                    <button type="button" class="btn btn-success">구매</button>
+                                </div>
+                            <div class="ptext">GS25</div>
+                            <div class="ptext">핑크죠스바</div>
+                            <div class="pprice">1,000원</div>
+                        </li>
+                        <li class="main-li">
+                            <img src="${pageContext.request.contextPath}/resources/img/test1.png">
+                            <div class="buy-btn">
+                                    <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
+                                    <button type="button" class="btn btn-success">구매</button>
+                                </div>
+                            <div class="ptext">GS25</div>
+                            <div class="ptext">핑크죠스바</div>
+                            <div class="pprice">1,000원</div>
+                        </li>
+                        <li class="main-li">
+                            <img src="${pageContext.request.contextPath}/resources/img/test1.png">
+                            <div class="buy-btn">
+                                    <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
+                                    <button type="button" class="btn btn-success">구매</button>
+                                </div>
+                            <div class="ptext">GS25</div>
+                            <div class="ptext">핑크죠스바</div>
+                            <div class="pprice">1,000원</div>
+                        </li>
+                        <li class="main-li">
+                            <img src="${pageContext.request.contextPath}/resources/img/test1.png">
+                            <div class="buy-btn">
+                                    <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
+                                    <button type="button" class="btn btn-success">구매</button>
+                                </div>
+                            <div class="ptext">GS25</div>
+                            <div class="ptext">핑크죠스바</div>
+                            <div class="pprice">1,000원</div>
+                        </li>
             </ul>
         </div>
         <br><br>

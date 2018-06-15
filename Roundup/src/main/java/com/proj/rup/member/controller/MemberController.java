@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.service.MemberService;
 
-@SessionAttributes({"memberLoggedIn"})
 @Controller
 public class MemberController {
 	
@@ -30,6 +29,37 @@ public class MemberController {
 		if(logger.isDebugEnabled())
 			logger.debug("회원등록페이지");
 		return "member/memberEnroll";
+	}
+	
+	@RequestMapping("/member/memberEnrollEnd.do")
+	public String memberEnrollEnd(Member member, Model model) {
+		if(logger.isDebugEnabled())
+			logger.debug("회원등록처리페이지");
+		
+		logger.debug(member.toString());
+		String rawPassword = member.getPassword();
+		
+		/***암호화시작****/
+		String encodedPassword = bcryptPasswordEncoder.encode(rawPassword);
+		member.setPassword(encodedPassword);
+		
+		/***암호화끝****/
+		
+		System.out.println("암호화후 : "+member.getPassword());
+		
+		//1.
+		int result = memberService.insertMember(member);
+		
+		//2. 
+		String loc = "/";
+		String msg = "";
+		if(result>0) msg="회원가입성공!";
+		else msg="회원가입성공!";
+		
+		model.addAttribute("loc",loc);
+		model.addAttribute("msg",msg);
+		
+		return "common/msg";
 	}
 
 }
