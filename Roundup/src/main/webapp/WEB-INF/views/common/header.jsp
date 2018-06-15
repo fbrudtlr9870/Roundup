@@ -43,10 +43,20 @@
                                 </div>
                               </div>
                 </fieldset>
-                <div class="nav-bar-btn">
+                <c:if test="${memberLoggedIn==null}">
+                <!-- 로그인 회원가입 -->
+                <button type="button" 
+			    		class="btn btn-outline-success"
+			    		data-toggle="modal" 
+			    		data-target="#exampleModal">로그인</button>
+			    &nbsp;
+                <button type="button" class="btn btn-outline-success"
+                		 onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
+                </c:if>
+               <!-- <div class="nav-bar-btn">
                     <button type="button" class="btn btn-primary"><a href="login.html" style="color:white">로그인</a></button>
                     <button type="button" class="btn btn-default">회원가입</button>
-                </div>
+                </div> -->
             </div>
         </nav>
         <nav class="nav-list">
@@ -58,6 +68,7 @@
                             <li role="presentation"><a href="#">게시판</a></li>
                             <li role="presentation"><a href="#">1:1문의</a></li>
                     </ul>
+               
             </div>
         </nav>
 	<section>
