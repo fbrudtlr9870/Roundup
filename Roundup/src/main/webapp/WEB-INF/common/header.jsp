@@ -11,16 +11,18 @@
 
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.js"></script>		
 <!-- 부트스트랩관련 라이브러리 -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<!-- navi관련 수정(18.06.15) -->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
-</head>
+</head>	
 <body>
 <div id="main-container">
         <nav class="nav-bar">
             <div class="nav-bar-wrapper">
-                <a href="index.html" class="nav-bar-logo">편의점마스터</a>
+                <a href="${pageContext.request.contextPath }" class="nav-bar-logo">편의점마스터</a>
                 <ul class="nav-bar-site">
                     <li class="nav-bar-site-li"><a href="basket.html" style="color:black">장바구니</a></li>
                     <li class="nav-bar-site-li">마이페이지</li>
@@ -35,12 +37,14 @@
                 </ul>
                 <fieldset class="nav-search">
                         <div class="col-lg-6">
+                                <form action="${pageContext.request.contextPath }/product/productSearch.do">
                                 <div class="input-group">
-                                  <input type="text" class="form-control" placeholder="Search for...">
+                                  <input type="text" class="form-control" placeholder="Search for..." name="searchKeyword">
                                   <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button"><a href="search.html">Go!</a></button>
-                                  </span>
+                                    <button class="btn btn-default" type="submit" value="Go!">Go!!</button>
+                                  </span>                                
                                 </div>
+                                </form>
                               </div>
                 </fieldset>
                 <div class="nav-bar-btn">
@@ -55,9 +59,9 @@
                             <li role="presentation" class="active"><a href="#">카테고리</a></li>
                             <li role="presentation"><a href="#">행사</a></li>
                             <li role="presentation"><a href="notice.html">공지사항</a></li>
-                            <li role="presentation"><a href="#">게시판</a></li>
+                            <li role="presentation"><a href="./freeboard/freeBoardList.do">게시판</a></li>
                             <li role="presentation"><a href="#">1:1문의</a></li>
                     </ul>
             </div>
-        </nav>
+        </nav>        
 	<section>
