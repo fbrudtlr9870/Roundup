@@ -8,13 +8,29 @@
 	<jsp:param value="검색결과" name="pageTitle"/>
 </jsp:include>
 ${searchKeyword }
-${bloginfo }
+<script>
+$(function(){
+	var bloginfo=${bloginfo};
+	console.log(bloginfo);
+	var p1=$("#blog1");
+	p1.html("<a href="+bloginfo.items[0].link+">"+bloginfo.items[0].title+"</a>");
+	var p2=$("#blog2");
+	p2.html("<a href="+bloginfo.items[1].link+">"+bloginfo.items[1].title+"</a>");
+	var p3=$("#blog3");
+	p3.html("<a href="+bloginfo.items[2].link+">"+bloginfo.items[2].title+"</a>");
+	var p4=$("#blog4");
+	p4.html("<a href="+bloginfo.items[3].link+">"+bloginfo.items[3].title+"</a>");
+	var p5=$("#blog5");
+	p5.html("<a href="+bloginfo.items[4].link+">"+bloginfo.items[4].title+"</a>");
+});
+</script>
 <div class="blog-container">
-                <h4>네이버 블로그</h4>
-                <p>CU에 대해 알아보...</p>
-                <p>CU에 대해 알아보...</p>
-                <p>CU에 대해 알아보...</p>
-                <p>CU에 대해 알아보...</p>
+                <h4>네이버 블로그</h4>                
+                <p id="blog1"></p><a href=""></a>
+                <p id="blog2"></p>
+                <p id="blog3"></p>
+                <p id="blog4"></p>                
+                <p id="blog5"></p>                
             </div>
             <br><br>
             <div class="search-div">
