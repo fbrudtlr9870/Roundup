@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="Main" name="pageTitle"/>
+	<jsp:param value="메인" name="pageTitle"/>
 </jsp:include>
 <script>
 $(function(){
@@ -139,6 +139,8 @@ $(function(){
                                                     <div class="ptext">핑크죠스바</div>
                                                     <div class="pprice">1,000원</div>
                                                 </li>
+            </ul>
         </div>
         <br><br>
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
