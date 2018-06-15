@@ -1,5 +1,15 @@
 @CHARSET "UTF-8";
 
+/* 없는듯 하여 추가해봅니다-상현 */
+div.blog-container{
+    width:980px;
+    margin:0 auto;
+    border: 1px solid lightgray;
+}
+div.search-div{
+	width:500px;
+	margin:0 auto;
+}
 /* 메인페이지 */
 
 html,body{
