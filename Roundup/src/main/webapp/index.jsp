@@ -7,7 +7,17 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="Main" name="pageTitle"/>
 </jsp:include>
-
+<script>
+$(function(){
+    $(".main-li").hover(function(){
+        $(this).css("border","1px solid black");
+        $(this).children(".buy-btn").show();
+    },function(){
+        $(this).css("border","1px solid lightgray");
+        $(this).children(".buy-btn").hide();
+    });
+})
+</script>
     <div class="main-img-wrapper">
             <div class="main-img">
                 <div class="main-category">
