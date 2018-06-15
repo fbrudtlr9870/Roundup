@@ -22,7 +22,7 @@
 <div id="main-container">
         <nav class="nav-bar">
             <div class="nav-bar-wrapper">
-                <a href="index.html" class="nav-bar-logo">편의점마스터</a>
+                <a href="${pageContext.request.contextPath }" class="nav-bar-logo">편의점마스터</a>
                 <ul class="nav-bar-site">
                     <li class="nav-bar-site-li"><a href="basket.html" style="color:black">장바구니</a></li>
                     <li class="nav-bar-site-li">마이페이지</li>
