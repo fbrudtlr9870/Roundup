@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class ProductDAOImpl implements ProductDAO {
-	@Autowired
-	private SqlSessionTemplate session;
+	/*@Autowired
+	private SqlSessionTemplate session;*/
 	
 }

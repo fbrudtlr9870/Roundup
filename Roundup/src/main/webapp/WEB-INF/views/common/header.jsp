@@ -38,10 +38,12 @@
                 <fieldset class="nav-search">
                         <div class="col-lg-6">
                                 <div class="input-group">
-                                  <input type="text" class="form-control" placeholder="Search for...">
+                                <form action="${pageContext.request.contextPath }/product/productSearch.do">
+                                  <input type="text" class="form-control" placeholder="Search for..." name="searchKeyword">
                                   <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button"><a href="search.html">Go!</a></button>
-                                  </span>
+                                    <button class="btn btn-default" type="submit" value="Go!">Go!!</button>
+                                  </span>                                
+                                </form>
                                 </div>
                               </div>
                 </fieldset>
