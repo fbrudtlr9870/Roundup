@@ -8,6 +8,7 @@
 	<jsp:param value="검색결과" name="pageTitle"/>
 </jsp:include>
 ${searchKeyword }
+${bloginfo }
 <div class="blog-container">
                 <h4>네이버 블로그</h4>
                 <p>CU에 대해 알아보...</p>
