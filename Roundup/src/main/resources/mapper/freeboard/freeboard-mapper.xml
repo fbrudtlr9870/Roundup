@@ -9,4 +9,13 @@
 <select id="selectfreeBoardListCount" resultType="_int">
 	select count(*) from free_board
 </select>
+
+<select id="selectfreeBoardOne" resultType="freeboard">
+	select * from free_board where free_board_no=#{no}
+</select>
+
+<select id="selectfreeBoardFileList" resultType="freeboardFile">
+	select * from free_board_file where free_board_no=#{no}
+</select>
+
 </mapper>
