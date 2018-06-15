@@ -39,7 +39,7 @@
                                 <form action="${pageContext.request.contextPath }/product/productSearch.do">
                                   <input type="text" class="form-control" placeholder="Search for..." name="searchKeyword">
                                   <span class="input-group-btn">
-                                    <button class="btn btn-default" type="submit" value="Go!">Go!</button>
+                                    <button class="btn btn-default" type="submit" value="Go!">Go!!</button>
                                   </span>                                
                                 </form>
                                 </div>
