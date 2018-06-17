@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.proj.rup.freeboard.model.service.freeBoardService;
 import com.proj.rup.freeboard.model.service.freeBoardServiceImpl;
 import com.proj.rup.freeboard.model.vo.FreeBoard;
+import com.proj.rup.freeboard.model.vo.FreeBoardComment;
 import com.proj.rup.freeboard.model.vo.FreeBoardFile;
 
 @Controller
@@ -57,13 +58,16 @@ public class FreeBoardController {
 		//2. 자유게시판 번호에 맞는 업로드된 파일조회해서 가져오기
 		List<FreeBoardFile> list = freeboardService.selectfreeBoardFileList(no);
 		
+		//3. 자유게시판 번호에 맞는 댓글리스트 가져오기
+		List<FreeBoardComment> listc = freeboardService.selectfreeBoardCommentList(no);
+		
 		mav.addObject("fboard", fboard);
 		mav.addObject("list", list);
+		mav.addObject("listc", listc);
 		mav.setViewName("freeboard/freeBoardView");
 		
 		return mav;
 	}
-	
 	
 	
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.proj.rup.freeboard.model.vo.FreeBoard;
+import com.proj.rup.freeboard.model.vo.FreeBoardComment;
 import com.proj.rup.freeboard.model.vo.FreeBoardFile;
 
 @Repository
@@ -37,6 +38,11 @@ public class FreeBoardDAOImpl implements FreeBoardDAO {
 	@Override
 	public List<FreeBoardFile> selectfreeBoardFileList(int no) {
 		return sqlSession.selectList("freeboard.selectfreeBoardFileList", no);
+	}
+
+	@Override
+	public List<FreeBoardComment> selectfreeBoardCommentList(int no) {
+		return sqlSession.selectList("freeboard.selectfreeBoardCommentList", no);
 	}
 
 }

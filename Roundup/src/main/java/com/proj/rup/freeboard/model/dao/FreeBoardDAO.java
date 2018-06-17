@@ -3,6 +3,7 @@ package com.proj.rup.freeboard.model.dao;
 import java.util.List;
 
 import com.proj.rup.freeboard.model.vo.FreeBoard;
+import com.proj.rup.freeboard.model.vo.FreeBoardComment;
 import com.proj.rup.freeboard.model.vo.FreeBoardFile;
 
 public interface FreeBoardDAO {
@@ -14,5 +15,7 @@ public interface FreeBoardDAO {
 	FreeBoard selectfreeBoardOne(int no);
 
 	List<FreeBoardFile> selectfreeBoardFileList(int no);
+
+	List<FreeBoardComment> selectfreeBoardCommentList(int no);
 
 }

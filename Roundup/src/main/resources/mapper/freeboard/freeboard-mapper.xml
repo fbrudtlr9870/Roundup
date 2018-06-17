@@ -18,4 +18,13 @@
 	select * from free_board_file where free_board_no=#{no}
 </select>
 
+<select id="selectfreeBoardCommentList" resultType="freeboardComment">
+	 select *
+	 from tbl_comment
+	 where free_board_no=#{no}
+	 start with comment_level =1
+	 connect by prior comment_no = parent_comment
+	 order siblings by comment_enrolldate
+</select>
+
 </mapper>

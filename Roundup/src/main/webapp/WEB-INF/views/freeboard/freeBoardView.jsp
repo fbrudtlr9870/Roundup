@@ -11,7 +11,7 @@
 div#freeBoardView-container{
 	width:640px;
 	margin:0 auto;
-	border:1px solid black;
+	border:1px solid lightgray;
 }
 div.freeBoardView-title{
 	width:590px;
@@ -30,11 +30,14 @@ div.freeBoardView-title.member{
 }
 div.freeBoardView-comment{
 	width:638px;
-	background: lightgray;
+	background: rgb(229, 228, 221);
 }
 div.freeBoardView-comment.read{
 	width:600px;
 	margin:0 auto;
+}
+div.freeBoardView-comment.read.level2{
+	padding-left: 15px;
 }
 div.freeBoardView-comment.read.title{
 		margin-bottom:5px;
@@ -84,6 +87,7 @@ div.freeBoardView-comment.write button{
 	height:70px;
 	float:left;
 }
+
 </style>
 
 <div id="freeBoardView-container">
@@ -106,40 +110,58 @@ div.freeBoardView-comment.write button{
 	<br />
 	
 	<span style="margin:0 0 0 20px; color:navy;">댓글 10개</span>
+	
+	<c:if test="${listc==null }">
 	<div class="freeBoardView-comment">
-		<div class="freeBoardView-comment read">
-			<div class="freeBoardView-comment read title">
-				<span style="font-weight:bold;">아이디</span>
-				<span>2018-06-15</span>
-				<button class="comment-btn">답글</button>
-			</div>
-			<p>
-				<span>블라블라블라블라블라</span>
-			</p>
-		</div>
-				<div class="freeBoardView-comment read">
-			<div class="freeBoardView-comment read title">
-				<span style="font-weight:bold;">아이디</span>
-				<span>2018-06-15</span>
-				<button class="comment-btn">답글</button>
-			</div>
-			<p>
-				<span>블라블라블라블라블라</span>
-			</p>
-		</div>
-		
 		<br />
-		<div class="freeBoardView-comment write">
-			<textarea name="" id="" cols="30" rows="10"></textarea>
-			<button>등록</button>
-		</div>
+			<div class="freeBoardView-comment write">
+				<textarea name="" id="" cols="30" rows="10"></textarea>
+				<button>등록</button>
+			</div>
+	</div>
+	</c:if>
+	<div class="freeBoardView-comment">
+		<c:if test="${listc!=null }">
+			<c:forEach items="${listc }" var="fc" >
+			<c:if test="${fc['comment_level']==1 }">
+				<div class="freeBoardView-comment read">
+					<div class="freeBoardView-comment read title">
+						<span style="font-weight:bold;">${fc['member_id'] }</span>
+						<span>${fc['comment_enrolldate'] }</span>
+						<button class="comment-btn">답글</button>
+					</div>
+					<p>
+						<span>${fc['comment_content'] }</span>
+					</p>
+				</div>
+			</c:if>
+			<c:if test="${fc['comment_level']!=1 }">
+				<div class="freeBoardView-comment read level2">
+					<div class="freeBoardView-comment read title">
+						<span style="font-weight:bold;">ㄴ${fc['member_id'] }</span>
+						<span>${fc['comment_enrolldate'] }</span>
+						<button class="comment-btn">답글</button>
+					</div>
+					<p>
+						<span style="padding-left:13px;">${fc['comment_content'] }</span>
+					</p>
+				</div>
+			</c:if>
+			</c:forEach>
+			<br />
+			<div class="freeBoardView-comment write">
+				<textarea name="" id="" cols="30" rows="10"></textarea>
+				<button>등록</button>
+			</div>
+		</c:if>
 	</div>
 </div>
 
 <script>
 $(function(){
+	var chk_comment_btn=false;
 	$(".comment-btn").on('click',function(){
-		
+		if(chk_comment_btn==false){
 		var div = $("<div style='border-bottom:1px dotted white;' class='freeBoardView-comment comment'></div>");
 		var html='<button>답글</button>';
 		html+='<textarea name="" id="" cols="30" rows="10"></textarea>';
@@ -148,8 +170,13 @@ $(function(){
 		div.html(html);
 		//생성된 노드를 페이지에 추가
 		div.insertAfter($(this).parent().parent()).children("div").slideDown(800);
+		//$(this).off('click');
+		chk_comment_btn=true;
+		} else{
+			$(this).parent().parent().parent().find("div.freeBoardView-comment.comment").remove();
+			chk_comment_btn=false;
+		}
 		
-		$(this).off('click');
 		
 	})
 	

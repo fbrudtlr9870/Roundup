@@ -3,6 +3,7 @@ package com.proj.rup.freeboard.model.service;
 import java.util.List;
 
 import com.proj.rup.freeboard.model.vo.FreeBoard;
+import com.proj.rup.freeboard.model.vo.FreeBoardComment;
 import com.proj.rup.freeboard.model.vo.FreeBoardFile;
 
 public interface freeBoardService {
@@ -14,5 +15,7 @@ public interface freeBoardService {
 	FreeBoard selectfreeBoardOne(int no);
 
 	List<FreeBoardFile> selectfreeBoardFileList(int no);
+
+	List<FreeBoardComment> selectfreeBoardCommentList(int no);
 
 }

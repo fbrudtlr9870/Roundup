@@ -4,5 +4,6 @@
 	 <typeAliases>
 	 	<typeAlias type="com.proj.rup.freeboard.model.vo.FreeBoard" alias="freeboard"/>
 	 	<typeAlias type="com.proj.rup.freeboard.model.vo.FreeBoardFile" alias="freeboardFile"/>
+	 	<typeAlias type="com.proj.rup.freeboard.model.vo.FreeBoardComment" alias="freeboardComment"/>
 	 </typeAliases>
 </configuration>
