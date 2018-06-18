@@ -7,10 +7,9 @@
 			   #{member_password},
 			   #{member_Name},
 			   #{member_gender},
-			   #{member_age},
-			   #{member_email},
-			   #{member_phone},
 			   #{member_birthday},
+			   #{member_phone},
+			   #{member_email},
 			   default,
 			   default)
 	</insert>

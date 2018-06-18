@@ -10,7 +10,7 @@ public class Member implements java.io.Serializable{
 	private String member_password;
 	private String member_name;
 	private String member_gender;
-	private Date member_birthDay;
+	private Date member_birthday;
 	private String member_phone;
 	private String member_email;
 	private Date member_enrollDate;
@@ -19,14 +19,14 @@ public class Member implements java.io.Serializable{
 	public Member() {}
 
 	public Member(String member_id, String member_password, String member_name, String member_gender,
-			Date member_birthDay, String member_phone, String member_email, Date member_enrollDate,
+			Date member_birthday, String member_phone, String member_email, Date member_enrollDate,
 			String member_grade) {
 		super();
 		this.member_id = member_id;
 		this.member_password = member_password;
 		this.member_name = member_name;
 		this.member_gender = member_gender;
-		this.member_birthDay = member_birthDay;
+		this.member_birthday = member_birthday;
 		this.member_phone = member_phone;
 		this.member_email = member_email;
 		this.member_enrollDate = member_enrollDate;
@@ -65,12 +65,12 @@ public class Member implements java.io.Serializable{
 		this.member_gender = member_gender;
 	}
 
-	public Date getMember_birthDay() {
-		return member_birthDay;
+	public Date getMember_birthday() {
+		return member_birthday;
 	}
 
-	public void setMember_birthDay(Date member_birthDay) {
-		this.member_birthDay = member_birthDay;
+	public void setMember_birthday(Date member_birthday) {
+		this.member_birthday = member_birthday;
 	}
 
 	public String getMember_phone() {
@@ -112,7 +112,7 @@ public class Member implements java.io.Serializable{
 	@Override
 	public String toString() {
 		return "Member [member_id=" + member_id + ", member_password=" + member_password + ", member_name="
-				+ member_name + ", member_gender=" + member_gender + ", member_birthDay=" + member_birthDay
+				+ member_name + ", member_gender=" + member_gender + ", member_birthday=" + member_birthday
 				+ ", member_phone=" + member_phone + ", member_email=" + member_email + ", member_enrollDate="
 				+ member_enrollDate + ", member_grade=" + member_grade + "]";
 	}

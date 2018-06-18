@@ -10,12 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.service.MemberService;
 
+@SessionAttributes({"memberLoggedIn"})
 @Controller
 public class MemberController {
 	
@@ -66,9 +68,10 @@ public class MemberController {
 		return "common/msg";
 	}
 	
+	
 	@RequestMapping("/member/memberLogin.do")
 	public ModelAndView memberLogin(@RequestParam String member_id,
-									@RequestParam String member_password, HttpSession session) {
+									@RequestParam String member_password) {
 		if(logger.isDebugEnabled())
 			logger.debug("로그인요청");
 		
@@ -84,14 +87,13 @@ public class MemberController {
 		String loc = "/";
 		
 		if(m==null) 
-		
 			msg = "존재하지 않는 아이디입니다.";
 		
 		else {
 		//if(bcryptPasswordEncoder.matches(member_password, m.getMember_password())) {
 		if(member_password.equals(m.getMember_password())) {
 			msg = "로그인성공!";
-			session.setAttribute("memberLoggedIn", m);
+			mav.addObject("memberLoggedIn", m);
 			/*mav.addObject("memberLoggedIn", m);*/
 		}
 		else {
