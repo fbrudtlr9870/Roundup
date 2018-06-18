@@ -51,12 +51,15 @@
                 
 				<!-- 로그인 회원가입 -->
                <div class="nav-bar-btn">
-               <c:if test="${memberLoggedIn==null}">
-                    <button type="button" class="btn btn-outline-info"data-toggle="modal" 
-				    		data-target="#exampleModal">로그인</button>
-                    <button type="button" class="btn btn-outline-info"
-	                		 onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
-               </c:if>
+	               <c:if test="${memberLoggedIn==null}">
+	                  <button type="button" class="btn btn-outline-info"data-toggle="modal" 
+			    		data-target="#exampleModal">로그인</button>
+	                  <button type="button" class="btn btn-outline-info"
+	               		 onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
+	               </c:if>
+	                <c:if test="${memberLoggedIn!=null }">
+				    <a href="#">${memberLoggedIn.member_id }</a>님, 안녕하세요.
+				    </c:if>
                 </div>
 				<%-- <div>
 	                <c:if test="${memberLoggedIn==null}">
@@ -96,9 +99,9 @@
 		      </div>
 		      <form action="${pageContext.request.contextPath }/member/memberLogin.do" method="post">
 		      <div class="modal-body">
-		      	<input type="text" class="form-control" name="userId" id="userId" placeholder="아이디" required/>
+		      	<input type="text" class="form-control" name="member_id" id="member_id" placeholder="아이디" required/>
 		      	<br />
-		      	<input type="password" class="form-control" name="password" id="password" placeholder="비밀번호" required/>
+		      	<input type="password" class="form-control" name="member_password" id="member_password" placeholder="비밀번호" required/>
 		      </div>
 		      <div class="modal-footer">
 		        <button type="submit" class="btn btn-outline-primary">로그인</button>

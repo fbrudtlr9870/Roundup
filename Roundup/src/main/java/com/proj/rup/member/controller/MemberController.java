@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.proj.rup.member.model.vo.Member;
@@ -71,22 +72,21 @@ public class MemberController {
 		
 		//리턴할 ModelAndView객체생성
 		ModelAndView mav = new ModelAndView();
-		System.out.println(member_id);
+		logger.debug(member_id);
 
 		//1.업무로직
-		//random salt값으로 암호화하는 BCrypt 방식에서의 로그인 체크
 		Member m = memberService.selectOneMember(member_id);
-		//System.out.println(m);
 		logger.debug(m.toString());
 		
 		String msg = "";
 		String loc = "/";
 		
-		if(m==null) {
+		if(m==null) 
 			msg = "존재하지 않는 아이디입니다.";
-		}
+		
 		else {
-			if(bcryptPasswordEncoder.matches(member_password, m.getMember_password())) {
+//			if(bcryptPasswordEncoder.matches(member_password, m.getMember_password())) {
+			if(member_password.equals(m.getMember_password())) {
 				msg = "로그인성공!";
 				mav.addObject("memberLoggedIn", m);
 			}
@@ -102,6 +102,17 @@ public class MemberController {
 		mav.setViewName("common/msg");
 		
 		return mav;
+	}
+	
+	@RequestMapping("/member/memberLogout.do")
+	public String memberLogout(SessionStatus sessionStatus) {
+		if(logger.isDebugEnabled())
+			logger.debug("로그아웃요청");
+		
+		if(!sessionStatus.isComplete())
+			sessionStatus.setComplete();
+		
+		return "redirect:/";
 	}
 
 }

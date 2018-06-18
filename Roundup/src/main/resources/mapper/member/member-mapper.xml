@@ -11,9 +11,11 @@
 			   #{member_email},
 			   #{member_phone},
 			   #{member_birthday},
-			   #{store},
 			   sysdate)
 	</insert>
+	<resultMap type="member" id="memberMap">
+		
+	</resultMap>
 	<select id="selectOneMember" resultMap="memberMap">
 		SELECT * FROM MEMBER WHERE MEMBER_ID = #{member_id}
 	</select>
