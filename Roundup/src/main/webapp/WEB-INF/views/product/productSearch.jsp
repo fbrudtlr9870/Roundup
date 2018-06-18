@@ -34,64 +34,45 @@ $(function(){
             </div>
             <br><br>
             <div class="search-div">
-                <form action="">
+                <form action="${pageContext.request.contextPath}/product/reSearch.do">
                     <h4>브랜드</h4> 
-                    <input class="form-check-input" type="checkbox" name="brand" id=""> cu &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" id=""> gs25 &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" id=""> 7-11 &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" id=""> mini &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" id=""> emart24
+                    <input type="hidden" name="searchKeyword" value="${searchKeyword }"/>
+                    <input class="form-check-input" type="checkbox" name="brand" > cu &nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" > gs25 &nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" > 7-11 &nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" > mini &nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" > emart24
                     <h4>가격대</h4>
-                    <input type="number" name="" min="0"> ~ <input type="number" name="">
+                    <input type="number" name="price1" min="0"> ~ <input type="number" name="price2">
                     <br><br>
                     <input type="submit"class="btn btn-success" value="검색">
                 </form>
             </div>
             <br><br>
             
-            <div class="main-li-container">
             ${searchList }
+            <div class="main-li-container">
                         <li class="main-li">
-                            <img src="img/test1.png">
+                            <img src="${pageContext.request.contextPath}/resources/img/test1.png">
+                            <div class="product-text">
+	                            <div class="ptext">GS25</div>
+	                            <div class="ptext">핑크죠스바</div>
+	                            <div class="pprice">1,000원</div>
+                            </div> 
                             <div class="buy-btn">
                                     <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
                                     <button type="button" class="btn btn-success">구매</button>
-                                </div>
-                            <div class="ptext">GS25</div>
-                            <div class="ptext">핑크죠스바</div>
-                            <div class="pprice">1,000원</div>
+                            </div>
                         </li>
-                        <li class="main-li">
-                            <img src="img/test1.png">
-                            <div class="buy-btn">
-                                    <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                    <button type="button" class="btn btn-success">구매</button>
-                                </div>
-                            <div class="ptext">GS25</div>
-                            <div class="ptext">핑크죠스바</div>
-                            <div class="pprice">1,000원</div>
-                        </li>
-                        <li class="main-li">
-                            <img src="img/test1.png">
-                            <div class="buy-btn">
-                                    <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                    <button type="button" class="btn btn-success">구매</button>
-                                </div>
-                            <div class="ptext">GS25</div>
-                            <div class="ptext">핑크죠스바</div>
-                            <div class="pprice">1,000원</div>
-                        </li>
-                        <li class="main-li">
-                            <img src="img/test1.png">
-                            <div class="buy-btn">
-                                    <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                    <button type="button" class="btn btn-success">구매</button>
-                                </div>
-                            <div class="ptext">GS25</div>
-                            <div class="ptext">핑크죠스바</div>
-                            <div class="pprice">1,000원</div>
-                        </li>
+    
                 </div>
                 <br><br>
-
+<script>
+$(".main-li").mouseenter(function(){
+	$(".buy-btn").css("display","block");
+});
+$(".main-li").mouseleave(function(){
+	$(".buy-btn").css("display","none");
+});
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
