@@ -1,6 +1,9 @@
 package com.proj.rup.freeboard.controller;
 
+import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.proj.rup.freeboard.model.service.freeBoardService;
@@ -61,13 +65,39 @@ public class FreeBoardController {
 		//3. 자유게시판 번호에 맞는 댓글리스트 가져오기
 		List<FreeBoardComment> listc = freeboardService.selectfreeBoardCommentList(no);
 		
+		//4. 게시글 별 댓글 수 총합 가져오기
+		int count = freeboardService.totalCommentCount(no);
+		
 		mav.addObject("fboard", fboard);
 		mav.addObject("list", list);
 		mav.addObject("listc", listc);
+		mav.addObject("count", count);
 		mav.setViewName("freeboard/freeBoardView");
 		
 		return mav;
 	}
 	
-	
+	//자유게시판 댓글(레벨1)입력
+	@RequestMapping("/freeboard/insertComment.do")
+	@ResponseBody
+	public Map<String,Object> insertComment(@RequestParam(value="member_id")String member_id,
+											@RequestParam(value="free_board_no")int free_board_no,
+											@RequestParam(value="parent_comment")int parent_comment,
+											@RequestParam(value="comment_level")int comment_level,
+											@RequestParam(value="comment_content")String comment_content){
+		
+		Map<String,Object> map = new HashMap<>();
+		
+		FreeBoardComment fbc = 
+				new FreeBoardComment(0,member_id,free_board_no,parent_comment,comment_content,null,null,comment_level);
+		
+		logger.debug("fbc="+fbc);
+		
+		int result = freeboardService.insertComment(fbc);
+		
+		logger.debug("fbc@controller="+fbc);
+		
+		map.put("fbc", fbc);
+		return map;
+	}
 }
