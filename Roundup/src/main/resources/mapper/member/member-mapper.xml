@@ -17,6 +17,4 @@
 	<select id="selectOneMember" resultMap="memberMap">
 		SELECT * FROM MEMBER WHERE MEMBER_ID = #{member_id}
 	</select>
-	<resultMap type="member" id="memberMap">
-	</resultMap>
 </mapper>
