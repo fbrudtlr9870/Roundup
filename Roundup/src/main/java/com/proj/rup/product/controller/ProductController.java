@@ -34,7 +34,7 @@ public class ProductController {
 		String clientId = "vbEkw23fbdDmfyg_CYg9";//애플리케이션 클라이언트 아이디값";
         String clientSecret = "iTpsbroJuP";//애플리케이션 클라이언트 시크릿값";
         try {
-            String text = URLEncoder.encode(searchKeyword, "UTF-8");
+            String text = URLEncoder.encode(searchKeyword+" 후기", "UTF-8");
             String apiURL = "https://openapi.naver.com/v1/search/blog?query="+ text+"&display=5&start=1"; // json 결과
             //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
             URL url = new URL(apiURL);
@@ -66,13 +66,19 @@ public class ProductController {
 		return mav;
 	}
 	@RequestMapping("/product/reSearch.do")
-	public ModelAndView reSearch(@RequestParam String searchKeyword,@RequestParam String[] brand,@RequestParam int price1,@RequestParam int price2) {
+	public ModelAndView reSearch(@RequestParam String searchKeyword,@RequestParam String[] brand,@RequestParam int category,@RequestParam int price1,@RequestParam int price2) {
 		ModelAndView mav=new ModelAndView();
+		System.out.println("검색키워드="+searchKeyword);
+		for(String s:brand) {
+			System.out.println("브랜드="+s);
+		}
+		System.out.println(category);
+		System.out.println(price1+"~"+price2);
 		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색------------------------------
 		String clientId = "vbEkw23fbdDmfyg_CYg9";//애플리케이션 클라이언트 아이디값";
         String clientSecret = "iTpsbroJuP";//애플리케이션 클라이언트 시크릿값";
         try {
-            String text = URLEncoder.encode(searchKeyword, "UTF-8");
+            String text = URLEncoder.encode(searchKeyword+" 후기", "UTF-8");
             String apiURL = "https://openapi.naver.com/v1/search/blog?query="+ text+"&display=5&start=1"; // json 결과
             //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
             URL url = new URL(apiURL);
