@@ -24,7 +24,7 @@
             <div class="nav-bar-wrapper">
                 <a href="${pageContext.request.contextPath }" class="nav-bar-logo">편의점마스터</a>
                 <ul class="nav-bar-site">
-                    <li class="nav-bar-site-li"><a href="basket.html" style="color:black">장바구니</a></li>
+                    <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/basket/selectBasketList.do" style="color:black">장바구니</a></li>
                     <li class="nav-bar-site-li">마이페이지</li>
                     <li class="nav-bar-site-li">고객센터</li>
                 </ul>
