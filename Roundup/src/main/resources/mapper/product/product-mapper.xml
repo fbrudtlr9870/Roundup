@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="">
-
+<mapper namespace="product">
+	<select id="productSearch" resultMap="search">
+	select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level from product p,product_file pf,brand b,category c,product_category pc where p.product_no=pc.product_no(+) and p.brand_no=b.brand_no(+) and p.product_no=pc.product_no(+) and pc.category_no=c.category_no(+) and p.product_name like #{searchKeyword}
+	</select>
+	<resultMap type="product" id="search" ></resultMap>
 </mapper>

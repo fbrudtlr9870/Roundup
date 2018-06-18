@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.proj.rup.product.model.service.ProductService;
+import com.proj.rup.product.model.vo.Product;
 
 @Controller
 public class ProductController {
@@ -28,7 +30,7 @@ public class ProductController {
 		ModelAndView mav=new ModelAndView();
 		logger.info("검색 키워드 : "+searchKeyword);
 		mav.addObject("searchKeyword", searchKeyword);
-		
+		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색------------------------------
 		String clientId = "vbEkw23fbdDmfyg_CYg9";//애플리케이션 클라이언트 아이디값";
         String clientSecret = "iTpsbroJuP";//애플리케이션 클라이언트 시크릿값";
         try {
@@ -58,7 +60,9 @@ public class ProductController {
         } catch (Exception e) {
             System.out.println(e);
         }
-		
+		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색 끝------------------------------
+        List<Product> list=productService.productSearch(searchKeyword);
+        mav.addObject("searchList", list);
 		return mav;
 	}
 }

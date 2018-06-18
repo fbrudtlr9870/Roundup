@@ -50,6 +50,7 @@ $(function(){
             <br><br>
             
             <div class="main-li-container">
+            ${searchList }
                         <li class="main-li">
                             <img src="img/test1.png">
                             <div class="buy-btn">

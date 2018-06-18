@@ -11,7 +11,7 @@ public class Product {
 	private Date regDate; //등록일
 	private String memberId; //멤버아이디
 	private int productFileNo; //상품 이미지 등록된 번호
-	private String originFileName;//상품이미지의 원래이름
+	private String originalFileName;//상품이미지의 원래이름
 	private String renamedFileName;//상품이미지의 새로운 이름
 	private Date fileRegDate; //상품이미지 등록일인데 위의 상품 등록일과 같은 예정이고 딱히 쓸일 없어보인다.
 	private int proCategoryNo; //상품이 카테고리에 배정될 때의 넘버?
@@ -21,7 +21,7 @@ public class Product {
 	private int categoryLevel; //카테고리 레벨
 	public Product() {}
 	public Product(int productNo, String productName, int brandNo, String brandName, int price, Date regDate,
-			String memberId, int productFileNo, String originFileName, String renamedFileName, Date fileRegDate,
+			String memberId, int productFileNo, String originalFileName, String renamedFileName, Date fileRegDate,
 			int proCategoryNo, int categoryNo, String categoryName, int parentCategory, int categoryLevel) {
 		this.productNo = productNo;
 		this.productName = productName;
@@ -31,7 +31,7 @@ public class Product {
 		this.regDate = regDate;
 		this.memberId = memberId;
 		this.productFileNo = productFileNo;
-		this.originFileName = originFileName;
+		this.originalFileName = originalFileName;
 		this.renamedFileName = renamedFileName;
 		this.fileRegDate = fileRegDate;
 		this.proCategoryNo = proCategoryNo;
@@ -44,7 +44,7 @@ public class Product {
 	public String toString() {
 		return "Product [productNo=" + productNo + ", productName=" + productName + ", brandNo=" + brandNo
 				+ ", brandName=" + brandName + ", price=" + price + ", regDate=" + regDate + ", memberId=" + memberId
-				+ ", productFileNo=" + productFileNo + ", originFileName=" + originFileName + ", renamedFileName="
+				+ ", productFileNo=" + productFileNo + ", originalFileName=" + originalFileName + ", renamedFileName="
 				+ renamedFileName + ", fileRegDate=" + fileRegDate + ", proCategoryNo=" + proCategoryNo
 				+ ", categoryNo=" + categoryNo + ", categoryName=" + categoryName + ", parentCategory=" + parentCategory
 				+ ", categoryLevel=" + categoryLevel + "]";
@@ -97,11 +97,11 @@ public class Product {
 	public void setProductFileNo(int productFileNo) {
 		this.productFileNo = productFileNo;
 	}
-	public String getOriginFileName() {
-		return originFileName;
+	public String getOriginalFileName() {
+		return originalFileName;
 	}
-	public void setOriginFileName(String originFileName) {
-		this.originFileName = originFileName;
+	public void setOriginalFileName(String originalFileName) {
+		this.originalFileName = originalFileName;
 	}
 	public String getRenamedFileName() {
 		return renamedFileName;
