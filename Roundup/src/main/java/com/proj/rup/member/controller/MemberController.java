@@ -7,6 +7,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.service.MemberService;
@@ -59,6 +61,47 @@ public class MemberController {
 		model.addAttribute("msg",msg);
 		
 		return "common/msg";
+	}
+	
+	@RequestMapping("/member/memberLogin.do")
+	public ModelAndView memberLogin(@RequestParam String member_id,
+							  @RequestParam String member_password) {
+		if(logger.isDebugEnabled())
+			logger.debug("로그인요청");
+		
+		//리턴할 ModelAndView객체생성
+		ModelAndView mav = new ModelAndView();
+		System.out.println(member_id);
+
+		//1.업무로직
+		//random salt값으로 암호화하는 BCrypt 방식에서의 로그인 체크
+		Member m = memberService.selectOneMember(member_id);
+		//System.out.println(m);
+		logger.debug(m.toString());
+		
+		String msg = "";
+		String loc = "/";
+		
+		if(m==null) {
+			msg = "존재하지 않는 아이디입니다.";
+		}
+		else {
+			if(bcryptPasswordEncoder.matches(member_password, m.getMember_password())) {
+				msg = "로그인성공!";
+				mav.addObject("memberLoggedIn", m);
+			}
+			else {
+				msg = "비밀번호가 틀렸습니다.";
+			}
+			
+		}
+		
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		//뷰단 지정
+		mav.setViewName("common/msg");
+		
+		return mav;
 	}
 
 }
