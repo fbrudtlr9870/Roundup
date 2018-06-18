@@ -10,12 +10,12 @@
 
 <style>
 
-div#table_container{
+div#freetable_container{
 	width:980px;
 	margin:0 auto;
 	text-align: center;
 }
-div#table_container th,tr td{
+div#freetable_container tr th{
 	text-align: center;
 }
 
@@ -29,22 +29,24 @@ div#table_container th,tr td{
 </div>
 <br /><br />
 
-<div id="table_container">
+<div id="freetable_container">
 	<h2>자유게시판</h2>
 	<table class="table table-striped">
 		<tr>
-			<th>번호</th>
-			<th>제목</th>
-			<th>아이디</th>
-			<th>날짜</th>
+			<th class="col-md-1">번호</th>
+			<th class="col-md-3">제목</th>
+			<th class="col-md-1">아이디</th>
+			<th class="col-md-2">날짜</th>
 		</tr>
 		<c:if test="${list !=null }">
 			<c:forEach items="${list }" var="f">
 				<tr>
-					<td>${f["free_board_no"] }</td>
-					<td>${f["free_board_title"] }</td>
-					<td>${f["member_id"] }</td>
-					<td>${f["free_reg_date"] }</td>
+					<td class="col-md-1">${f["free_board_no"] }</td>
+					<td class="col-md-3" style="text-align:left;">
+						<a href="freeBoardView.do?no=${f['free_board_no']}" style="color:black;">${f["free_board_title"] }</a>
+					</td>
+					<td class="col-md-1">${f["member_id"] }</td>
+					<td class="col-md-2">${f["free_reg_date"] }</td>
 				</tr>
 			</c:forEach>
 		</c:if>

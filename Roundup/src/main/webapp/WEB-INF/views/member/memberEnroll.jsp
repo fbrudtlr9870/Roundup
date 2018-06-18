@@ -21,9 +21,9 @@ $(function(){
 		if(p1!=p2){
 			alert("패스워드가 일치하지 않습니다.");
 			$("#password_").focus();			
-		}
+		};
 	});
-}	
+};	
 /*
  * 유효성검사함수
  */
@@ -41,7 +41,7 @@ function validate(){
 function validate(){
 	var password = $("#password_");
 	if(password.val().trim().length<6){
-		alert("아이디는 최소 6자리 이상이어랴 합니다 ");
+		alert("비밀번호는 최소 6자리 이상이어랴 합니다 ");
 		password.focus();
 		return false;
 	}
@@ -67,7 +67,7 @@ function validate(){
 			<br/>
 			<input type="text" name="phone" id="phone_" class="input form-control" placeholder="전화번호" required/>
 			<br/>
-			<input type="text" name="address" id="address_" class="input form-control" placeholder="주소"/>
+			<input type="text" name="birthday" id="birthday_" class="input form-control" placeholder="생일"/>
 			<br/>
 			<select name="gender" id="gender" class="input form-control" required>
 				<option value=""disabled selected>성별</option>
@@ -75,36 +75,6 @@ function validate(){
 				<option value="F">여자</option>
 			</select>
 			<br/>
-			<select name="food" id="food" class="input form-control" required>
-				<option value=""disabled selected>자주사용하는 편의점 편의점</option>
-				<option value="CU">CU</option>
-				<option value="GS25">GS25</option>
-				<option value="MINISTOP">MINISTOP</option>
-				<option value="emart24">emart24</option>
-				<option value="with me">with me</option>
-			</select>
-			<!-- <br/>
-			<div class="form-check-inline form-check">
-			편의점 : &nbsp;
-			<input type="checkbox" value="CU"
-				   class="form-check-input" 
-				   name="hobby" id="hobby1" />
-			<label for="hobby1" 
-				   class="form-check-label" >CU</label>
-			&nbsp;
-			<input type="checkbox" class="form-check-input" value="MINISTOP" name="hobby" id="hobby2" />
-			<label for="hobby2" class="form-check-label">미니스탑</label>
-			&nbsp;
-			<input type="checkbox" class="form-check-input" value="emart24" name="hobby" id="hobby3" />
-			<label for="hobby3" class="form-check-label">이마트24</label>
-			&nbsp;
-			<input type="checkbox" class="form-check-input" value="gs25" name="hobby" id="hobby4" />
-			<label for="hobby4" class="form-check-label">gs25</label>
-			&nbsp;
-			<input type="checkbox" class="form-check-input" value="세븐일레븐" name="hobby" id="hobby5" />
-			<label for="hobby5" class="form-check-label">의드미</label>
-		</div> -->
-		<br />
 		<input type="submit" value="가입" class="btn btn-outline-success" /> 
 		</form>
 	</div>

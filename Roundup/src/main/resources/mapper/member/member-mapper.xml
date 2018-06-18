@@ -3,14 +3,14 @@
 <mapper namespace="member">
 	<insert id="insertMember">
 		INSERT INTO MEMBER 
-		VALUES(#{userId},
-			   #{password},
-			   #{userName},
-			   #{gender},
-			   #{age},
-			   #{email},
-			   #{phone},
-			   #{address},
+		VALUES(#{member_id},
+			   #{member_password},
+			   #{member_Name},
+			   #{member_gender},
+			   #{member_age},
+			   #{member_email},
+			   #{member_phone},
+			   #{member_birthday},
 			   #{store},
 			   sysdate)
 	</insert>

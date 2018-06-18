@@ -7,7 +7,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.service.MemberService;
@@ -37,15 +36,15 @@ public class MemberController {
 			logger.debug("회원등록처리페이지");
 		
 		logger.debug(member.toString());
-		String rawPassword = member.getPassword();
+		String rawPassword = member.getMember_password();
 		
 		/***암호화시작****/
 		String encodedPassword = bcryptPasswordEncoder.encode(rawPassword);
-		member.setPassword(encodedPassword);
+		member.setMember_password(encodedPassword);
 		
 		/***암호화끝****/
 		
-		System.out.println("암호화후 : "+member.getPassword());
+		System.out.println("암호화후 : "+member.getMember_password());
 		
 		//1.
 		int result = memberService.insertMember(member);
@@ -54,7 +53,7 @@ public class MemberController {
 		String loc = "/";
 		String msg = "";
 		if(result>0) msg="회원가입성공!";
-		else msg="회원가입성공!";
+		else msg="회원가입실패";
 		
 		model.addAttribute("loc",loc);
 		model.addAttribute("msg",msg);

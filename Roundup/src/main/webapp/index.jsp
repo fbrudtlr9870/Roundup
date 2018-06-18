@@ -8,7 +8,7 @@
 	<jsp:param value="메인" name="pageTitle"/>
 </jsp:include>
 <script>
-/* master병합 2018.06.15. 15:30 */
+/* master병합 2018.06.18. 09:25 */
 $(function(){
     $(".main-li").hover(function(){
         $(this).css("border","1px solid black");

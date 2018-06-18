@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.proj.rup.freeboard.model.dao.FreeBoardDAO;
 import com.proj.rup.freeboard.model.dao.FreeBoardDAOImpl;
 import com.proj.rup.freeboard.model.vo.FreeBoard;
+import com.proj.rup.freeboard.model.vo.FreeBoardComment;
+import com.proj.rup.freeboard.model.vo.FreeBoardFile;
 
 @Service
 public class freeBoardServiceImpl implements freeBoardService {
@@ -24,6 +26,21 @@ public class freeBoardServiceImpl implements freeBoardService {
 	@Override
 	public int selectfreeBoardListCount() {
 		return freeBoardDAO.selectfreeBoardListCount();
+	}
+
+	@Override
+	public FreeBoard selectfreeBoardOne(int no) {
+		return freeBoardDAO.selectfreeBoardOne(no);
+	}
+
+	@Override
+	public List<FreeBoardFile> selectfreeBoardFileList(int no) {
+		return freeBoardDAO.selectfreeBoardFileList(no);
+	}
+
+	@Override
+	public List<FreeBoardComment> selectfreeBoardCommentList(int no) {
+		return freeBoardDAO.selectfreeBoardCommentList(no);
 	}
 
 }
