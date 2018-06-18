@@ -36,6 +36,7 @@
                         <li class="nav-bar-site-li"><a href="https://www.emart24.co.kr/index.asp"target="blank">이마트24</a></li>
                 </ul>
                 <fieldset class="nav-search">
+
                         <div class="col-lg-6">
                                 <form action="${pageContext.request.contextPath }/product/productSearch.do">
                                 <div class="input-group">
@@ -47,21 +48,66 @@
                                 </form>
                               </div>
                 </fieldset>
-                <div class="nav-bar-btn">
-                    <button type="button" class="btn btn-primary"><a href="login.html" style="color:white">로그인</a></button>
-                    <button type="button" class="btn btn-default">회원가입</button>
+                
+				<!-- 로그인 회원가입 -->
+               <div class="nav-bar-btn">
+               <c:if test="${memberLoggedIn==null}">
+                    <button type="button" class="btn btn-outline-info"data-toggle="modal" 
+				    		data-target="#exampleModal">로그인</button>
+                    <button type="button" class="btn btn-outline-info"
+	                		 onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
+               </c:if>
                 </div>
+				<%-- <div>
+	                <c:if test="${memberLoggedIn==null}">
+	                <button type="button" class="btn btn-outline-info"
+				    		data-toggle="modal" 
+				    		data-target="#exampleModal">로그인</button>
+				    &nbsp;
+	                <button type="button" class="btn btn-outline-info"
+	                		 onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
+	                </c:if>    --%>         
+				</div>
             </div>
         </nav>
         <nav class="nav-list">
             <div class="nav-list-wrapper">
+
                     <ul class="nav nav-tabs nav-justified">
                             <li role="presentation" class="active"><a href="#">카테고리</a></li>
                             <li role="presentation"><a href="#">행사</a></li>
                             <li role="presentation"><a href="notice.html">공지사항</a></li>
-                            <li role="presentation"><a href="#">게시판</a></li>
+                            <li role="presentation"><a href="./freeboard/freeBoardList.do">게시판</a></li>
                             <li role="presentation"><a href="#">1:1문의</a></li>
                     </ul>
+
             </div>
-        </nav>        
+
+        </nav>
+        <!-- 로그인 Modal 시작 -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">로그인</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <form action="${pageContext.request.contextPath }/member/memberLogin.do" method="post">
+		      <div class="modal-body">
+		      	<input type="text" class="form-control" name="userId" id="userId" placeholder="아이디" required/>
+		      	<br />
+		      	<input type="password" class="form-control" name="password" id="password" placeholder="비밀번호" required/>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="submit" class="btn btn-outline-primary">로그인</button>
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		      </div>
+		      </form>
+		    </div>
+		  </div>
+		</div>
+		<!-- 로그인 Modal 끝 -->
+
 	<section>

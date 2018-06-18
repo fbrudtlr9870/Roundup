@@ -28,6 +28,7 @@
 		<beans:property name="maxUploadSize" value="10485760" /> <!-- max 파일용량은 10MB이다. -->
 	</beans:bean>
 	
+	
 	<!-- #12.1 jsonView Bean 및 viewResolver 등록 -->
 	<!-- 요청한 viewName과 실제bean이름을 매핑해주는 BeanNameViewResolver를 사용함. -->
     <beans:bean id="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
@@ -35,8 +36,8 @@
     </beans:bean>
 	<beans:bean id="jsonView" class="net.sf.json.spring.web.servlet.view.JsonView"/>
 	
-	
-<!-- #13.1 @Responsebody사용을 위한 의존 : 빈등록 (스프링 5.x.x => MappingJackson2HttpMessageConverter -->
+	<!-- #13.1 @Responsebody사용을 위한 의존 : 빈등록 (스프링 5.x.x => MappingJackson2HttpMessageConverter -->
+	<!-- <annotation-driven />이있으면 생략해도 상관없음 -->
 	<beans:bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
 	<beans:bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<beans:property name="messageConverters">
@@ -45,6 +46,5 @@
 			</beans:list>
 		</beans:property>
 	</beans:bean>
-	
 	
 </beans:beans>
