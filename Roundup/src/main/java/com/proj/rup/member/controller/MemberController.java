@@ -68,14 +68,14 @@ public class MemberController {
 	
 	@RequestMapping("/member/memberLogin.do")
 	public ModelAndView memberLogin(@RequestParam String member_id,
-							  @RequestParam String member_password, HttpSession session) {
+									@RequestParam String member_password, HttpSession session) {
 		if(logger.isDebugEnabled())
 			logger.debug("로그인요청");
 		
 		//리턴할 ModelAndView객체생성
 		ModelAndView mav = new ModelAndView();
 		logger.debug(member_id);
-
+		
 		//1.업무로직
 		Member m = memberService.selectOneMember(member_id);
 		logger.debug(m.toString());
@@ -84,20 +84,20 @@ public class MemberController {
 		String loc = "/";
 		
 		if(m==null) 
+		
 			msg = "존재하지 않는 아이디입니다.";
 		
 		else {
-//			if(bcryptPasswordEncoder.matches(member_password, m.getMember_password())) {
-			if(member_password.equals(m.getMember_password())) {
-				msg = "로그인성공!";
-				session.setAttribute("memberLoggedIn", m);
-				/*mav.addObject("memberLoggedIn", m);*/
-			}
-			else {
-				msg = "비밀번호가 틀렸습니다.";
-			}
-			
+		//if(bcryptPasswordEncoder.matches(member_password, m.getMember_password())) {
+		if(member_password.equals(m.getMember_password())) {
+			msg = "로그인성공!";
+			session.setAttribute("memberLoggedIn", m);
+			/*mav.addObject("memberLoggedIn", m);*/
 		}
+		else {
+			msg = "비밀번호가 틀렸습니다.";
+			}
+		}	
 		
 		mav.addObject("msg", msg);
 		mav.addObject("loc", loc);
@@ -105,8 +105,8 @@ public class MemberController {
 		mav.setViewName("common/msg");
 		
 		return mav;
-	}
-	
+		}
+			
 	@RequestMapping("/member/memberLogout.do")
 	public String memberLogout(SessionStatus sessionStatus) {
 		if(logger.isDebugEnabled())

@@ -37,16 +37,16 @@
                 </ul>
                 <fieldset class="nav-search">
 
-                        <div class="col-lg-6">
-                                <form action="${pageContext.request.contextPath }/product/productSearch.do">
-                                <div class="input-group">
-                                  <input type="text" class="form-control" placeholder="Search for..." name="searchKeyword">
-                                  <span class="input-group-btn">
-                                    <button class="btn btn-default" type="submit" value="Go!">Go!!</button>
-                                  </span>                                
-                                </div>
-                                </form>
-                              </div>
+                    <div class="col-lg-6">
+                       <form action="${pageContext.request.contextPath }/product/productSearch.do">
+                       <div class="input-group">
+                         <input type="text" class="form-control" placeholder="Search for..." name="searchKeyword">
+                         <span class="input-group-btn">
+                           <button class="btn btn-default" type="submit" value="Go!">Go!!</button>
+                         </span>                                
+                       </div>
+                       </form>
+                     </div>
                 </fieldset>
                 
 				<!-- 로그인 회원가입 -->
@@ -60,18 +60,11 @@
 	               </c:if>
 	                <c:if test="${memberLoggedIn!=null }">
 				    <a href="#">${memberLoggedIn.member_name }</a>님, 안녕하세요.
+				     <button class="btn btn-outline-success" type="button" onclick="location.href='${pageContext.request.contextPath}/member/memberLogout.do'">
+			    		로그아웃
+			    	</button>
 				    </c:if>
                 </div>
-				<%-- <div>
-	                <c:if test="${memberLoggedIn==null}">
-	                <button type="button" class="btn btn-outline-info"
-				    		data-toggle="modal" 
-				    		data-target="#exampleModal">로그인</button>
-				    &nbsp;
-	                <button type="button" class="btn btn-outline-info"
-	                		 onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
-	                </c:if>    --%>         
-				</div>
             </div>
         </nav>
         <nav class="nav-list">

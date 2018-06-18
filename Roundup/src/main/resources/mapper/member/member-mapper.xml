@@ -11,7 +11,8 @@
 			   #{member_email},
 			   #{member_phone},
 			   #{member_birthday},
-			   sysdate)
+			   default,
+			   default)
 	</insert>
 	<resultMap type="member" id="memberMap">
 		
