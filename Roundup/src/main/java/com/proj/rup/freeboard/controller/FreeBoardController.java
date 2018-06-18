@@ -1,6 +1,7 @@
 package com.proj.rup.freeboard.controller;
 
-import java.sql.Date;
+
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -78,13 +80,17 @@ public class FreeBoardController {
 	}
 	
 	//자유게시판 댓글(레벨1)입력
-	@RequestMapping("/freeboard/insertComment.do")
+	@RequestMapping(value="/freeboard/insertComment.do",method=RequestMethod.POST,produces="application/json; charset=utf8")
 	@ResponseBody
-	public Map<String,Object> insertComment(@RequestParam(value="member_id")String member_id,
+	public Map<String,Object> insertComment(
+											@RequestParam(value="member_id")String member_id,
 											@RequestParam(value="free_board_no")int free_board_no,
 											@RequestParam(value="parent_comment")int parent_comment,
 											@RequestParam(value="comment_level")int comment_level,
 											@RequestParam(value="comment_content")String comment_content){
+		
+		
+		
 		
 		Map<String,Object> map = new HashMap<>();
 		
@@ -93,11 +99,13 @@ public class FreeBoardController {
 		
 		logger.debug("fbc="+fbc);
 		
-		int result = freeboardService.insertComment(fbc);
-		
+		int result = freeboardService.insertComment(fbc);			
 		logger.debug("fbc@controller="+fbc);
 		
+		int count = freeboardService.totalCommentCount(free_board_no);
+		
 		map.put("fbc", fbc);
+		map.put("count", count);
 		return map;
 	}
 }

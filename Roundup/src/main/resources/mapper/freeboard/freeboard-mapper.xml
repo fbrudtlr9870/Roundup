@@ -19,7 +19,9 @@
 </select>
 
 <select id="selectfreeBoardCommentList" resultType="freeboardComment">
-	 select *
+	 select comment_no,member_id,free_board_no,parent_comment,comment_content,
+	 to_char(comment_enrolldate,'yyyy-mm-dd hh24:mi:ss') as comment_enrolldate,
+	 to_char(comment_update_date,'yyyy-mm-dd hh24:mi:ss') as comment_update_date,comment_level
 	 from tbl_comment
 	 where free_board_no=#{no}
 	 start with comment_level =1
@@ -36,19 +38,30 @@
 	<choose>
 		<when test="#{parent_comment eq 0}">
 		insert into tbl_comment(comment_no,member_id,free_board_no,parent_comment,comment_content,comment_enrolldate,comment_level)
-		values(6,#{member_id},#{free_board_no},null,#{comment_content},sysdate,#{comment_level})	
+		values(seq_comment_no.nextval,#{member_id},#{free_board_no},null,#{comment_content},sysdate,#{comment_level})	
 		</when>
 		<otherwise>
 		insert into tbl_comment(comment_no,member_id,free_board_no,parent_comment,comment_content,comment_enrolldate,comment_level)
-		values(6,#{member_id},#{free_board_no},#{parent_comment},#{comment_content},sysdate,#{comment_level})
+		values(seq_comment_no.nextval,#{member_id},#{free_board_no},#{parent_comment},#{comment_content},sysdate,#{comment_level})
 		</otherwise>
 	</choose>
 	<selectKey 
 		keyProperty="comment_no,member_id,free_board_no,parent_comment,comment_content,comment_level,comment_enrolldate"
 		order="AFTER" resultType="freeboardComment">
-		select comment_no,member_id,free_board_no,parent_comment,comment_content,comment_level,comment_enrolldate
-		from tbl_comment
-		where comment_no=6
+		<choose>
+			<when test="parent_comment==null">
+			select comment_no,member_id,free_board_no,comment_content,comment_level,
+			to_char(comment_enrolldate,'yyyy-mm-dd hh24:mi:ss') as comment_enrolldate
+			from tbl_comment
+			where comment_no=(select last_number-1 from user_sequences where sequence_name=upper('seq_comment_no'))
+			</when>
+			<otherwise>
+			select comment_no,member_id,free_board_no,comment_content,comment_level,
+			to_char(comment_enrolldate,'yyyy-mm-dd hh24:mi:ss') as comment_enrolldate
+			from tbl_comment
+			where comment_no=(select last_number-1 from user_sequences where sequence_name=upper('seq_comment_no'))
+			</otherwise>
+		</choose>
 	</selectKey>
 </insert>
 

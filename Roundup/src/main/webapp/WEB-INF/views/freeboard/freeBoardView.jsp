@@ -109,7 +109,7 @@ div.freeBoardView-comment.write button{
 	</div>
 	<br />
 	
-	<span style="margin:0 0 0 20px; color:navy;">댓글 ${count }개</span>
+	<span style="margin:0 0 0 20px; color:navy;" id="comment_count">댓글 ${count }개</span>
 	
 	<c:if test="${listc==null }">
 	<div class="freeBoardView-comment">
@@ -148,7 +148,6 @@ div.freeBoardView-comment.write button{
 				</div>
 			</c:if>
 			</c:forEach>
-			<br />
 			<div class="freeBoardView-comment write">
 				<textarea name="pcomment_content" cols="30" rows="10"></textarea>
 				<input type="hidden" name="member_id" value="${fboard['member_id'] }" />
@@ -178,7 +177,6 @@ $(function(){
 		var comment_level = $("[name=comment_level]").val().trim();
 		
 		$.ajax({
-		
 			url:"insertComment.do",
 			data:{member_id:member_id,
 				  free_board_no:free_board_no,
@@ -186,15 +184,26 @@ $(function(){
 				  comment_level:comment_level,
 				  comment_content:pcomment_content
 			},
+			method:"POST",
 			dataType:"json",
 			success:function(data){
 				console.log(data);
-				var div = $('<div class="freeBoardView-comment read"></div>');
-				var html = '<div class="freeBoardView-comment read title"></div>';
-				html+= '<span style="font-weight:bold;">'+data.member_id+'</span>';
-				html+= '<span>'+data.comment_enrolldate+'</span>'
-				html+='<button class="comment-btn" value="'+data.comment_no+'">답글</button>';
-				html+='<p><span>'+data.comment_content+'</span></p>';
+				var html='<div class="freeBoardView-comment read">';
+				for(var index in data){
+					var bc=data[index];
+					if(index=='fbc'){
+					html+= '<div class="freeBoardView-comment read title">';
+					html+= '<span style="font-weight:bold;">'+bc["member_id"]+'</span>';
+					html+= '<span> '+bc["comment_enrolldate"]+'</span>'
+					html+='<button class="comment-btn" value="'+bc["comment_no"]+'">답글</button></div>';
+					html+='<p><span>'+bc["comment_content"]+'</span></p></div>';
+					}
+					if(index=='count'){
+						$("#comment_count").html("댓글"+bc+"개");
+					}
+				}
+				$(html).insertBefore(".freeBoardView-comment.write");
+				
 			},
 			error:function(jqxhr,textStatus, errorThrown){
 				console.log("ajax실패",jqxhr,textStatus, errorThrown);
@@ -203,7 +212,7 @@ $(function(){
 		
 	});	
 
-	$(".comment-btn").on('click',function(){
+	$(document).on('click','.comment-btn',function(){
 		if(chk_comment_btn==false){
 		var div = $("<div style='border-bottom:1px dotted white;' class='freeBoardView-comment comment'></div>");
 		var html='<button type="submit">답글</button>';
@@ -216,8 +225,8 @@ $(function(){
 		
 		div.html(html);
 		//생성된 노드를 페이지에 추가
-		div.insertAfter($(this).parent().parent()).children("div").slideDown(800);
-		//$(this).off('click');
+		div.insertAfter($(this).parent().parent()).next().slideDown(800);
+
 		chk_comment_btn=true;
 		
 		//이벤트핸들러 추가
