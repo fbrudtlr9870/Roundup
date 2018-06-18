@@ -1,5 +1,7 @@
 package com.proj.rup.member.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +68,7 @@ public class MemberController {
 	
 	@RequestMapping("/member/memberLogin.do")
 	public ModelAndView memberLogin(@RequestParam String member_id,
-							  @RequestParam String member_password) {
+							  @RequestParam String member_password, HttpSession session) {
 		if(logger.isDebugEnabled())
 			logger.debug("로그인요청");
 		
@@ -88,7 +90,8 @@ public class MemberController {
 //			if(bcryptPasswordEncoder.matches(member_password, m.getMember_password())) {
 			if(member_password.equals(m.getMember_password())) {
 				msg = "로그인성공!";
-				mav.addObject("memberLoggedIn", m);
+				session.setAttribute("memberLoggedIn", m);
+				/*mav.addObject("memberLoggedIn", m);*/
 			}
 			else {
 				msg = "비밀번호가 틀렸습니다.";

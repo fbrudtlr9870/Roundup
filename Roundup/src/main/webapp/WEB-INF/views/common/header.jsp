@@ -52,13 +52,14 @@
 				<!-- 로그인 회원가입 -->
                <div class="nav-bar-btn">
 	               <c:if test="${memberLoggedIn==null}">
-	                  <button type="button" class="btn btn-outline-info"data-toggle="modal" 
+	                  <button type="button" class="btn btn-outline-success" data-toggle="modal" 
 			    		data-target="#exampleModal">로그인</button>
-	                  <button type="button" class="btn btn-outline-info"
+			    		&nbsp;
+	                  <button type="button" class="btn btn-outline-success"
 	               		 onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
 	               </c:if>
 	                <c:if test="${memberLoggedIn!=null }">
-				    <a href="#">${memberLoggedIn.member_id }</a>님, 안녕하세요.
+				    <a href="#">${memberLoggedIn.member_name }</a>님, 안녕하세요.
 				    </c:if>
                 </div>
 				<%-- <div>
