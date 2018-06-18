@@ -9,12 +9,11 @@ import com.proj.rup.member.model.vo.Member;
 @Repository
 public class MemberDAOImpl implements MemberDAO {
 
-	/*@Autowired
-	private SqlSessionTemplate sqlSession;*/
+	@Autowired
+	private SqlSessionTemplate sqlSession;
 	@Override
 	public int insertMember(Member member) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.insert("member.insertMember", member);
 	}
 
 }

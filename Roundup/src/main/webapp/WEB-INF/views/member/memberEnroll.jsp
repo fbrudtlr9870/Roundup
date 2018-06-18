@@ -23,6 +23,7 @@ $(function(){
 			$("#password_").focus();			
 		}
 	});
+}	
 /*
  * 유효성검사함수
  */
@@ -36,6 +37,17 @@ function validate(){
 	
 	return true;
 }
+
+function validate(){
+	var password = $("#password_");
+	if(password.val().trim().length<6){
+		alert("아이디는 최소 6자리 이상이어랴 합니다 ");
+		password.focus();
+		return false;
+	}
+	return true;
+}
+
 </script>
 	<div id="update-container">
 		<form action="memberEnrollEnd.do" method="post">
@@ -50,6 +62,8 @@ function validate(){
 			<input type="text" name="userName" id="userName_" class="input form-control" placeholder="이름" required/>
 			<br/>
 			<input type="number" name="age" id="age_" class="input form-control" placeholder="나이" required/>
+			<br />
+			<input type="email" class="form-control" name="email" id="email" placeholder="이메일"/>
 			<br/>
 			<input type="text" name="phone" id="phone_" class="input form-control" placeholder="전화번호" required/>
 			<br/>
@@ -62,7 +76,7 @@ function validate(){
 			</select>
 			<br/>
 			<select name="food" id="food" class="input form-control" required>
-				<option value=""disabled selected>좋아하는 편의점</option>
+				<option value=""disabled selected>자주사용하는 편의점 편의점</option>
 				<option value="CU">CU</option>
 				<option value="GS25">GS25</option>
 				<option value="MINISTOP">MINISTOP</option>

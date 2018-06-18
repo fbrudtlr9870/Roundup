@@ -10,20 +10,18 @@ public class Member implements java.io.Serializable{
 	private String userId;
 	private String password;
 	private String userName;
-	private String gender;		//PreparedStatement에 setCharacter메소드 없음.
+	private String gender;		
 	private int age; 
 	private String email;
 	private String phone;
 	private String address;
-	private String[] hobby;
 	private Date enrollDate;
+	private String store;
 	
-	public Member(){
-		
-	}
-
+	public Member() {}
+	
 	public Member(String userId, String password, String userName, String gender, int age, String email, String phone,
-			String address, String[] hobby, Date enrollDate) {
+			String address, Date enrollDate, String store) {
 		super();
 		this.userId = userId;
 		this.password = password;
@@ -33,8 +31,8 @@ public class Member implements java.io.Serializable{
 		this.email = email;
 		this.phone = phone;
 		this.address = address;
-		this.hobby = hobby;
 		this.enrollDate = enrollDate;
+		this.store = store;
 	}
 
 	public String getUserId() {
@@ -101,20 +99,20 @@ public class Member implements java.io.Serializable{
 		this.address = address;
 	}
 
-	public String[] getHobby() {
-		return hobby;
-	}
-
-	public void setHobby(String[] hobby) {
-		this.hobby = hobby;
-	}
-
 	public Date getEnrollDate() {
 		return enrollDate;
 	}
 
 	public void setEnrollDate(Date enrollDate) {
 		this.enrollDate = enrollDate;
+	}
+
+	public String getStore() {
+		return store;
+	}
+
+	public void setStore(String store) {
+		this.store = store;
 	}
 
 	public static long getSerialversionuid() {
@@ -124,8 +122,12 @@ public class Member implements java.io.Serializable{
 	@Override
 	public String toString() {
 		return "Member [userId=" + userId + ", password=" + password + ", userName=" + userName + ", gender=" + gender
-				+ ", age=" + age + ", email=" + email + ", phone=" + phone + ", address=" + address + ", hobby="
-				+ Arrays.toString(hobby) + ", enrollDate=" + enrollDate + "]";
+				+ ", age=" + age + ", email=" + email + ", phone=" + phone + ", address=" + address + ", enrollDate="
+				+ enrollDate + ", store=" + store + "]";
 	}
+	
+	
+	
+	
 }
 

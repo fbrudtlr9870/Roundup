@@ -3,5 +3,6 @@
 <configuration>
 	 <typeAliases>
 	 	<typeAlias type="com.proj.rup.freeboard.model.vo.FreeBoard" alias="freeboard"/>
+	 	<typeAlias type="com.proj.rup.member.model.vo.Member" alias="member"/>
 	 </typeAliases>
 </configuration>
