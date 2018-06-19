@@ -20,7 +20,7 @@
 		SELECT * FROM MEMBER WHERE MEMBER_ID = #{member_id}
 	</select>
 	
-	<select  id="checkIdDuplicate">
+	<select  id="checkIdDuplicate" resultType="_int">
 	SELECT COUNT(*) FROM MEMBER WHERE MEMBER_ID = #{member_id}
 	</select>
 </mapper>

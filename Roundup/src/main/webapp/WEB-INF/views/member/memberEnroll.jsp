@@ -12,6 +12,7 @@ div#update-container{
 	margin:0 auto;
 	text-align:center;
 }
+div#update-container input#member_birthday_{display:inline-block;}
 
 div#userId-container{position:relative; padding:0px;}
 div#userId-container span.guide{
@@ -74,28 +75,28 @@ $(function(){
  */
 function validate(){
 	var member_id = $("#member_id_");
+	var member_password = $("#member_password_");
+	
 	if(member_id.val().trim().length<4){
 		alert("아이디는 최소4자리이상이어야합니다.");
 		member_id.focus();
 		return false;
 	}
 	
-	return true;
-}
-function validate(){
-	var member_password = $("#member_password_");
 	if(member_password.val().trim().length<4){
-		alert("비밀번호는 최소 네자리 수 이상이어야 합니당.");
+		alert("비밀번호는 최소4자리이상이여야 합니다.");
 		member_password.focus();
-		return false;
+		return false;		
 	}
+	
 	return true;
 }
 
 
 </script>
 	<div id="update-container">
-		<form action="memberEnrollEnd.do" method="post">
+	<h2>회원가입</h2>
+		<form action="memberEnrollEnd.do" method="post" onsubmit="return validate();">
 			<div id="userId-container">
 				<input type="text" name="member_id" id=member_id_ class="input form-control" placeholder="아이디" required/>
 				<span class="guide ok">이 아이디는 사용가능합니다.</span>
@@ -103,25 +104,26 @@ function validate(){
 				<input type="hidden" id="idDuplicateCheck" value="0" />
 			</div>
 			<br/>
-			<input type="password" name="member_password" id="member_password_" class="input form-control" placeholder="비밀번호" required/>
+			<input type="password" name="member_password" id="member_password_" class="form-control" placeholder="비밀번호" required/>
 			<br/>
-			<input type="password" id="password_chk" class="input form-control" placeholder="비밀번호 확인"  required/>
+			<input type="password" id="password_chk" class="form-control" placeholder="비밀번호 확인"  required/>
 			<br/>
-			<input type="text" name="member_name" id="member_name_" class="input form-control" placeholder="이름" required/>
+			<input type="text" name="member_name" id="member_name_" class="form-control" placeholder="이름" required/>
 			<br/>
 			<input type="email" name="member_email" id="member_email_" class="form-control" placeholder="이메일"/>
 			<br/>
-			<input type="text" name="member_phone" id="member_phone_" class="input form-control" placeholder="전화번호" required/>
+			<input type="text" name="member_phone" id="member_phone_" class="form-control" placeholder="전화번호" required/>
 			<br/>
-			생일 : <input type="date" name="member_birthday" id="member_birthday_" class="input" style="width:300px;"/>
+			<!-- 생일 : <input type="date" name="member_birthday" id="member_birthday_" class="input" style="width:300px;"/> -->
+			생일 : <input type="date" name="member_birthday" id="member_birthday_" class="form-control" style="width:360px;" />
 			<br/><br/>
-			<select name="member_gender" id="member_gender_" class="input form-control" required>
+			<select name="member_gender" id="member_gender_" class="form-control" required>
 				<option value=""disabled selected>성별</option>
 				<option value="M">남자</option>
 				<option value="F">여자</option>
 			</select>
 			<br/>
-		<input type="submit" value="가입" class="btn btn-outline-success" /> 
+		<input type="submit" value="가입" class="btn btn-outline-success"/> 
 		</form>
 	</div>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
