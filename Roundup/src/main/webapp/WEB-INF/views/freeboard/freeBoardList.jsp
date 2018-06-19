@@ -43,7 +43,12 @@ div#freetable_container tr th{
 				<tr>
 					<td class="col-md-1">${f["free_board_no"] }</td>
 					<td class="col-md-3" style="text-align:left;">
-						<a href="freeBoardView.do?no=${f['free_board_no']}" style="color:black;">${f["free_board_title"] }</a>
+						<a href="freeBoardView.do?no=${f['free_board_no']}" style="color:black;">
+						${f["free_board_title"] }
+						<c:if test="${f['bc_count'] !=0 }">
+						<span style="color:orange;">[${f["bc_count"]}]</span>
+						</c:if>
+						</a>
 					</td>
 					<td class="col-md-1">${f["member_id"] }</td>
 					<td class="col-md-2">${f["free_reg_date"] }</td>

@@ -1,7 +1,6 @@
 package com.proj.rup.freeboard.controller;
 
 
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,8 +91,9 @@ public class FreeBoardController {
 		
 		Map<String,Object> map = new HashMap<>();
 		
+		
 		FreeBoardComment fbc = 
-				new FreeBoardComment(0,member_id,free_board_no,parent_comment,comment_content,null,null,comment_level);
+				new FreeBoardComment(0,"test",free_board_no,parent_comment,comment_content,null,null,comment_level);
 		
 		logger.debug("fbc="+fbc);
 		

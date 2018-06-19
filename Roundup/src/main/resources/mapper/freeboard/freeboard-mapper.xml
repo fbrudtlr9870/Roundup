@@ -3,7 +3,9 @@
 <mapper namespace="freeboard">
 
 <select id="selectfreeBoardList" resultType="freeboard">
-	select * from free_board order by free_board_no desc
+	select a.*,(select count(*) from tbl_comment where free_board_no=a.free_board_no) as bc_count 
+	from free_board a 
+	order by a.free_board_no desc
 </select>
 
 <select id="selectfreeBoardListCount" resultType="_int">
@@ -34,33 +36,22 @@
 </select>
 
 <insert id="insertComment">
-	<choose>
-		<when test="#{parent_comment eq 0}">
-		insert into tbl_comment(comment_no,member_id,free_board_no,parent_comment,comment_content,comment_enrolldate,comment_level)
-		values(seq_comment_no.nextval,#{member_id},#{free_board_no},null,#{comment_content},sysdate,#{comment_level})	
-		</when>
-		<otherwise>
-		insert into tbl_comment(comment_no,member_id,free_board_no,parent_comment,comment_content,comment_enrolldate,comment_level)
-		values(seq_comment_no.nextval,#{member_id},#{free_board_no},#{parent_comment},#{comment_content},sysdate,#{comment_level})
-		</otherwise>
-	</choose>
+
+	insert into tbl_comment(comment_no,member_id,free_board_no,
+	<if test="parent_comment !=0">parent_comment,</if>comment_content,comment_enrolldate,comment_level)
+	values(seq_comment_no.nextval,#{member_id},#{free_board_no},
+	<if test="parent_comment !=0">#{parent_comment},</if>#{comment_content},sysdate,#{comment_level})
+
+
 	<selectKey 
 		keyProperty="comment_no,member_id,free_board_no,parent_comment,comment_content,comment_level,comment_enrolldate"
 		order="AFTER" resultType="freeboardComment">
-		<choose>
-			<when test="parent_comment==null">
-			select comment_no,member_id,free_board_no,comment_content,comment_level,
-			to_char(comment_enrolldate,'yyyy-mm-dd hh24:mi:ss') as comment_enrolldate
-			from tbl_comment
-			where comment_no=(select last_number-1 from user_sequences where sequence_name=upper('seq_comment_no'))
-			</when>
-			<otherwise>
-			select comment_no,member_id,free_board_no,comment_content,comment_level,
-			to_char(comment_enrolldate,'yyyy-mm-dd hh24:mi:ss') as comment_enrolldate
-			from tbl_comment
-			where comment_no=(select last_number-1 from user_sequences where sequence_name=upper('seq_comment_no'))
-			</otherwise>
-		</choose>
+
+		select comment_no,member_id,<if test="parent_comment != null">parent_comment,</if>free_board_no,comment_content,comment_level,
+		to_char(comment_enrolldate,'yyyy-mm-dd hh24:mi:ss') as comment_enrolldate
+		from tbl_comment
+		where comment_no=(select last_number-1 from user_sequences where sequence_name=upper('seq_comment_no'))
+
 	</selectKey>
 </insert>
 

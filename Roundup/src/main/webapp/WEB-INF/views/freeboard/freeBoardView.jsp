@@ -135,7 +135,7 @@ div.freeBoardView-comment.write button{
 					</p>
 				</div>
 			</c:if>
-			<c:if test="${fc['comment_level']!=1 }">
+			<c:if test="${fc['comment_level']==2 }">
 				<div class="freeBoardView-comment read level2">
 					<div class="freeBoardView-comment read title">
 						<span style="font-weight:bold;">ㄴ${fc['member_id'] }</span>
@@ -215,56 +215,76 @@ $(function(){
 	$(document).on('click','.comment-btn',function(){
 		if(chk_comment_btn==false){
 		var div = $("<div style='border-bottom:1px dotted white;' class='freeBoardView-comment comment'></div>");
-		var html='<button type="submit">답글</button>';
-		html+='<input type="hidden" name="member_id" value="${fboard['member_id']}" />';
-		html+='<input type="hidden" name="free_board_no" value="${fboard['free_board_no']}" />';
-		html+='<input type="hidden" name="parent_comment" value="'+$(this).val()+'" />';
-		html+='<input type="hidden" name="comment_level" value="2" />';
-		html+='<textarea name="comment_content" cols="30" rows="10"></textarea>';
+		var html='<button id="insertCommentComment">답글</button>';
+		html+='<input type="hidden" name="member_id_c" value="${fboard['member_id']}" />';
+		html+='<input type="hidden" name="free_board_no_c" value="${fboard['free_board_no']}" />';
+		html+='<input type="hidden" name="parent_comment_c" value="'+$(this).val()+'" />';
+		html+='<input type="hidden" name="comment_level_c" value="2" />';
+		html+='<textarea name="comment_content_c" cols="30" rows="10"></textarea></form>';
 		html+='<p></p>';
 		
 		div.html(html);
 		//생성된 노드를 페이지에 추가
 		div.insertAfter($(this).parent().parent()).next().slideDown(800);
-
 		chk_comment_btn=true;
-		
-		//이벤트핸들러 추가
-		div.find('form').submit(function(e){
-			/*if(){
-				fn_loginAlert();
-				e.preventDefault();
-				return;
-			}*/
-			var len = $(this).children("textarea").val().trim().length;
-			if(len == 0) {
-				alert("댓글을 입력하세요.");
-				e.preventDefault();
-			}
-		});
-		
-		
+				
 		} else{
 			$(this).parent().parent().parent().find("div.freeBoardView-comment.comment").remove();
 			chk_comment_btn=false;
-		}
-		
-		
+		}		
 	});
 	
-	//boardCommentFrm폼 유효성검사
-	$("[name=boardCommentFrm]").submit(function(e){
-		/*if(){
-			fn_loginAlert();
-			e.preventDefault();
-			return;
-		*/
-		var len = $("[name=comment_content]").val().trim().length;
-		if(len ==0) {
-			alert("댓글을 입력하세요.");
-			e.preventDefault();
+	$(document).on('click','#insertCommentComment',function(){
+		var comment_content = $("[name=comment_content_c]").val().trim();
+		//댓글 null체크
+		if(comment_content==""){
+			alert("댓글을 입력하셔야 합니다.");
+			
+			return false;
 		}
-	});
+		
+		var member_id = $("[name=member_id_c]").val().trim();
+		var free_board_no = $("[name=free_board_no_c]").val().trim();
+		var parent_comment = $("[name=parent_comment_c]").val().trim();
+		var comment_level = $("[name=comment_level_c]").val().trim();
+		
+		console.log(member_id+','+free_board_no+','+parent_comment+','+comment_level);
+		
+		$.ajax({
+			url:"insertComment.do",
+			data:{member_id:member_id,
+				  free_board_no:free_board_no,
+				  parent_comment:parent_comment,
+				  comment_level:comment_level,
+				  comment_content:comment_content
+			},
+			method:"POST",
+			dataType:"json",
+			success:function(data){
+				console.log(data);
+				var html='<div class="freeBoardView-comment read">';
+				for(var index in data){
+					var bc=data[index];
+					if(index=='fbc'){
+					html+= '<div class="freeBoardView-comment read title level2">';
+					html+= '<span style="font-weight:bold;">ㄴ'+bc["member_id"]+'</span>';
+					html+= '<span> '+bc["comment_enrolldate"]+'</span>'
+					html+='<button class="comment-btn" value="'+bc["comment_no"]+'">답글</button></div>';
+					html+='<p><span style="padding-left:13px;">'+bc["comment_content"]+'</span></p></div>';
+					}
+					if(index=='count'){
+						$("#comment_count").html("댓글"+bc+"개");
+					}
+				}
+				$(html).insertBefore(".freeBoardView-comment.comment");
+				
+			},
+			error:function(jqxhr,textStatus, errorThrown){
+				console.log("ajax실패",jqxhr,textStatus, errorThrown);
+			}	
+		});
+		
+	});	
 	
 	
 })
