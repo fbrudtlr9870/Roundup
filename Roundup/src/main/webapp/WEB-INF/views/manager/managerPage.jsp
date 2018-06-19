@@ -9,6 +9,13 @@
 </jsp:include>
 
 <style>
+.imsosotired{
+    font-size: 20px;
+    color:#337ab7;
+    font-weight: bold;
+}
+
+
 * {
     box-sizing: border-box;
 }
@@ -91,7 +98,7 @@ div.section_div-s table tr{
 }
 div.section_div-s table tr:hover{
     border: 1px solid #ddd;
-    background: cadetblue;
+    background: #FFEAEA;
 }
 div.section_div-s table tr th{
     border: 1px solid #ddd;
@@ -102,16 +109,25 @@ div.section_div-s table tr td{
     border: 1px solid #ddd;
     padding:10px;
 }
+
+.imsosotired2{
+	font-weight: bold;
+}
 </style>
 
 
         <br><br>
-        <h2>회원관리</h2>
+        <h2 class="imsosotired">회원관리</h2>
+        
+       
         <div class="main-li-container">
+      
                    <div class="row">
    
-  <div class="rightcolumn">
-        <div class="section_div-s" >
+					  <div class="rightcolumn">
+					        <div class="section_div-s" >
+					        <br />
+					           <p class="imsosotired2">총 회원 수 : ${totalContents }명</p>
       
             <table>
                 <tr>
@@ -133,19 +149,44 @@ div.section_div-s table tr td{
                     <td>${m.member_phone }</td>
                     <td>${m.member_email }</td>
                     <td>${m.member_enrollDate }</td>
-                    <td>${m.member_grade }</td>
+                    <td><select name="changeGrade" id="changeGrade" class="changeGrade">
+                    <option id="changeGrade" value="${m.member_grade }" selected disabled>${m.member_grade }</option>
+                    <option id="changeGrade" value="G">G</option>
+                    <option id="changeGrade" value="A">A</option>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    </select></td>
                     
                 </tr>
                 </c:forEach>
                 
             </table>
-            <br>
-            <span>이전</span><span>1 2 3 4 5</span><span>다음</span>
-        </div>
-    
-  </div>
-  
-</div>
+            <!-- 페이지바 -->
+	<%
+		int totalContents = Integer.parseInt(String.valueOf(request.getAttribute("totalContents")));
+		int numPerPage = Integer.parseInt(String.valueOf(request.getAttribute("numPerPage")));
+		int cPage = 1;
+		try{
+			cPage = Integer.parseInt(request.getParameter("cPage"));
+		}catch(NumberFormatException e){
+			
+		}
+	%>
+	<%=com.proj.rup.common.util.Utils.getPageBar(totalContents,
+												  cPage,
+												  numPerPage,
+												  "managerPage.do") %>
+            
+                    </div>
+			    
+			  </div>
+			  
+			</div>
         </div>
         <br><br>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
