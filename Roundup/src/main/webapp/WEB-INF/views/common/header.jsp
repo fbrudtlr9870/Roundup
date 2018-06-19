@@ -50,7 +50,7 @@
                 </fieldset>
                 
 				<!-- 로그인 회원가입 -->
-               <div class="nav-bar-btn">
+              	<div class="nav-bar-btn">
 	               <c:if test="${memberLoggedIn==null}">
 	                  <button type="button" class="btn btn-outline-success" data-toggle="modal" 
 			    		data-target="#exampleModal">로그인</button>
@@ -58,6 +58,7 @@
 	                  <button type="button" class="btn btn-outline-success"
 	               		 onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
 	               </c:if>
+	             
 	                <c:if test="${memberLoggedIn!=null }">
 				    <a href="#">${memberLoggedIn.member_name }</a>님, 안녕하세요
 				     <button class="btn btn-outline-success" type="button" onclick="location.href='${pageContext.request.contextPath}/member/memberLogout.do'">

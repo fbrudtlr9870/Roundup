@@ -19,4 +19,8 @@
 	<select id="selectOneMember" resultMap="memberMap">
 		SELECT * FROM MEMBER WHERE MEMBER_ID = #{member_id}
 	</select>
+	
+	<select  id="checkIdDuplicate">
+	SELECT COUNT(*) FROM MEMBER WHERE MEMBER_ID = #{member_id}
+	</select>
 </mapper>

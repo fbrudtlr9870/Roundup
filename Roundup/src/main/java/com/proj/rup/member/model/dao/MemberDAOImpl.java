@@ -19,5 +19,9 @@ public class MemberDAOImpl implements MemberDAO {
 	public Member selectOneMember(String member_id) {
 		return sqlSession.selectOne("member.selectOneMember", member_id);
 	}
+	@Override
+	public int checkIdDuplicate(String member_id) {
+		return sqlSession.selectOne("member.checkIdDuplicate",member_id);
+	}
 
 }

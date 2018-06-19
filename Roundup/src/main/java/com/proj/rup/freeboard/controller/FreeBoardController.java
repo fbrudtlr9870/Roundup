@@ -91,7 +91,7 @@ public class FreeBoardController {
 		
 		
 		
-		Map<String,Object> map = new HashMap<>();
+		Map<String,Object> map = new HashMap<String, Object>();
 		
 		FreeBoardComment fbc = 
 				new FreeBoardComment(0,member_id,free_board_no,parent_comment,comment_content,null,null,comment_level);

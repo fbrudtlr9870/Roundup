@@ -1,5 +1,8 @@
 package com.proj.rup.member.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -90,8 +94,8 @@ public class MemberController {
 			msg = "존재하지 않는 아이디입니다.";
 		
 		else {
-		//if(bcryptPasswordEncoder.matches(member_password, m.getMember_password())) {
-		if(member_password.equals(m.getMember_password())) {
+		if(bcryptPasswordEncoder.matches(member_password, m.getMember_password())) {
+		//if(member_password.equals(m.getMember_password())) {
 			msg = "로그인성공!";
 			mav.addObject("memberLoggedIn", m);
 			/*mav.addObject("memberLoggedIn", m);*/
@@ -119,5 +123,18 @@ public class MemberController {
 		
 		return "redirect:/";
 	}
-
+	
+	@RequestMapping("member/checkIdDuplicate.do")
+	@ResponseBody
+	public Map<String,Object> checkIdDuplicate(@RequestParam("member_id") String member_id){
+		logger.debug("@ResponseBody-javaObj ajax : "+member_id);
+		Map<String,Object> map = new HashMap<String, Object>();
+		//업무로직
+		int count = memberService.checkIdDuplicate(member_id);
+		boolean isUsable = count==0?true:false;
+		
+		map.put("isUsable", isUsable);
+		
+		return map;
+	}
 }

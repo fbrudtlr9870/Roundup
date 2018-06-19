@@ -12,6 +12,17 @@ div#update-container{
 	margin:0 auto;
 	text-align:center;
 }
+
+div#userId-container{position:relative; padding:0px;}
+div#userId-container span.guide{
+	display:none;
+	font-size:12px;
+	position:absolute;
+	top:12px;
+	right:10px;
+}
+div#userId-container span.ok{color:blue;}
+div#userId-container span.error{color:orange;}
 </style>
 <script>
 $(function(){
@@ -23,18 +34,61 @@ $(function(){
 			$("#member_password_").focus();			
 		};
 	});
+	
+	$("#member_id_").on("keyup",function(){
+		var member_id = $(this).val().trim();
+		if(member_id.length<4){
+			$(".guide").hide();
+			$("#idDuplicateCheck").val(0);
+			return;
+		}
+		
+		$.ajax({
+			url : "checkIdDuplicate.do",
+			data : {member_id:member_id},
+			dataType:"json",
+			success : function(data){
+				console.log(data);//{isUsable: false}
+				if(data.isUsable==true){
+					$(".guide.error").hide();
+					$(".guide.ok").show();
+					$("#idDuplicateCheck").val(1);	
+				}
+				else{
+					$(".guide.error").show();
+					$(".guide.ok").hide();
+					$("#idDuplicateCheck").val(0);						
+				}
+			},
+			error:function(jqxhr,textStatus,errorThrown){
+				console.log("ajax실패",jqxhr,textStatus,errorThrown);
+				
+			}
+			
+		});
+		
+	});
 });	
 /*
  * 유효성검사함수
  */
 function validate(){
-	var userId = $("#member_id_");
-	if(userId.val().trim().length<4){
+	var member_id = $("#member_id_");
+	if(member_id.val().trim().length<4){
 		alert("아이디는 최소4자리이상이어야합니다.");
-		userId.focus();
+		member_id.focus();
 		return false;
 	}
 	
+	return true;
+}
+function validate(){
+	var member_password = $("#member_password_");
+	if(member_password.val().trim().length<4){
+		alert("비밀번호는 최소 네자리 수 이상이어야 합니당.");
+		member_password.focus();
+		return false;
+	}
 	return true;
 }
 
@@ -44,6 +98,9 @@ function validate(){
 		<form action="memberEnrollEnd.do" method="post">
 			<div id="userId-container">
 				<input type="text" name="member_id" id=member_id_ class="input form-control" placeholder="아이디" required/>
+				<span class="guide ok">이 아이디는 사용가능합니다.</span>
+				<span class="guide error">이 아이디는 사용할 수 없습니다.</span>
+				<input type="hidden" id="idDuplicateCheck" value="0" />
 			</div>
 			<br/>
 			<input type="password" name="member_password" id="member_password_" class="input form-control" placeholder="비밀번호" required/>
@@ -56,8 +113,8 @@ function validate(){
 			<br/>
 			<input type="text" name="member_phone" id="member_phone_" class="input form-control" placeholder="전화번호" required/>
 			<br/>
-			생일<input type="date" name="member_birthday" id="member_birthday_" class="input form-control" style="width:300px;" align="right">
-			<br/>
+			생일 : <input type="date" name="member_birthday" id="member_birthday_" class="input" style="width:300px;"/>
+			<br/><br/>
 			<select name="member_gender" id="member_gender_" class="input form-control" required>
 				<option value=""disabled selected>성별</option>
 				<option value="M">남자</option>
