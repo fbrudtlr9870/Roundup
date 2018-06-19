@@ -25,6 +25,7 @@ public class PurchaseController {
 	
 	@RequestMapping("/purchase/purchaseEnd.do")
 	public void purchaseEnd(@RequestParam int amount) {
+		//hyelin
 		System.out.println("구매했다!!!!!!!!!!!!!!");
 		System.out.println(amount);
 	}
