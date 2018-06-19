@@ -286,7 +286,7 @@ $(function(){
 				}else{
 					$(html).insertBefore(".freeBoardView-comment.comment");
 					$(".freeBoardView-comment.comment").remove();
-					console.log("123");
+					console.log("test");
 				}
 			},	
 			error:function(jqxhr,textStatus, errorThrown){
