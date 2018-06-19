@@ -12,9 +12,6 @@
 	<!-- #6.1. myBatis(JDBC)설정 연결 설정하기 -->
 	<bean id="dataSource-origin" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-<!-- 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
-		<property name="username" value="finalproject"/>
-		<property name="password" value="finalproject"/> -->
  		<property name="url" value="jdbc:oracle:thin:@khq.iptime.org:1521:xe"/>
 		<property name="username" value="roundup"/>
 		<property name="password" value="roundup"/>
