@@ -43,4 +43,14 @@ public class freeBoardServiceImpl implements freeBoardService {
 		return freeBoardDAO.selectfreeBoardCommentList(no);
 	}
 
+	@Override
+	public int totalCommentCount(int no) {
+		return freeBoardDAO.totalCommentCount(no);
+	}
+
+	@Override
+	public int insertComment(FreeBoardComment fbc) {
+		return freeBoardDAO.insertComment(fbc);
+	}
+
 }

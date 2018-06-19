@@ -34,63 +34,89 @@ $(function(){
             </div>
             <br><br>
             <div class="search-div">
-                <form action="">
+                <form action="${pageContext.request.contextPath}/product/reSearch.do">
                     <h4>브랜드</h4> 
-                    <input class="form-check-input" type="checkbox" name="brand" id=""> cu &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" id=""> gs25 &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" id=""> 7-11 &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" id=""> mini &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" id=""> emart24
+                    <input type="hidden" name="searchKeyword" value="${searchKeyword }"/>
+                    <input class="form-check-input" type="checkbox" name="brand" > cu &nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" > gs25 &nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" > 7-11 &nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" > mini &nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" > emart24
+                    <br />
+                    <select name="categoryselect" id="category">
+                    	<option id="category" name="category" vlaue="1">간편식사</option>
+                    	<option id="category" name="category" vlaue="7">  김밥</option>
+                    	<option id="category" name="category" vlaue="27">    삼각김밥</option>
+                    	<option id="category" name="category" vlaue="28">    원형김밥</option>
+                    	<option id="category" name="category" vlaue="8">  도시락</option>
+                    	<option id="category" name="category" vlaue="29">    고기</option>
+                    	<option id="category" name="category" vlaue="30">    치킨</option>
+                    	<option id="category" name="category" vlaue="9">  샌드위치</option>
+                    	<option id="category" name="category" vlaue="10">  햄버거</option>
+                    	<option id="category" name="category" vlaue="2">식품</option>
+                    	<option id="category" name="category" vlaue="11">  컵밥/국</option>
+                    	<option id="category" name="category" vlaue="12">  라면</option>
+                    	<option id="category" name="category" vlaue="31">    컵라면</option>
+                    	<option id="category" name="category" vlaue="32">    봉지라면</option>
+                    	<option id="category" name="category" vlaue="13">  냉동식품</option>
+                    	<option id="category" name="category" vlaue="33">    치킨</option>
+                    	<option id="category" name="category" vlaue="34">    피자</option>
+                    	<option id="category" name="category" vlaue="35">    만두</option>
+                    	<option id="category" name="category" vlaue="36">    돼지고기</option>
+                    	<option id="category" name="category" vlaue="14">  냉장식품</option>
+                    	<option id="category" name="category" vlaue="37">    가공식품</option>
+                    	<option id="category" name="category" vlaue="38">    안주</option>
+                    	<option id="category" name="category" vlaue="39">    식재료</option>
+                    	<option id="category" name="category" vlaue="3">과자류</option>
+                    	<option id="category" name="category" vlaue="15">  껌/사탕/초코</option>
+                    	<option id="category" name="category" vlaue="16">  박스과자</option>
+                    	<option id="category" name="category" vlaue="17">  봉지과자</option>
+                    	<option id="category" name="category" vlaue="4">아이스크림</option>
+                    	<option id="category" name="category" vlaue="18">  바</option>
+                    	<option id="category" name="category" vlaue="19">  콘</option>
+                    	<option id="category" name="category" vlaue="20">  컵</option>
+                    	<option id="category" name="category" vlaue="5">즉석식품</option>
+                    	<option id="category" name="category" vlaue="21">  튀김</option>
+                    	<option id="category" name="category" vlaue="22">  빵</option>
+                    	<option id="category" name="category" vlaue="6">음료</option>
+                    	<option id="category" name="category" vlaue="23">  유제품</option>
+                    	<option id="category" name="category" vlaue="24">  캔</option>
+                    	<option id="category" name="category" vlaue="25">  페트</option>
+                    	<option id="category" name="category" vlaue="26">  유리</option>
+
+                    </select>
                     <h4>가격대</h4>
-                    <input type="number" name="" min="0"> ~ <input type="number" name="">
+                    <input type="number" name="price1" min="0" step="500"> ~ <input type="number" name="price2" step="500">
                     <br><br>
                     <input type="submit"class="btn btn-success" value="검색">
                 </form>
             </div>
             <br><br>
             
+            
             <div class="main-li-container">
-                        <li class="main-li">
-                            <img src="img/test1.png">
-                            <div class="buy-btn">
-                                    <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                    <button type="button" class="btn btn-success">구매</button>
-                                </div>
-                            <div class="ptext">GS25</div>
-                            <div class="ptext">핑크죠스바</div>
-                            <div class="pprice">1,000원</div>
-                        </li>
-                        <li class="main-li">
-                            <img src="img/test1.png">
-                            <div class="buy-btn">
-                                    <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                    <button type="button" class="btn btn-success">구매</button>
-                                </div>
-                            <div class="ptext">GS25</div>
-                            <div class="ptext">핑크죠스바</div>
-                            <div class="pprice">1,000원</div>
-                        </li>
-                        <li class="main-li">
-                            <img src="img/test1.png">
-                            <div class="buy-btn">
-                                    <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                    <button type="button" class="btn btn-success">구매</button>
-                                </div>
-                            <div class="ptext">GS25</div>
-                            <div class="ptext">핑크죠스바</div>
-                            <div class="pprice">1,000원</div>
-                        </li>
-                        <li class="main-li">
-                            <img src="img/test1.png">
-                            <div class="buy-btn">
-                                    <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                    <button type="button" class="btn btn-success">구매</button>
-                                </div>
-                            <div class="ptext">GS25</div>
-                            <div class="ptext">핑크죠스바</div>
-                            <div class="pprice">1,000원</div>
-                        </li>
+            	<c:forEach var="p" items="${searchList }" varStatus="vs">
+	                <li class="main-li">
+	                    <img src="${pageContext.request.contextPath}/resources/img/test1.png">이미지 아직없으요
+	                    <div class="product-text">
+	                     <div class="ptext">${p.brandName }</div>
+	                     <div class="ptext">${p.productName }</div>
+	                     <div class="pprice">${p.price }원</div>
+	                    </div> 
+	                    <div class="buy-btn">
+	                            <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
+	                            <button type="button" class="btn btn-success">구매</button>
+	                    </div>
+	                </li>            	
+            	</c:forEach>
                 </div>
                 <br><br>
-
+<script>
+$(".main-li").mouseenter(function(){
+	$(".buy-btn").css("display","block");
+});
+$(".main-li").mouseleave(function(){
+	$(".buy-btn").css("display","none");
+});
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

@@ -18,4 +18,8 @@ public interface FreeBoardDAO {
 
 	List<FreeBoardComment> selectfreeBoardCommentList(int no);
 
+	int totalCommentCount(int no);
+
+	int insertComment(FreeBoardComment fbc);
+
 }

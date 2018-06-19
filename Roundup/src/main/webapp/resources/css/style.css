@@ -144,7 +144,7 @@ li.main-li:nth-child(3n+2){
 
 li.main-li{
     width:326px;
-    height:400px;
+    height:450px;
     float: left;
     list-style: none;
     
@@ -178,4 +178,18 @@ footer p {
     margin:0 auto;
     width:980px;
     text-align: left;
+}
+
+/* 장바구니 div */
+div.tbl-container{
+    width:980px;
+    margin:0 auto;
+}
+/* 장바구니 단계 이미지 div*/
+div.step-buy{
+    width:980px;
+    margin:0 auto;
+}
+td.tbl-td {
+	vertical-align: middle !important;
 }
