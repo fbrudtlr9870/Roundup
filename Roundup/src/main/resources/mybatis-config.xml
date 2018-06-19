@@ -4,8 +4,9 @@
 	 <typeAliases>
 	 	<typeAlias type="com.proj.rup.product.model.vo.Product" alias="product"/>
 	 	<typeAlias type="com.proj.rup.freeboard.model.vo.FreeBoard" alias="freeboard"/>
+	 	<typeAlias type="com.proj.rup.member.model.vo.Member" alias="member"/>
 	 	<typeAlias type="com.proj.rup.freeboard.model.vo.FreeBoardFile" alias="freeboardFile"/>
-	 	<typeAlias type="com.proj.rup.freeboard.model.vo.FreeBoardComment" alias="freeboardComment"/>
 	 	<typeAlias type="com.proj.rup.basket.model.vo.Basket" alias="basket"/>
+	 	<typeAlias type="com.proj.rup.freeboard.model.vo.FreeBoardComment" alias="freeboardComment"/>
 	 </typeAliases>
 </configuration>
