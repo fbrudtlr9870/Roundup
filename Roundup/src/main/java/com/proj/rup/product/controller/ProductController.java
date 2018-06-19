@@ -66,13 +66,13 @@ public class ProductController {
 		return mav;
 	}
 	@RequestMapping("/product/reSearch.do")
-	public ModelAndView reSearch(@RequestParam String searchKeyword,@RequestParam String[] brand,@RequestParam int category,@RequestParam int price1,@RequestParam int price2) {
+	public ModelAndView reSearch(@RequestParam String searchKeyword,@RequestParam String[] brand,@RequestParam String categoryselect,@RequestParam int price1,@RequestParam int price2) {
 		ModelAndView mav=new ModelAndView();
 		System.out.println("검색키워드="+searchKeyword);
 		for(String s:brand) {
 			System.out.println("브랜드="+s);
 		}
-		System.out.println(category);
+		System.out.println(categoryselect);
 		System.out.println(price1+"~"+price2);
 		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색------------------------------
 		String clientId = "vbEkw23fbdDmfyg_CYg9";//애플리케이션 클라이언트 아이디값";
@@ -105,7 +105,7 @@ public class ProductController {
             System.out.println(e);
         }
 		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색 끝------------------------------
-        mav.setViewName("productSearch.jsp");
+        mav.setViewName("product/productSearch");
 		return mav;
 	}
 }

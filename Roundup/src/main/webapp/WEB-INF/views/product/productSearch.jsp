@@ -37,11 +37,11 @@ $(function(){
                 <form action="${pageContext.request.contextPath}/product/reSearch.do">
                     <h4>브랜드</h4> 
                     <input type="hidden" name="searchKeyword" value="${searchKeyword }"/>
-                    <input class="form-check-input" type="checkbox" name="brand" > cu &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" > gs25 &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" > 7-11 &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" > mini &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" > emart24
+                    <input class="form-check-input" type="checkbox" name="brand" value="CU"> CU &nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" value="GS25"> GS25 &nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" value="7ELEVEN"> 7ELEVEN &nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" value="MINISTOP"> MINISTOP &nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" value="EMART24"> EMART24
                     <br />
                     <select name="categoryselect" id="category">
                     	<option id="category" name="category" vlaue="1">간편식사</option>
@@ -83,7 +83,6 @@ $(function(){
                     	<option id="category" name="category" vlaue="24">-캔</option>
                     	<option id="category" name="category" vlaue="25">-페트</option>
                     	<option id="category" name="category" vlaue="26">-유리</option>
-
                     </select>
                     <h4>가격대</h4>
                     <input type="number" name="price1" min="0" step="500"> ~ <input type="number" name="price2" step="500">
