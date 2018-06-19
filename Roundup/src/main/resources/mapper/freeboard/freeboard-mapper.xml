@@ -34,7 +34,6 @@
 </select>
 
 <insert id="insertComment">
-
 	<choose>
 		<when test="#{parent_comment eq 0}">
 		insert into tbl_comment(comment_no,member_id,free_board_no,parent_comment,comment_content,comment_enrolldate,comment_level)
