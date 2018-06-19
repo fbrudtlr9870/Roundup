@@ -56,7 +56,7 @@ function validate(){
 			<br/>
 			<input type="text" name="member_phone" id="member_phone_" class="input form-control" placeholder="전화번호" required/>
 			<br/>
-			<input type="text" name="member_birthDay" id="member_birthDay_" class="input form-control" placeholder="생일"/>
+			생일<input type="date" name="member_birthday" id="member_birthday_" class="input form-control" style="width:300px;" align="right">
 			<br/>
 			<select name="member_gender" id="member_gender_" class="input form-control" required>
 				<option value=""disabled selected>성별</option>

@@ -5,7 +5,7 @@
 		INSERT INTO MEMBER 
 		VALUES(#{member_id},
 			   #{member_password},
-			   #{member_Name},
+			   #{member_name},
 			   #{member_gender},
 			   #{member_birthday},
 			   #{member_phone},
