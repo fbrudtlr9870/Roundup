@@ -279,7 +279,6 @@ $(function(){
 					}
 				}
 				$(html).insertBefore(".freeBoardView-comment.comment");
-				
 			},
 			error:function(jqxhr,textStatus, errorThrown){
 				console.log("ajax실패",jqxhr,textStatus, errorThrown);
