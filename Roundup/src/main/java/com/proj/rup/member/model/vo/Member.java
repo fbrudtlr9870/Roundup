@@ -1,131 +1,119 @@
 package com.proj.rup.member.model.vo;
 
 import java.sql.Date;
-import java.util.Arrays;
 
 public class Member implements java.io.Serializable{
 
-	private static final long serialVersionUID = 1L;
-	
-	private String userId;
-	private String password;
-	private String userName;
-	private String gender;		//PreparedStatement에 setCharacter메소드 없음.
-	private int age; 
-	private String email;
-	private String phone;
-	private String address;
-	private String[] hobby;
-	private Date enrollDate;
-	
-	public Member(){
-		
-	}
+   private static final long serialVersionUID = 1L;
+   
+   private String member_id;
+   private String member_password;
+   private String member_name;
+   private String member_gender;
+   private Date member_birthDay;
+   private String member_phone;
+   private String member_email;
+   private Date member_enrollDate;
+   private String member_grade;
+   
+   public Member() {}
 
-	public Member(String userId, String password, String userName, String gender, int age, String email, String phone,
-			String address, String[] hobby, Date enrollDate) {
-		super();
-		this.userId = userId;
-		this.password = password;
-		this.userName = userName;
-		this.gender = gender;
-		this.age = age;
-		this.email = email;
-		this.phone = phone;
-		this.address = address;
-		this.hobby = hobby;
-		this.enrollDate = enrollDate;
-	}
+   public Member(String member_id, String member_password, String member_name, String member_gender,
+         Date member_birthDay, String member_phone, String member_email, Date member_enrollDate,
+         String member_grade) {
+      super();
+      this.member_id = member_id;
+      this.member_password = member_password;
+      this.member_name = member_name;
+      this.member_gender = member_gender;
+      this.member_birthDay = member_birthDay;
+      this.member_phone = member_phone;
+      this.member_email = member_email;
+      this.member_enrollDate = member_enrollDate;
+      this.member_grade = member_grade;
+   }
 
-	public String getUserId() {
-		return userId;
-	}
+   public String getMember_id() {
+      return member_id;
+   }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+   public void setMember_id(String member_id) {
+      this.member_id = member_id;
+   }
 
-	public String getPassword() {
-		return password;
-	}
+   public String getMember_password() {
+      return member_password;
+   }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+   public void setMember_password(String member_password) {
+      this.member_password = member_password;
+   }
 
-	public String getUserName() {
-		return userName;
-	}
+   public String getMember_name() {
+      return member_name;
+   }
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+   public void setMember_name(String member_name) {
+      this.member_name = member_name;
+   }
 
-	public String getGender() {
-		return gender;
-	}
+   public String getMember_gender() {
+      return member_gender;
+   }
 
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
+   public void setMember_gender(String member_gender) {
+      this.member_gender = member_gender;
+   }
 
-	public int getAge() {
-		return age;
-	}
+   public Date getMember_birthDay() {
+      return member_birthDay;
+   }
 
-	public void setAge(int age) {
-		this.age = age;
-	}
+   public void setMember_birthDay(Date member_birthDay) {
+      this.member_birthDay = member_birthDay;
+   }
 
-	public String getEmail() {
-		return email;
-	}
+   public String getMember_phone() {
+      return member_phone;
+   }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+   public void setMember_phone(String member_phone) {
+      this.member_phone = member_phone;
+   }
 
-	public String getPhone() {
-		return phone;
-	}
+   public String getMember_email() {
+      return member_email;
+   }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+   public void setMember_email(String member_email) {
+      this.member_email = member_email;
+   }
 
-	public String getAddress() {
-		return address;
-	}
+   public Date getMember_enrollDate() {
+      return member_enrollDate;
+   }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+   public void setMember_enrollDate(Date member_enrollDate) {
+      this.member_enrollDate = member_enrollDate;
+   }
 
-	public String[] getHobby() {
-		return hobby;
-	}
+   public String getMember_grade() {
+      return member_grade;
+   }
 
-	public void setHobby(String[] hobby) {
-		this.hobby = hobby;
-	}
+   public void setMember_grade(String member_grade) {
+      this.member_grade = member_grade;
+   }
 
-	public Date getEnrollDate() {
-		return enrollDate;
-	}
+   public static long getSerialversionuid() {
+      return serialVersionUID;
+   }
 
-	public void setEnrollDate(Date enrollDate) {
-		this.enrollDate = enrollDate;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	@Override
-	public String toString() {
-		return "Member [userId=" + userId + ", password=" + password + ", userName=" + userName + ", gender=" + gender
-				+ ", age=" + age + ", email=" + email + ", phone=" + phone + ", address=" + address + ", hobby="
-				+ Arrays.toString(hobby) + ", enrollDate=" + enrollDate + "]";
-	}
+   @Override
+   public String toString() {
+      return "Member [member_id=" + member_id + ", member_password=" + member_password + ", member_name="
+            + member_name + ", member_gender=" + member_gender + ", member_birthDay=" + member_birthDay
+            + ", member_phone=" + member_phone + ", member_email=" + member_email + ", member_enrollDate="
+            + member_enrollDate + ", member_grade=" + member_grade + "]";
+   }
 }
-
