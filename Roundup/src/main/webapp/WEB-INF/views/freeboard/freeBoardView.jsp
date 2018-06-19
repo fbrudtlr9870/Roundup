@@ -203,7 +203,7 @@ $(function(){
 					}
 				}
 				$(html).insertBefore(".freeBoardView-comment.write");
-				
+		
 			},
 			error:function(jqxhr,textStatus, errorThrown){
 				console.log("ajax실패",jqxhr,textStatus, errorThrown);
@@ -278,8 +278,17 @@ $(function(){
 						$("#comment_count").html("댓글"+bc+"개");
 					}
 				}
-				$(html).insertBefore(".freeBoardView-comment.comment");
-			},
+				
+				if($(this).next(".freeBoardView-comment.read.level2").length){
+					$(html).insertAfter(".freeBoardView-comment.read.level2:last-child");
+					$(".freeBoardView-comment.comment").remove();
+					console.log("asdasd");
+				}else{
+					$(html).insertBefore(".freeBoardView-comment.comment");
+					$(".freeBoardView-comment.comment").remove();
+					console.log("123");
+				}
+			},	
 			error:function(jqxhr,textStatus, errorThrown){
 				console.log("ajax실패",jqxhr,textStatus, errorThrown);
 			}	
