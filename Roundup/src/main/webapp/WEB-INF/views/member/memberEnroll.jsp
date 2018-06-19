@@ -83,8 +83,8 @@ function validate(){
 		return false;
 	}
 	
-	if(member_password.val().trim().length<4){
-		alert("비밀번호는 최소4자리이상이여야 합니다.");
+	if(member_password.val().trim().length<4 || member_password.val().trim().length>8){
+		alert("비밀번호는 최소4자리이상이거나 8자리 이하여야 합니다.");
 		member_password.focus();
 		return false;		
 	}
