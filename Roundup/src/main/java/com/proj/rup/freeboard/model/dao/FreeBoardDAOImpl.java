@@ -45,4 +45,14 @@ public class FreeBoardDAOImpl implements FreeBoardDAO {
 		return sqlSession.selectList("freeboard.selectfreeBoardCommentList", no);
 	}
 
+	@Override
+	public int totalCommentCount(int no) {
+		return sqlSession.selectOne("freeboard.totalCommentCount", no);
+	}
+
+	@Override
+	public int insertComment(FreeBoardComment fbc) {
+		return sqlSession.insert("freeboard.insertComment",fbc);
+	}
+
 }
