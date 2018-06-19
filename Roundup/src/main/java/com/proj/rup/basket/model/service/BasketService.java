@@ -8,4 +8,6 @@ public interface BasketService {
 
 	List<Basket> selectBasketList(String memberId);
 
+	int deleteBasket(int basketNo);
+
 }

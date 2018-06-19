@@ -43,7 +43,7 @@ $(function(){
                     <li class="main-li">
                             <img src="${pageContext.request.contextPath}/resources/img/test1.png">
                             <div class="buy-btn">
-                                <button type="button" class="btn btn-primary"><a href="basket.html" style="color:white">장바구니</a></button> &nbsp;
+                                <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
                                 <button type="button" class="btn btn-success">구매</button>
                             </div>
                             <div class="ptext">GS25</div>

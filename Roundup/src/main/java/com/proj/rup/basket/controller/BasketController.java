@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.proj.rup.basket.model.service.BasketService;
@@ -23,19 +24,26 @@ public class BasketController {
 	private BasketService basketService = new BasketServiceImpl();
 	
 	@RequestMapping("/basket/selectBasketList.do")
-	//@RequestParam(value="memberId")String memberId
-	public ModelAndView selectBasketList() {
+	public ModelAndView selectBasketList(@RequestParam(value="memberId") String memberId) {
 		
 		ModelAndView mav = new ModelAndView();
 			
-		List<Basket> list = basketService.selectBasketList("dfd");
-		logger.debug("list@freeboardController="+list);
-		System.out.println("장바구니----------------" + list);
-		
+		List<Basket> basketList = basketService.selectBasketList(memberId);
+		logger.debug("list@BasketController="+basketList);
+		System.out.println("Controller장바구니----------------" + basketList);
 
-		mav.addObject("list", list);
+		mav.addObject("basketList", basketList);
 		mav.setViewName("/basket/basket");
 		return mav;
 	}
 	
+	@RequestMapping("/basket/deleteBasket.do")
+	@ResponseBody
+	public String deleteBasket(@RequestParam(value="basketNo") int basketNo) {
+		
+		basketService.deleteBasket(basketNo);
+
+		return "success";
+		/*return "redirect:/";*/
+	}
 }

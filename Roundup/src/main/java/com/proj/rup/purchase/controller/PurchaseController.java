@@ -24,9 +24,10 @@ public class PurchaseController {
 	}
 	
 	@RequestMapping("/purchase/purchaseEnd.do")
-	public void purchaseEnd(@RequestParam int amount) {
-		//hyelin
+	public void purchaseEnd(@RequestParam int amount, @RequestParam String email, @RequestParam String userId) {
 		System.out.println("구매했다!!!!!!!!!!!!!!");
 		System.out.println(amount);
+		System.out.println(email);
+		System.out.println(userId);		
 	}
 }
