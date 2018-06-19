@@ -213,7 +213,6 @@ $(function(){
 	});	
 
 	$(document).on('click','.comment-btn',function(){
-		if(chk_comment_btn==false){
 		var div = $("<div style='border-bottom:1px dotted white;' class='freeBoardView-comment comment'></div>");
 		var html='<button id="insertCommentComment">답글</button>';
 		html+='<input type="hidden" name="member_id_c" value="${fboard['member_id']}" />';
@@ -224,13 +223,16 @@ $(function(){
 		html+='<p></p>';
 		
 		div.html(html);
+		if(chk_comment_btn==false){
 		//생성된 노드를 페이지에 추가
+		$(this).parent().parent().parent().find("div.freeBoardView-comment.comment").remove();
 		div.insertAfter($(this).parent().parent()).next().slideDown(800);
 		chk_comment_btn=true;
 				
 		} else{
 			$(this).parent().parent().parent().find("div.freeBoardView-comment.comment").remove();
 			chk_comment_btn=false;
+			div.insertAfter($(this).parent().parent()).next().slideDown(800);
 		}		
 	});
 	
@@ -262,11 +264,11 @@ $(function(){
 			dataType:"json",
 			success:function(data){
 				console.log(data);
-				var html='<div class="freeBoardView-comment read">';
+				var html='<div class="freeBoardView-comment read level2">';
 				for(var index in data){
 					var bc=data[index];
 					if(index=='fbc'){
-					html+= '<div class="freeBoardView-comment read title level2">';
+					html+= '<div class="freeBoardView-comment read title">';
 					html+= '<span style="font-weight:bold;">ㄴ'+bc["member_id"]+'</span>';
 					html+= '<span> '+bc["comment_enrolldate"]+'</span>'
 					html+='<button class="comment-btn" value="'+bc["comment_no"]+'">답글</button></div>';
