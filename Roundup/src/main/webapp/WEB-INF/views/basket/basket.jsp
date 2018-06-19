@@ -8,7 +8,7 @@
    <jsp:param value="장바구니" name="pageTitle"/>
 </jsp:include>
 <div class="step-buy">
-	<br> <img src="img/step-img.png" width="980px" height="100px">
+	<br> <img src="${pageContext.request.contextPath }/resources/img/step-img.png" width="980px" height="100px">
 	<br>
 </div>
 <div class="tbl-container">
@@ -26,7 +26,7 @@
 			<td class="tbl-td"><input type="checkbox" name=""></td>
 			<td class="tbl-td">
 				<div id="tbl-img-row">
-					<img src="img/test1.png" alt="" width="100px" height="100px">
+					<img src="${pageContext.request.contextPath }/resources/img/test1.png" alt="" width="100px" height="100px">
 					<span>[GS25] 핑크죠스바</span>
 				</div>
 			</td>
@@ -39,7 +39,7 @@
 			<td class="tbl-td">15000</td>
 			<td class="tbl-td">2000</td>
 			<td class="tbl-td">
-				<button type="button" class="btn btn-success">구매</button> &nbsp;
+				<button type="button" class="btn btn-success" onclick="window.location.href='${pageContext.request.contextPath }/purchase/purchase.do'">구매</button> &nbsp;
 				<button type="button" class="btn btn-danger">취소</button>
 			</td>
 		</tr>
@@ -47,7 +47,7 @@
 			<td class="tbl-td"><input type="checkbox" name=""></td>
 			<td class="tbl-td">
 				<div id="tbl-img-row">
-					<img src="img/test1.png" alt="" width="100px" height="100px">
+					<img src="${pageContext.request.contextPath }/resources/img/test1.png" alt="" width="100px" height="100px">
 					<span>[GS25] 핑크죠스바</span>
 				</div>
 			</td>
@@ -60,7 +60,7 @@
 			<td class="tbl-td">15000</td>
 			<td class="tbl-td">2000</td>
 			<td class="tbl-td">
-				<button type="button" class="btn btn-success">구매</button> &nbsp;
+				<button type="button" class="btn btn-success" onclick="window.location.href='${pageContext.request.contextPath }/purchase/purchase.do'">구매</button> &nbsp;
 				<button type="button" class="btn btn-danger">취소</button>
 			</td>
 		</tr>
@@ -68,7 +68,7 @@
 			<td class="tbl-td"><input type="checkbox" name=""></td>
 			<td class="tbl-td">
 				<div id="tbl-img-row">
-					<img src="img/test1.png" alt="" width="100px" height="100px">
+					<img src="${pageContext.request.contextPath }/resources/img/test1.png" alt="" width="100px" height="100px">
 					<span>[GS25] 핑크죠스바</span>
 				</div>
 			</td>
@@ -81,7 +81,7 @@
 			<td class="tbl-td">15000</td>
 			<td class="tbl-td">2000</td>
 			<td class="tbl-td">
-				<button type="button" class="btn btn-success">구매</button> &nbsp;
+				<button type="button" class="btn btn-success" onclick="window.location.href='${pageContext.request.contextPath }/purchase/purchase.do'">구매</button> &nbsp;
 				<button type="button" class="btn btn-danger">취소</button>
 			</td>
 		</tr>
@@ -89,7 +89,7 @@
 			<td class="tbl-td"><input type="checkbox" name=""></td>
 			<td class="tbl-td">
 				<div id="tbl-img-row">
-					<img src="img/test1.png" alt="" width="100px" height="100px">
+					<img src="${pageContext.request.contextPath }/resources/img/test1.png" alt="" width="100px" height="100px">
 					<span>[GS25] 핑크죠스바</span>
 				</div>
 			</td>
@@ -102,7 +102,7 @@
 			<td class="tbl-td">15000</td>
 			<td class="tbl-td">2000</td>
 			<td class="tbl-td">
-				<button type="button" class="btn btn-success">구매</button> &nbsp;
+				<button type="button" class="btn btn-success" onclick="window.location.href='${pageContext.request.contextPath }/purchase/purchase.do'">구매</button> &nbsp;
 				<button type="button" class="btn btn-danger">취소</button>
 			</td>
 		</tr>
