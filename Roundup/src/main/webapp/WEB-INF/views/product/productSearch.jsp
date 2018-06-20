@@ -7,7 +7,6 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="검색결과" name="pageTitle"/>
 </jsp:include>
-${searchKeyword }
 <script>
 $(function(){
 	var bloginfo=${bloginfo};
