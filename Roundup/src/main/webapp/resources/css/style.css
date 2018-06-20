@@ -156,7 +156,7 @@ li.main-li img{
 }
 li.main-li div.ptext{
    font-size: 20px;
-   width:100px;
+   /* width:100px; */
    padding:5px;
 }
 li.main-li div.pprice{

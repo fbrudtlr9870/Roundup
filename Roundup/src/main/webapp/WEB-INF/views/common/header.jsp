@@ -24,7 +24,14 @@
             <div class="nav-bar-wrapper">
                 <a href="${pageContext.request.contextPath }" class="nav-bar-logo">편의점마스터</a>
                 <ul class="nav-bar-site">
-                    <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/basket/selectBasketList.do" style="color:black">장바구니</a></li>
+                    <li class="nav-bar-site-li">
+	                    <c:if test="${memberLoggedIn!=null}">
+	                    	<a href="${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}" style="color:black">장바구니</a>
+	                    </c:if>
+	                    <c:if test="${memberLoggedIn==null}">
+	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">장바구니</a>
+	                    </c:if>
+                    </li>
                     <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/member/myPage.do?memberId=${memberLoggedIn.member_id }" style="color:black">마이페이지</a></li>
                     <li class="nav-bar-site-li">고객센터</li>
                 </ul>
