@@ -44,7 +44,7 @@ public class FreeBoardController {
 		
 		//2. 페이지바처리를 위한 전체컨텐츠 수 구하기
 		int pcount = freeboardService.selectfreeBoardListCount();
-		
+			
 		mav.addObject("count", pcount);
 		mav.addObject("numPerPage", numPerPage);
 		mav.addObject("list", list);
@@ -78,7 +78,7 @@ public class FreeBoardController {
 		return mav;
 	}
 	
-	//자유게시판 댓글(레벨1)입력
+	//자유게시판 댓글입력
 	@RequestMapping(value="/freeboard/insertComment.do",method=RequestMethod.POST,produces="application/json; charset=utf8")
 	@ResponseBody
 	public Map<String,Object> insertComment(
@@ -89,12 +89,17 @@ public class FreeBoardController {
 											@RequestParam(value="comment_content")String comment_content){
 		
 		
+<<<<<<< HEAD
 		
 		
 		Map<String,Object> map = new HashMap<String, Object>();
+=======
+		Map<String,Object> map = new HashMap<>();
+>>>>>>> branch 'master' of https://github.com/fbrudtlr9870/Roundup.git
+		
 		
 		FreeBoardComment fbc = 
-				new FreeBoardComment(0,member_id,free_board_no,parent_comment,comment_content,null,null,comment_level);
+				new FreeBoardComment(0,"test",free_board_no,parent_comment,comment_content,null,null,comment_level);
 		
 		logger.debug("fbc="+fbc);
 		
