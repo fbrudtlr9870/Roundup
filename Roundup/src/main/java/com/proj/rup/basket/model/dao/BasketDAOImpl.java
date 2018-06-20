@@ -18,4 +18,9 @@ public class BasketDAOImpl implements BasketDAO {
 	public List<Basket> selectBasketList(String memberId) {
 		return sqlSession.selectList("basket.selectBasketList", memberId);
 	}
+
+	@Override
+	public int deleteBasket(int basketNo) {
+		return sqlSession.delete("basket.deleteBasket", basketNo);
+	}
 }

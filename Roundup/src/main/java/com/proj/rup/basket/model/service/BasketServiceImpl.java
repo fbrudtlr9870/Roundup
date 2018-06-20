@@ -19,5 +19,10 @@ public class BasketServiceImpl implements BasketService {
 	public List<Basket> selectBasketList(String memberId) {
 		return basketDAO.selectBasketList(memberId);
 	}
+
+	@Override
+	public int deleteBasket(int basketNo) {
+		return basketDAO.deleteBasket(basketNo);
+	}
 	
 }

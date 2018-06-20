@@ -24,8 +24,15 @@
             <div class="nav-bar-wrapper">
                 <a href="${pageContext.request.contextPath }" class="nav-bar-logo">편의점마스터</a>
                 <ul class="nav-bar-site">
-                    <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/basket/selectBasketList.do" style="color:black">장바구니</a></li>
-                    <li class="nav-bar-site-li">마이페이지</li>
+                    <li class="nav-bar-site-li">
+	                    <c:if test="${memberLoggedIn!=null}">
+	                    	<a href="${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}" style="color:black">장바구니</a>
+	                    </c:if>
+	                    <c:if test="${memberLoggedIn==null}">
+	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">장바구니</a>
+	                    </c:if>
+                    </li>
+                    <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/member/myPage.do?memberId=${memberLoggedIn.member_id }" style="color:black">마이페이지</a></li>
                     <li class="nav-bar-site-li">고객센터</li>
                 </ul>
                 <ul class="nav-bar-list">
@@ -67,20 +74,7 @@
                 </div>
             </div>
         </nav>
-        <nav class="nav-list">
-            <div class="nav-list-wrapper">
-
-                    <ul class="nav nav-tabs nav-justified">
-                            <li role="presentation" class="active"><a href="#">카테고리</a></li>
-                            <li role="presentation"><a href="#">행사</a></li>
-                            <li role="presentation"><a href="notice.html">공지사항</a></li>
-                            <li role="presentation"><a href="./freeboard/freeBoardList.do">게시판</a></li>
-                            <li role="presentation"><a href="#">1:1문의</a></li>
-                    </ul>
-
-            </div>
-
-        </nav>
+        <!-- 여기있었으 -->
         <!-- 로그인 Modal 시작 -->
 		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog" role="document">
