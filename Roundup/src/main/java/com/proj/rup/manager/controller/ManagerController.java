@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.proj.rup.manager.model.service.ManagerService;
 import com.proj.rup.manager.model.service.ManagerServiceImpl;
+import com.proj.rup.member.model.vo.Member;
 
 @Controller
 public class ManagerController {
@@ -43,5 +44,22 @@ public class ManagerController {
 		
 		return mav;
 		
+	}
+	
+	@RequestMapping("/manager/managerView.do")
+	public ModelAndView managerView(@RequestParam String member_id) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println("member_id@myPage.do:"+member_id);
+		Member m = managerService.selectOneMember(member_id);
+		System.out.println("member@myPage:"+m);
+		
+		//List<PurchaseComplete> pc = purchaseService.selectPCList(memberId);
+		//logger.debug("purchaseComplete@memberController pc:"+pc);
+		
+		mav.addObject("member",m);
+		//mav.addObject("purchaseComplete",pc);
+		mav.setViewName("manager/managerView");
+
+		return mav;
 	}
 }

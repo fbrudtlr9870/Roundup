@@ -26,4 +26,10 @@ public class ManagerServiceImpl implements ManagerService {
 		return managerDAO.selectManagerTotalMember();
 	}
 
+	@Override
+	public Member selectOneMember(String member_id) {
+		// TODO Auto-generated method stub
+		return managerDAO.selectOneMember(member_id);
+	}
+
 }

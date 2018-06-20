@@ -28,4 +28,12 @@ public class ManagerDAOImpl implements ManagerDAO {
 		return sqlSession.selectOne("manager.selectManagerTotalMember");
 	}
 
+	@Override
+	public Member selectOneMember(String member_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("manager.selectOneMember",member_id);
+	}
+
+
+
 }

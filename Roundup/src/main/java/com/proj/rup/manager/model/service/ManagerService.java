@@ -11,4 +11,8 @@ public interface ManagerService {
 
 	int selectManagerTotalMember();
 
+	Member selectOneMember(String member_id);
+
+
+
 }

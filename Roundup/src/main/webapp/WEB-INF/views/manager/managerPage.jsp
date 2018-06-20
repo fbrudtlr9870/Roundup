@@ -178,11 +178,11 @@ div.section_div-s table tr td{
                     <th>회원등급</th>
                 </tr>
                 <c:forEach items="${list}" var="m">
-                <tr>
-                    <td><a href="#">${m.member_id }</a></td>
+                <tr no="${m.member_id }">
+                    <td>${m.member_id }</td>
                     <td>${m.member_name }</td>
                     <td>${m.member_gender }</td>
-                    <td>${m.member_birthDay }</td>
+                    <td>${m.member_birthday }</td>
                     <td>${m.member_phone }</td>
                     <td>${m.member_email }</td>
                     <td>${m.member_enrollDate }</td>
@@ -219,5 +219,14 @@ div.section_div-s table tr td{
 			
         </div>
         <br><br><br>
+        
+<script>
+$(function(){
+	$("tr[no]").on("click",function(){
+		console.log($(this).attr("no"));
+		location.href="${pageContext.request.contextPath}/manager/managerView.do?member_id="+$(this).attr("no");
+	});
+});
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

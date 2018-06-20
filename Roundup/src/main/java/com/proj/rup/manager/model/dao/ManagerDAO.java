@@ -11,4 +11,7 @@ public interface ManagerDAO {
 
 	int selectManagerTotalMember();
 
+	Member selectOneMember(String member_id);
+
+
 }
