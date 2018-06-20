@@ -287,9 +287,9 @@ $(function(){
 					console.log("1");
 					$(html).insertAfter($('.'+parent_comment+':last').children(".freeBoardView-comment.read.level2:last"));
 				}else{
-					$(".freeBoardView-comment.comment").remove();
 					console.log("2");
 					$(html).insertBefore(".freeBoardView-comment.comment");
+					$(".freeBoardView-comment.comment").remove();
 				}
 				
 				
