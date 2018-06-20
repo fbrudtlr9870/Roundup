@@ -15,6 +15,7 @@ public class BasketProduct {
 	private String original_filename;
 	private String renamed_filename;
 	private Date file_reg_date;
+	private String brand_name;
 	
 	public BasketProduct() {
 		super();
@@ -22,7 +23,7 @@ public class BasketProduct {
 
 	public BasketProduct(int basket_no, String member_id, int product_no, int product_amount, String product_name,
 			int brand_no, int price, Date reg_date, int product_file_no, String original_filename,
-			String renamed_filename, Date file_reg_date) {
+			String renamed_filename, Date file_reg_date, String brand_name) {
 		super();
 		this.basket_no = basket_no;
 		this.member_id = member_id;
@@ -36,6 +37,7 @@ public class BasketProduct {
 		this.original_filename = original_filename;
 		this.renamed_filename = renamed_filename;
 		this.file_reg_date = file_reg_date;
+		this.brand_name = brand_name;
 	}
 
 	public int getBasket_no() {
@@ -134,12 +136,21 @@ public class BasketProduct {
 		this.file_reg_date = file_reg_date;
 	}
 
+	public String getBrand_name() {
+		return brand_name;
+	}
+
+	public void setBrand_name(String brand_name) {
+		this.brand_name = brand_name;
+	}
+
 	@Override
 	public String toString() {
 		return "BasketProduct [basket_no=" + basket_no + ", member_id=" + member_id + ", product_no=" + product_no
 				+ ", product_amount=" + product_amount + ", product_name=" + product_name + ", brand_no=" + brand_no
 				+ ", price=" + price + ", reg_date=" + reg_date + ", product_file_no=" + product_file_no
 				+ ", original_filename=" + original_filename + ", renamed_filename=" + renamed_filename
-				+ ", file_reg_date=" + file_reg_date + "]";
+				+ ", file_reg_date=" + file_reg_date + ", brand_name=" + brand_name + "]";
 	}
+
 }

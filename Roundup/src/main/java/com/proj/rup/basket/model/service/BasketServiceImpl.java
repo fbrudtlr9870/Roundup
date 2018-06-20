@@ -1,6 +1,7 @@
 package com.proj.rup.basket.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.proj.rup.basket.model.dao.BasketDAO;
 import com.proj.rup.basket.model.dao.BasketDAOImpl;
 import com.proj.rup.basket.model.vo.Basket;
+import com.proj.rup.basket.model.vo.BasketProduct;
 
 @Service
 public class BasketServiceImpl implements BasketService {
@@ -16,7 +18,7 @@ public class BasketServiceImpl implements BasketService {
 	private BasketDAO basketDAO = new BasketDAOImpl();
 
 	@Override
-	public List<Basket> selectBasketList(String memberId) {
+	public List<BasketProduct> selectBasketList(String memberId) {
 		return basketDAO.selectBasketList(memberId);
 	}
 
@@ -24,5 +26,9 @@ public class BasketServiceImpl implements BasketService {
 	public int deleteBasket(int basketNo) {
 		return basketDAO.deleteBasket(basketNo);
 	}
-	
+
+	@Override
+	public int updateBasket(Map<String, Integer> map) {
+		return basketDAO.updateBasket(map);
+	}
 }
