@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.proj.rup.product.model.service.ProductService;
@@ -204,7 +205,9 @@ public class ProductController {
 		return mav;
 	}
 	@RequestMapping("/product/autoComplete.do")
+	@ResponseBody
 	public List<Product> autoCompleate(@RequestParam String autoKeyword) {
+		logger.debug("오토키워드 ajax시작"+autoKeyword);
 		List<Product> list=productService.productSearch(autoKeyword);
 		return list;
 	}

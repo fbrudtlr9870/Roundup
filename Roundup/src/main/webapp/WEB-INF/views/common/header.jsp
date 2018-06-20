@@ -47,13 +47,11 @@
                     <div class="col-lg-6">
                        <form action="${pageContext.request.contextPath }/product/productSearch.do">
                        <div class="input-group">
-                         <input type="text" class="form-control" id="productKey" placeholder="Search for..." name="searchKeyword">
+                         <input type="text" class="form-control" id="productKey" placeholder="Search for..." name="searchKeyword" autocomplete="off">
                          <span class="input-group-btn">
                            <button class="btn btn-default" type="submit" value="Go!">Go!!</button>
                          </span><br />       
-                          <div id="autoDiv">
-                          	<ul id="autoComplete"></ul>
-                          </div>                        
+                          	<ul id="autoComplete"></ul>                     
                        </div>
                        </form>
                      </div>
@@ -107,20 +105,90 @@
 	<section>
 <script>
 $(function(){
-	//$("#autoComplete").hide();
-	$("#productKey").on("keyup",function(){
-		var autoKeyword=$(this).val();
-		$.ajax({
-			url:"${pageContext.request.contextPath}/product/autoComplete.do",
-			data:{autoKeyword:autoKeyword},
-			dataType:"json",
-			success:function(data){
-				console.log(data);//true/false가 넘어온다. 
-				
-			},error:function(jqxhr,textStatus,errorThrown){
-				console.log("ajax실패",jqxhr,textStatus,errorThrown);
+	$("#autoComplete").hide();
+	$("#productKey").on("keyup",function(e){
+		var enterchk=0;
+		var sel=$(".sel");
+		var li=$("#autoComplete li");
+		if(e.key=='ArrowDown'){
+			//아무거도 선택되지 않는 경우
+			if(sel.length==0){
+				$("#autoComplete li:first").addClass("sel");
+			}else if(sel.is(li.last())){
+				//선텍된 셀이 마지막 li 인경우
+			}else{
+				sel.removeClass("sel").next().addClass("sel");
 			}
-		});
+		}else if(e.key=='ArrowUp'){
+			//아무거도 선택되지 않는 경우
+			if(sel.length==0){
+				$("#autoComplete li:last").addClass("sel");
+			}else if(sel.is(li.first())){
+				sel.removeClass("sel");
+			}else{
+				sel.removeClass("sel").prev().addClass("sel");
+			}
+		}else if(e.key=='Enter'){
+			enterchk=1;
+			$(this).val(sel.children("label").text());
+			console.log(sel.children("label").text());
+			//검색어 목록은 갑추고 li태그는 삭제
+			$("#autoComplete").hide().children().remove();
+			if(enterchk==1){
+				$(this).on("keyup",function(e){
+					if(e.key='Enter'){
+						location.href="${pageContext.request.contextPath}/product/productSearch.do?searchKeyword="+sel.children("label").text();
+					}
+				})
+			}
+		}else{
+			var autoKeyword=$(this).val();
+			console.log(autoKeyword);
+			$.ajax({
+				url:"${pageContext.request.contextPath}/product/autoComplete.do",
+				data:"autoKeyword="+autoKeyword,
+				dataType:"json",
+				success:function(data){
+					console.log(data);// 키워드에 따른 리스트 가져옴 
+					if(data.length==0){
+						$("#autoComplete").hide();
+					}else{	
+						var html="";
+						if(data.length>5){
+							for(var i=0;i<5;i++){
+								html+="<li>"+"<label>"+data[i].productName+"</label>"+data[i].brandName+"</li>";
+							}
+						}else{
+							for(var i=0;i<data.length;i++){
+								html+="<li>"+"<label>"+data[i].productName+"</label>"+data[i].brandName+"</li>";
+							}
+						}
+						
+						$("#autoComplete").html(html).show();
+					}
+				},error:function(jqxhr,textStatus,errorThrown){
+					console.log("ajax실패",jqxhr,textStatus,errorThrown);
+				}
+			});
+		}
+	});
+	//부모요소에 이벤트핸들러를 설정하고, 자식요소를 이벤트 소스로 사용
+	$("#autoComplete").on("mouseover","li",function(){
+		$(this).siblings().removeClass("sel");
+		 $(this).addClass("sel");
+	}); 
+	$("#autoComplete").on("mouseout","li",function(){
+		$(".sel").removeClass("sel");
+	});
+	$("#autoComplete").on("click","li",function(){
+		$("#productKey").val($(this).children("label").text());
+		$("#autoComplete").hide().children().remove();
+	});
+	//입력할 때 엔터값 막기 
+	$('input[type="text"]').keydown(function() {
+	    if (event.keyCode === 13) {
+	        event.preventDefault();
+	    }
 	});
 });
 </script>
