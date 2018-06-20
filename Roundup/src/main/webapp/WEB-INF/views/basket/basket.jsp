@@ -47,7 +47,6 @@
 						<button type="button" class="btn btn-light updateBasket">수정</button>
 					</td>
 					<td class="tbl-td">
-						<input type="hidden" id="price" value="${i['product_amount']*i['price']}"/>
 						<fmt:formatNumber value="${i['product_amount']*i['price']}" type="currency" currencySymbol=""/>원
 					</td>
 					<td class="tbl-td">
@@ -76,8 +75,9 @@
 		</tr>
 		<tr>
 			<td class="tbl-td"><fmt:formatNumber value="2000" type="currency" currencySymbol=""/>원</td>
-			<td class="tbl-td"><span id="totalPrice"></span></td>
-			<%-- <fmt:formatNumber value="" type="currency" currencySymbol=""/>원 --%>
+			<td class="tbl-td">
+				<fmt:formatNumber value="0" type="currency" currencySymbol=""/>원
+			</td>
 		</tr>
 	</table>
 	<hr>
@@ -228,13 +228,6 @@ $(function() {
 		$("[name=basketList]:checked").filter(function() {
 			price += parseInt($(this).parent().parent().find("#price").val()); 
         });
-		
-		 /* $('#totalPrice').children().val(parseInt(price)); */
-		 $('#totalPrice').innerHTML = "<fmt:formatNumber value=";
-		 $('#totalPrice').innerHTML += Number(price) + " type='currency' currencySymbol=''/>원";
-		/* $("#totalPrice").children().value=price; */
-		/* alert($("#totalPrice").children()); */
-		console.log($("#totalPrice").children("fmt").val());
 		
 	
 		/* $.ajax({
