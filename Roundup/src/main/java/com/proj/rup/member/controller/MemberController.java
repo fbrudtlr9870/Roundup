@@ -143,20 +143,24 @@ public class MemberController {
 		
 		return map;
 	}
-	@RequestMapping("/member/memberView.do")
+	@RequestMapping("/member/mypage.do")
 	public ModelAndView memberView(@RequestParam String member_id) {
 		if(logger.isDebugEnabled())
 			logger.debug("member_id=");
 		
 		ModelAndView mav = new ModelAndView(); 
 		mav.addObject("member",memberService.selectOneMember(member_id));	
-		mav.setViewName("member/memberView");
+		mav.setViewName("member/mypage");
+		
+		return mav;
+	}
+				
 
 	@RequestMapping("/member/myPage.do")
-	public ModelAndView memberMypage(@RequestParam(value="memberId") String memberId) {
+	public ModelAndView memberMypage(@RequestParam(value="member_id") String member_id) {
 		ModelAndView mav = new ModelAndView();
-		System.out.println("memberId@myPage.do:"+memberId);
-		Member m = memberService.selectOneMember(memberId);
+		System.out.println("member_id@myPage.do:"+member_id);
+		Member m = memberService.selectOneMember(member_id);
 		System.out.println("member@myPage:"+m);
 		
 		//List<PurchaseComplete> pc = purchaseService.selectPCList(memberId);

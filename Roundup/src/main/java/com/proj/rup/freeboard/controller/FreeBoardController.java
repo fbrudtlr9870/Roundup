@@ -89,13 +89,10 @@ public class FreeBoardController {
 											@RequestParam(value="comment_content")String comment_content){
 		
 		
-<<<<<<< HEAD
-		
 		
 		Map<String,Object> map = new HashMap<String, Object>();
-=======
-		Map<String,Object> map = new HashMap<>();
->>>>>>> branch 'master' of https://github.com/fbrudtlr9870/Roundup.git
+
+		//Map<String,Object> map = new HashMap<String, Object>();
 		
 		
 		FreeBoardComment fbc = 

@@ -32,7 +32,7 @@
 	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">장바구니</a>
 	                    </c:if>
                     </li>
-                    <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/member/myPage.do?memberId=${memberLoggedIn.member_id }" style="color:black">마이페이지</a></li>
+                    <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/member/myPage.do?member_id=${memberLoggedIn.member_id }" style="color:black">마이페이지</a></li>
                     <li class="nav-bar-site-li">고객센터</li>
                 </ul>
                 <ul class="nav-bar-list">
@@ -67,7 +67,7 @@
 	               </c:if>
 	             
 	                <c:if test="${memberLoggedIn!=null }">
-				    <a href="${pageContext.request.contextPath}/member/memberView.do?member_id=${memberLoggedIn.member_id }">${memberLoggedIn.member_name }</a>님, 안녕하세요
+				    <a href="#">${memberLoggedIn.member_name }</a>님, 안녕하세요
 				     <button class="btn btn-outline-success" type="button" onclick="location.href='${pageContext.request.contextPath}/member/memberLogout.do'">
 			    		로그아웃
 			    	</button>

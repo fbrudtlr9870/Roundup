@@ -39,7 +39,7 @@ div#update-container{
 			<br/>
 			<input type="text" name="member_phone" id="member_phone_" value="${member.member_phone }" class="input form-control"  required/>
 			<br/>
-			<input type="text" name="member_birthDay" id="member_birthDay_" value="${member.member_birthDay }" class="input form-control" />
+			<input type="text" name="member_birthday" id="member_birthday_" value="${member.member_birthday }" class="input form-control" />
 			<br/>
 			<select name="member_gender" id="member_gender_" class="input form-control" required>
 				<option value=""disabled selected>성별</option>
