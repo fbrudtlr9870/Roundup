@@ -3,9 +3,6 @@ package com.proj.rup.member.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.proj.rup.member.model.service.MemberService;
 import com.proj.rup.member.model.vo.Member;
-import com.proj.rup.purchase.model.service.PurchaseService;
-import com.proj.rup.purchase.model.vo.PurchaseComplete;
 
 @SessionAttributes({"memberLoggedIn"})
 @Controller
@@ -34,8 +29,6 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
-	@Autowired
-	private PurchaseService purchaseService;
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
@@ -142,19 +135,7 @@ public class MemberController {
 		map.put("isUsable", isUsable);
 		
 		return map;
-	}
-	@RequestMapping("/member/mypage.do")
-	public ModelAndView memberView(@RequestParam String member_id) {
-		if(logger.isDebugEnabled())
-			logger.debug("member_id=");
-		
-		ModelAndView mav = new ModelAndView(); 
-		mav.addObject("member",memberService.selectOneMember(member_id));	
-		mav.setViewName("member/mypage");
-		
-		return mav;
-	}
-				
+	}			
 
 	@RequestMapping("/member/myPage.do")
 	public ModelAndView memberMypage(@RequestParam(value="member_id") String member_id) {
@@ -170,6 +151,31 @@ public class MemberController {
 		//mav.addObject("purchaseComplete",pc);
 		mav.setViewName("member/myPage");
 
+		return mav;
+	}
+	
+	@RequestMapping("/member/memberUpdate.do")
+	public ModelAndView memberUpdate(Member member){
+		if(logger.isDebugEnabled())
+			logger.debug("회원정보 수정처리페이지");
+		
+		ModelAndView mav = new ModelAndView();
+		System.out.println(member);
+			
+		int result = memberService.updateMember(member);
+		
+		String loc = "/"; 
+		String msg = "";
+		if(result>0){ 
+			msg="회원정보수정성공!";
+			mav.addObject("memberLoggedIn", member);
+		}
+		else msg="회원정보수정실패!";
+		
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		
 		return mav;
 	}
 }
