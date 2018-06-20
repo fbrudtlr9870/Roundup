@@ -36,57 +36,58 @@ $(function(){
             <div class="search-div">
                 <form action="${pageContext.request.contextPath}/product/reSearch.do">
                     <h4>브랜드</h4> 
-                    <input type="hidden" name="searchKeyword" value="${searchKeyword }"/>
-                    <input class="form-check-input" type="checkbox" name="brand" > cu &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" > gs25 &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" > 7-11 &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" > mini &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" > emart24
+                    <input type="hidden" name="searchKeyword" value="${searchKeyword }"/>                    
+                    <input class="form-check-input" type="hidden" name="brand" value="all">
+                    <input class="form-check-input" type="checkbox" name="brand" value="CU"> CU &nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" value="GS25"> GS25 &nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" value="7ELEVEN"> 7ELEVEN &nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" value="MINISTOP"> MINISTOP &nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" value="EMART24"> EMART24
                     <br />
-                    <select name="categoryselect" id="category">
-                    	<option id="category" name="category" vlaue="1">간편식사</option>
-                    	<option id="category" name="category" vlaue="7">  김밥</option>
-                    	<option id="category" name="category" vlaue="27">    삼각김밥</option>
-                    	<option id="category" name="category" vlaue="28">    원형김밥</option>
-                    	<option id="category" name="category" vlaue="8">  도시락</option>
-                    	<option id="category" name="category" vlaue="29">    고기</option>
-                    	<option id="category" name="category" vlaue="30">    치킨</option>
-                    	<option id="category" name="category" vlaue="9">  샌드위치</option>
-                    	<option id="category" name="category" vlaue="10">  햄버거</option>
-                    	<option id="category" name="category" vlaue="2">식품</option>
-                    	<option id="category" name="category" vlaue="11">  컵밥/국</option>
-                    	<option id="category" name="category" vlaue="12">  라면</option>
-                    	<option id="category" name="category" vlaue="31">    컵라면</option>
-                    	<option id="category" name="category" vlaue="32">    봉지라면</option>
-                    	<option id="category" name="category" vlaue="13">  냉동식품</option>
-                    	<option id="category" name="category" vlaue="33">    치킨</option>
-                    	<option id="category" name="category" vlaue="34">    피자</option>
-                    	<option id="category" name="category" vlaue="35">    만두</option>
-                    	<option id="category" name="category" vlaue="36">    돼지고기</option>
-                    	<option id="category" name="category" vlaue="14">  냉장식품</option>
-                    	<option id="category" name="category" vlaue="37">    가공식품</option>
-                    	<option id="category" name="category" vlaue="38">    안주</option>
-                    	<option id="category" name="category" vlaue="39">    식재료</option>
-                    	<option id="category" name="category" vlaue="3">과자류</option>
-                    	<option id="category" name="category" vlaue="15">  껌/사탕/초코</option>
-                    	<option id="category" name="category" vlaue="16">  박스과자</option>
-                    	<option id="category" name="category" vlaue="17">  봉지과자</option>
-                    	<option id="category" name="category" vlaue="4">아이스크림</option>
-                    	<option id="category" name="category" vlaue="18">  바</option>
-                    	<option id="category" name="category" vlaue="19">  콘</option>
-                    	<option id="category" name="category" vlaue="20">  컵</option>
-                    	<option id="category" name="category" vlaue="5">즉석식품</option>
-                    	<option id="category" name="category" vlaue="21">  튀김</option>
-                    	<option id="category" name="category" vlaue="22">  빵</option>
-                    	<option id="category" name="category" vlaue="6">음료</option>
-                    	<option id="category" name="category" vlaue="23">  유제품</option>
-                    	<option id="category" name="category" vlaue="24">  캔</option>
-                    	<option id="category" name="category" vlaue="25">  페트</option>
-                    	<option id="category" name="category" vlaue="26">  유리</option>
-
+                    <select name="categoryselect" id="category">                    
+                    	<option id="category" name="category" value="0" selected>카테고리</option>
+                    	<option id="category" name="category" value="1">간편식사</option>
+                    	<option id="category" name="category" value="7">-김밥</option>
+                    	<option id="category" name="category" value="27">--삼각김밥</option>
+                    	<option id="category" name="category" value="28">--원형김밥</option>
+                    	<option id="category" name="category" value="8">-도시락</option>
+                    	<option id="category" name="category" value="29">--고기</option>
+                    	<option id="category" name="category" value="30">--치킨</option>
+                    	<option id="category" name="category" value="9">-샌드위치</option>
+                    	<option id="category" name="category" value="10">-햄버거</option>
+                    	<option id="category" name="category" value="2">식품</option>
+                    	<option id="category" name="category" value="11">-컵밥/국</option>
+                    	<option id="category" name="category" value="12">-라면</option>
+                    	<option id="category" name="category" value="31">--컵라면</option>
+                    	<option id="category" name="category" value="32">--봉지라면</option>
+                    	<option id="category" name="category" value="13">-냉동식품</option>
+                    	<option id="category" name="category" value="33">--치킨</option>
+                    	<option id="category" name="category" value="34">--피자</option>
+                    	<option id="category" name="category" value="35">--만두</option>
+                    	<option id="category" name="category" value="36">--돼지고기</option>
+                    	<option id="category" name="category" value="14">-냉장식품</option>
+                    	<option id="category" name="category" value="37">--가공식품</option>
+                    	<option id="category" name="category" value="38">--안주</option>
+                    	<option id="category" name="category" value="39">--식재료</option>
+                    	<option id="category" name="category" value="3">과자류</option>
+                    	<option id="category" name="category" value="15">-껌/사탕/초코</option>
+                    	<option id="category" name="category" value="16">-박스과자</option>
+                    	<option id="category" name="category" value="17">-봉지과자</option>
+                    	<option id="category" name="category" value="4">아이스크림</option>
+                    	<option id="category" name="category" value="18">-바</option>
+                    	<option id="category" name="category" value="19">-콘</option>
+                    	<option id="category" name="category" value="20">-컵</option>
+                    	<option id="category" name="category" value="5">즉석식품</option>
+                    	<option id="category" name="category" value="21">-튀김</option>
+                    	<option id="category" name="category" value="22">-빵</option>
+                    	<option id="category" name="category" value="6">음료</option>
+                    	<option id="category" name="category" value="23">-유제품</option>
+                    	<option id="category" name="category" value="24">-캔</option>
+                    	<option id="category" name="category" value="25">-페트</option>
+                    	<option id="category" name="category" value="26">-유리</option>
                     </select>
                     <h4>가격대</h4>
-                    <input type="number" name="price1" min="0" step="500"> ~ <input type="number" name="price2" step="500">
+                    <input type="number" name="price1" min="0" step="500" value="0" > ~ <input type="number" name="price2" min="0" step="500" value="0">
                     <br><br>
                     <input type="submit"class="btn btn-success" value="검색">
                 </form>
@@ -113,10 +114,10 @@ $(function(){
                 <br><br>
 <script>
 $(".main-li").mouseenter(function(){
-	$(".buy-btn").css("display","block");
+	$(this).children(".buy-btn").css("display","block");
 });
 $(".main-li").mouseleave(function(){
-	$(".buy-btn").css("display","none");
+	$(this).children(".buy-btn").css("display","none");
 });
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

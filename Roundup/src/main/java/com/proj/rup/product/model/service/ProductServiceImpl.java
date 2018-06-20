@@ -1,6 +1,7 @@
 package com.proj.rup.product.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,5 +17,10 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Product> productSearch(String searchKeyword) {
 		return productDAO.productSearch(searchKeyword);
+	}
+
+	@Override
+	public List<Product> reSearch(Map<String, Object> map) {
+		return productDAO.reSearch(map);
 	}
 }
