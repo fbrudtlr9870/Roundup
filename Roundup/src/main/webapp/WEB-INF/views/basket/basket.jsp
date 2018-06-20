@@ -132,7 +132,7 @@ $(function() {
 	    		},
 				success:function(data) {
 					console.log(data);
-					location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
+					location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?member_id=${memberLoggedIn.member_id}";
 				},
 				error:function(jqxhr, textStatus, errorThrown) {
 	                  console.log("ajax처리실패!");

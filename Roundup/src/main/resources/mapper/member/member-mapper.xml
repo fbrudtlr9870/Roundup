@@ -5,7 +5,7 @@
 		INSERT INTO MEMBER 
 		VALUES(#{member_id},
 			   #{member_password},
-			   #{member_Name},
+			   #{member_name},
 			   #{member_gender},
 			   #{member_birthday},
 			   #{member_phone},
@@ -19,4 +19,16 @@
 	<select id="selectOneMember" resultMap="memberMap">
 		SELECT * FROM MEMBER WHERE MEMBER_ID = #{member_id}
 	</select>
+	
+	<select  id="checkIdDuplicate" resultType="_int">
+	SELECT COUNT(*) FROM MEMBER WHERE MEMBER_ID = #{member_id}
+	</select>
+	
+	<update id="updateMember">
+	UPDATE MEMBER SET MEMBER_NAME=#{member_name},
+					  MEMBER_EMAIL=#{member_email},
+					  MEMBER_GENDER=#{member_gender},
+					  MEMBER_PHONE=#{member_phone}
+	WHERE MEMBER_ID = #{member_id}
+	</update>
 </mapper>

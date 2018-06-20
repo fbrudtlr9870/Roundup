@@ -1,6 +1,7 @@
 package com.proj.rup.member.controller;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,14 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.proj.rup.member.model.service.MemberService;
 import com.proj.rup.member.model.vo.Member;
-import com.proj.rup.purchase.model.service.PurchaseService;
-import com.proj.rup.purchase.model.vo.PurchaseComplete;
 
 @SessionAttributes({"memberLoggedIn"})
 @Controller
@@ -29,8 +29,6 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
-	@Autowired
-	private PurchaseService purchaseService;
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
@@ -64,7 +62,7 @@ public class MemberController {
 		//2. 
 		String loc = "/";
 		String msg = "";
-		if(result>0) msg="회원가입성공!";
+		if(result>0) msg="회원가입성공";
 		else msg="회원가입실패";
 		
 		model.addAttribute("loc",loc);
@@ -95,8 +93,8 @@ public class MemberController {
 			msg = "존재하지 않는 아이디입니다.";
 		
 		else {
-		//if(bcryptPasswordEncoder.matches(member_password, m.getMember_password())) {
-		if(member_password.equals(m.getMember_password())) {
+		if(bcryptPasswordEncoder.matches(member_password, m.getMember_password())) {
+		//if(member_password.equals(m.getMember_password())) {
 			msg = "로그인성공!";
 			mav.addObject("memberLoggedIn", m);
 			/*mav.addObject("memberLoggedIn", m);*/
@@ -124,12 +122,26 @@ public class MemberController {
 		
 		return "redirect:/";
 	}
+	
+	@RequestMapping("member/checkIdDuplicate.do")
+	@ResponseBody
+	public Map<String,Object> checkIdDuplicate(@RequestParam("member_id") String member_id){
+		logger.debug("@ResponseBody-javaObj ajax : "+member_id);
+		Map<String,Object> map = new HashMap<String, Object>();
+		//업무로직
+		int count = memberService.checkIdDuplicate(member_id);
+		boolean isUsable = count==0?true:false;
+		
+		map.put("isUsable", isUsable);
+		
+		return map;
+	}			
 
 	@RequestMapping("/member/myPage.do")
-	public ModelAndView memberMypage(@RequestParam(value="memberId") String memberId) {
+	public ModelAndView memberMypage(@RequestParam(value="member_id") String member_id) {
 		ModelAndView mav = new ModelAndView();
-		System.out.println("memberId@myPage.do:"+memberId);
-		Member m = memberService.selectOneMember(memberId);
+		System.out.println("member_id@myPage.do:"+member_id);
+		Member m = memberService.selectOneMember(member_id);
 		System.out.println("member@myPage:"+m);
 		
 		//List<PurchaseComplete> pc = purchaseService.selectPCList(memberId);
@@ -138,6 +150,32 @@ public class MemberController {
 		mav.addObject("member",m);
 		//mav.addObject("purchaseComplete",pc);
 		mav.setViewName("member/myPage");
+
+		return mav;
+	}
+	
+	@RequestMapping("/member/memberUpdate.do")
+	public ModelAndView memberUpdate(Member member){
+		if(logger.isDebugEnabled())
+			logger.debug("회원정보 수정처리페이지");
+		
+		ModelAndView mav = new ModelAndView();
+		System.out.println(member);
+			
+		int result = memberService.updateMember(member);
+		
+		String loc = "/"; 
+		String msg = "";
+		if(result>0){ 
+			msg="회원정보수정성공!";
+			mav.addObject("memberLoggedIn", member);
+		}
+		else msg="회원정보수정실패!";
+		
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		
 		return mav;
 	}
 }

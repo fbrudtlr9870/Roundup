@@ -22,4 +22,14 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.selectOneMember(member_id);
 	}
 
+	@Override
+	public int checkIdDuplicate(String member_id) {
+		return memberDAO.checkIdDuplicate(member_id);
+	}
+
+	@Override
+	public int updateMember(Member member) {
+		return memberDAO.updateMember(member);
+	}
+
 }

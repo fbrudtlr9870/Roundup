@@ -78,7 +78,7 @@ public class ProductController {
 		System.out.println(price1+"~"+price2+"범위");
 		if(brand.length<2)
 			brand=new String[] {"CU","GS25","7ELEVEN","MINISTOP","EMART24"};
-		Map<String,Object> map=new HashMap<>();
+		Map<String,Object> map=new HashMap<String, Object>();
 		int categoryArr[]= {};
 		if(categoryselect==1) {
 			categoryArr= new int[]{1,7,8,9,10,27,28,29,30};			
