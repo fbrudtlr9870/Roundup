@@ -24,9 +24,21 @@
             <div class="nav-bar-wrapper">
                 <a href="${pageContext.request.contextPath }" class="nav-bar-logo">편의점마스터</a>
                 <ul class="nav-bar-site">
+<<<<<<< HEAD
                     <li class="nav-bar-site-li"><a href="manager/managerPage.do" style="color:black">회원관리</a></li>
                     <li class="nav-bar-site-li"><a href="basket.html" style="color:black">장바구니</a></li>
                     <li class="nav-bar-site-li">마이페이지</li>
+=======
+                    <li class="nav-bar-site-li">
+	                    <c:if test="${memberLoggedIn!=null}">
+	                    	<a href="${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}" style="color:black">장바구니</a>
+	                    </c:if>
+	                    <c:if test="${memberLoggedIn==null}">
+	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">장바구니</a>
+	                    </c:if>
+                    </li>
+                    <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/member/myPage.do?memberId=${memberLoggedIn.member_id }" style="color:black">마이페이지</a></li>
+>>>>>>> branch 'master' of https://github.com/fbrudtlr9870/Roundup.git
                     <li class="nav-bar-site-li">고객센터</li>
                 </ul>
                 <ul class="nav-bar-list">
@@ -38,53 +50,37 @@
                 </ul>
                 <fieldset class="nav-search">
 
-                        <div class="col-lg-6">
-                                <form action="${pageContext.request.contextPath }/product/productSearch.do">
-                                <div class="input-group">
-                                  <input type="text" class="form-control" placeholder="Search for..." name="searchKeyword">
-                                  <span class="input-group-btn">
-                                    <button class="btn btn-default" type="submit" value="Go!">Go!!</button>
-                                  </span>                                
-                                </div>
-                                </form>
-                              </div>
+                    <div class="col-lg-6">
+                       <form action="${pageContext.request.contextPath }/product/productSearch.do">
+                       <div class="input-group">
+                         <input type="text" class="form-control" placeholder="Search for..." name="searchKeyword">
+                         <span class="input-group-btn">
+                           <button class="btn btn-default" type="submit" value="Go!">Go!!</button>
+                         </span>                                
+                       </div>
+                       </form>
+                     </div>
                 </fieldset>
                 
 				<!-- 로그인 회원가입 -->
                <div class="nav-bar-btn">
-               <c:if test="${memberLoggedIn==null}">
-                    <button type="button" class="btn btn-outline-info"data-toggle="modal" 
-				    		data-target="#exampleModal">로그인</button>
-                    <button type="button" class="btn btn-outline-info"
-	                		 onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
-               </c:if>
+	               <c:if test="${memberLoggedIn==null}">
+	                  <button type="button" class="btn btn-outline-success" data-toggle="modal" 
+			    		data-target="#exampleModal">로그인</button>
+			    		&nbsp;
+	                  <button type="button" class="btn btn-outline-success"
+	               		 onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
+	               </c:if>
+	                <c:if test="${memberLoggedIn!=null }">
+				    <a href="#">${memberLoggedIn.member_name }</a>님, 안녕하세요
+				     <button class="btn btn-outline-success" type="button" onclick="location.href='${pageContext.request.contextPath}/member/memberLogout.do'">
+			    		로그아웃
+			    	</button>
+				    </c:if>
                 </div>
-				<%-- <div>
-	                <c:if test="${memberLoggedIn==null}">
-	                <button type="button" class="btn btn-outline-info"
-				    		data-toggle="modal" 
-				    		data-target="#exampleModal">로그인</button>
-				    &nbsp;
-	                <button type="button" class="btn btn-outline-info"
-	                		 onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
-	                </c:if>    --%>         
-				</div>
             </div>
         </nav>
-        <nav class="nav-list">
-            <div class="nav-list-wrapper">
-
-                    <ul class="nav nav-tabs nav-justified">
-                            <li role="presentation" class="active"><a href="#">카테고리</a></li>
-                            <li role="presentation"><a href="#">행사</a></li>
-                            <li role="presentation"><a href="notice.html">공지사항</a></li>
-                            <li role="presentation"><a href="./freeboard/freeBoardList.do">게시판</a></li>
-                            <li role="presentation"><a href="#">1:1문의</a></li>
-                    </ul>
-
-            </div>
-
-        </nav>
+        <!-- 여기있었으 -->
         <!-- 로그인 Modal 시작 -->
 		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog" role="document">
@@ -97,9 +93,9 @@
 		      </div>
 		      <form action="${pageContext.request.contextPath }/member/memberLogin.do" method="post">
 		      <div class="modal-body">
-		      	<input type="text" class="form-control" name="userId" id="userId" placeholder="아이디" required/>
+		      	<input type="text" class="form-control" name="member_id" id="member_id" placeholder="아이디" required/>
 		      	<br />
-		      	<input type="password" class="form-control" name="password" id="password" placeholder="비밀번호" required/>
+		      	<input type="password" class="form-control" name="member_password" id="member_password" placeholder="비밀번호" required/>
 		      </div>
 		      <div class="modal-footer">
 		        <button type="submit" class="btn btn-outline-primary">로그인</button>

@@ -18,4 +18,8 @@ public interface freeBoardService {
 
 	List<FreeBoardComment> selectfreeBoardCommentList(int no);
 
+	int totalCommentCount(int no);
+
+	int insertComment(FreeBoardComment fbc);
+
 }

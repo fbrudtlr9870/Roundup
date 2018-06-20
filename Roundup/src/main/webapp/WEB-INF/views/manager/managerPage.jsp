@@ -189,4 +189,6 @@ div.section_div-s table tr td{
 			</div>
         </div>
         <br><br>
+        
+        <script></script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

@@ -2,15 +2,21 @@ package com.proj.rup.freeboard.model.vo;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
+
+
+
+
 public class FreeBoardComment {
 	
 	private int comment_no;
 	private String member_id;
 	private int free_board_no;
 	private int parent_comment;
-	private String comment_content;
-	private Date comment_enrolldate;
-	private Date comment_update_date;
+	private String comment_content;	
+	private String comment_enrolldate;
+	private String comment_update_date;
 	private int comment_level;
 	
 	public FreeBoardComment() {
@@ -18,7 +24,7 @@ public class FreeBoardComment {
 	}
 
 	public FreeBoardComment(int comment_no, String member_id, int free_board_no, int parent_comment,
-			String comment_content, Date comment_enrolldate, Date comment_update_date, int comment_level) {
+			String comment_content, String comment_enrolldate, String comment_update_date, int comment_level) {
 		super();
 		this.comment_no = comment_no;
 		this.member_id = member_id;
@@ -78,19 +84,20 @@ public class FreeBoardComment {
 		this.comment_content = comment_content;
 	}
 
-	public Date getComment_enrolldate() {
+	
+	public String getComment_enrolldate() {
 		return comment_enrolldate;
 	}
 
-	public void setComment_enrolldate(Date comment_enrolldate) {
+	public void setComment_enrolldate(String comment_enrolldate) {
 		this.comment_enrolldate = comment_enrolldate;
 	}
 
-	public Date getComment_update_date() {
+	public String getComment_update_date() {
 		return comment_update_date;
 	}
 
-	public void setComment_update_date(Date comment_update_date) {
+	public void setComment_update_date(String comment_update_date) {
 		this.comment_update_date = comment_update_date;
 	}
 
