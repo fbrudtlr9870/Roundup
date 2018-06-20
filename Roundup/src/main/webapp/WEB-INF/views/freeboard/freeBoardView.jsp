@@ -223,6 +223,7 @@ $(function(){
 		html+='<p></p>';
 		
 		div.html(html);
+		console.log($(this).parent().prev().children(".comment-btn").val());
 		if(chk_comment_btn==false){
 		//생성된 노드를 페이지에 추가
 		$(this).parent().parent().parent().find("div.freeBoardView-comment.comment").remove();
