@@ -138,9 +138,14 @@ public class MemberController {
 		return map;
 	}
 	@RequestMapping("/member/memberView.do")
-	public ModelAndView memberView(@RequestParam String userId) {
+	public ModelAndView memberView(@RequestParam String member_id) {
 		if(logger.isDebugEnabled())
-			logger.debug("");
-		return null;
+			logger.debug("member_id=");
+		
+		ModelAndView mav = new ModelAndView(); 
+		mav.addObject("member",memberService.selectOneMember(member_id));	
+		mav.setViewName("member/memberView");
+		
+		return mav;
 	}
-	}
+}
