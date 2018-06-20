@@ -13,6 +13,8 @@ public interface ProductDAO {
 	void updateProduct(Product vo);
 	void insertProduct(Product vo);
 	void deleteProduct(int productId);
+
+	List<Product> getallProduct(String getAllProduct);
 	
 	
 }

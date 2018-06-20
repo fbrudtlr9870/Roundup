@@ -22,7 +22,7 @@ public class ProductDAOImpl implements ProductDAO {
 	@Autowired
 	private SqlSessionTemplate session;
     
-    //상품목록
+	//상훈 오빠가 추가한것
 	@Override
 	public List<Product> productSearch(String searchKeyword) {
 		return session.selectList("product.productSearch", searchKeyword);
@@ -48,6 +48,12 @@ public class ProductDAOImpl implements ProductDAO {
     public String fileInfo(int productId) {
         return sqlSession.selectOne("product.fileInfo",productId);
     }
+
+	@Override
+	public List<Product> getallProduct(String getAllProduct) {
+		//아직 여기에 뭘 삽입할지 모르겠음
+		return null;
+	}
 
 	
 

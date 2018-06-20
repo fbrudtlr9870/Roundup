@@ -15,6 +15,8 @@ public interface ProductService<ProductVO> {
 	void deleteProduct(int productId);
 
 	String fileInfo(int productId);
+	
+	
 }
 
 
