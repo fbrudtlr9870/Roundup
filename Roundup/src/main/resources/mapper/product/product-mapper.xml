@@ -8,7 +8,7 @@
 	and p.brand_no=b.brand_no 
 	and p.product_no=pf.product_no 
 	and pc.category_no=c.category_no 
-	and p.product_name like '%'||#{searchKeyword}||'%' 
+	and p.product_name like upper('%'||#{searchKeyword}||'%') 
 	order by p.price
 	</select>
 	<resultMap type="product" id="search" >
@@ -36,7 +36,7 @@
 	and p.brand_no=b.brand_no 
 	and p.product_no=pf.product_no 
 	and pc.category_no=c.category_no 
-	and p.product_name like '%'||#{searchKeyword}||'%'
+	and p.product_name like upper('%'||#{searchKeyword}||'%') 
 		<if test="brand!=null">
 			and b.brand_name in
 			<foreach collection="brand" item="item" open="(" close=")" separator=",">
