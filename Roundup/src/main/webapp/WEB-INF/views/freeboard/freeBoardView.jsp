@@ -123,7 +123,7 @@ div.freeBoardView-comment.write button{
 	<div class="freeBoardView-comment">
 		<c:if test="${listc!=null }">
 			<c:forEach items="${listc }" var="fc" >
-			<c:if test="${fc['comment_level']==1 }">
+				<c:if test="${fc['comment_level']==1 }">
 				<div class="freeBoardView-comment read">
 					<div class="freeBoardView-comment read title">
 						<span style="font-weight:bold;">${fc['member_id'] }</span>
@@ -136,16 +136,18 @@ div.freeBoardView-comment.write button{
 				</div>
 			</c:if>
 			<c:if test="${fc['comment_level']==2 }">
+			<div class="${fc['parent_comment'] }">
 				<div class="freeBoardView-comment read level2">
 					<div class="freeBoardView-comment read title">
 						<span style="font-weight:bold;">ㄴ${fc['member_id'] }</span>
 						<span>${fc['comment_enrolldate'] }</span>
-						<button class="comment-btn" value="${fc['comment_no'] }">답글</button>
+						<button class="comment-btn" value="${fc['parent_comment'] }">답글</button>
 					</div>
 					<p>
 						<span style="padding-left:13px;">${fc['comment_content'] }</span>
 					</p>
 				</div>
+			</div>
 			</c:if>
 			</c:forEach>
 			<div class="freeBoardView-comment write">
@@ -211,6 +213,8 @@ $(function(){
 		});
 		
 	});	
+	
+	//대댓글 관련 부분 
 
 	$(document).on('click','.comment-btn',function(){
 		var div = $("<div style='border-bottom:1px dotted white;' class='freeBoardView-comment comment'></div>");
@@ -221,17 +225,16 @@ $(function(){
 		html+='<input type="hidden" name="comment_level_c" value="2" />';
 		html+='<textarea name="comment_content_c" cols="30" rows="10"></textarea></form>';
 		html+='<p></p>';
-		
+		console.log($(this).prop('tagName'));
 		div.html(html);
-		console.log($(this).parent().prev().children(".comment-btn").val());
 		if(chk_comment_btn==false){
 		//생성된 노드를 페이지에 추가
-		$(this).parent().parent().parent().find("div.freeBoardView-comment.comment").remove();
+		$(".freeBoardView-comment.comment").remove();
 		div.insertAfter($(this).parent().parent()).next().slideDown(800);
 		chk_comment_btn=true;
 				
 		} else{
-			$(this).parent().parent().parent().find("div.freeBoardView-comment.comment").remove();
+			$(".freeBoardView-comment.comment").remove();
 			chk_comment_btn=false;
 			div.insertAfter($(this).parent().parent()).next().slideDown(800);
 		}		
@@ -250,7 +253,6 @@ $(function(){
 		var free_board_no = $("[name=free_board_no_c]").val().trim();
 		var parent_comment = $("[name=parent_comment_c]").val().trim();
 		var comment_level = $("[name=comment_level_c]").val().trim();
-		
 		console.log(member_id+','+free_board_no+','+parent_comment+','+comment_level);
 		
 		$.ajax({
@@ -265,30 +267,32 @@ $(function(){
 			dataType:"json",
 			success:function(data){
 				console.log(data);
-				var html='<div class="freeBoardView-comment read level2">';
+				var html='<div class="'+parent_comment+'">';
 				for(var index in data){
 					var bc=data[index];
 					if(index=='fbc'){
+					html+='<div class="freeBoardView-comment read level2">';
 					html+= '<div class="freeBoardView-comment read title">';
 					html+= '<span style="font-weight:bold;">ㄴ'+bc["member_id"]+'</span>';
 					html+= '<span> '+bc["comment_enrolldate"]+'</span>'
-					html+='<button class="comment-btn" value="'+bc["comment_no"]+'">답글</button></div>';
-					html+='<p><span style="padding-left:13px;">'+bc["comment_content"]+'</span></p></div>';
+					html+='<button class="comment-btn" value="'+bc["parent_comment"]+'">답글</button></div>';
+					html+='<p><span style="padding-left:13px;">'+bc["comment_content"]+'</span></p></div></div>';
 					}
 					if(index=='count'){
 						$("#comment_count").html("댓글"+bc+"개");
 					}
 				}
-				
-				if($(this).next(".freeBoardView-comment.read.level2").length){
-					$(html).insertAfter(".freeBoardView-comment.read.level2:last-child");
+				if($('.'+parent_comment).length){
 					$(".freeBoardView-comment.comment").remove();
-					console.log("asdasd");
+					console.log("1");
+					$(html).insertAfter($('.'+parent_comment+':last').children(".freeBoardView-comment.read.level2:last"));
 				}else{
-					$(html).insertBefore(".freeBoardView-comment.comment");
 					$(".freeBoardView-comment.comment").remove();
-					console.log("test");
+					console.log("2");
+					$(html).insertBefore(".freeBoardView-comment.comment");
 				}
+				
+				
 			},	
 			error:function(jqxhr,textStatus, errorThrown){
 				console.log("ajax실패",jqxhr,textStatus, errorThrown);
