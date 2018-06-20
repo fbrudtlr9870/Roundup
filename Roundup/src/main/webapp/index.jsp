@@ -19,6 +19,17 @@ $(function(){
     });
 })
 </script>
+<nav class="nav-list">
+     <div class="nav-list-wrapper">
+           <ul class="nav nav-tabs nav-justified">
+               <li role="presentation" class="active"><a href="#">카테고리</a></li>
+               <li role="presentation"><a href="#">행사</a></li>
+               <li role="presentation"><a href="notice.html">공지사항</a></li>
+               <li role="presentation"><a href="./freeboard/freeBoardList.do">게시판</a></li>
+               <li role="presentation"><a href="#">1:1문의</a></li>
+           </ul>
+     </div>
+ </nav>
     <div class="main-img-wrapper">
             <div class="main-img">
                 <div class="main-category">

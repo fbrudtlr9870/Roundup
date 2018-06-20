@@ -132,8 +132,12 @@ public class MemberController {
 		Member m = memberService.selectOneMember(memberId);
 		System.out.println("member@myPage:"+m);
 		
-		List<PurchaseComplete> pc = purchaseService.selectPCList(memberId);
+		//List<PurchaseComplete> pc = purchaseService.selectPCList(memberId);
+		//logger.debug("purchaseComplete@memberController pc:"+pc);
 		
+		mav.addObject("member",m);
+		//mav.addObject("purchaseComplete",pc);
+		mav.setViewName("member/myPage");
 		return mav;
 	}
 }

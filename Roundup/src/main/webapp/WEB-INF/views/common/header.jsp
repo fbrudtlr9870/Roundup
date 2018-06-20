@@ -67,20 +67,7 @@
                 </div>
             </div>
         </nav>
-        <nav class="nav-list">
-            <div class="nav-list-wrapper">
-
-                    <ul class="nav nav-tabs nav-justified">
-                            <li role="presentation" class="active"><a href="#">카테고리</a></li>
-                            <li role="presentation"><a href="#">행사</a></li>
-                            <li role="presentation"><a href="notice.html">공지사항</a></li>
-                            <li role="presentation"><a href="./freeboard/freeBoardList.do">게시판</a></li>
-                            <li role="presentation"><a href="#">1:1문의</a></li>
-                    </ul>
-
-            </div>
-
-        </nav>
+        <!-- 여기있었으 -->
         <!-- 로그인 Modal 시작 -->
 		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog" role="document">
