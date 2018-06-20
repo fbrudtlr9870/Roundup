@@ -40,10 +40,13 @@
                     <div class="col-lg-6">
                        <form action="${pageContext.request.contextPath }/product/productSearch.do">
                        <div class="input-group">
-                         <input type="text" class="form-control" placeholder="Search for..." name="searchKeyword">
+                         <input type="text" class="form-control" id="productKey" placeholder="Search for..." name="searchKeyword">
                          <span class="input-group-btn">
                            <button class="btn btn-default" type="submit" value="Go!">Go!!</button>
-                         </span>                                
+                         </span><br />       
+                          <div id="autoDiv">
+                          	<ul id="autoComplete"></ul>
+                          </div>                        
                        </div>
                        </form>
                      </div>
@@ -108,3 +111,22 @@
 		<!-- 로그인 Modal 끝 -->
 
 	<section>
+<script>
+$(function(){
+	//$("#autoComplete").hide();
+	$("#productKey").on("keyup",function(){
+		var autoKeyword=$(this).val();
+		$.ajax({
+			url:"${pageContext.request.contextPath}/product/autoComplete.do",
+			data:{autoKeyword:autoKeyword},
+			dataType:"json",
+			success:function(data){
+				console.log(data);//true/false가 넘어온다. 
+				
+			},error:function(jqxhr,textStatus,errorThrown){
+				console.log("ajax실패",jqxhr,textStatus,errorThrown);
+			}
+		});
+	});
+});
+</script>

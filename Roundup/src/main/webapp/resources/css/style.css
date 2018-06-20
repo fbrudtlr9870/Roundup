@@ -1,5 +1,17 @@
 @CHARSET "UTF-8";
-
+/*검색키워드 자동완성*/
+div#autoDiv{
+	min-width:365px;
+	min-height:30px;
+	border:1px solid gray;
+	display:inline-block;
+	padding:0;
+	margin:0;
+	background:yellow;
+	position:absolute;
+	right:54px;
+	bottom:-25px;
+}
 /* 없는듯 하여 추가해봅니다-상현 */
 div.blog-container{
     width:980px;
