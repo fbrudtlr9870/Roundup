@@ -43,7 +43,7 @@ public class FreeBoardComment {
 		return "FreeBoardComment [comment_no=" + comment_no + ", member_id=" + member_id + ", free_board_no="
 				+ free_board_no + ", parent_comment=" + parent_comment + ", comment_content=" + comment_content
 				+ ", comment_enrolldate=" + comment_enrolldate + ", comment_update_date=" + comment_update_date
-				+ ", comment_level=" + comment_level + "]";
+				+ ", comment_level=" + comment_level +", parent_id="+parent_id+"]";
 	}
 
 	public int getComment_no() {
