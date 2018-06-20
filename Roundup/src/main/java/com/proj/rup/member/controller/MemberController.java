@@ -1,6 +1,6 @@
 package com.proj.rup.member.controller;
 
-import javax.servlet.http.HttpSession;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.service.MemberService;
+import com.proj.rup.member.model.vo.Member;
+import com.proj.rup.purchase.model.service.PurchaseService;
+import com.proj.rup.purchase.model.vo.PurchaseComplete;
 
 @SessionAttributes({"memberLoggedIn"})
 @Controller
@@ -26,6 +28,9 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private PurchaseService purchaseService;
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
@@ -120,4 +125,19 @@ public class MemberController {
 		return "redirect:/";
 	}
 
+	@RequestMapping("/member/myPage.do")
+	public ModelAndView memberMypage(@RequestParam(value="memberId") String memberId) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println("memberId@myPage.do:"+memberId);
+		Member m = memberService.selectOneMember(memberId);
+		System.out.println("member@myPage:"+m);
+		
+		//List<PurchaseComplete> pc = purchaseService.selectPCList(memberId);
+		//logger.debug("purchaseComplete@memberController pc:"+pc);
+		
+		mav.addObject("member",m);
+		//mav.addObject("purchaseComplete",pc);
+		mav.setViewName("member/myPage");
+		return mav;
+	}
 }

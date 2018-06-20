@@ -9,6 +9,8 @@ public class FreeBoard {
 	private String free_comment;
 	private Date free_reg_date;
 	private String free_board_title;
+	//게시물 별 댓글 개수
+	private int bc_count;
 	
 	public FreeBoard() {
 		super();
@@ -69,5 +71,15 @@ public class FreeBoard {
 	public void setFree_board_title(String free_board_title) {
 		this.free_board_title = free_board_title;
 	}
+
+	public int getBc_count() {
+		return bc_count;
+	}
+
+	public void setBc_count(int bc_count) {
+		this.bc_count = bc_count;
+	}
+	
+	
 	
 }

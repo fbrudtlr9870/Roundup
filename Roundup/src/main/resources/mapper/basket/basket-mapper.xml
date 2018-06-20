@@ -2,10 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="basket">
 
-<select id="selectBasketList" resultType="basket">
-<!-- 	select * from basket where memberId=#{memberId} -->
-	select * from basket
+<select id="selectBasketList" resultType="basketProduct">
+	select * from basket b join product p on b.product_no = p.product_no left join product_file f on p.product_no = f.product_no where b.member_id = #{member_Id} 
 </select>
 
-
+<delete id="deleteBasket">
+	delete from basket where basket_no = #{basketNo}
+</delete>
 </mapper>
