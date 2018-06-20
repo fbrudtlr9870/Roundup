@@ -116,7 +116,7 @@ div.freeBoardView-comment.write button{
 		<br />
 			<div class="freeBoardView-comment write">
 				<textarea name="pcomment_content" cols="30" rows="10"></textarea>
-				<button>등록</button>
+				<button id="insertComment">등록</button>
 			</div>
 	</div>
 	</c:if>
@@ -141,9 +141,10 @@ div.freeBoardView-comment.write button{
 					<div class="freeBoardView-comment read title">
 						<span style="font-weight:bold;">ㄴ${fc['member_id'] }</span>
 						<span>${fc['comment_enrolldate'] }</span>
+						<input type="hidden" id="parentId" value="${fc['parent_id'] }" />
 						<button class="comment-btn" value="${fc['parent_comment'] }">답글</button>
 					</div>
-					<p>
+					<p>					
 						<span style="padding-left:13px;">${fc['comment_content'] }</span>
 					</p>
 				</div>
@@ -152,11 +153,11 @@ div.freeBoardView-comment.write button{
 			</c:forEach>
 			<div class="freeBoardView-comment write">
 				<textarea name="pcomment_content" cols="30" rows="10"></textarea>
-				<input type="hidden" name="member_id" value="${fboard['member_id'] }" />
+				<input type="hidden" name="member_id_t" value="${memberLoggedIn.member_id }" />
 				<input type="hidden" name="free_board_no" value="${fboard['free_board_no'] }" />
 				<input type="hidden" name="parent_comment" value="0" />
 				<input type="hidden" name="comment_level" value="1" />
-				<button type="submit" id="insertComment">등록</button>
+				<button id="insertComment">등록</button>
 			</div>
 		</c:if>
 	</div>
@@ -173,18 +174,21 @@ $(function(){
 			alert("댓글을 입력하셔야 합니다.");
 		}
 		
-		var member_id = $("[name=member_id]").val().trim();
+		var member_id = $("[name=member_id_t]").val().trim();
 		var free_board_no = $("[name=free_board_no]").val().trim();
 		var parent_comment = $("[name=parent_comment]").val().trim();
 		var comment_level = $("[name=comment_level]").val().trim();
+		var parent_id=null;
 		
 		$.ajax({
 			url:"insertComment.do",
-			data:{member_id:member_id,
+			data:{
+				  member_id:member_id,
 				  free_board_no:free_board_no,
 				  parent_comment:parent_comment,
 				  comment_level:comment_level,
-				  comment_content:pcomment_content
+				  comment_content:pcomment_content,
+				  parent_id:parent_id
 			},
 			method:"POST",
 			dataType:"json",
@@ -197,6 +201,7 @@ $(function(){
 					html+= '<div class="freeBoardView-comment read title">';
 					html+= '<span style="font-weight:bold;">'+bc["member_id"]+'</span>';
 					html+= '<span> '+bc["comment_enrolldate"]+'</span>'
+					html+= '<input type="hidden" id="parentId" value="'+member_id+'" />'
 					html+='<button class="comment-btn" value="'+bc["comment_no"]+'">답글</button></div>';
 					html+='<p><span>'+bc["comment_content"]+'</span></p></div>';
 					}
@@ -219,10 +224,11 @@ $(function(){
 	$(document).on('click','.comment-btn',function(){
 		var div = $("<div style='border-bottom:1px dotted white;' class='freeBoardView-comment comment'></div>");
 		var html='<button id="insertCommentComment">답글</button>';
-		html+='<input type="hidden" name="member_id_c" value="${fboard['member_id']}" />';
+		html+='<input type="hidden" name="member_id_c" value="${memberLoggedIn.member_id }" />';
 		html+='<input type="hidden" name="free_board_no_c" value="${fboard['free_board_no']}" />';
 		html+='<input type="hidden" name="parent_comment_c" value="'+$(this).val()+'" />';
 		html+='<input type="hidden" name="comment_level_c" value="2" />';
+		html+='<input type="hidden" id="parentId" value="'+$(this).prev().val()+'" />';
 		html+='<textarea name="comment_content_c" cols="30" rows="10"></textarea></form>';
 		html+='<p></p>';
 		console.log($(this).prop('tagName'));
@@ -253,6 +259,8 @@ $(function(){
 		var free_board_no = $("[name=free_board_no_c]").val().trim();
 		var parent_comment = $("[name=parent_comment_c]").val().trim();
 		var comment_level = $("[name=comment_level_c]").val().trim();
+		
+		var parent_id = $("#parentId").val().trim();
 		console.log(member_id+','+free_board_no+','+parent_comment+','+comment_level);
 		
 		$.ajax({
@@ -261,7 +269,8 @@ $(function(){
 				  free_board_no:free_board_no,
 				  parent_comment:parent_comment,
 				  comment_level:comment_level,
-				  comment_content:comment_content
+				  comment_content:comment_content,
+				  parent_id:parent_id
 			},
 			method:"POST",
 			dataType:"json",
@@ -276,7 +285,7 @@ $(function(){
 					html+= '<span style="font-weight:bold;">ㄴ'+bc["member_id"]+'</span>';
 					html+= '<span> '+bc["comment_enrolldate"]+'</span>'
 					html+='<button class="comment-btn" value="'+bc["parent_comment"]+'">답글</button></div>';
-					html+='<p><span style="padding-left:13px;">'+bc["comment_content"]+'</span></p></div></div>';
+					html+='<p><span style="padding-left:13px;"><span style="font-weight:bold;">'+member_id+' </span>'+bc["comment_content"]+'</span></p></div></div>';
 					}
 					if(index=='count'){
 						$("#comment_count").html("댓글"+bc+"개");
