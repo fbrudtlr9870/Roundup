@@ -112,13 +112,50 @@ div.section_div-s table tr td{
 
 .imsosotired2{
 	font-weight: bold;
+	padding-bottom: 10px;
 }
+
+.btnfordh{
+     display: inline-block;
+    padding: 6px 50px;
+ 
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+	vertical-align:middle;
+  
+}
+.btnfordhout{
+	width: 100%;
+	text-align: center;
+	
+}
+#btnfordhin{
+	display:inline-block;
+	
+   	width: 50%;
+	
+}
+
 </style>
 
 
         <br><br>
         <h2 class="imsosotired">회원관리</h2>
-        
+        <br />
        
         <div class="main-li-container">
       
@@ -149,23 +186,13 @@ div.section_div-s table tr td{
                     <td>${m.member_phone }</td>
                     <td>${m.member_email }</td>
                     <td>${m.member_enrollDate }</td>
-                    <td><select name="changeGrade" id="changeGrade" class="changeGrade">
-                    <option id="changeGrade" value="${m.member_grade }" selected disabled>${m.member_grade }</option>
-                    <option id="changeGrade" value="G">G</option>
-                    <option id="changeGrade" value="A">A</option>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    </select></td>
+                    <td>${m.member_grade }</td>
                     
                 </tr>
                 </c:forEach>
                 
             </table>
+            
             <!-- 페이지바 -->
 	<%
 		int totalContents = Integer.parseInt(String.valueOf(request.getAttribute("totalContents")));
@@ -187,8 +214,10 @@ div.section_div-s table tr td{
 			  </div>
 			  
 			</div>
+			
+			       
+			
         </div>
-        <br><br>
-        
-        <script></script>
+        <br><br><br>
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
