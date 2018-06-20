@@ -125,6 +125,7 @@ div.freeBoardView-comment.write button{
 			<c:forEach items="${listc }" var="fc" >
 			<c:if test="${fc['comment_level']==1 }">
 				<div class="freeBoardView-comment read">
+					<input type="hidden" name="${fc['comment_no'] }" />
 					<div class="freeBoardView-comment read title">
 						<span style="font-weight:bold;">${fc['member_id'] }</span>
 						<span>${fc['comment_enrolldate'] }</span>
@@ -137,6 +138,7 @@ div.freeBoardView-comment.write button{
 			</c:if>
 			<c:if test="${fc['comment_level']!=1 }">
 				<div class="freeBoardView-comment read level2">
+				<input type="hidden" name="${fc['comment_no'] }" />
 					<div class="freeBoardView-comment read title">
 						<span style="font-weight:bold;">ㄴ${fc['member_id'] }</span>
 						<span>${fc['comment_enrolldate'] }</span>
@@ -202,7 +204,14 @@ $(function(){
 						$("#comment_count").html("댓글"+bc+"개");
 					}
 				}
-				$(html).insertBefore(".freeBoardView-comment.write");
+				
+				console.log($(this).parent().prev());
+				if($(this).parent().prev().length>0){
+					console.log("레벨2 존재 ");
+				}else{
+					console.log("레벨2 미존재");
+					$(html).insertBefore(".freeBoardView-comment.write");
+				}
 				
 			},
 			error:function(jqxhr,textStatus, errorThrown){
@@ -215,7 +224,7 @@ $(function(){
 	$(document).on('click','.comment-btn',function(){
 		if(chk_comment_btn==false){
 		var div = $("<div style='border-bottom:1px dotted white;' class='freeBoardView-comment comment'></div>");
-		var html='<button type="submit">답글</button>';
+		var html='<button id="insertCommentComment">답글</button>';
 		html+='<input type="hidden" name="member_id" value="${fboard['member_id']}" />';
 		html+='<input type="hidden" name="free_board_no" value="${fboard['free_board_no']}" />';
 		html+='<input type="hidden" name="parent_comment" value="'+$(this).val()+'" />';
@@ -228,42 +237,13 @@ $(function(){
 		div.insertAfter($(this).parent().parent()).next().slideDown(800);
 
 		chk_comment_btn=true;
-		
-		//이벤트핸들러 추가
-		div.find('form').submit(function(e){
-			/*if(){
-				fn_loginAlert();
-				e.preventDefault();
-				return;
-			}*/
-			var len = $(this).children("textarea").val().trim().length;
-			if(len == 0) {
-				alert("댓글을 입력하세요.");
-				e.preventDefault();
-			}
-		});
-		
-		
+				
 		} else{
 			$(this).parent().parent().parent().find("div.freeBoardView-comment.comment").remove();
 			chk_comment_btn=false;
 		}
 		
 		
-	});
-	
-	//boardCommentFrm폼 유효성검사
-	$("[name=boardCommentFrm]").submit(function(e){
-		/*if(){
-			fn_loginAlert();
-			e.preventDefault();
-			return;
-		*/
-		var len = $("[name=comment_content]").val().trim().length;
-		if(len ==0) {
-			alert("댓글을 입력하세요.");
-			e.preventDefault();
-		}
 	});
 	
 	
