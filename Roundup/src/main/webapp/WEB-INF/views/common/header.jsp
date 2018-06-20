@@ -112,8 +112,9 @@ $(document).ready(function(){
 	    		event.preventDefault();
 	    	if($("#autoComplete").children().hasClass("sel")) //엔터누르면 해당값 받아오게하기위해 엔터불가
 	    		event.preventDefault();
-	    	if($("#autoComplete").children().length==0&&!($("#productKey").val().trim().length>=1)) //리스트에 없으면 검색불가
-	    		event.preventDefault();
+	    	/* if(!($("#autoComplete").children().length==0 && (!($("#productKey").val().trim().length>=1)))) //리스트에 없으면 막으려했는데 불린값이 멋대로 바뀜
+	    		event.preventDefault(); */
+			
 	    }
 	});
 	$("#autoComplete").hide();
