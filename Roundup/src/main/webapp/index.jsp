@@ -8,7 +8,7 @@
 	<jsp:param value="메인" name="pageTitle"/>
 </jsp:include>
 <script>
-/* master병합 2018.06.18. 09:25 */
+/* master병합 2018.06.20. 09:15 */
 $(function(){
     $(".main-li").hover(function(){
         $(this).css("border","1px solid black");
@@ -19,6 +19,17 @@ $(function(){
     });
 })
 </script>
+<nav class="nav-list">
+     <div class="nav-list-wrapper">
+           <ul class="nav nav-tabs nav-justified">
+               <li role="presentation" class="active"><a href="#">카테고리</a></li>
+               <li role="presentation"><a href="#">행사</a></li>
+               <li role="presentation"><a href="notice.html">공지사항</a></li>
+               <li role="presentation"><a href="./freeboard/freeBoardList.do">게시판</a></li>
+               <li role="presentation"><a href="#">1:1문의</a></li>
+           </ul>
+     </div>
+ </nav>
     <div class="main-img-wrapper">
             <div class="main-img">
                 <div class="main-category">
@@ -43,7 +54,7 @@ $(function(){
                     <li class="main-li">
                             <img src="${pageContext.request.contextPath}/resources/img/test1.png">
                             <div class="buy-btn">
-                                <button type="button" class="btn btn-primary"><a href="basket.html" style="color:white">장바구니</a></button> &nbsp;
+                                <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
                                 <button type="button" class="btn btn-success">구매</button>
                             </div>
                             <div class="ptext">GS25</div>

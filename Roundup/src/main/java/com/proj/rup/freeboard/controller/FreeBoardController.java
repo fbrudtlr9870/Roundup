@@ -1,7 +1,6 @@
 package com.proj.rup.freeboard.controller;
 
 
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +44,7 @@ public class FreeBoardController {
 		
 		//2. 페이지바처리를 위한 전체컨텐츠 수 구하기
 		int pcount = freeboardService.selectfreeBoardListCount();
-		
+			
 		mav.addObject("count", pcount);
 		mav.addObject("numPerPage", numPerPage);
 		mav.addObject("list", list);
@@ -79,23 +78,23 @@ public class FreeBoardController {
 		return mav;
 	}
 	
-	//자유게시판 댓글(레벨1)입력
+	//자유게시판 댓글입력
 	@RequestMapping(value="/freeboard/insertComment.do",method=RequestMethod.POST,produces="application/json; charset=utf8")
 	@ResponseBody
 	public Map<String,Object> insertComment(
 											@RequestParam(value="member_id")String member_id,
+											@RequestParam(value="parent_id")String parent_id,
 											@RequestParam(value="free_board_no")int free_board_no,
 											@RequestParam(value="parent_comment")int parent_comment,
 											@RequestParam(value="comment_level")int comment_level,
 											@RequestParam(value="comment_content")String comment_content){
 		
 		
-		
-		
 		Map<String,Object> map = new HashMap<>();
 		
+		
 		FreeBoardComment fbc = 
-				new FreeBoardComment(0,member_id,free_board_no,parent_comment,comment_content,null,null,comment_level);
+				new FreeBoardComment(0,member_id,free_board_no,parent_comment,comment_content,null,null,comment_level,parent_id);
 		
 		logger.debug("fbc="+fbc);
 		
