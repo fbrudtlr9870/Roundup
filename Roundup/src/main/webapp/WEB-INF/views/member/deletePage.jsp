@@ -53,6 +53,7 @@ div#update-container{
 		<input type="submit" value="수정" class="btn btn-outline-success" /> 
 		<input type="reset" value="취소" class="btn btn-outline-success">
 		<input type="button" value="삭제" class="btn btn-outline-success" onclick="">
+		<br><br>
 		</form>
 	</div>
 </div>

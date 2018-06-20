@@ -95,7 +95,7 @@ public class MemberController {
 		else {
 		if(bcryptPasswordEncoder.matches(member_password, m.getMember_password())) {
 		//if(member_password.equals(m.getMember_password())) {
-			msg = "로그인성공!";
+			msg = "로그인성공";
 			mav.addObject("memberLoggedIn", m);
 			/*mav.addObject("memberLoggedIn", m);*/
 		}

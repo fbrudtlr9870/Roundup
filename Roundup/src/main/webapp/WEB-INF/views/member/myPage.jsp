@@ -31,7 +31,7 @@ div#update-container{
 	<br/>
 	<h4>회원정보</h4>
 	</br>
-		<form action="${pageContext.request.contextPath}/member/memberUpdate.do " method="post" name="memberUpdateFrm">
+		<form action="${pageContext.request.contextPath}/member/memberUpdate.do" method="post" name="memberUpdateFrm">
 			<div id="userId-container">
 				<input type="text" name="member_id" id=member_id_ class="input form-control" value="${member.member_id }" required/>
 			</div>
@@ -52,7 +52,8 @@ div#update-container{
 			<br/>
 		<input type="submit" value="수정" class="btn btn-outline-success" /> 
 		<input type="reset" value="취소" class="btn btn-outline-success">
-		<input type="reset" value="삭제" class="btn btn-outline-success">
+		<input type="button" value="삭제" class="btn btn-outline-success">
+		<br><br><br>
 		</form>
 	</div>
 </div>

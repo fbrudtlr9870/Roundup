@@ -32,7 +32,12 @@
 	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">장바구니</a>
 	                    </c:if>
                     </li>
-                    <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/member/myPage.do?member_id=${memberLoggedIn.member_id }" style="color:black">마이페이지</a></li>
+                    <c:if test="${memberLoggedIn!=null}">
+                    	<li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/member/myPage.do?member_id=${memberLoggedIn.member_id }" style="color:black">마이페이지</a></li>
+                    </c:if>
+                    <c:if test="${memberLoggedIn==null}">
+	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">마이페이지</a>
+	                    </c:if>
                     <li class="nav-bar-site-li">고객센터</li>
                 </ul>
                 <ul class="nav-bar-list">
