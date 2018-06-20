@@ -202,4 +202,20 @@ public class ProductController {
         mav.setViewName("product/productSearch");
 		return mav;
 	}
+	
+	
+	
+	
+	
+	
+	
+	//상품등록
+	@RequestMapping("/product/productEnroll.do")
+	public ModelAndView pruductEnroll() {
+		ModelAndView mav = new ModelAndView();
+		
+		
+		mav.setViewName("product/productEnroll");
+		return mav;
+	}
 }

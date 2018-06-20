@@ -142,7 +142,7 @@ div.section_div-s table tr td{
             <br>
             <span>이전</span><span>1 2 3 4 5</span><span>다음</span>
         </div>
-    
+    	<a href="${pageContext.request.contextPath }/product/productEnroll.do">상품등록페이지</a>
   </div>
   
 </div>
