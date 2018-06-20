@@ -12,4 +12,6 @@ public interface MemberDAO {
 
 	int updateMember(Member member);
 
+	int deleteMember(Member member);
+
 }

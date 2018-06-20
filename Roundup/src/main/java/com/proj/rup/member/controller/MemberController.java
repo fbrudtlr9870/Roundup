@@ -178,4 +178,29 @@ public class MemberController {
 		
 		return mav;
 	}
+	
+	@RequestMapping("/member/memberDelete.do")
+	public ModelAndView memberDelete(Member member) {
+		if(logger.isDebugEnabled())
+			logger.debug("회원정보 삭제 페이지");
+		
+		ModelAndView mav = new ModelAndView();
+		System.out.println(member);
+			
+		int result = memberService.deleteMember(member);
+		
+		String loc = "/"; 
+		String msg = "";
+		if(result>0){ 
+			msg="회원정보삭제성공!";
+			mav.addObject("memberLoggedIn", member);
+		}
+		else msg="회원정보삭제실패ㅠ";
+		
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		
+		return mav;
+	}
 }

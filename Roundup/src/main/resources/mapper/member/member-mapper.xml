@@ -31,4 +31,8 @@
 					  MEMBER_PHONE=#{member_phone}
 	WHERE MEMBER_ID = #{member_id}
 	</update>
+	
+	<delete id="deleteMember">
+	DELETE FROM MEMBER WHERE MEMBER_ID=#{member_id}
+	</delete>
 </mapper>
