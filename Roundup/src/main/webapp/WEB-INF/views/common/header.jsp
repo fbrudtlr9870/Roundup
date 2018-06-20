@@ -104,10 +104,20 @@
 
 	<section>
 <script>
-$(function(){
+$(document).ready(function(){
+	//입력할 때 엔터값 막기 
+	$("#productKey").keydown(function(event) {	
+	    if (event.keyCode === 13) {
+	    	if(!($("#productKey").val().trim().length>=1))//글자수 0일때 엔터불가
+	    		event.preventDefault();
+	    	if($("#autoComplete").children().hasClass("sel")) //엔터누르면 해당값 받아오게하기위해 엔터불가
+	    		event.preventDefault();
+	    	if($("#autoComplete").children().length==0) //리스트에 없으면 검색불가
+	    		event.preventDefault();
+	    }
+	});
 	$("#autoComplete").hide();
 	$("#productKey").on("keyup",function(e){
-		var enterchk=0;
 		var sel=$(".sel");
 		var li=$("#autoComplete li");
 		if(e.key=='ArrowDown'){
@@ -129,47 +139,44 @@ $(function(){
 				sel.removeClass("sel").prev().addClass("sel");
 			}
 		}else if(e.key=='Enter'){
-			enterchk=1;
-			$(this).val(sel.children("label").text());
-			console.log(sel.children("label").text());
-			//검색어 목록은 갑추고 li태그는 삭제
-			$("#autoComplete").hide().children().remove();
-			if(enterchk==1){
-				$(this).on("keyup",function(e){
-					if(e.key='Enter'){
-						location.href="${pageContext.request.contextPath}/product/productSearch.do?searchKeyword="+sel.children("label").text();
-					}
-				})
+			if($(this).val().trim().length>0){
+				$(this).val(sel.children("label").text());
+				console.log(sel.children("label").text());
+				//검색어 목록은 갑추고 li태그는 삭제
+				$("#autoComplete").hide().children().remove();
 			}
 		}else{
 			var autoKeyword=$(this).val();
-			console.log(autoKeyword);
-			$.ajax({
-				url:"${pageContext.request.contextPath}/product/autoComplete.do",
-				data:"autoKeyword="+autoKeyword,
-				dataType:"json",
-				success:function(data){
-					console.log(data);// 키워드에 따른 리스트 가져옴 
-					if(data.length==0){
-						$("#autoComplete").hide();
-					}else{	
-						var html="";
-						if(data.length>5){
-							for(var i=0;i<5;i++){
-								html+="<li>"+"<label>"+data[i].productName+"</label>"+data[i].brandName+"</li>";
+			console.log(autoKeyword);	
+			if(autoKeyword.length>0){
+				
+				$.ajax({
+					url:"${pageContext.request.contextPath}/product/autoComplete.do",
+					data:"autoKeyword="+autoKeyword,
+					dataType:"json",
+					success:function(data){
+						console.log(data);// 키워드에 따른 리스트 가져옴 
+						if(data.length==0){
+							$("#autoComplete").hide();
+						}else{	
+							var html="";
+							if(data.length>5){
+								for(var i=0;i<5;i++){
+									html+="<li>"+"<label>"+data[i].productName+"</label>"+data[i].brandName+"</li>";
+								}
+							}else{
+								for(var i=0;i<data.length;i++){
+									html+="<li>"+"<label>"+data[i].productName+"</label>"+data[i].brandName+"</li>";
+								}
 							}
-						}else{
-							for(var i=0;i<data.length;i++){
-								html+="<li>"+"<label>"+data[i].productName+"</label>"+data[i].brandName+"</li>";
-							}
+							
+							$("#autoComplete").html(html).show();
 						}
-						
-						$("#autoComplete").html(html).show();
+					},error:function(jqxhr,textStatus,errorThrown){
+						console.log("ajax실패",jqxhr,textStatus,errorThrown);
 					}
-				},error:function(jqxhr,textStatus,errorThrown){
-					console.log("ajax실패",jqxhr,textStatus,errorThrown);
-				}
-			});
+				});
+			}			
 		}
 	});
 	//부모요소에 이벤트핸들러를 설정하고, 자식요소를 이벤트 소스로 사용
@@ -184,11 +191,6 @@ $(function(){
 		$("#productKey").val($(this).children("label").text());
 		$("#autoComplete").hide().children().remove();
 	});
-	//입력할 때 엔터값 막기 
-	$('input[type="text"]').keydown(function() {
-	    if (event.keyCode === 13) {
-	        event.preventDefault();
-	    }
-	});
+	
 });
 </script>
