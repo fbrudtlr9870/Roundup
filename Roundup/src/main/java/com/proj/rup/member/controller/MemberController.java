@@ -137,4 +137,10 @@ public class MemberController {
 		
 		return map;
 	}
-}
+	@RequestMapping("/member/memberView.do")
+	public ModelAndView memberView(@RequestParam String userId) {
+		if(logger.isDebugEnabled())
+			logger.debug("");
+		return null;
+	}
+	}
