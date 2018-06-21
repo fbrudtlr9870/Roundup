@@ -193,17 +193,4 @@ public class MemberController {
 		return mav;
 	}
 	
-	@RequestMapping("/member/duplicate.do")
-	public ModelAndView memberDuplicate(){
-		ModelAndView mav = new ModelAndView();
-		String loc="/";
-		String msg="세션이 완료되었습니다. 다시 로그인 하세요.";
-		
-		mav.addObject("msg", msg);
-		mav.addObject("loc", loc);
-		mav.setViewName("common/msg");
-		
-		return mav;
-	}
-	
 }

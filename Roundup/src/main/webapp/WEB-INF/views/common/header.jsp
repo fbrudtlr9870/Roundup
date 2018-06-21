@@ -82,8 +82,16 @@
             </div>
             <!-- 채팅 관련 html 시작 -->
             <div id="chatting-room">
-            	현재 접속중인 회원 <span id="connected-member"style="font-weight:bold;">${totalMember }</span> 명
+            	<input type="hidden" name="member_id" value="${memberLoggedIn['member_id']}" />
+            	<div style="text-align:center;">현재 접속중인 회원<span id="connected-member"style="font-weight:bold;">${totalMember }</span> 명</div>
+            	<div style="text-align:center;margin-top:10px;">채팅방에 접속되었습니다.</div>   	
+            	<div class="chatting-content"></div>
+            	<div id="member-chat">
+            		<input id="insertText" style="float:left; width:230px;"class="form-control form-control-sm" type="text" placeholder="로그인 후 입력 가능합니다.">
+            		<button style="float:left; width:50px;" type="button" class="btn btn-primary" id="insertChat">전송</button>
+            	</div>
             </div>
+            <!-- 채팅관련 끝 -->
         </nav>
         <!-- 여기있었으 -->
         <!-- 로그인 Modal 시작 -->
@@ -209,8 +217,69 @@ $(document).ready(function(){
 <!-- 채팅 관련 스크립트 -->
 <script>
 $(function(){
- 	setInterval(function(){
-		$("#connected-member").html();
-	},2000); 
+ 	//setInterval(function(){ 
+	 	$.ajax({
+	 		url:"${pageContext.request.contextPath}/chatting/showChat.do",
+	 		type:"get",
+	 		dataType:"json",
+	 		success:function(data){
+	 			var html='<div class="chatting-comment" style="text-align:left;>';
+	 			for(var index in data){
+	 				var c = data[index];
+	 				if(index=="connectCount"){
+	 					$("#connected-member").text(c);
+	 				}
+	 				if(index=="list"){
+	 					html+=''+c["member_id"]+' : '+c["chat_content"]+'</div>';
+	 				}
+	 			}
+	 			
+	 			("#chatting-content").html(html);
+	 		},
+	 		error:function(jqxhr, testStatus, errorThrown){
+				console.log("ajax처리실패");
+				console.log(jqxhr);
+				console.log(testStatus);
+				console.log(errorThrown);
+			 }
+	 	});
+ 	//},2000)
+ 	
+ 	
+ 	$(document).on("click","#insertChat",function(){
+ 		var chatText=$("#insertText").val().trim();
+ 		var member_id =$("[name=member_id]").val().trim();
+ 		
+ 		if(chatText==""){
+ 			alert("내용을 입력하셔야 합니다.");
+ 			return false;
+ 		}
+ 		
+ 		if(member_id ==""){
+ 			alert("로그인 후 이용가능합니다.");
+ 			return false;
+ 		}else{
+ 			console.log(chatText,member_id);
+ 		 	$.ajax({
+ 		 		url:"${pageContext.request.contextPath}/chatting/insertChat.do",
+ 		 		type:"get",
+ 		 		data:{
+ 		 			member_id:member_id,
+ 		 			chat_content:chatText
+ 		 		},
+ 		 		dataType:"json",
+ 		 		success:function(data){
+					console.log("보내기 성공 ");
+ 		 		},
+ 		 		error:function(jqxhr, testStatus, errorThrown){
+ 					console.log("ajax처리실패");
+ 					console.log(jqxhr);
+ 					console.log(testStatus);
+ 					console.log(errorThrown);
+ 				 }
+ 		 	});
+ 		}
+ 	});
+ 	
 })
 </script>
