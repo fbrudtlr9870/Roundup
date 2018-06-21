@@ -147,8 +147,7 @@ div.freeBoardView-comment.write button{
 						<button class="comment-btn" value="${fc['parent_comment'] }">답글</button>
 					</div>
 					<p>					
-						<span style="padding-left:13px;">
-						
+						<span style="padding-left:13px;">					
 						${fc['comment_content'] }
 						</span>
 					</p>
@@ -230,7 +229,7 @@ $(function(){
 		var div = $("<div style='border-bottom:1px dotted white;' class='freeBoardView-comment comment'></div>");
 		var html='<button id="insertCommentComment">답글</button>';
 
-		html+='<input type="hidden" name="member_id_cc" value="'+$(this).prev().val()+'" />';
+		html+='<input type="hidden" name="member_id_cc" value="${memberLoggedIn['member_id'] }" />';
 		html+='<input type="hidden" name="free_board_no_c" value="${fboard['free_board_no']}" />';
 		html+='<input type="hidden" name="parent_comment_c" value="'+$(this).val()+'" />';
 		html+='<input type="hidden" name="comment_level_c" value="2" />';
@@ -292,7 +291,7 @@ $(function(){
 					html+= '<span style="font-weight:bold;">ㄴ'+bc["member_id"]+'</span>';
 					html+= '<span> '+bc["comment_enrolldate"]+'</span>'
 					html+= '<input type="hidden" name="parentId_c" value="'+member_id+'"/>';
-					html+='<button class="comment-btn" value="'+bc["parent_comment"]+'">답글</button></div>';
+					html+='<button class="comment-btn-reply" value="'+bc["parent_comment"]+'">답글</button></div>';
 					html+='<p><span style="padding-left:13px;">'+bc["comment_content"]+'</span></p></div></div>';
 					}
 					
