@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="manager">
-	<select id="selectListMember" resultType="member">
-	 	select * from member
-	</select>
+		<select id="selectListMember" resultType="member">
+		 	select * from member order by member_enrolldate
+		</select>
+	
+		<select id="selectManagerTotalMember" resultType="_int">
+		select count(*) from member	
+		</select>
+		
+		<update id="updateMemberGrade">
+		update member set member_grade=? where member_id=?
+		
+		</update>
+		
+		<select id="selectOneMember" resultType="member">
+		SELECT * FROM MEMBER WHERE MEMBER_ID = #{member_id}
+		</select>
+		
+
 
 </mapper>

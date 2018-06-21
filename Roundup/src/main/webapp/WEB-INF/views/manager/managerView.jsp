@@ -13,7 +13,6 @@ div#update-container{
 	margin:0 auto;
 	text-align:center;
 }
-div#update-container input.form-control{display:inline-block;}
 </style>
 
 <nav class="nav-list">
@@ -32,30 +31,37 @@ div#update-container input.form-control{display:inline-block;}
 	<br/>
 	<h4>회원정보</h4>
 	</br>
-		<form action="${pageContext.request.contextPath}/member/memberUpdate.do" method="post" name="memberUpdateFrm">
+		<form action="${pageContext.request.contextPath}/member/memberUpdate.do " method="post" name="memberUpdateFrm">
 			<div id="userId-container">
-				아이디 : <input type="text" name="member_id" id=member_id_ class="form-control" value="${member.member_id }" required style="width:340px;"/>
+				<input type="text" name="member_id" id=member_id_ class="input form-control" value="${member.member_id }" required/>
 			</div>
 			<br/>
-				이름 : <input type="text" name="member_name" id="member_name_" class="form-control" value="${member.member_name }" required style="width:357px;"/>
-			<br/><br/>
-				이메일 : <input type="email" name="member_email" id="member_email_" value="${member.member_email }" class="form-control" style="width:340px;" required/>
-			<br/><br/>
-				번호 : <input type="text" name="member_phone" id="member_phone_" value="${member.member_phone }" class="form-control" required required style="width:357px;"/>
-			<br/><br/>
-				생일 : <input type="text" name="member_birthday" id="member_birthday_" value="${member.member_birthday }" class="form-control" style="width:357px;"/>
-			<br/><br/>
-				성별 : <select name="member_gender" id="member_gender_" class="form-control" required style="width:357px;">
-					<option value=""disabled selected>성별</option>
-					<option value="M" ${member.member_gender=='M'?'selected':'' }>남자</option>
-					<option value="F" ${member.member_gender=='F'?'selected':'' }>여자</option>
-				</select>
+			<input type="text" name="member_name" id="member_name_" class="input form-control" value="${member.member_name }" required/>
 			<br/>
-			<input type="hidden" name="member_grade" value="${member.member_grade }" />
+			<input type="email" name="member_email" id="member_email_" value="${member.member_email }" class="form-control" required/>
+			<br/>
+			<input type="text" name="member_phone" id="member_phone_" value="${member.member_phone }" class="input form-control"  required/>
+			<br/>
+			<input type="text" name="member_birthday" id="member_birthday_" value="${member.member_birthday }" class="input form-control" />
+			<br/>
+			<select name="member_gender" id="member_gender_" class="input form-control" required>
+				<option value=""disabled selected>성별</option>
+				<option value="M" ${member.member_gender=='M'?'selected':'' }>남자</option>
+				<option value="F" ${member.member_gender=='F'?'selected':'' }>여자</option>
+			</select>
+			<br/>
+			<input type="radio" name="member_grade" id="member_grade_1" value="A" ${member.member_grade=='A'?'checked':'' }  >
+			<label for="member_grade_1">A</label> 
+			<input type="radio" name="member_grade" id="member_grade_2" value="G" ${member.member_grade=='G'?'checked':'' }   >
+			<label for="member_grade_2">G</label> 
+			<br /><br />
+			
+			
+			
 		<input type="submit" value="수정" class="btn btn-outline-success" /> 
 		<input type="reset" value="취소" class="btn btn-outline-success">
-		<input type="button" value="삭제" class="btn btn-outline-success">
-		<br><br><br>
+		
+		<br /><br /><br />
 		</form>
 	</div>
 </div>
