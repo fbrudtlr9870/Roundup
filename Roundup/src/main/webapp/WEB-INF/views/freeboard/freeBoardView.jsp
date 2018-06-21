@@ -88,6 +88,17 @@ div.freeBoardView-comment.write button{
 	float:left;
 }
 
+/* 게시판 리스트 관련 */
+
+div#freetable_container{
+	width:980px;
+	margin:0 auto;
+	text-align: center;
+}
+div#freetable_container tr th{
+	text-align: center;
+}
+
 </style>
 
 <div id="freeBoardView-container">
@@ -168,6 +179,55 @@ div.freeBoardView-comment.write button{
 	</div>
 </div>
 
+<!-- 게시판 리스트 관련 -->
+
+<div id="freetable_container">
+	<h2>자유게시판</h2>
+	<table class="table table-striped">
+		<tr>
+			<th class="col-md-1">번호</th>
+			<th class="col-md-3">제목</th>
+			<th class="col-md-1">아이디</th>
+			<th class="col-md-2">날짜</th>
+		</tr>
+		<c:if test="${blist !=null }">
+			<c:forEach items="${blist }" var="f">
+				<tr>
+					<td class="col-md-1">${f["free_board_no"] }</td>
+					<td class="col-md-3" style="text-align:left;">
+						<a href="freeBoardView.do?no=${f['free_board_no']}" style="color:black;">
+						${f["free_board_title"] }
+						<c:if test="${f['bc_count'] !=0 }">
+						<span style="color:orange;">[${f["bc_count"]}]</span>
+						</c:if>
+						</a>
+					</td>
+					<td class="col-md-1">${f["member_id"] }</td>
+					<td class="col-md-2">${f["free_reg_date"] }</td>
+				</tr>
+			</c:forEach>
+		</c:if>
+	</table>
+	<br />
+
+<!-- 페이지바 -->
+<%
+	int count = Integer.parseInt(String.valueOf(request.getAttribute("pcount")));
+	int numPerPage = Integer.parseInt(String.valueOf(request.getAttribute("numPerPage")));
+	int cPage = 1;
+	int no = Integer.parseInt(String.valueOf(request.getAttribute("no")));
+	try{
+		cPage = Integer.parseInt(request.getParameter("cPage"));
+	}catch(NumberFormatException e){
+		
+	}
+%>
+<%=com.proj.rup.common.util.UtilsView.getPageBar(count,cPage,numPerPage,no,"freeBoardView.do")%>
+</div>	
+
+
+
+
 <script>
 $(function(){
 	var chk_comment_btn=false; //답글 클릭시 보여주기or사라지게 하기 위한 변수
@@ -177,6 +237,11 @@ $(function(){
 		//댓글 null체크
 		if(pcomment_content==""){
 			alert("댓글을 입력하셔야 합니다.");
+		}
+		
+		if(${empty memberLoggedIn}){
+			alert("로그인 후 이용 가능합니다.");
+			return false;
 		}
 		
 		var member_id = $("[name=member_id_t]").val().trim();
@@ -253,7 +318,7 @@ $(function(){
 		}		
 	});
 	
-	$(document).on('click','.comment-btn-reply',function(){
+	$(document).on('click','.comment-btn-reply',function(){	
 		var div = $("<div style='border-bottom:1px dotted white;' class='freeBoardView-comment comment'></div>");
 		var html='<button id="insertCommentComment-reply">답글</button>';
 
@@ -282,11 +347,17 @@ $(function(){
 
 	
 	$(document).on('click','#insertCommentComment',function(){
+
 		var comment_content = $("[name=comment_content_c]").val().trim();
 		//댓글 null체크
 		if(comment_content==""){
 			alert("댓글을 입력하셔야 합니다.");
 			
+			return false;
+		}
+		
+		if(${empty memberLoggedIn}){
+			alert("로그인 후 이용 가능합니다.");
 			return false;
 		}
 		
@@ -347,11 +418,18 @@ $(function(){
 	});	
 	
 	$(document).on('click','#insertCommentComment-reply',function(){
+		if(${empty memberLoggedIn}){
+			alert("로그인 후 이용 가능합니다.");
+		}
 		var comment_content = $("[name=comment_content_re]").val().trim();
 		//댓글 null체크
 		if(comment_content==""){
 			alert("댓글을 입력하셔야 합니다.");
 			
+			return false;
+		}
+		if(${empty memberLoggedIn}){
+			alert("로그인 후 이용 가능합니다.");
 			return false;
 		}
 		
