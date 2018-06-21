@@ -79,7 +79,5 @@ public class FreeBoard {
 	public void setBc_count(int bc_count) {
 		this.bc_count = bc_count;
 	}
-	
-	
-	
+
 }

@@ -83,6 +83,7 @@ public class FreeBoardController {
 	@ResponseBody
 	public Map<String,Object> insertComment(
 											@RequestParam(value="member_id")String member_id,
+											@RequestParam(value="parent_id")String parent_id,
 											@RequestParam(value="free_board_no")int free_board_no,
 											@RequestParam(value="parent_comment")int parent_comment,
 											@RequestParam(value="comment_level")int comment_level,
@@ -93,7 +94,7 @@ public class FreeBoardController {
 		
 		
 		FreeBoardComment fbc = 
-				new FreeBoardComment(0,"test",free_board_no,parent_comment,comment_content,null,null,comment_level);
+				new FreeBoardComment(0,member_id,free_board_no,parent_comment,comment_content,null,null,comment_level,parent_id);
 		
 		logger.debug("fbc="+fbc);
 		
