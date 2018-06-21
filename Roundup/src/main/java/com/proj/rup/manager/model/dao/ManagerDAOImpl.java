@@ -1,7 +1,9 @@
 package com.proj.rup.manager.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,9 +17,23 @@ public class ManagerDAOImpl implements ManagerDAO {
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
-	public List<Member> selectListMember() {
-		
-		return sqlSession.selectList("manager.selectListMember");
+	public List<Map<String, String>> selectListMember(int cPage, int numPerPage) {
+		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		return sqlSession.selectList("manager.selectListMember",null,rowBounds);
 	}
+
+	@Override
+	public int selectManagerTotalMember() {
+		
+		return sqlSession.selectOne("manager.selectManagerTotalMember");
+	}
+
+	@Override
+	public Member selectOneMember(String member_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("manager.selectOneMember",member_id);
+	}
+
+
 
 }
