@@ -1,14 +1,19 @@
 package com.proj.rup.product.controller;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +22,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.proj.rup.product.model.service.ProductService;
 import com.proj.rup.product.model.vo.Product;
+import com.proj.rup.product.model.vo.Product_File;
 
 @Controller
 public class ProductController {
@@ -222,5 +229,56 @@ public class ProductController {
 		List<Product> list=productService.productSearch(autoKeyword);
 		return list;
 
+	}
+	
+	@RequestMapping("/product/productEnrollEnd.do")
+	public ModelAndView productEnrollEnd(Product p,@RequestParam(value="upFile") MultipartFile upFile,HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		logger.debug("상품등록요청");
+		logger.debug("upFile : "+upFile.getOriginalFilename());
+		try {	
+			//첨부파일 이름 설정/upload폴더에 저장로직
+			String saveDirectory = request.getSession().getServletContext().getRealPath("/resources/upload/productFile");
+			
+			String originalFileName = upFile.getOriginalFilename();
+			String ext = originalFileName.substring(originalFileName.lastIndexOf(".")+1);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+			int rndNum = (int)(Math.random()*1000);
+			String renamedFileName = sdf.format(new Date(System.currentTimeMillis()))+"_"+rndNum+"."+ext;
+			
+//			try {
+//				upFile.transferTo(new File(saveDirectory+"/"+renamedFileName));
+//			} catch (IllegalStateException | IOException e) {
+//				e.printStackTrace();
+//			}
+			
+			Product_File pf = new Product_File();
+			pf.setOriginalFilename(originalFileName);
+			pf.setRenamedFilename(renamedFileName);
+			
+			logger.debug("productFile@productController : "+pf);
+			logger.debug("product@productController : "+p);
+			
+			//비지니스 로직
+			int result = productService.insertProduct(p,pf);
+			
+			//view단 분기
+			String loc = "/";
+			String msg = "";
+			
+			if(result>0) {
+				msg="상품등록 성공!";
+			}else {
+				msg="상품등록 실패!";
+			}
+			
+			mav.addObject("msg",msg);
+			mav.addObject("loc",loc);
+			mav.setViewName("common/msg");
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return mav;
 	}
 }

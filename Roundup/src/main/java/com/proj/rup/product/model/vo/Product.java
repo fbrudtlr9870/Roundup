@@ -20,6 +20,9 @@ public class Product {
 	private int parentCategory; //부모 카테고리에 해당되는 번호
 	private int categoryLevel; //카테고리 레벨
 	public Product() {}
+	
+	
+	
 	public Product(int productNo, String productName, int brandNo, String brandName, int price, Date regDate,
 			String memberId, int productFileNo, String originalFileName, String renamedFileName, Date fileRegDate,
 			int proCategoryNo, int categoryNo, String categoryName, int parentCategory, int categoryLevel) {

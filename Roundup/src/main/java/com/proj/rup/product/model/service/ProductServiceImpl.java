@@ -1,16 +1,15 @@
 package com.proj.rup.product.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.proj.rup.member.model.dao.MemberDAO;
 import com.proj.rup.product.model.dao.ProductDAO;
 import com.proj.rup.product.model.vo.Product;
+import com.proj.rup.product.model.vo.Product_File;
 @Service
 public class ProductServiceImpl<ProductVO> implements ProductService {
 
@@ -24,13 +23,6 @@ public class ProductServiceImpl<ProductVO> implements ProductService {
 		return productDAO.productSearch(searchKeyword); //여기를 어떻게 고쳐야할지...고민이 됨.
 	}
 
-
-
-    //상품추가
-    @Override
-    public void insertProduct(Product vo) {
-    	productDAO.insertProduct(vo);
-    }
     //상품수정
     @Override
     public void updateProduct(Product vo) {
@@ -52,6 +44,38 @@ public class ProductServiceImpl<ProductVO> implements ProductService {
 	@Override
 	public List reSearch(Map map) {
 		return productDAO.reSearch(map);
+	}
+
+	@Override
+	public int insertProduct(Product p, Product_File pf) {
+		int result = 0;
+		int categoryLevel=0;
+		try {
+			result = productDAO.insertProduct(p);
+			
+			int productNo = p.getProductNo();
+			
+			if(p.getCategoryNo()>0) {
+				categoryLevel = productDAO.selectCategoryLevel(p.getCategoryNo());
+				Map<String,Integer> map = new HashMap<>();
+				map.put("productNo", productNo);
+				map.put("categoryNo", p.getCategoryNo());
+				map.put("categoryLevel", categoryLevel);
+				if(categoryLevel>0) {
+					result = productDAO.insertProductCategory(map);
+				}
+			}
+			
+			if(pf!=null) {
+				pf.setProductNo(productNo);
+				result = productDAO.insertProductFile(pf);
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 
 

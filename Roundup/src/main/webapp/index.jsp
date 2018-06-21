@@ -30,6 +30,7 @@ $(function(){
            </ul>
      </div>
  </nav>
+ 
     <div class="main-img-wrapper">
             <div class="main-img">
                 <div class="main-category">

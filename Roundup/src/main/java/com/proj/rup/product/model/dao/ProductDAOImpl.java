@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.proj.rup.product.model.vo.Product;
+import com.proj.rup.product.model.vo.Product_File;
 
 @Repository
 public class ProductDAOImpl implements ProductDAO {
@@ -32,11 +33,7 @@ public class ProductDAOImpl implements ProductDAO {
 		return session.selectList("product.reSearch", map);
 	}
 
-    //상품추가
-    @Override
-    public void insertProduct(Product vo) {
-    	session.insert("product.insertProduct", vo);
-    }
+    
     //상품수정
     @Override
     public void updateProduct(Product vo) {
@@ -52,6 +49,33 @@ public class ProductDAOImpl implements ProductDAO {
     public String fileInfo(int productId) {
         return session.selectOne("product.fileInfo",productId);
     }
+
+
+	@Override
+	public int insertProduct(Product p) {
+		return session.insert("product.insertProduct",p);
+	}
+
+
+	@Override
+	public int insertProductFile(Product_File pf) {
+		return session.insert("product.insertProductFile",pf);
+	}
+
+
+	@Override
+	public int selectCategoryLevel(int categoryNo) {
+		return session.selectOne("product.selectCategoryLevel",categoryNo);
+	}
+
+
+	@Override
+	public int insertProductCategory(Map<String, Integer> map) {
+		return session.insert("product.insertProductCategory",map);
+	}
+
+
+
 
 
 	
