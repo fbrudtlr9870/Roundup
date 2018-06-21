@@ -90,6 +90,11 @@ function validate(){
 		return false;		
 	}
 	
+	if(member_name.val().trim().length<=1){
+		alert("이름을 2글자 이상으로 적어주세요");
+		return false;
+	}
+	
 	return true;
 }
 
