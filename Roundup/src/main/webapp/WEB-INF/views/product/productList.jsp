@@ -7,14 +7,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>상품목록 페이지</title>
-<script>
-$(function(){
-	$("#btnAdd").click(function(){
-		location.href="${path}/shop/product/write.do";
-	});
-});
-</script>
 <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <style>
 body{
     font-family: 'Nanum Gothic', sans-serif;
@@ -42,32 +39,39 @@ tr,td{
     color: rgb(68, 68, 68);
 
 }
-#btnAdd{
-    position:fixed;
-    left:375px;
-    top:60px;
-    font-family: 'Nanum Gothic', sans-serif;
-    background-color:rgb(67, 106, 212);
-    font-size:12px;
+#link1, #link2{
+    color:lightgray;
+}
+#link3{
+   position:fixed;
+   overflow:hidden;
+   right:50px;
+   color:lightgray;
+}
+h2{
     font-weight:bold;
-    color:white;
-    border:none;
-    padding-top:7px;
-    padding-right:15px;
-    padding-bottom:7px;
-    padding-left:15px;
-    border-radius:5px;
-    
 }
 </style>
 </head>
-<body>
+<body style="height:1500px">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+        <a class="navbar-brand" href="#">편의점 마스터</a>
+            <ul class="navbar-nav">
+            <li class="nav-item">
+        <a class="nav-link" href="#" id="link1">상품 등록</a>
+            </li>
+            <li class="nav-item">
+        <a class="nav-link" href="#" id="link2">상품 목록</a>
+            </li>
+            </ul>
+        <a class="nav-link" id="link3">안녕하세요 관리자님!</a>
+    </nav>
+<br><br><br>
 <h2>상품목록</h2>
+<br>
 <!-- 관리자에게만 상품등록 버튼 표시 -->
-<c:if test="${sessionScope.adminId != null}">
-    <button type="button" id="btnAdd">상품등록</button><br>
-</c:if>
-<table border="0" class="table">
+<!-- update: 아예 그냥 버튼을 삭제했어요. nav에 있는데 왜 굳이 버튼을 만들었는지.. -->
+<table border="0" class="table" align="center">
     <tr>
         <th>상품ID</th>
         <th>상품이미지</th>

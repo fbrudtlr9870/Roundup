@@ -69,6 +69,21 @@ textarea{
 #link1{
     padding-left:40px;
 }
+#addBtn:hover, #listBtn:hover, #resetBtn:hover{
+	background-color:cornflowerblue;
+}
+#link1, #link2{
+    color:lightgray;
+}
+#link3{
+   position:fixed;
+   overflow:hidden;
+   right:50px;
+   color:lightgray;
+}
+h2{
+    font-weight:bold;
+}
 </style>
 </head>
 <body style="height:1500px">
@@ -82,13 +97,14 @@ textarea{
             <a class="nav-link" href="#" id="link2">상품 수정/삭제</a>
                 </li>
                 </ul>
+            <a class="nav-link" id="link3">안녕하세요 관리자님!</a>
         </nav>
 <br>
 <br>
 <br>
 <h2 id="productAdd">상품 등록</h2>
 <form id="form1" name="form1" enctype="multipart/form-data" method="post">
-    <table border="0" class="table">
+    <table border="0" class="table" align="left">
         <tr>
             <td>상품명</td>
             <td><input type="text" name="productName" id="productName" size="35"></td>
@@ -115,6 +131,7 @@ textarea{
         </tr>
     </table>
 </form>
+
 
 <script>
 $(document).ready(function(){
