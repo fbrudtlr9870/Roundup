@@ -18,13 +18,14 @@ public class FreeBoardComment {
 	private String comment_enrolldate;
 	private String comment_update_date;
 	private int comment_level;
+	private String parent_id;
 	
 	public FreeBoardComment() {
 		super();
 	}
 
 	public FreeBoardComment(int comment_no, String member_id, int free_board_no, int parent_comment,
-			String comment_content, String comment_enrolldate, String comment_update_date, int comment_level) {
+			String comment_content, String comment_enrolldate, String comment_update_date, int comment_level, String parent_id) {
 		super();
 		this.comment_no = comment_no;
 		this.member_id = member_id;
@@ -34,6 +35,7 @@ public class FreeBoardComment {
 		this.comment_enrolldate = comment_enrolldate;
 		this.comment_update_date = comment_update_date;
 		this.comment_level = comment_level;
+		this.parent_id= parent_id;
 	}
 
 	@Override
@@ -41,7 +43,7 @@ public class FreeBoardComment {
 		return "FreeBoardComment [comment_no=" + comment_no + ", member_id=" + member_id + ", free_board_no="
 				+ free_board_no + ", parent_comment=" + parent_comment + ", comment_content=" + comment_content
 				+ ", comment_enrolldate=" + comment_enrolldate + ", comment_update_date=" + comment_update_date
-				+ ", comment_level=" + comment_level + "]";
+				+ ", comment_level=" + comment_level +", parent_id="+parent_id+"]";
 	}
 
 	public int getComment_no() {
@@ -108,11 +110,14 @@ public class FreeBoardComment {
 	public void setComment_level(int comment_level) {
 		this.comment_level = comment_level;
 	}
+
+	public String getParent_id() {
+		return parent_id;
+	}
+
+	public void setParent_id(String parent_id) {
+		this.parent_id = parent_id;
+	}
 	
-	
-	
-	
-	
-	
-	
+
 }

@@ -218,6 +218,7 @@ div.section_div-s table tr td{
 			       
 			
         </div>
+<<<<<<< HEAD
         <br><br><br>
         
 <script>
@@ -229,4 +230,12 @@ $(function(){
 });
 </script>
 
+=======
+    	<a href="${pageContext.request.contextPath }/product/productEnroll.do">상품등록페이지</a>
+  </div>
+  
+</div>
+        </div>
+        <br><br>
+>>>>>>> branch 'master' of https://github.com/fbrudtlr9870/Roundup.git
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

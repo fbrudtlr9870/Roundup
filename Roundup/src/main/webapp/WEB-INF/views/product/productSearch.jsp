@@ -7,7 +7,6 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="검색결과" name="pageTitle"/>
 </jsp:include>
-${searchKeyword }
 <script>
 $(function(){
 	var bloginfo=${bloginfo};
@@ -34,17 +33,19 @@ $(function(){
             </div>
             <br><br>
             <div class="search-div">
+            <h2>검색 - ${searchKeyword }</h2>
                 <form action="${pageContext.request.contextPath}/product/reSearch.do">
                     <h4>브랜드</h4> 
                     <input type="hidden" name="searchKeyword" value="${searchKeyword }"/>                    
                     <input class="form-check-input" type="hidden" name="brand" value="all">
-                    <input class="form-check-input" type="checkbox" name="brand" value="CU"> CU &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" value="GS25"> GS25 &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" value="7ELEVEN"> 7ELEVEN &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" value="MINISTOP"> MINISTOP &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" value="EMART24"> EMART24
+                    <input class="form-check-input" type="checkbox" name="brand" value="CU" id="CU"><label for="CU">CU</label> &nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" value="GS25" id="GS25"><label for="GS25">GS25</label> &nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" value="7ELEVEN" id="7ELEVEN"><label for="7ELEVEN">7ELEVEN</label> &nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" value="MINISTOP" id="MINISTOP"><label for="MINISTOP">MINISTOP</label> &nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" value="EMART24" id="EMART24"><label for="EMART24">EMART24</label>
                     <br />
-                    <select name="categoryselect" id="category">                    
+                    <h4>카테고리</h4>
+                    <select name="categoryselect" id="category" class="form-control" style="width:350px;">                    
                     	<option id="category" name="category" value="0" selected>카테고리</option>
                     	<option id="category" name="category" value="1">간편식사</option>
                     	<option id="category" name="category" value="7">-김밥</option>
@@ -87,7 +88,7 @@ $(function(){
                     	<option id="category" name="category" value="26">-유리</option>
                     </select>
                     <h4>가격대</h4>
-                    <input type="number" name="price1" min="0" step="500" value="0" > ~ <input type="number" name="price2" min="0" step="500" value="0">
+                    <input type="number" name="price1" min="0" step="500" value="0" class="form-control" style="width:200px; display:inline-block;"> ~ <input type="number" name="price2" min="0" step="500" value="0" class="form-control" style="width:200px; display:inline-block;">
                     <br><br>
                     <input type="submit"class="btn btn-success" value="검색">
                 </form>

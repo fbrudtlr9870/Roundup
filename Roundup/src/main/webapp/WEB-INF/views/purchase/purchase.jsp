@@ -41,56 +41,45 @@ table#info2-hyelin td {
 			<th>판매가</th>
 			<th>수량</th>
 			<th>판매가X수량</th>
-			<th>배송비</th>
 		</tr>
-		<tr>
-			<td class="tbl-td">
-				<div id="tbl-img-row">
-					<img src="${pageContext.request.contextPath }/resources/img/test1.png" alt="" width="100px" height="100px">
-					<span>[GS25] 핑크죠스바</span>
-				</div>
-			</td>
-			<td class="tbl-td">5000</td>
-			<td class="tbl-td">1</td>
-			<td class="tbl-td">15000</td>
-			<td class="tbl-td">2000</td>
-		</tr>
-		<tr>
-			<td class="tbl-td">
-				<div id="tbl-img-row">
-					<img src="${pageContext.request.contextPath }/resources/img/test1.png" alt="" width="100px" height="100px">
-					<span>[GS25] 핑크죠스바</span>
-				</div>
-			</td>
-			<td class="tbl-td">5000</td>
-			<td class="tbl-td">1</td>
-			<td class="tbl-td">15000</td>
-			<td class="tbl-td">2000</td>
-		</tr>
-		<tr>
-			<td class="tbl-td">
-				<div id="tbl-img-row">
-					<img src="${pageContext.request.contextPath }/resources/img/test1.png" alt="" width="100px" height="100px">
-					<span>[GS25] 핑크죠스바</span>
-				</div>
-			</td>
-			<td class="tbl-td">5000</td>
-			<td class="tbl-td">1</td>
-			<td class="tbl-td">15000</td>
-			<td class="tbl-td">2000</td>
-		</tr>
-		<tr>
-			<td class="tbl-td">
-				<div id="tbl-img-row">
-					<img src="${pageContext.request.contextPath }/resources/img/test1.png" alt="" width="100px" height="100px">
-					<span>[GS25] 핑크죠스바</span>
-				</div>
-			</td>
-			<td class="tbl-td">5000</td>
-			<td class="tbl-td">1</td>
-			<td class="tbl-td">15000</td>
-			<td class="tbl-td">2000</td>
-		</tr>
+		<c:if test="${not empty purchase }">
+			<tr>
+				<td class="tbl-td">
+					<div id="tbl-img-row">
+						<img src="${pageContext.request.contextPath }/resources/img/${purchase['renamed_filename']}" alt="" width="100px" height="100px">
+						<span>[${purchase["brand_name"]}] &nbsp; ${purchase["product_name"]}</span>
+					</div>
+				</td>
+				<td class="tbl-td">
+					<fmt:formatNumber value="${purchase['price']}" type="currency" currencySymbol=""/>원
+				</td>
+				<td class="tbl-td">${purchase['product_amount'] }</td>
+				<td class="tbl-td">
+					<fmt:formatNumber value="${purchase['product_amount']*purchase['price']}" type="currency" currencySymbol=""/>원
+				</td>
+			</tr>
+		</c:if>
+		
+		<c:if test="${not empty purchaseList }">
+			<c:forEach var="i" items="${purchaseList }" varStatus="vs">
+				<tr>
+				<td class="tbl-td">
+					<div id="tbl-img-row">
+						<img src="${pageContext.request.contextPath }/resources/img/${i['renamed_filename']}" alt="" width="100px" height="100px">
+						<span>[${i["brand_name"]}] &nbsp; ${i["product_name"]}</span>
+					</div>
+				</td>
+				<td class="tbl-td">
+					<fmt:formatNumber value="${i['price']}" type="currency" currencySymbol=""/>원
+				</td>
+				<td class="tbl-td">${i['product_amount'] }</td>
+				<td class="tbl-td">
+					<fmt:formatNumber value="${i['product_amount']*i['price']}" type="currency" currencySymbol=""/>원
+				</td>
+			</tr>
+			</c:forEach>
+		</c:if>
+	
 	</table>
 	<hr>
 	
@@ -103,8 +92,8 @@ table#info2-hyelin td {
 			<th>총 결제금액</th>
 		</tr>
 		<tr>
-			<td class="tbl-td">2000</td>
-			<td class="tbl-td">30000</td>
+			<td class="tbl-td"><fmt:formatNumber value="2000" type="currency" currencySymbol=""/>원</td>
+			<td class="tbl-td"><fmt:formatNumber value="0" type="currency" currencySymbol=""/>원</td>
 		</tr>
 	</table>
 	<hr>

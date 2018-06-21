@@ -3,10 +3,14 @@
 <mapper namespace="basket">
 
 <select id="selectBasketList" resultType="basketProduct">
-	select * from basket b join product p on b.product_no = p.product_no left join product_file f on p.product_no = f.product_no where b.member_id = #{member_Id} 
+	select * from basket b join product p on b.product_no = p.product_no left join product_file f on p.product_no = f.product_no left join brand br on p.brand_no = br.brand_no where b.member_id = #{member_Id} order by basket_no desc 
 </select>
 
 <delete id="deleteBasket">
 	delete from basket where basket_no = #{basketNo}
 </delete>
+
+<update id="updateBasket">
+	update basket set product_amount = #{productAmount} where basket_no = #{basketNo}
+</update>
 </mapper>

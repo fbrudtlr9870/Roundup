@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.proj.rup.product.model.service.ProductService;
@@ -201,5 +203,24 @@ public class ProductController {
         mav.addObject("searchList", list);
         mav.setViewName("product/productSearch");
 		return mav;
+	}
+
+	//상품등록
+	@RequestMapping("/product/productEnroll.do")
+	public ModelAndView pruductEnroll() {
+		ModelAndView mav = new ModelAndView();
+		
+		
+		mav.setViewName("product/productEnroll");
+		return mav;
+	}
+	
+	@RequestMapping("/product/autoComplete.do")
+	@ResponseBody
+	public List<Product> autoCompleate(@RequestParam String autoKeyword) {
+		logger.debug("오토키워드 ajax시작"+autoKeyword);
+		List<Product> list=productService.productSearch(autoKeyword);
+		return list;
+
 	}
 }

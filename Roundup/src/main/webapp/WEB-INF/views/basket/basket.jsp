@@ -30,22 +30,29 @@
 		<c:if test="${not empty basketList }">
 			<c:forEach var="i" items="${basketList }" varStatus="vs">
 				<tr>
-					<input type="hidden" value="${i['basket_no'] }" id="deleteItem"/>
-					<td class="tbl-td"><input type="checkbox" name="basketList" id="basketItem${vs.count }" onclick="fn_toggle(basketItem${vs.count }, this.checked)"></td>
+					<td class="tbl-td">
+						<input type="checkbox" class="basketList" name="basketList" id="basketItem${vs.count }" onclick="fn_toggle(basketItem${vs.count }, this.checked)">
+					</td>
 					<td class="tbl-td">
 						<div id="tbl-img-row">
 							<img src="${pageContext.request.contextPath }/resources/img/${i['renamed_filename']}" alt="" width="100px" height="100px">
-							<span>${i["product_name"]}</span>
+							<span>[${i["brand_name"]}] &nbsp; ${i["product_name"]}</span>
 						</div>
 					</td>
-					<td class="tbl-td">${i["price"]}</td>
-					<td class="tbl-td"><input type="number" class="form-control number-hyelin" 
-						style="width: 70px; margin: 0 auto;" name="" value="${i['product_amount']}" min="1">
-						<button type="button" class="btn btn-light">수정</button>
-					</td>
-					<td class="tbl-td">${i['product_amount']*i["price"]}</td>
 					<td class="tbl-td">
-						<button type="button" class="btn btn-success" onclick="window.location.href='${pageContext.request.contextPath }/purchase/purchase.do'">구매</button> &nbsp;
+						<fmt:formatNumber value="${i['price']}" type="currency" currencySymbol=""/>원
+					</td>
+					<td class="tbl-td">
+						<input type="number" class="form-control number-hyelin" style="width: 70px; margin: 0 auto;" name="product_amount" value="${i['product_amount']}" min="1">
+						<button type="button" class="btn btn-light updateBasket">수정</button>
+					</td>
+					<td class="tbl-td">
+						<input type="hidden" id="price" value="${i['product_amount']*i['price']}"/>
+						<fmt:formatNumber value="${i['product_amount']*i['price']}" type="currency" currencySymbol=""/>원
+					</td>
+					<td class="tbl-td">
+						<input type="hidden" value="${i['basket_no'] }" name="basket_no"/>
+						<button type="button" class="btn btn-success" onclick="window.location.href='${pageContext.request.contextPath }/purchase/purchase.do?basketNo=${i['basket_no'] }'">구매</button> &nbsp;
 						<button type="button" class="btn btn-danger deleteBasket">삭제</button>
 					</td>
 				</tr>
@@ -58,8 +65,7 @@
 		</c:if>
 	</table>
 	<hr>
-	<button type="button" class="btn btn-danger" style="float: left;">선택상품
-		삭제</button>
+	<button type="button" class="btn btn-danger" id="deleteChkItem" style="float: left;">선택상품 삭제</button>
 	<br>
 	<br>
 	<br>
@@ -69,15 +75,13 @@
 			<th>총 결제금액</th>
 		</tr>
 		<tr>
-			<td class="tbl-td">2000</td>
-			<td class="tbl-td">30000</td>
+			<td class="tbl-td"><fmt:formatNumber value="2000" type="currency" currencySymbol=""/>원</td>
+			<td class="tbl-td totalPrice"></td>
 		</tr>
 	</table>
 	<hr>
-	<button type="button" class="btn btn-primary"
-		style="float: right; margin: 10px;">전체상품주문</button>
-	<button type="button" class="btn btn-success"
-		style="float: right; margin: 10px;">선택상품주문</button>
+	<button type="button" class="btn btn-primary" id="purchaseAll" style="float: right; margin: 10px;" onclick="return purchaseAll();">전체상품 주문</button>
+	<button type="button" class="btn btn-success" id="purchaseChk" style="float: right; margin: 10px;" onclick="return purchaseChk();">선택상품 주문</button>
 </div>      
    
 <script>
@@ -86,19 +90,10 @@ function fn_checkAll(bool) {
 
     for(var i=0; i<chkboxes.length; i++) {
         chkboxes[i].checked = bool;
-        // 방법 1
-        // var parent_td = document.getElementById("newproduct"+(i+1));
-        // if(bool) parent_td.className = 'on';
-        // else parent_td.className = "off";
-
-        // 방법 2
-        // fn_toggle("newproduct"+(i+1),bool);
     }
 }
 
 function fn_toggle(bool) {
-    // alert(td_id + ", " + bool);
-    // var parent_td = document.getElementById(td_id);
     var chkboxes = document.getElementsByName("basketList");
     var chkall = document.getElementById("allCheck");
      
@@ -120,10 +115,39 @@ function fn_toggle(bool) {
     // else chkall.checked = false;
 }
 
+function purchaseAll() {
+	var chkboxes = document.getElementsByName("basketList");
+	var basketNo = "";
+	
+	for(var i=0; i<chkboxes.length; i++) {
+		basketNo += $(chkboxes[i]).parent().parent().find("[name=basket_no]").val();     
+		basketNo += "/";
+    }
+	
+	location.href="${pageContext.request.contextPath}/purchase/purchase.do?basketNo="+basketNo;
+}
+
+function purchaseChk() {
+	var basketNo = "";
+	$("[name=basketList]:checked").filter(function() {
+		basketNo += $(this).parent().parent().find("[name=basket_no]").val();
+		basketNo += "/";
+    });
+	
+	if(basketNo !== "") {
+		location.href="${pageContext.request.contextPath}/purchase/purchase.do?basketNo="+basketNo;
+	}
+	else {
+		alert("선택된 상품이 없습니다.");
+	} 
+}
+
 $(function() {
+	// 삭제 버튼
 	$(".deleteBasket").click(function() {
-		var basketNo = $("#deleteItem").val();
-		console.log(basketNo);
+		var basketNo = $(this).parent().find("[name=basket_no]").val();
+		console.log("basketNo="+basketNo);
+		
 		if(confirm("장바구니에서 삭제하시겠습니까?")) {
 			$.ajax({
 				url:"${pageContext.request.contextPath}/basket/deleteBasket.do",
@@ -143,6 +167,88 @@ $(function() {
 			});
 		}
 	});
+	
+	// 수량 수정 버튼
+	$(".updateBasket").click(function() {
+		var basketNo = $(this).parent().parent().find("[name=basket_no]").val();
+		var product_amount = $(this).parent().find("[name=product_amount]").val();
+		console.log("basketNo="+basketNo+"product_amount="+product_amount);
+		
+		$.ajax({
+			url:"${pageContext.request.contextPath}/basket/updateBasket.do",
+			data: {
+				basketNo : basketNo,
+				productAmount : product_amount
+    		},
+			success:function(data) {
+				console.log(data);
+				location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
+			},
+			error:function(jqxhr, textStatus, errorThrown) {
+                  console.log("ajax처리실패!");
+                  console.log(jqxhr);
+                  console.log(textStatus);
+                  console.log(errorThrown);
+            }
+		});
+	});
+	
+	// 선택상품 삭제 버튼
+	$("#deleteChkItem").click(function() {
+		var basketNo = "";
+		$("[name=basketList]:checked").filter(function() {
+			basketNo += $(this).parent().parent().find("[name=basket_no]").val();
+			basketNo += "/";
+        });
+		
+		if(confirm("장바구니에서 삭제하시겠습니까?")) {
+			$.ajax({
+				url:"${pageContext.request.contextPath}/basket/deleteBasket.do",
+				data: {
+					basketNo : basketNo
+	    		},
+				success:function(data) {
+					console.log(data);
+					location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
+				},
+				error:function(jqxhr, textStatus, errorThrown) {
+	                  console.log("ajax처리실패!");
+	                  console.log(jqxhr);
+	                  console.log(textStatus);
+	                  console.log(errorThrown);
+	            }
+			});
+		}
+	}); 
+	
+	// 상품 선택 시 총 결제 금액 표시
+	$(".basketList").change(function() {
+		var price = 0;
+		$("[name=basketList]:checked").filter(function() {
+			price += parseInt($(this).parent().parent().find("#price").val()); 
+        });
+		console.log($(".totalPrice").children().val());
+		console.log(price);
+		
+		
+	
+		/* $.ajax({
+			url:"${pageContext.request.contextPath}/basket/deleteBasket.do",
+			data: {
+				basketNo : basketNo
+    		},
+			success:function(data) {
+				console.log(data);
+				location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
+			},
+			error:function(jqxhr, textStatus, errorThrown) {
+                  console.log("ajax처리실패!");
+                  console.log(jqxhr);
+                  console.log(textStatus);
+                  console.log(errorThrown);
+            }
+		}); */
+	}); 
 });
 
 </script>
