@@ -239,10 +239,9 @@ $(function(){
 			alert("댓글을 입력하셔야 합니다.");
 		}
 		
-		if(${empty memberLoggedIn}){
-			alert("로그인 후 이용 가능합니다.");
-			return false;
-		}
+		<c:if test="${empty memberLoggedIn}">
+		alert("로그인 후 이용가능 합니다.");
+		</c:if>
 		
 		var member_id = $("[name=member_id_t]").val().trim();
 		var free_board_no = $("[name=free_board_no]").val().trim();
@@ -356,10 +355,9 @@ $(function(){
 			return false;
 		}
 		
-		if(${empty memberLoggedIn}){
-			alert("로그인 후 이용 가능합니다.");
-			return false;
-		}
+		<c:if test="${empty memberLoggedIn}">
+		alert("로그인 후 이용가능 합니다.");
+		</c:if>
 		
 		var member_id = $("[name=member_id_cc]").val();
 		var free_board_no = $("[name=free_board_no_c]").val().trim();
@@ -418,9 +416,6 @@ $(function(){
 	});	
 	
 	$(document).on('click','#insertCommentComment-reply',function(){
-		if(${empty memberLoggedIn}){
-			alert("로그인 후 이용 가능합니다.");
-		}
 		var comment_content = $("[name=comment_content_re]").val().trim();
 		//댓글 null체크
 		if(comment_content==""){
@@ -428,10 +423,10 @@ $(function(){
 			
 			return false;
 		}
-		if(${empty memberLoggedIn}){
-			alert("로그인 후 이용 가능합니다.");
-			return false;
-		}
+		
+		<c:if test="${empty memberLoggedIn}">
+			alert("로그인 후 이용가능 합니다.");
+		</c:if>
 		
 		var member_id = $("[name=member_id_re]").val();
 		var free_board_no = $("[name=free_board_no_re]").val().trim();

@@ -203,7 +203,7 @@ div.section_div-s table tr td {
 
 					}
 				%>
-				<%=com.proj.rup.common.util.UtilsView.getPageBar(totalContents, cPage, numPerPage, "managerPage.do")%>
+				<%=com.proj.rup.common.util.Utils.getPageBar(totalContents, cPage, numPerPage, "managerPage.do")%>
 
 			</div>
 
