@@ -1,5 +1,40 @@
 @CHARSET "UTF-8";
-
+/*검색키워드 자동완성*/
+/* div#autoDiv{
+	min-width:365px;
+	min-height:30px;
+	border:1px solid gray;
+	display:inline-block;
+	padding:0;
+	margin:0;
+	background:yellow;
+	position:absolute;
+	right:54px;
+	bottom:-25px;
+	
+} */
+button.btn-default{
+	bottom:2px;
+}
+ul#autoComplete{
+	min-width:365px;
+	/*padding:0 10px;*/
+	padding:0;
+	list-style:none;
+	position:absolute;
+	cursor:pointer;
+	top:35px;
+	right:54px;
+	background:rgb(255,192,203);
+}
+ul#autoComplete li.sel{
+	background:rgb(0,255,255);
+	color:white;
+	right:30px;
+}
+span.srchval{
+	color:red;
+}
 /* 없는듯 하여 추가해봅니다-상현 */
 div.blog-container{
     width:980px;
@@ -118,6 +153,7 @@ div.main-li-container{
     position: relative;
     overflow: hidden;
     border:1px solid lightgray;
+    border-radius: 10px;
 }
 
 ul.main-ul{

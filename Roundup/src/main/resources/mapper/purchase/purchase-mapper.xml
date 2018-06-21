@@ -4,4 +4,8 @@
 	<select id="selectPCList" resultType="purchaseComplete">
 		select * from purchase_complete where member_id=#{memberId}
 	</select>
+	
+	<select id="selectPurchaseOne" resultType="basketProduct">
+		select * from basket b left join product p on b.product_no = p.product_no left join product_file f on p.product_no = f.product_no left join brand br on p.brand_no = br.brand_no where basket_no = #{basketNo}
+	</select>
 </mapper>

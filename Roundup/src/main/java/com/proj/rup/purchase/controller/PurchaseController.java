@@ -1,12 +1,17 @@
 package com.proj.rup.purchase.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.proj.rup.basket.model.vo.BasketProduct;
 import com.proj.rup.purchase.model.service.PurchaseService;
 import com.proj.rup.purchase.model.service.PurchaseServiceImpl;
 
@@ -19,8 +24,26 @@ public class PurchaseController {
 	private PurchaseService purchaseService = new PurchaseServiceImpl();
 	
 	@RequestMapping("/purchase/purchase.do")
-	public void purchase() {
-		System.out.println("구매한다");
+	public ModelAndView purchase(@RequestParam(value="basketNo") String basketNo) {
+		ModelAndView mav = new ModelAndView();
+		
+		if(!basketNo.contains("/")) {
+			BasketProduct purchase = purchaseService.selectPurchaseOne(Integer.parseInt(basketNo));
+			mav.addObject("purchase", purchase);
+		} else {
+			String[] basketNoList = basketNo.split("/");
+			List<BasketProduct> purchaseList = new ArrayList<>();
+			
+			for(int i=0; i<basketNoList.length; i++) {
+				purchaseList.add(purchaseService.selectPurchaseOne(Integer.parseInt(basketNoList[i])));
+			}
+			System.out.println(purchaseList);
+			mav.addObject("purchaseList", purchaseList);
+		}
+		
+		mav.setViewName("/purchase/purchase");
+		
+		return mav;
 	}
 	
 	@RequestMapping("/purchase/purchaseEnd.do")
