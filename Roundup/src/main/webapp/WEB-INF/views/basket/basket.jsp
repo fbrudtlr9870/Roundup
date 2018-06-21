@@ -75,9 +75,6 @@
 		</tr>
 		<tr>
 			<td class="tbl-td"><fmt:formatNumber value="2000" type="currency" currencySymbol=""/>원</td>
-			<td class="tbl-td">
-				<fmt:formatNumber value="0" type="currency" currencySymbol=""/>원
-			</td>
 		</tr>
 	</table>
 	<hr>
@@ -157,7 +154,7 @@ $(function() {
 	    		},
 				success:function(data) {
 					console.log(data);
-					location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
+					location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?member_id=${memberLoggedIn.member_id}";
 				},
 				error:function(jqxhr, textStatus, errorThrown) {
 	                  console.log("ajax처리실패!");
@@ -228,8 +225,9 @@ $(function() {
 		$("[name=basketList]:checked").filter(function() {
 			price += parseInt($(this).parent().parent().find("#price").val()); 
         });
+		console.log($(".totalPrice").children().val());
+		console.log(price);
 		
-	
 		/* $.ajax({
 			url:"${pageContext.request.contextPath}/basket/deleteBasket.do",
 			data: {
