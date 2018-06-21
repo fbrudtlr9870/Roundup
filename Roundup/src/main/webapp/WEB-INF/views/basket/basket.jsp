@@ -47,6 +47,7 @@
 						<button type="button" class="btn btn-light updateBasket">수정</button>
 					</td>
 					<td class="tbl-td">
+						<input type="hidden" value="${i['product_amount']*i['price']}" name="price" id="price"/>
 						<fmt:formatNumber value="${i['product_amount']*i['price']}" type="currency" currencySymbol=""/>원
 					</td>
 					<td class="tbl-td">
@@ -75,6 +76,10 @@
 		</tr>
 		<tr>
 			<td class="tbl-td"><fmt:formatNumber value="2000" type="currency" currencySymbol=""/>원</td>
+			<td class="tbl-td">
+				<%-- <fmt:formatNumber value="0" type="currency" currencySymbol=""/>원 --%>
+				<input type="text" name="" id="totalPrice" value="" />원
+			</td>
 		</tr>
 	</table>
 	<hr>
@@ -225,9 +230,11 @@ $(function() {
 		$("[name=basketList]:checked").filter(function() {
 			price += parseInt($(this).parent().parent().find("#price").val()); 
         });
-		console.log($(".totalPrice").children().val());
-		console.log(price);
 		
+		$("#totalPrice").val(price); 
+		/* console.log($(".totalPrice").children().val());
+		console.log(price); */
+
 		/* $.ajax({
 			url:"${pageContext.request.contextPath}/basket/deleteBasket.do",
 			data: {
