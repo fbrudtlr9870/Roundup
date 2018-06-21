@@ -76,9 +76,10 @@ $(function(){
 function validate(){
 	var member_id = $("#member_id_");
 	var member_password = $("#member_password_");
+	var member_name = $("#member_name_");
 	
-	if(member_id.val().trim().length<4){
-		alert("아이디는 최소4자리이상이어야합니다.");
+	if(member_id.val().trim().length<4 || member_id.val().trim().length>12){
+		alert("아이디는 최소4자리이상 12자 이하여야 합니다");
 		member_id.focus();
 		return false;
 	}
