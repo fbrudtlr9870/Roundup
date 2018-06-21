@@ -178,9 +178,8 @@ public class MemberController {
 		
 		return mav;
 	}
-	
 	@RequestMapping("/member/memberDelete.do")
-	public ModelAndView memberDelete(Member member) {
+	public ModelAndView memberDelete(Member member, SessionStatus sessionStatus) {
 		if(logger.isDebugEnabled())
 			logger.debug("회원정보 삭제 페이지");
 		
@@ -194,6 +193,9 @@ public class MemberController {
 		if(result>0){ 
 			msg="회원정보삭제성공!";
 			mav.addObject("memberLoggedIn", member);
+			
+			if(!sessionStatus.isComplete())
+				sessionStatus.setComplete();
 		}
 		else msg="회원정보삭제실패ㅠ";
 		

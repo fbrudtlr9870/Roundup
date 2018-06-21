@@ -14,8 +14,22 @@ div#update-container{
 	text-align:center;
 }
 div#update-container input.form-control{display:inline-block;}
+div#update-container select.form-control{display:inline-block;}
 </style>
 
+<script>
+function memberDelete(member_id){
+	console.log(member_id);
+	var con_test = confirm("삭제하시겠습니까??");
+	if(con_test == true){
+	  location.href="${pageContext.request.contextPath}/member/memberDelete.do?member_id="+member_id;
+	}
+	else if(con_test == false){
+	}
+	
+}
+
+</script>
 <nav class="nav-list">
      <div class="nav-list-wrapper">
            <ul class="nav nav-tabs nav-justified">
@@ -32,29 +46,29 @@ div#update-container input.form-control{display:inline-block;}
 	<br/>
 	<h4>회원정보</h4>
 	</br>
-		<form action="${pageContext.request.contextPath}/member/memberUpdate.do" method="post" name="memberUpdateFrm">
+		<form action="${pageContext.request.contextPath}/member/memberUpdate.do" method="post" name="memberUpdateFrm" >
 			<div id="userId-container">
-				아이디 : <input type="text" name="member_id" id=member_id_ class="form-control" value="${member.member_id }" required style="width:340px;"/>
+				아이디 : <input type="text" name="member_id" id=member_id_ class="form-control" value="${member.member_id }" required style="width:340px;" readonly/>
 			</div>
 			<br/>
-				이름 : <input type="text" name="member_name" id="member_name_" class="form-control" value="${member.member_name }" required style="width:357px;"/>
+				이  름 : <input type="text" name="member_name" id="member_name_" class="form-control" value="${member.member_name }" required style="width:353px;"/>
 			<br/><br/>
 				이메일 : <input type="email" name="member_email" id="member_email_" value="${member.member_email }" class="form-control" style="width:340px;" required/>
 			<br/><br/>
-				번호 : <input type="text" name="member_phone" id="member_phone_" value="${member.member_phone }" class="form-control" required required style="width:357px;"/>
+				번  호 : <input type="text" name="member_phone" id="member_phone_" value="${member.member_phone }" class="form-control" required required style="width:353px;"/>
 			<br/><br/>
-				생일 : <input type="text" name="member_birthday" id="member_birthday_" value="${member.member_birthday }" class="form-control" style="width:357px;"/>
+				생  일 : <input type="text" name="member_birthday" id="member_birthday_" value="${member.member_birthday }" class="form-control" style="width:353px;"/>
 			<br/><br/>
-				성별 : <select name="member_gender" id="member_gender_" class="form-control" required style="width:357px;">
+				성별 : <select name="member_gender" id="member_gender_" class="form-control" style="width:353px;">
 					<option value=""disabled selected>성별</option>
 					<option value="M" ${member.member_gender=='M'?'selected':'' }>남자</option>
 					<option value="F" ${member.member_gender=='F'?'selected':'' }>여자</option>
 				</select>
-			<br/>
+			<br/><br/>
 			<input type="hidden" name="member_grade" value="${member.member_grade }" />
 		<input type="submit" value="수정" class="btn btn-outline-success" /> 
 		<input type="reset" value="취소" class="btn btn-outline-success">
-		<input type="button" value="삭제" class="btn btn-outline-success">
+		<input type="button" value="삭제" class="btn btn-outline-success" onclick="memberDelete('${member.member_id }');">
 		<br><br><br>
 		</form>
 	</div>
