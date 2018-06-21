@@ -16,4 +16,6 @@ public interface MemberService {
 
 	int connectMember(Member member);
 
+	int selectMember(String member_id);
+
 }

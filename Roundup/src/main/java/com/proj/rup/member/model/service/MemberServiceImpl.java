@@ -42,4 +42,9 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.connectMember(member);
 	}
 
+	@Override
+	public int selectMember(String member_id) {
+		return memberDAO.selectMember(member_id);
+	}
+
 }

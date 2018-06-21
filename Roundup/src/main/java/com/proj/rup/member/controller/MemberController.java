@@ -21,7 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.proj.rup.member.model.service.MemberService;
 import com.proj.rup.member.model.vo.Member;
 
-@SessionAttributes({"memberLoggedIn","totalMember"})
+@SessionAttributes({"memberLoggedIn"})
 @Controller
 public class MemberController {
 	
@@ -98,7 +98,14 @@ public class MemberController {
 		if(bcryptPasswordEncoder.matches(member_password, m.getMember_password())) {
 		//if(member_password.equals(m.getMember_password())) {
 			msg = "로그인성공!";
-			int conenctMember = memberService.connectMember(m);
+			
+			int selectMember = memberService.selectMember(m.getMember_id());
+			if(selectMember==1){
+				int deleteMember = memberService.deleteMember(m.getMember_id());
+				int conenctMember = memberService.connectMember(m);
+			}else{
+				int conenctMember = memberService.connectMember(m);
+			}
 			
 			mav.addObject("memberLoggedIn", m);
 			/*mav.addObject("memberLoggedIn", m);*/
@@ -185,4 +192,18 @@ public class MemberController {
 		
 		return mav;
 	}
+	
+	@RequestMapping("/member/duplicate.do")
+	public ModelAndView memberDuplicate(){
+		ModelAndView mav = new ModelAndView();
+		String loc="/";
+		String msg="세션이 완료되었습니다. 다시 로그인 하세요.";
+		
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		
+		return mav;
+	}
+	
 }

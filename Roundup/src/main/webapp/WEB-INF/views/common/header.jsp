@@ -80,6 +80,7 @@
 				    </c:if>
                 </div>
             </div>
+            <!-- 채팅 관련 html 시작 -->
             <div id="chatting-room">
             	현재 접속중인 회원 <span id="connected-member"style="font-weight:bold;">${totalMember }</span> 명
             </div>
@@ -202,9 +203,14 @@ $(document).ready(function(){
 		$("#autoComplete").hide().children().remove();
 	});
 	
+});
+</script>
+
+<!-- 채팅 관련 스크립트 -->
+<script>
+$(function(){
  	setInterval(function(){
 		$("#connected-member").html();
 	},2000); 
-	
-});
+})
 </script>
