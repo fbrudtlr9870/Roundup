@@ -28,7 +28,8 @@
 	UPDATE MEMBER SET MEMBER_NAME=#{member_name},
 					  MEMBER_EMAIL=#{member_email},
 					  MEMBER_GENDER=#{member_gender},
-					  MEMBER_PHONE=#{member_phone}
+					  MEMBER_PHONE=#{member_phone},
+					  MEMBER_GRADE=#{member_grade}
 	WHERE MEMBER_ID = #{member_id}
 	</update>
 </mapper>

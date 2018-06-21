@@ -50,9 +50,18 @@ div#update-container{
 				<option value="F" ${member.member_gender=='F'?'selected':'' }>여자</option>
 			</select>
 			<br/>
-			<input type="hidden" name="member_grade" value="${member.member_grade }" />
+			<input type="radio" name="member_grade" id="member_grade_1" value="A" ${member.member_grade=='A'?'checked':'' }  >
+			<label for="member_grade_1">A</label> 
+			<input type="radio" name="member_grade" id="member_grade_2" value="G" ${member.member_grade=='G'?'checked':'' }   >
+			<label for="member_grade_2">G</label> 
+			<br /><br />
+			
+			
+			
 		<input type="submit" value="수정" class="btn btn-outline-success" /> 
 		<input type="reset" value="취소" class="btn btn-outline-success">
+		
+		<br /><br /><br />
 		</form>
 	</div>
 </div>

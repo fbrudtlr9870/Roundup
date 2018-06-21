@@ -1,6 +1,7 @@
 package com.proj.rup.manager.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,19 @@ public class ManagerServiceImpl implements ManagerService {
 	private ManagerDAO managerDAO = new ManagerDAOImpl();
 	
 	@Override
-	public List<Member> selectListMember() {
-		return managerDAO.selectListMember();
+	public List<Map<String, String>> selectListMember(int cPage, int numPerPage) {
+		return managerDAO.selectListMember(cPage,numPerPage);
+	}
+
+	@Override
+	public int selectManagerTotalMember() {
+		return managerDAO.selectManagerTotalMember();
+	}
+
+	@Override
+	public Member selectOneMember(String member_id) {
+		// TODO Auto-generated method stub
+		return managerDAO.selectOneMember(member_id);
 	}
 
 }
