@@ -28,26 +28,30 @@ div#update-container{
  </nav>
 <div class="mypage-container-master">
 	<div id="update-container">
-		<form action="memberEnrollEnd.do" method="post">
+	<br/>
+	<h4>회원정보</h4>
+	</br>
+		<form action="${pageContext.request.contextPath}/member/memberUpdate.do " method="post" name="memberUpdateFrm">
 			<div id="userId-container">
 				<input type="text" name="member_id" id=member_id_ class="input form-control" value="${member.member_id }" required/>
 			</div>
 			<br/>
 			<input type="text" name="member_name" id="member_name_" class="input form-control" value="${member.member_name }" required/>
 			<br/>
-			<input type="email" name="member_email" id="member_email_" value="${member.member_email }" class="form-control" />
+			<input type="email" name="member_email" id="member_email_" value="${member.member_email }" class="form-control" required/>
 			<br/>
 			<input type="text" name="member_phone" id="member_phone_" value="${member.member_phone }" class="input form-control"  required/>
 			<br/>
-			<input type="text" name="member_birthDay" id="member_birthDay_" value="${member.member_birthDay }" class="input form-control" />
+			<input type="text" name="member_birthday" id="member_birthday_" value="${member.member_birthday }" class="input form-control" />
 			<br/>
 			<select name="member_gender" id="member_gender_" class="input form-control" required>
 				<option value=""disabled selected>성별</option>
-				<option value="M">남자</option>
-				<option value="F">여자</option>
+				<option value="M" ${member.member_gender=='M'?'selected':'' }>남자</option>
+				<option value="F" ${member.member_gender=='F'?'selected':'' }>여자</option>
 			</select>
 			<br/>
-		<input type="submit" value="가입" class="btn btn-outline-success" /> 
+		<input type="submit" value="수정" class="btn btn-outline-success" /> 
+		<input type="reset" value="취소" class="btn btn-outline-success">
 		</form>
 	</div>
 </div>

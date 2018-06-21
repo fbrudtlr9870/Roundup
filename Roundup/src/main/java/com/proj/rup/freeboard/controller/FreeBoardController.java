@@ -90,7 +90,10 @@ public class FreeBoardController {
 											@RequestParam(value="comment_content")String comment_content){
 		
 		
-		Map<String,Object> map = new HashMap<>();
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+
+		//Map<String,Object> map = new HashMap<String, Object>();
 		
 		
 		FreeBoardComment fbc = 

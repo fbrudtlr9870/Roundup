@@ -8,4 +8,8 @@ public interface MemberDAO {
 
 	Member selectOneMember(String member_id);
 
+	int checkIdDuplicate(String member_id);
+
+	int updateMember(Member member);
+
 }
