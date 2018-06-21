@@ -32,4 +32,18 @@
 					  MEMBER_GRADE=#{member_grade}
 	WHERE MEMBER_ID = #{member_id}
 	</update>
+	
+	<select id="totalMember" resultType="_int">
+		select count(*) from connect_member
+	</select>
+	
+	<insert id="connectMember">
+		insert into connect_member values(#{member_id},#{member_name},sysdate)
+	</insert>
+	
+	<delete id="deleteMember">
+		delete connect_member where member_id=#{memberId}
+	</delete>
+	
+	
 </mapper>

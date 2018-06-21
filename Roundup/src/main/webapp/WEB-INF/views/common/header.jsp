@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -78,6 +79,9 @@
 			    	</button>
 				    </c:if>
                 </div>
+            </div>
+            <div id="chatting-room">
+            	현재 접속중인 회원 <span id="connected-member"style="font-weight:bold;">${totalMember }</span> 명
             </div>
         </nav>
         <!-- 여기있었으 -->
@@ -197,6 +201,10 @@ $(document).ready(function(){
 		$("#productKey").val($(this).children("label").text());
 		$("#autoComplete").hide().children().remove();
 	});
+	
+ 	setInterval(function(){
+		$("#connected-member").html();
+	},2000); 
 	
 });
 </script>
