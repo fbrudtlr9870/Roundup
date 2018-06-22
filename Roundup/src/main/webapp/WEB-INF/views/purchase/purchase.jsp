@@ -62,6 +62,8 @@ table#info2-hyelin td {
 		
 		<c:if test="${not empty purchaseList }">
 			<c:forEach var="i" items="${purchaseList }" varStatus="vs">
+<%-- 			${i['product_no'] }@
+			${i['product_amount'] }# --%>
 				<tr>
 				<td class="tbl-td">
 					<div id="tbl-img-row">
@@ -72,7 +74,10 @@ table#info2-hyelin td {
 				<td class="tbl-td">
 					<fmt:formatNumber value="${i['price']}" type="currency" currencySymbol=""/>원
 				</td>
-				<td class="tbl-td">${i['product_amount'] }</td>
+				<td class="tbl-td">
+					<input type="hidden" name="amount" class="amount" value="${i['product_amount'] }"/>
+					${i['product_amount'] }
+				</td>
 				<td class="tbl-td">
 					<fmt:formatNumber value="${i['product_amount']*i['price']}" type="currency" currencySymbol=""/>원
 				</td>
@@ -158,13 +163,14 @@ table#info2-hyelin td {
 	    	</tr>
 		</table>
 		<hr />
-		<input type="hidden" name="addrLevel" id="addrLevel" value=""/>
+		<input type="hidden" name="addrLevel" id="addrLevel" value="0"/>
 		<button type="button" class="btn btn-success" style="float: right; margin: 10px;" onclick="return payRequest();">구매하기</button>
 	</form>
 </div>
 
 
 <script>
+
 // 우편번호 검색 api
 function sample4_execDaumPostcode() {
      new daum.Postcode(
@@ -250,10 +256,11 @@ function payRequest() {
 			    		data: {
 				    		imp_uid : rsp.imp_uid,
 				    		amount : rsp.paid_amount,
-				    		email : rsp.buyer_email,
 				    		userId : "${memberLoggedIn.member_id}",
 				    		addr : rsp.buyer_addr,
-				    		addr_level : $("#addrLevel").val()
+				    		addr_level : $("#addrLevel").val(),
+				    		zip_code : rsp.buyer_postcode
+				    		/* 상품번호, 수량 */
 			    		}
 			    	}).done(function(data) {
 			    		//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우

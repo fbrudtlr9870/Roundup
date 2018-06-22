@@ -51,13 +51,13 @@ public class PurchaseController {
 	
 	@RequestMapping("/purchase/purchaseEnd.do")
 	public void purchaseEnd(@RequestParam(value="amount") int amount, 
-							@RequestParam(value="email") String email, 
+							@RequestParam(value="zip_code") String zip_code, 
 							@RequestParam(value="userId") String userId,
 							@RequestParam(value="addr") String addr,
 							@RequestParam(value="addr_level") int addr_level) {
 		System.out.println("구매했다!!!!!!!!!!!!!!");
 		System.out.println(amount);
-		System.out.println(email);
+		System.out.println(zip_code);
 		System.out.println(userId);		
 		System.out.println(addr);		
 		System.out.println(addr_level);		

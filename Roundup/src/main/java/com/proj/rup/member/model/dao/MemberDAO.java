@@ -1,5 +1,7 @@
 package com.proj.rup.member.model.dao;
 
+import java.util.Map;
+
 import com.proj.rup.member.model.vo.Member;
 
 public interface MemberDAO {
@@ -23,6 +25,8 @@ public interface MemberDAO {
 	
 	/*ss*/
 	int deleteConnect(String member_id);
+
+	int insertAddress(Map<String, Object> map);
 
 
 }
