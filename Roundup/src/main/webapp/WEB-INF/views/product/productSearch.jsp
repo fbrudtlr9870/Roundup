@@ -12,16 +12,22 @@ $(function(){
 	var bloginfo=${bloginfo};
 	console.log(bloginfo);
 	var p1=$("#blog1");
-	p1.html("<a href="+bloginfo.items[0].link+">"+bloginfo.items[0].title+"</a>");
+	p1.html("<a href="+bloginfo.items[0].link+" target='_blank'>"+bloginfo.items[0].title+"</a>");
 	var p2=$("#blog2");
-	p2.html("<a href="+bloginfo.items[1].link+">"+bloginfo.items[1].title+"</a>");
+	p2.html("<a href="+bloginfo.items[1].link+" target='_blank'>"+bloginfo.items[1].title+"</a>");
 	var p3=$("#blog3");
-	p3.html("<a href="+bloginfo.items[2].link+">"+bloginfo.items[2].title+"</a>");
+	p3.html("<a href="+bloginfo.items[2].link+" target='_blank'>"+bloginfo.items[2].title+"</a>");
 	var p4=$("#blog4");
-	p4.html("<a href="+bloginfo.items[3].link+">"+bloginfo.items[3].title+"</a>");
+	p4.html("<a href="+bloginfo.items[3].link+" target='_blank'>"+bloginfo.items[3].title+"</a>");
 	var p5=$("#blog5");
-	p5.html("<a href="+bloginfo.items[4].link+">"+bloginfo.items[4].title+"</a>");
+	p5.html("<a href="+bloginfo.items[4].link+" target='_blank'>"+bloginfo.items[4].title+"</a>");
 });
+function search(){
+	$(".search-div").show();
+}
+function searchClose(){
+	$(".search-div").hide();
+}
 </script>
 			<div class="blog-container">
                 <h4>네이버 블로그</h4>        
@@ -33,9 +39,14 @@ $(function(){
                 <p id="blog5"></p>                
             </div>
             <br><br>
+            <h2>키워드 - ${searchKeyword }</h2>
+            <div class="searchbtn">
+	            <button class="btn btn-success" onclick="search();" >상세검색</button>
+            </div>
+            <br />
             <div class="search-div">
-            <h2>검색 - ${searchKeyword }</h2>
                 <form action="${pageContext.request.contextPath}/product/reSearch.do">
+                <br />
                     <h4>브랜드</h4> 
                     <input type="hidden" name="searchKeyword" value="${searchKeyword }"/>                    
                     <input class="form-check-input" type="hidden" name="brand" value="all">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -91,7 +102,8 @@ $(function(){
                     <h4>가격대</h4>
                     <input type="number" name="price1" min="0" step="500" value="0" class="form-control" style="width:200px; display:inline-block;"> ~ <input type="number" name="price2" min="0" step="500" value="0" class="form-control" style="width:200px; display:inline-block;">
                     <br><br>
-                    <input type="submit"class="btn btn-success" value="검색">
+                    <input type="submit" class="btn btn-success" value="검색">
+                    <input type="button" class="btn btn-success" value="닫기" onclick="searchClose();"/>
                     <br /><br />
                 </form>
             </div>
