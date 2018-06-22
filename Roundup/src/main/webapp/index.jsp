@@ -9,7 +9,7 @@
 </jsp:include>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.js"></script>	
 <script>
-/* master병합 2018.06.22. 09:25 */
+/* master병합 2018.06.22. 12:00 */
 $(function(){
     $(".main-li").hover(function(){
         $(this).css("border","1px solid black");
