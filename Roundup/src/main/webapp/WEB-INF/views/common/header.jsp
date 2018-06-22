@@ -225,7 +225,7 @@ $(document).ready(function(){
 <!-- 채팅 관련 스크립트 -->
 <script>
 $(function(){
- 	//setInterval(function(){ 
+ 	setInterval(function(){ 
 	 	$.ajax({
 	 		url:"${pageContext.request.contextPath}/chatting/showChat.do",
 	 		type:"get",
@@ -237,11 +237,15 @@ $(function(){
 	 					$("#connected-member").text(c);
 	 				}
 	 				if(index=="list"){
-			 			var html='<div class="chatting-comment" style="text-align:left;>';
+				 		var html='<div>';
 	 					for(var li in c){
 	 						console.log(c[li].member_id+","+c[li].chat_content);
+	 						html+='<div class="chatting-comment" style="text-align:left;">';
 	 						html+=''+c[li].member_id+' : '+c[li].chat_content+'</div>';
 	 					}
+	 					html+='</div>';
+	 					console.log(html);
+	 		 			$("#chatting-content").html(html);
 	 				}
 	 			}
 	 			//$("#chatting-content").empty();
@@ -254,7 +258,7 @@ $(function(){
 				console.log(errorThrown);
 			 }
 	 	});
- 	//},2000)
+ 	},2000)
  	
  	
  	$(document).on("click","#insertChat",function(){
