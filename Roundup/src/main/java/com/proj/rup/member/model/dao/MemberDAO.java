@@ -18,5 +18,11 @@ public interface MemberDAO {
 
 	int deleteMember(Member member);
 
+	int totalMember();
+
+	
+	/*ss*/
+	int deleteConnect(String member_id);
+
 
 }

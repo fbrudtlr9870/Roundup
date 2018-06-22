@@ -48,4 +48,15 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.deleteMember(member);
 	}
 
+	@Override
+	public int totalMember() {
+		return memberDAO.totalMember();
+	}
+
+	/*ㄴㄴ */
+	@Override
+	public int deleteConnect(String member_id) {
+		return memberDAO.deleteConnect(member_id);
+	}
+
 }
