@@ -99,7 +99,7 @@
             	</c:if> 	 	
             	<div id="chatting-content"></div>
             	<div id="member-chat">
-            		<input id="insertText" style="float:left; width:230px;"class="form-control form-control-sm" type="text" placeholder="로그인 후 입력 가능합니다.">
+            		<input id="insertText" style="float:left; width:230px;"class="form-control form-control-sm" type="text">
             		<button style="float:left; width:50px;" type="button" class="btn btn-primary" id="insertChat">전송</button>
             	</div>
             </div>
@@ -249,9 +249,10 @@ $(function(){
 	 						html+=''+c[li].member_id+' : '+c[li].chat_content+'</div>';
 	 					}
 	 					html+='</div>';
-	 					console.log(html);
 	 					$(".chatting-comment").empty();
 	 		 			$("#chatting-content").html(html);
+	 		 			var offset = $(".chatting-comment:last").offset();
+	 		 	        $("#chatting-content").animate({scrollTop : offset.top}, 400);
 	 				}
 	 			}
 	 		},
@@ -262,7 +263,7 @@ $(function(){
 				console.log(errorThrown);
 			 }
 	 	});
- 	},1000)
+ 	},500)
  	
  	
  	$(document).on("click","#insertChat",function(){
@@ -279,6 +280,7 @@ $(function(){
  			return false;
  		}else{
  			console.log(chatText,member_id);
+ 			$("#insertText").val('');
  		 	$.ajax({
  		 		url:"${pageContext.request.contextPath}/chatting/insertChat.do",
  		 		type:"get",
@@ -299,6 +301,43 @@ $(function(){
  		 	});
  		}
  	});
+ 	
+ 	$("#insertText").keypress(function (e) {
+ 		var chatText=$("#insertText").val().trim();
+ 		var member_id =$("[name=member_id]").val().trim();
+ 		
+ 		if(e.which == 13){
+	 		if(chatText==""){
+	 			alert("내용을 입력하셔야 합니다.");
+	 			return false;
+	 		}
+	 		
+	 		if(member_id ==""){
+	 			alert("로그인 후 이용가능합니다.");
+	 			return false;
+	 		}else{
+	 			$("#insertText").val('');
+	 		 	$.ajax({
+	 		 		url:"${pageContext.request.contextPath}/chatting/insertChat.do",
+	 		 		type:"get",
+	 		 		data:{
+	 		 			member_id:member_id,
+	 		 			chat_content:chatText
+	 		 		},
+	 		 		dataType:"json",
+	 		 		success:function(data){
+						console.log("보내기 성공 ");
+	 		 		},
+	 		 		error:function(jqxhr, testStatus, errorThrown){
+	 					console.log("ajax처리실패");
+	 					console.log(jqxhr);
+	 					console.log(testStatus);
+	 					console.log(errorThrown);
+	 				 }
+	 		 	});	 			
+	 		}
+ 		}
+    });
  	
 })
 </script>
