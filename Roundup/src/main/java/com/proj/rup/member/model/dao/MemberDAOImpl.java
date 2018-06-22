@@ -41,4 +41,5 @@ public class MemberDAOImpl implements MemberDAO {
 	public int selectMember(String member_id) {
 		return sqlSession.selectOne("member.selectMember",member_id);
 	}
+	
 }
