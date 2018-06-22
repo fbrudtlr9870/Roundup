@@ -7,6 +7,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="메인" name="pageTitle"/>
 </jsp:include>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.js"></script>	
 <script>
 /* master병합 2018.06.22. 09:25 */
 $(function(){
@@ -19,7 +20,8 @@ $(function(){
     });
 })
 </script>
-<nav class="nav-list">
+
+<!-- <nav class="nav-list">
      <div class="nav-list-wrapper">
            <ul class="nav nav-tabs nav-justified">
                <li role="presentation" class="active"><a href="#">카테고리</a></li>
@@ -27,13 +29,43 @@ $(function(){
                <li role="presentation"><a href="notice.html">공지사항</a></li>
                <li role="presentation"><a href="./freeboard/freeBoardList.do">게시판</a></li>
                <li role="presentation"><a href="#">1:1문의</a></li>
-           </ul>
+           </ul> 
+           <ul class="nav nav-tabs justify-content-center">
+			  <li class="nav-item dropdown">
+			    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">카테고리</a>
+			    <div class="dropdown-menu">
+			      <a class="dropdown-item" href="#">간편식사</a>
+			      <a class="dropdown-item" href="#">즉석조리</a>
+			      <a class="dropdown-item" href="#">과자류</a>
+			      <a class="dropdown-item" href="#">아이스크림</a>
+			      <a class="dropdown-item" href="#">식품</a>
+			      <a class="dropdown-item" href="#">음료</a>
+			      <a class="dropdown-item" href="#">생활용품</a>
+			      <div class="dropdown-divider"></div>
+			      <a class="dropdown-item" href="#">Separated link</a>
+			    </div>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" href="#">행사</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" href="#">공지사항</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" href="./freeboard/freeBoardList.do">게시판</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" href="#">1:1문의</a>
+			  </li>
+			</ul>
+			
      </div>
- </nav>
+     
+ </nav> -->
  
     <div class="main-img-wrapper">
             <div class="main-img">
-                <div class="main-category">
+               <div class="main-category">
                     <ul class="list-group">
                         <li class="list-group-item"><a href="select1.html">간편식사</a></li>
                         <li class="list-group-item">즉석조리</li>
@@ -43,7 +75,8 @@ $(function(){
                         <li class="list-group-item">음료</li>
                         <li class="list-group-item">생활용품</li>
                     </ul>
-                </div>
+                    
+                </div> 
                 <div class="main-category-img" >
                     <img src="${pageContext.request.contextPath }/resources/img/main-display.png" alt="" class="main-img-one">
                 </div>

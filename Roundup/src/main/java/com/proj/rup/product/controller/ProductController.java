@@ -246,11 +246,11 @@ public class ProductController {
 			int rndNum = (int)(Math.random()*1000);
 			String renamedFileName = sdf.format(new Date(System.currentTimeMillis()))+"_"+rndNum+"."+ext;
 			
-//			try {
-//				upFile.transferTo(new File(saveDirectory+"/"+renamedFileName));
-//			} catch (IllegalStateException | IOException e) {
-//				e.printStackTrace();
-//			}
+			try {
+				upFile.transferTo(new File(saveDirectory+"/"+renamedFileName));
+			} catch (IllegalStateException | IOException e) {
+				e.printStackTrace();
+			}
 			
 			Product_File pf = new Product_File();
 			pf.setOriginalFilename(originalFileName);
