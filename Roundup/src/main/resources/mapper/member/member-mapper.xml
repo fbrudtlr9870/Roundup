@@ -49,5 +49,8 @@
 		select count(*) from connect_member where member_id=#{member_id}
 	</select>
 	
-	
+	<delete id="deleteMember">
+	DELETE FROM MEMBER WHERE MEMBER_ID=#{member_id}
+	</delete>
+
 </mapper>

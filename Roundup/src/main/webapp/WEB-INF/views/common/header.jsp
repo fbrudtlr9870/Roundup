@@ -38,7 +38,12 @@
 	                    
 	                    	
                     </li>
-                    <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/member/myPage.do?member_id=${memberLoggedIn.member_id }" style="color:black">마이페이지</a></li>
+                    <c:if test="${memberLoggedIn!=null}">
+                    	<li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/member/myPage.do?member_id=${memberLoggedIn.member_id }" style="color:black">마이페이지</a></li>
+                    </c:if>
+                    <c:if test="${memberLoggedIn==null}">
+	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">마이페이지</a>
+	                    </c:if>
                     <li class="nav-bar-site-li">고객센터</li>
                     <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/manager/managerPage.do">관리자페이지</a></li>
                 </ul>
@@ -109,7 +114,7 @@
 		      </div>
 		      <form action="${pageContext.request.contextPath }/member/memberLogin.do" method="post">
 		      <div class="modal-body">
-		      	<input type="text" class="form-control" name="member_id" id="member_id" placeholder="아이디" required/>
+		      	<input type="text" class="form-control" name="member_id" id="member_id" placeholder="아이디" required autocomplete="off"/>
 		      	<br />
 		      	<input type="password" class="form-control" name="member_password" id="member_password" placeholder="비밀번호" required/>
 		      </div>

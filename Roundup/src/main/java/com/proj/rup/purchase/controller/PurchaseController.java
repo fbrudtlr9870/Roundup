@@ -35,7 +35,7 @@ public class PurchaseController {
 			mav.addObject("purchase", purchase);
 		} else {
 			String[] basketNoList = basketNo.split("/");
-			List<BasketProduct> purchaseList = new ArrayList<>();
+			List<BasketProduct> purchaseList = new ArrayList<BasketProduct>();
 			
 			for(int i=0; i<basketNoList.length; i++) {
 				purchaseList.add(purchaseService.selectPurchaseOne(Integer.parseInt(basketNoList[i])));
