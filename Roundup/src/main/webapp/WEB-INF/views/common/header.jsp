@@ -242,7 +242,7 @@ $(function(){
 	 				}
 	 			}
 	 			
-	 			("#chatting-content").html(html);
+	 			$("#chatting-content").html(html);
 	 		},
 	 		error:function(jqxhr, testStatus, errorThrown){
 				console.log("ajax처리실패");
