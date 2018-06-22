@@ -9,9 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.proj.rup.basket.model.vo.BasketProduct;
+import com.proj.rup.member.model.vo.Address;
+import com.proj.rup.member.model.vo.MemberAddress;
 import com.proj.rup.purchase.model.service.PurchaseService;
 import com.proj.rup.purchase.model.service.PurchaseServiceImpl;
 
@@ -52,5 +55,25 @@ public class PurchaseController {
 		System.out.println(amount);
 		System.out.println(email);
 		System.out.println(userId);		
+	}
+	
+	@RequestMapping("/purchase/selectMemberInfo.do")
+	@ResponseBody
+	public MemberAddress selectMemberInfo(@RequestParam(value="memberId") String memberId) {
+		MemberAddress m = purchaseService.selectMemberInfo(memberId);
+
+		return m;
+	}
+	
+	@RequestMapping("/purchase/selectAddrList.do")
+	public ModelAndView selectAddrList(@RequestParam(value="memberId") String memberId) {
+		ModelAndView mav = new ModelAndView();
+		
+		List<Address> addrList = purchaseService.selectAddrList(memberId);
+		
+		mav.addObject("addrList", addrList);
+		mav.setViewName("/purchase/selectAddrList");
+		
+		return mav;
 	}
 }

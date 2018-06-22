@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.proj.rup.basket.model.vo.BasketProduct;
+import com.proj.rup.member.model.vo.Address;
+import com.proj.rup.member.model.vo.MemberAddress;
 import com.proj.rup.purchase.model.dao.PurchaseDAO;
 import com.proj.rup.purchase.model.dao.PurchaseDAOImpl;
 import com.proj.rup.purchase.model.vo.PurchaseComplete;
@@ -27,5 +29,14 @@ public class PurchaseServiceImpl implements PurchaseService {
 		return purchaseDAO.selectPurchaseOne(basketNo);
 	}
 
+	@Override
+	public MemberAddress selectMemberInfo(String memberId) {
+		return purchaseDAO.selectMemberInfo(memberId);
+	}
+
+	@Override
+	public List<Address> selectAddrList(String memberId) {
+		return purchaseDAO.selectAddrList(memberId);
+	}
 
 }
