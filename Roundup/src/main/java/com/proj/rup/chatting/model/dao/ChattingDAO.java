@@ -10,4 +10,8 @@ public interface ChattingDAO {
 
 	int connectCount();
 
+	int insertChat(Chatting chatting);
+
+
+
 }
