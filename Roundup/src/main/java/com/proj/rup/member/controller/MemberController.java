@@ -65,8 +65,8 @@ public class MemberController {
 		//2. 
 		String loc = "/";
 		String msg = "";
-		if(result>0) msg="회원가입성공";
-		else msg="회원가입실패";
+		if(result>0) msg="회원가입성공!! 편의점 마스터에 오신것을 환영합니다.";
+		else msg="회원가입실패ㅠㅠ 다시 작성해주세요";
 		
 		model.addAttribute("loc",loc);
 		model.addAttribute("msg",msg);

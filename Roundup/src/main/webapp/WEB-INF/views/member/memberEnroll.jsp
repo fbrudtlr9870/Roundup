@@ -7,24 +7,69 @@
 	<jsp:param value="회원등록" name="pageTitle"/>
 </jsp:include>	
 <style>
+/* table input[id="member_name_"], table input[id="member_id_"], table input[id="member_password_"], table input[id="password_chk"]
+table input[id="member_phone_"], table input[id="member_email_"], table input[id="member_gender_"], table input[id="member_birthday_"] {
+   background-color: lightblue;
+   color: black;
+   border-bottom-left-radius: 0;
+   border-top-left-radius: 0;
+   border: 0;
+   color: inherit;
+   font: inherit;
+   margin: 0;
+   outline: 2;
+   padding: 10px;
+   transition: background-color .3s;
+}
+
+table input[id="member_id_"]  {
+   background-color: lightpink;
+   color: black;
+   border-bottom-left-radius: 0;
+   border-top-left-radius: 0;
+   border: 0;
+   color: inherit;
+   font: inherit;
+   margin: 0;
+   outline: 0;
+   padding: 1;
+   transition: background-color .3s;
+} */
+
 div#update-container{
 	width:400px;
 	margin:0 auto;
 	text-align:center;
+	border-style: dotted;
+    border-radius: 30px 30px 30px;
+    border-top-right-radius: 50px;
+    width:700px;
 }
-div#update-container input.form-control{display:inline-block;}
-div#update-container select.form-control{display:inline-block;}
-
-div#userId-container{position:relative; padding:0px;}
-div#userId-container span.guide{
+div#update-container input.form-control{
+	display:inline-block;
+	border: 2px solid #7EA0E4;
+    background: #fbfbfb;
+    font-size: 13px;
+    font-family: 'Do Hyeon', sans-serif;
+	}
+div#update-container select.form-control{
+	display:inline-block;
+	border: 2px solid #7EA0E4;
+    background: #fbfbfb;
+    font-size: 13px;
+    font-family: 'Do Hyeon', sans-serif;
+	}
+table#userId-container{position:relative; padding:0px; margin-right:1000px;}
+table#userId-container span.guide{
 	display:none;
 	font-size:12px;
 	position:absolute;
 	top:12px;
 	right:10px;
+	margin-right:1000px;
 }
-div#userId-container span.ok{color:blue;}
-div#userId-container span.error{color:orange;}
+table#userId-container span.ok{color:blue;}
+table#userId-container span.error{color:orange;}
 </style>
 <script>
 $(function(){
@@ -82,6 +127,7 @@ function validate(str){
 	var member_phone = $("#member_phone_").val().trim();
 	var regExp = /^[가-힣]{2,8}$/;
 	var regExp0 = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
+	
 
 
 	
@@ -126,25 +172,76 @@ function validate(str){
 </script>
 	<div id="update-container">
 	<h2>회원가입</h2>
+	<hr size="5px;" style="background:rgb(126, 183, 230);">
+	<p align="center" style="color:red;">*모든 항목을 필수사항 입니다.</p>
+	<p align="center" style="color:red;">*창에 적힌데로 적어주세요.</p>
 		<form action="memberEnrollEnd.do" method="post" onsubmit="return validate();">
-			<div id="userId-container">
-				 아이디 : <input type="text" name="member_id" id=member_id_ class="input form-control" required style="width:330px;"/>
+			<table id="userId-container">
+				<tr>
+					<th>아이디 </th>
+					<td><input type="text" name="member_id" id=member_id_ class="input form-control" placeholder="4~12자 이내로 적어주세요." required style="width:270px;"/>
+						 <span class="guide ok">이 아이디는 사용가능합니다.</span>
+						 <span class="guide error">이 아이디는 사용할 수 없습니다.</span>
+						 <input type="hidden" id="idDuplicateCheck" value="0" />
+					 </td>
+				</tr>
+				<tr>
+					<th>비밀번호 </th>
+					<td><input type="password" name="member_password" id="member_password_" class="input form-control" placeholder="4자리이상이거나 8자리 미만여야 합니다." required style="width:259px;"/>
+					 </td>
+				</tr>
+				<tr>
+					<th>비번확인 </th>
+					<td><input type="password" id="password_chk" class="form-control" required style="width:259px;"/>
+					 </td>
+				</tr>
+				<tr>
+					<th>이름 </th>
+					<td><input type="text" name="member_name" id="member_name_" class="form-control" required autocomplete="off" placeholder="한글로 2글자 이상 8글자여야 합니다" style="width:287px;"/>
+					 </td>
+				</tr>
+				<tr>
+					<th>이메일 </th>
+					<td><input type="email" name="member_email" id="member_email_" class="form-control" placeholder="ex)xxxx@xxx.xxx" autocomplete="off" style="width:270px;"/>
+					 </td>
+				</tr>
+				<tr>
+					<td>전화번호  <input type="text" name="member_phone" id="member_phone_" class="form-control" placeholder="-없이 작성하세요" required autocomplete="off" style="width:259px;"/>
+					 </td>
+				</tr>
+				<tr>
+					<th>태어난날</th>
+					<td><input type="date" name="member_birthday" id="member_birthday_" class="form-control" style="width:259px;" />
+					 </td>
+				</tr>
+				<tr>
+					<th>성별 </th>
+					<td><select name="member_gender" id="member_gender_" class="form-control" required style="width:283px;">
+							<option value=""disabled selected>성별</option>
+							<option value="M">남자</option>
+							<option value="F">여자</option>
+						</select>
+					 </td>
+				</tr>
+			</table>
+			<!-- <div id="userId-container">
+				 아이디  <input type="text" name="member_id" id=member_id_ class="input form-control" placeholder="4~12자 이내로 적어주세요." required style="width:330px;"/>
 				<span class="guide ok">이 아이디는 사용가능합니다.</span>
 				<span class="guide error">이 아이디는 사용할 수 없습니다.</span>
 				<input type="hidden" id="idDuplicateCheck" value="0" />
 			</div>
 			<br/>
-			 비밀번호 : <input type="password" name="member_password" id="member_password_" class="input form-control" required style="width:319px;"/>
+			 비밀번호 : <input type="password" name="member_password" id="member_password_" class="input form-control" placeholder="4자리이상이거나 8자리 미만여야 합니다." required style="width:319px;"/>
 			<br/><br/>
 			비번확인 : <input type="password" id="password_chk" class="form-control" required style="width:319px;"/>
 			<br/><br>
-			이름 : <input type="text" name="member_name" id="member_name_" class="form-control" required autocomplete="off" style="width:347px;"/>
+			이름 : <input type="text" name="member_name" id="member_name_" class="form-control" required autocomplete="off" placeholder="한글로 2글자 이상 8글자여야 합니다" style="width:347px;"/>
 			<br/><br>
-			이메일 : <input type="email" name="member_email" id="member_email_" class="form-control" autocomplete="off" style="width:330px;"/>
+			이메일 : <input type="email" name="member_email" id="member_email_" class="form-control" placeholder="ex)xxxx@xxx.xxx" autocomplete="off" style="width:330px;"/>
 			<br/><br>
-			전화번호 : <input type="text" name="member_phone" id="member_phone_" class="form-control" required autocomplete="off" style="width:319px;"/>
+			전화번호 : <input type="text" name="member_phone" id="member_phone_" class="form-control" placeholder="-없이 작성하세요" required autocomplete="off" style="width:319px;"/>
 			<br/><br>
-			<!-- 생일 : <input type="date" name="member_birthday" id="member_birthday_" class="input" style="width:300px;"/> -->
+			생일 : <input type="date" name="member_birthday" id="member_birthday_" class="input" style="width:300px;"/>
 			생일 : <input type="date" name="member_birthday" id="member_birthday_" class="form-control" style="width:350px;" />
 			<br/><br/>
 			성별 : <select name="member_gender" id="member_gender_" class="form-control" required style="width:343px;">
@@ -152,7 +249,7 @@ function validate(str){
 				<option value="M">남자</option>
 				<option value="F">여자</option>
 			</select>
-			<br/><br>
+			<br/><br> -->
 		<input type="submit" value="가입" class="btn btn-outline-success"/>
 		<input type="reset" value="초기화" class="btn btn-outline-success"/> 
 		<br><br> 

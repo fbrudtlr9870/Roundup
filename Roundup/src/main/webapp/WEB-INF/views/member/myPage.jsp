@@ -13,8 +13,21 @@ div#update-container{
 	margin:0 auto;
 	text-align:center;
 }
-div#update-container input.form-control{display:inline-block;}
-div#update-container select.form-control{display:inline-block;}
+div#update-container input.form-control{
+	display:inline-block;
+	border: 2px solid #7EA0E4;
+    background: #fbfbfb;
+    /* color: #7EA0E4; */
+    font-size: 13px;
+    font-family: 'Do Hyeon', sans-serif;
+	}
+div#update-container select.form-control{
+	display:inline-block;
+	border: 2px solid #7EA0E4;
+    background: #fbfbfb;
+    /* color: #7EA0E4; */
+    font-size: 13px;
+    font-family: 'Do Hyeon', sans-serif;}
 </style>
 
 <script>
@@ -97,7 +110,7 @@ function validate(str){
 				아이디 : <input type="text" name="member_id" id=member_id_ class="form-control" value="${member.member_id }" required style="width:330px;" readonly/>
 			</div>
 			<br/>
-				이  름 : <input type="text" name="member_name" id="member_name_" class="form-control" value="${member.member_name }" required style="width:343px;"/>
+				이  름 : <input type="text" name="member_name" id="member_name_" class="form-control" value="${member.member_name }" required style="width:343px;" readonly/>
 			<br/><br/>
 				이메일 : <input type="email" name="member_email" id="member_email_" value="${member.member_email }" class="form-control" style="width:330px;" required/>
 			<br/><br/>
