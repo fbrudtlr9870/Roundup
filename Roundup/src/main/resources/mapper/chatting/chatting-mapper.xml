@@ -18,6 +18,9 @@
 	select count(*) from connect_member
 </select>
 
+<insert id="insertChat">
+	insert into chatting values(chat_no_seq.nextval,#{member_id},#{chat_content},default)
+</insert>
 
 
 </mapper>

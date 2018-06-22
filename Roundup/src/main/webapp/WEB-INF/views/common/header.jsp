@@ -91,7 +91,12 @@
             <div id="chatting-room">
             	<input type="hidden" name="member_id" value="${memberLoggedIn['member_id']}" />
             	<div style="text-align:center;">현재 접속중인 회원<span id="connected-member"style="font-weight:bold;">${totalMember }</span> 명</div>
-            	<div style="text-align:center;margin-top:10px;">채팅방에 접속되었습니다.</div>   	
+            	<c:if test="${memberLoggedIn!=null }">
+            	<div style="text-align:center;margin-top:10px;">채팅방에 접속되었습니다.</div>  
+            	</c:if>
+            	<c:if test="${memberLoggedIn==null }">
+            	<div style="text-align:center;margin-top:10px;">로그인 후 사용가능합니다.</div>  
+            	</c:if> 	 	
             	<div id="chatting-content"></div>
             	<div id="member-chat">
             		<input id="insertText" style="float:left; width:230px;"class="form-control form-control-sm" type="text" placeholder="로그인 후 입력 가능합니다.">

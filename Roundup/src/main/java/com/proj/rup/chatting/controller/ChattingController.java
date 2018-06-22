@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.proj.rup.chatting.model.service.ChattingService;
@@ -37,7 +38,18 @@ public class ChattingController {
 		
 		logger.debug("map="+map);
 		
-		return map;
+		return map;	
+	}
+	
+	@RequestMapping(value="/chatting/insertChat.do",method=RequestMethod.GET,produces="application/json; charset=utf8")
+	@ResponseBody
+	public void insertChat(@RequestParam(value="member_id")String member_id,
+						   @RequestParam(value="chat_content")String chat_content) {
+		
+		Chatting chatting = new Chatting(0,member_id,chat_content,null);
+		
+		int insertChat = chattingService.insertChat(chatting);
 		
 	}
+		
 }
