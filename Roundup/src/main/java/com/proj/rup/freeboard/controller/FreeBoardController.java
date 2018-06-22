@@ -54,7 +54,8 @@ public class FreeBoardController {
 	
 	//자유게시판 상세보기
 	@RequestMapping("/freeboard/freeBoardView.do")
-	public ModelAndView boardView(@RequestParam(value="no") int no){
+	public ModelAndView boardView(@RequestParam(value="no") int no
+							,@RequestParam(value="cPage", required=false, defaultValue="1")int cPage){
 		ModelAndView mav = new ModelAndView();
 		
 		//1. 자유게시판 번호에 맞는 값 가져오기
@@ -69,10 +70,27 @@ public class FreeBoardController {
 		//4. 게시글 별 댓글 수 총합 가져오기
 		int count = freeboardService.totalCommentCount(no);
 		
+		//5. 게시판 리스트
+		
+		int numPerPage = 10; //=> limit
+		
+		List<FreeBoard> blist = freeboardService.selectfreeBoardList(cPage,numPerPage);
+		logger.debug("list@freeboardController="+blist);
+		
+		//2. 페이지바처리를 위한 전체컨텐츠 수 구하기
+		int pcount = freeboardService.selectfreeBoardListCount();
+		
+		
 		mav.addObject("fboard", fboard);
 		mav.addObject("list", list);
 		mav.addObject("listc", listc);
 		mav.addObject("count", count);
+		
+		mav.addObject("pcount", pcount);
+		mav.addObject("numPerPage", numPerPage);
+		mav.addObject("blist", blist);
+		mav.addObject("no",no);
+		
 		mav.setViewName("freeboard/freeBoardView");
 		
 		return mav;

@@ -60,4 +60,23 @@
 		</if>
 	order by p.price
 	</select>
+	
+	<insert id="insertProduct">
+	insert into product values(seq_product_no.nextval,#{productName},#{brandNo},#{price},default,#{memberId})
+		<selectKey keyProperty="productNo" resultType="_int" order="AFTER">
+			select seq_product_no.currval from dual
+		</selectKey>
+	</insert>
+	
+	<insert id="insertProductFile">
+	insert into product_file values(seq_prodfile_no.nextval,#{productNo},#{originalFileName},#{renamedFileName},default)
+	</insert>
+	
+	<select id="selectCategoryLevel" resultType="_int">
+	select category_level from category where category_no=#{categoryNo}
+	</select>
+	
+	<insert id="insertProductCategory">
+	insert into product_category values(seq_prodcategory_no.nextval,#{productNo},#{categoryNo},#{categoryLevel})
+	</insert>
 </mapper>

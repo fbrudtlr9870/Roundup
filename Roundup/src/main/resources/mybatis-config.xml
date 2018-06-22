@@ -10,5 +10,9 @@
 	 	<typeAlias type="com.proj.rup.freeboard.model.vo.FreeBoardComment" alias="freeboardComment"/>
 	 	<typeAlias type="com.proj.rup.purchase.model.vo.PurchaseComplete" alias="purchaseComplete"/>
 	 	<typeAlias type="com.proj.rup.basket.model.vo.BasketProduct" alias="basketProduct"/>
+	 	<typeAlias type="com.proj.rup.chatting.model.vo.Chatting" alias="chatting"/>
+	 	<typeAlias type="com.proj.rup.member.model.vo.MemberAddress" alias="memberAddress"/>
+	 	<typeAlias type="com.proj.rup.member.model.vo.Address" alias="address"/>
+
 	 </typeAliases>
 </configuration>

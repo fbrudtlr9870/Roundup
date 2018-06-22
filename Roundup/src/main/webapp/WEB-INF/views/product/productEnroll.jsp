@@ -10,18 +10,35 @@
 
 <style>
 div.form-group{
-	width:100%;
+	width:500px;
 }
 div#product-container label.custom-file-label{text-align:left;}
 div#product-container{
-	width:600px;
+	position:relative;
+	width:980px;
 	margin:0 auto;
 
 }
 div#board-container input{margin-bottom:15px;}
-div.category_div{
-	width:200px;
+div.mb-3{
+	width:700px;
 }
+.btn-outline-primary{
+	float:right;
+	margin:10px;
+}
+.input-group-text{
+	background-color: #ffffff;
+}
+.input-group-prepend>span{
+	width:110px;
+	
+}
+control[readonly] {
+    background-color: #efefef;
+    opacity: 1;
+}
+
 </style>
 
 <script>
@@ -108,64 +125,108 @@ function validate(){
 	
 	return true;
 }
+
+$(function(){
+	$("[name=upFile]").on("change",function(){
+		//var fileName = $(this).val();
+		var fileName = $(this).prop("files")[0].name;
+		
+		$(this).next(".custom-file-label").html(fileName);
+	});
+});
 </script>
 
 <div id="product-container">
-
+	<h3>상품등록</h3><br />
 	<form action="productEnrollEnd.do" name="productFrm" method="post" enctype="multipart/form-data" onsubmit="return validate();">
-	  <div class="form-group">
-	    <label for="formGroupExampleInput">상품이름</label>
-	    <input type="text" class="form-control" name="productName" id="formGroupExampleInput" placeholder="Example input">
+	 <div class="input-group mb-3">
+		  <div class="input-group-prepend">
+		    <span class="input-group-text" id="inputGroup-sizing-default">상품이름</span>
+		  </div>
+		  <input type="text" class="form-control" name="productName" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+		</div>
+	  <div class="input-group mb-3">
+		  <div class="input-group-prepend">
+		    <span class="input-group-text" id="inputGroup-sizing-default">등록자</span>
+		  </div>
+		  <input type="text" class="form-control" name="memberId" aria-label="Default" value="${memberLoggedIn.member_id }" aria-describedby="inputGroup-sizing-default" readonly>
+	</div>
+	<div class="input-group mb-3">
+	  <div class="input-group-prepend">
+	    <label class="input-group-text" for="inputGroupSelect01">브랜드</label>
 	  </div>
-	  <div class="form-group">
-	    <label for="formGroupExampleInput2">등록자</label>
-	    <input type="text" class="form-control" name="memberId" id="formGroupExampleInput2" placeholder="Another input" readonly>
+	  <select class="custom-select" name="brandNo" id="inputGroupSelect01">
+	      <option value="1">CU</option>
+	      <option value="2">GS25</option>
+	      <option value="3">7ELEVEN</option>
+	      <option value="4">MINISTOP</option>
+	      <option value="5">EMART24</option>
+	  </select>
+	</div>
+	<div class="input-group mb-3">
+	  <div class="input-group-prepend">
+	    <label class="input-group-text" for="inputGroupSelect01">카테고리</label>
 	  </div>
-	 <div class="form-group">
-	    <label for="inputState">브랜드</label>
-	     <select id="inputState" name="brandName" class="form-control">
-	      <option>CU</option>
-	      <option>GS25</option>
-	      <option>7ELEVEN</option>
-	      <option>MINISTOP</option>
-	      <option>EMART24</option>
-	    </select>
+	  <select class="custom-select" name="categoryNo" id="category">
+	    	<option id="category" value="0" selected disabled>카테고리</option>
+          	<option id="category" value="1">간편식사</option>
+          	<option id="category" value="7">-  김밥</option>
+          	<option id="category" value="27">-- 삼각김밥</option>
+          	<option id="category" value="28">-- 원형김밥</option>
+          	<option id="category" value="8">- 도시락</option>
+          	<option id="category" value="29">-- 고기</option>
+          	<option id="category" value="30">-- 치킨</option>
+          	<option id="category" value="9">- 샌드위치</option>
+          	<option id="category" value="10">- 햄버거</option>
+          	<option id="category" value="2">식품</option>
+          	<option id="category" value="11">- 컵밥/국</option>
+          	<option id="category" value="12">- 라면</option>
+          	<option id="category" value="31">-- 컵라면</option>
+          	<option id="category" value="32">-- 봉지라면</option>
+          	<option id="category" value="13">- 냉동식품</option>
+          	<option id="category" value="33">-- 치킨</option>
+          	<option id="category" value="34">-- 피자</option>
+          	<option id="category" value="35">-- 만두</option>
+          	<option id="category" value="36">-- 돼지고기</option>
+          	<option id="category" value="14">- 냉장식품</option>
+          	<option id="category" value="37">-- 가공식품</option>
+          	<option id="category" value="38">-- 안주</option>
+          	<option id="category" value="39">-- 식재료</option>
+          	<option id="category" value="3">과자류</option>
+          	<option id="category" value="15">- 껌/사탕/초코</option>
+          	<option id="category" value="16">- 박스과자</option>
+          	<option id="category" value="17">- 봉지과자</option>
+          	<option id="category" value="4">아이스크림</option>
+          	<option id="category" value="18">- 바</option>
+          	<option id="category" value="19">- 콘</option>
+          	<option id="category" value="20">- 컵</option>
+          	<option id="category" value="5">즉석식품</option>
+          	<option id="category" value="21">- 튀김</option>
+          	<option id="category" value="22">- 빵</option>
+          	<option id="category" value="6">음료</option>
+          	<option id="category" value="23">- 유제품</option>
+          	<option id="category" value="24">- 캔</option>
+          	<option id="category" value="25">- 페트</option>
+          	<option id="category" value="26">- 유리</option>
+	  </select>
+	</div>
+	  <div class="input-group mb-3">
+	  <div class="input-group-prepend">
+	    <span class="input-group-text" id="inputGroup-sizing-default">상품가격</span>
 	  </div>
-	  <div class="form-group category_div">
-	     <label for="inputState">카테고리1</label>
-	     <select class="form-control category" name="category1" id="category1" onchange="doChange(this,'category2')" required>	  
-	     	<option selected disabled>카테고리1</option> 
-	     	<option>간편식사</option>    
-	     	<option>식품</option>    
-	     	<option>과자류</option>    
-	     	<option>아이스크림</option>    
-	     	<option>즉석식품</option>    
-	     	<option>음료</option>    
-	      </select>
-	  
-	     <label for="inputState">카테고리2</label>
-	     <select class="form-control category" name="category2" id="category2" onchange="doChange(this,'category3')" required>	   
-	  	  <option selected disabled>카테고리2</option> 
-	      </select>
-	  
-	     <label for="inputState">카테고리3</label>
-	     <select class="form-control category" name="category3" id="category3" required>
-	     <option selected disabled>카테고리3</option> 	     
-	      </select>
-	   </div>
-	   <div class="form-group">
-	    <label for="formGroupExampleInput2">가격</label>
-	    <input type="text" class="form-control" name="price" id="formGroupExampleInput3" placeholder="Another input" >
-	  </div>
-	 <div class="input-group mb-3" style="padding:0px">
-		  <div class="input-group-prepend" style="padding:0px">
-		    <span class="input-group-text">첨부파일1</span>
+	  <input type="number" class="form-control" name="price" step="100" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+	</div>
+	  <div class="input-group mb-3">
+		  <div class="input-group-prepend">
+		    <span class="input-group-text">상품이미지</span>
 		  </div>
 		  <div class="custom-file">
-		    <input type="file" class="custom-file-input" name="upFile" id="upFile1">
-		    <label class="custom-file-label" for="upFile1">파일을 선택하세요</label>
+		    <input type="file" class="custom-file-input" name="upFile" id="inputGroupFile01">
+		    <label class="custom-file-label" id="chooseFile" for="inputGroupFile01">Choose file</label>
 		  </div>
-		</div>
+	 </div>
+	 <button type="reset" class="btn btn-outline-primary">초기화</button>
+	 <button type="submit" class="btn btn-outline-primary">상품등록</button>
 	</form>
 </div>
 

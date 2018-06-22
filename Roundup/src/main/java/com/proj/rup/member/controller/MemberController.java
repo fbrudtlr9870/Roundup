@@ -3,6 +3,8 @@ package com.proj.rup.member.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,57 +74,57 @@ public class MemberController {
 	}
 	
 	
-	@RequestMapping("/member/memberLogin.do")
-	public ModelAndView memberLogin(@RequestParam String member_id,
-									@RequestParam String member_password) {
-		if(logger.isDebugEnabled())
-			logger.debug("로그인요청");
-		
-		//리턴할 ModelAndView객체생성
-		ModelAndView mav = new ModelAndView();
-		logger.debug(member_id);
-		
-		//1.업무로직
-		Member m = memberService.selectOneMember(member_id);
-		logger.debug(m.toString());
-		
-		String msg = "";
-		String loc = "/";
-		
-		if(m==null) 
-			msg = "존재하지 않는 아이디입니다.";
-		
-		else {
-		if(bcryptPasswordEncoder.matches(member_password, m.getMember_password())) {
-		//if(member_password.equals(m.getMember_password())) {
-			msg = "로그인성공!";
-			mav.addObject("memberLoggedIn", m);
-			/*mav.addObject("memberLoggedIn", m);*/
-		}
-		else {
-			msg = "비밀번호가 틀렸습니다.";
-			}
-		}	
-		
-		mav.addObject("msg", msg);
-		mav.addObject("loc", loc);
-		//뷰단 지정
-		mav.setViewName("common/msg");
-		
-		return mav;
-		}
+	   @RequestMapping("/member/memberLogin.do")
+	   public ModelAndView memberLogin(@RequestParam String member_id,
+	                           @RequestParam String member_password) {
+	      if(logger.isDebugEnabled())
+	         logger.debug("로그인요청");
+	      
+	      //리턴할 ModelAndView객체생성
+	      ModelAndView mav = new ModelAndView();
+	      logger.debug(member_id);
+	      
+	      //1.업무로직
+	      Member m = memberService.selectOneMember(member_id);
+	      logger.debug(m.toString());
+	      
+	      String msg = "";
+	      String loc = "/";
+	      
+	      if(m==null) 
+	         msg = "존재하지 않는 아이디입니다.";
+	      
+	      else {
+	      if(bcryptPasswordEncoder.matches(member_password, m.getMember_password())) {
+	      //if(member_password.equals(m.getMember_password())) {
+	         msg = "로그인성공!";
+	         mav.addObject("memberLoggedIn", m);
+	         /*mav.addObject("memberLoggedIn", m);*/
+	      }
+	      else {
+	         msg = "비밀번호가 틀렸습니다.";
+	         }
+	      }   
+	      
+	      mav.addObject("msg", msg);
+	      mav.addObject("loc", loc);
+	      //뷰단 지정
+	      mav.setViewName("common/msg");
+	      
+	      return mav;
+	      }
 			
-	@RequestMapping("/member/memberLogout.do")
-	public String memberLogout(SessionStatus sessionStatus) {
-		if(logger.isDebugEnabled())
-			logger.debug("로그아웃요청");
-		
-		if(!sessionStatus.isComplete())
-			sessionStatus.setComplete();
-		
-		return "redirect:/";
-	}
-	
+	 @RequestMapping("/member/memberLogout.do")
+	   public String memberLogout(SessionStatus sessionStatus) {
+	      if(logger.isDebugEnabled())
+	         logger.debug("로그아웃요청");
+	      
+	      if(!sessionStatus.isComplete())
+	         sessionStatus.setComplete();
+	      
+	      return "redirect:/";
+	   }
+	 
 	@RequestMapping("member/checkIdDuplicate.do")
 	@ResponseBody
 	public Map<String,Object> checkIdDuplicate(@RequestParam("member_id") String member_id){
@@ -178,4 +180,33 @@ public class MemberController {
 		
 		return mav;
 	}
+
+	@RequestMapping("/member/memberDelete.do")
+	public ModelAndView memberDelete(Member member, SessionStatus sessionStatus) {
+		if(logger.isDebugEnabled())
+			logger.debug("회원정보 삭제 페이지");
+		
+		ModelAndView mav = new ModelAndView();
+		System.out.println(member);
+			
+		int result = memberService.deleteMember(member);
+		
+		String loc = "/"; 
+		String msg = "";
+		if(result>0){ 
+			msg="회원정보삭제성공!";
+			mav.addObject("memberLoggedIn", member);
+			
+			if(!sessionStatus.isComplete())
+				sessionStatus.setComplete();
+		}
+		else msg="회원정보삭제실패ㅠ";
+		
+		mav.addObject("msg", msg);
+		mav.addObject("loc", loc);
+		mav.setViewName("common/msg");
+		
+		return mav;
+	}
+
 }

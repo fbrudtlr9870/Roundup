@@ -28,12 +28,12 @@ section#enroll-container-dh table {
 }
 
 section#enroll-container-dh table th {
-	padding: 5px 80px 5px 80px;
+	padding: 5px 15px 5px 130px;
 	text-align: right;
 }
 
 section#enroll-container-dh table td {
-	padding: 5px 15px 5px 5px;
+	padding: 5px 50px 5px 5px;
 	text-align: left;
 }
 

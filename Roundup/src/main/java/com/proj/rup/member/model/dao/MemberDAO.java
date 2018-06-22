@@ -12,4 +12,11 @@ public interface MemberDAO {
 
 	int updateMember(Member member);
 
+	int connectMember(Member member);
+
+	int selectMember(String member_id);
+
+	int deleteMember(Member member);
+
+
 }

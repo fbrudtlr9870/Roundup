@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.proj.rup.basket.model.vo.BasketProduct;
+import com.proj.rup.member.model.vo.Address;
+import com.proj.rup.member.model.vo.MemberAddress;
 import com.proj.rup.purchase.model.vo.PurchaseComplete;
 
 @Repository
@@ -23,6 +25,16 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 	@Override
 	public BasketProduct selectPurchaseOne(int basketNo) {
 		return sqlSession.selectOne("purchase.selectPurchaseOne", basketNo);
+	}
+
+	@Override
+	public MemberAddress selectMemberInfo(String memberId) {
+		return sqlSession.selectOne("purchase.selectMemberInfo", memberId);
+	}
+
+	@Override
+	public List<Address> selectAddrList(String memberId) {
+		return sqlSession.selectList("purchase.selectAddrList", memberId);
 	}
 
 }
