@@ -75,40 +75,50 @@ $(function(){
  * 유효성검사함수
  */
 function validate(str){
-	var member_id = $("#member_id_");
-	var member_password = $("#member_password_");
-	var member_name = $("#member_name_");
-	var member_birthday = $("#member_birthday_");
-	var member_phone = $("#member_phone_")
+	var member_id = $("#member_id_").val().trim();
+	var member_password = $("#member_password_").val().trim();
+	var member_name = $("#member_name_").val().trim();
+	var member_birthday = $("#member_birthday_").val().trim();
+	var member_phone = $("#member_phone_").val().trim();
+	var regExp = /^[가-힣]{2,8}$/;
+	var regExp0 = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
+
 
 	
-	if(member_id.val().trim().length<4 || member_id.val().trim().length>=12){
+	if(member_id.length<4 || member_id.length>=12){
 		alert("아이디는 최소4자리이상 12자 미만여야 합니다");
-		member_id.focus();
+		/* member_id.focus(); */
+		$("#member_id_").focus();
 		return false;
 	}
 	
-	if(member_password.val().trim().length<4 || member_password.val().trim().length>8){
+	if(member_password.length<4 || member_password.length>8){
 		alert("비밀번호는 최소4자리이상이거나 8자리 미만여야 합니다.");
-		member_password.focus();
+		/* member_password.focus(); */
+		$("#member_password_").focus();
 		return false;		
 	}
 	
-	if(member_name.val().trim().length>8){
+	/* if(member_name.val().trim().length>8){
 		alert("이름을 8글자 미만로 적어주세요");
+		return false;
+	} */
+	
+	if(!regExp.test(member_name)){
+		alert("이름을 2글자 이상 8글자 이하로 적으세요.");
+		$("#member_name_").val("");
+		$("#member_name_").focus();
 		return false;
 	}
 	
+	if(!regExp0.test(member_phone)){
+		alert("번호를 형식에 맞게 적으세요");
+		$("#member_phone_").val("");
+		$("#member_phone_").focus();
+		return false;
+	}
 
 
-	
-	if (member_name.val().indexOf(" ") >= 0) {
-        alert("이름에 공백을 사용할 수 없습니다.")
-        document.member_name_.focus()
-        document.member_name_.select()
-        return false;
-    }
-	
 	return true;
 }
 
@@ -118,26 +128,26 @@ function validate(str){
 	<h2>회원가입</h2>
 		<form action="memberEnrollEnd.do" method="post" onsubmit="return validate();">
 			<div id="userId-container">
-				 아이디 : <input type="text" name="member_id" id=member_id_ class="input form-control" placeholder="아이디는 최소4자리이상 12자 미만여야 합니다" required style="width:340px;"/>
+				 아이디 : <input type="text" name="member_id" id=member_id_ class="input form-control" required style="width:330px;"/>
 				<span class="guide ok">이 아이디는 사용가능합니다.</span>
 				<span class="guide error">이 아이디는 사용할 수 없습니다.</span>
 				<input type="hidden" id="idDuplicateCheck" value="0" />
 			</div>
 			<br/>
-			 비밀번호 : <input type="password" name="member_password" id="member_password_" class="input form-control" required style="width:329px;"/>
+			 비밀번호 : <input type="password" name="member_password" id="member_password_" class="input form-control" required style="width:319px;"/>
 			<br/><br/>
-			비번확인 : <input type="password" id="password_chk" class="form-control" required style="width:329px;"/>
+			비번확인 : <input type="password" id="password_chk" class="form-control" required style="width:319px;"/>
 			<br/><br>
-			이름 : <input type="text" name="member_name" id="member_name_" class="form-control" required autocomplete="off" style="width:357px;"/>
+			이름 : <input type="text" name="member_name" id="member_name_" class="form-control" required autocomplete="off" style="width:347px;"/>
 			<br/><br>
-			이메일 : <input type="email" name="member_email" id="member_email_" class="form-control" autocomplete="off" style="width:340px;"/>
+			이메일 : <input type="email" name="member_email" id="member_email_" class="form-control" autocomplete="off" style="width:330px;"/>
 			<br/><br>
-			전화번호 : <input type="text" name="member_phone" id="member_phone_" class="form-control" placeholder="-써서 쓰세요" required autocomplete="off" style="width:329px;"/>
+			전화번호 : <input type="text" name="member_phone" id="member_phone_" class="form-control" required autocomplete="off" style="width:319px;"/>
 			<br/><br>
 			<!-- 생일 : <input type="date" name="member_birthday" id="member_birthday_" class="input" style="width:300px;"/> -->
-			생일 : <input type="date" name="member_birthday" id="member_birthday_" class="form-control" style="width:360px;" />
+			생일 : <input type="date" name="member_birthday" id="member_birthday_" class="form-control" style="width:350px;" />
 			<br/><br/>
-			성별 : <select name="member_gender" id="member_gender_" class="form-control" required style="width:353px;">
+			성별 : <select name="member_gender" id="member_gender_" class="form-control" required style="width:343px;">
 				<option value=""disabled selected>성별</option>
 				<option value="M">남자</option>
 				<option value="F">여자</option>

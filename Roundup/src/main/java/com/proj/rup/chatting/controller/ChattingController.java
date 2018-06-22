@@ -27,7 +27,7 @@ public class ChattingController {
 	@RequestMapping(value="/chatting/showChat.do",method=RequestMethod.GET,produces="application/json; charset=utf8")
 	@ResponseBody
 	public Map<String,Object> showChat(){
-		Map<String,Object> map = new HashMap<>();
+		Map<String,Object> map = new HashMap<String, Object>();
 		
 		List<Chatting> list = chattingService.selectChattingList();
 		int connectCount = chattingService.connectCount(); 
