@@ -8,7 +8,27 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-	
+	<!-- 메일인증  -->
+		<bean id="javaMailSender" 
+	    class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	    <property name="host" value="smtp.naver.com"/>
+	    <property name="port" value="465"/>        
+	    <property name="username" value="tkdgus2918@naver.com"/>
+	    <property name="password" value="address_password"/>
+	    <property name="protocol" value="smtps"/>        
+	    <property name="defaultEncoding" value="utf-8"/>
+	    <property name="javaMailProperties">
+	        <props>
+	            <prop key="mail.smtp.starttls.enable">true</prop>
+	            <prop key="mail.smtp.auth">true</prop>
+	            <prop key="mail.smtp.ssl.checkserveridentity">true</prop>
+	            <prop key="mail.smtp.ssl.trust">*</prop>
+	        </props>
+	    </property>        
+	</bean>
+	<bean class="com.proj.rup.common.util.Mail">
+	    <property name="mailSender" ref="javaMailSender"/>
+	</bean>
 	<!-- #6.1. myBatis(JDBC)설정 연결 설정하기 -->
 	<bean id="dataSource-origin" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />

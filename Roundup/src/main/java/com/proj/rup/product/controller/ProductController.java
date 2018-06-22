@@ -281,4 +281,11 @@ public class ProductController {
 		
 		return mav;
 	}
+	
+	//메일테스트
+		@RequestMapping("/product/mailTest.do")
+		public ModelAndView mailTest() {
+			ModelAndView mav = new ModelAndView();
+			return mav;
+		}
 }

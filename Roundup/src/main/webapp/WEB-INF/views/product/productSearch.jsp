@@ -41,7 +41,7 @@ function searchClose(){
                 <p id="blog4"></p><hr />              
                 <p id="blog5"></p>                
             </div>
-            <br><br>
+            <br><br><a href="${pageContext.request.contextPath}/product/mailTest.do">이메일테스트페이지</a>
             <h2>키워드 - ${searchKeyword }</h2>
             <div class="searchbtn">
 	            <button class="btn btn-success" onclick="search();" >상세검색</button>
