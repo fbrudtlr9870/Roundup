@@ -92,7 +92,7 @@
             	<input type="hidden" name="member_id" value="${memberLoggedIn['member_id']}" />
             	<div style="text-align:center;">현재 접속중인 회원<span id="connected-member"style="font-weight:bold;">${totalMember }</span> 명</div>
             	<div style="text-align:center;margin-top:10px;">채팅방에 접속되었습니다.</div>   	
-            	<div class="chatting-content"></div>
+            	<div id="chatting-content"></div>
             	<div id="member-chat">
             		<input id="insertText" style="float:left; width:230px;"class="form-control form-control-sm" type="text" placeholder="로그인 후 입력 가능합니다.">
             		<button style="float:left; width:50px;" type="button" class="btn btn-primary" id="insertChat">전송</button>
@@ -225,24 +225,30 @@ $(document).ready(function(){
 <!-- 채팅 관련 스크립트 -->
 <script>
 $(function(){
- 	//setInterval(function(){ 
+ 	setInterval(function(){ 
 	 	$.ajax({
 	 		url:"${pageContext.request.contextPath}/chatting/showChat.do",
 	 		type:"get",
 	 		dataType:"json",
 	 		success:function(data){
-	 			var html='<div class="chatting-comment" style="text-align:left;>';
 	 			for(var index in data){
 	 				var c = data[index];
 	 				if(index=="connectCount"){
 	 					$("#connected-member").text(c);
 	 				}
 	 				if(index=="list"){
-	 					html+=''+c["member_id"]+' : '+c["chat_content"]+'</div>';
+				 		var html='<div>';
+	 					for(var li in c){
+	 						console.log(c[li].member_id+","+c[li].chat_content);
+	 						html+='<div class="chatting-comment" style="text-align:left;">';
+	 						html+=''+c[li].member_id+' : '+c[li].chat_content+'</div>';
+	 					}
+	 					html+='</div>';
+	 					console.log(html);
+	 					$(".chatting-comment").empty();
+	 		 			$("#chatting-content").html(html);
 	 				}
 	 			}
-	 			
-	 			("#chatting-content").html(html);
 	 		},
 	 		error:function(jqxhr, testStatus, errorThrown){
 				console.log("ajax처리실패");
@@ -251,7 +257,7 @@ $(function(){
 				console.log(errorThrown);
 			 }
 	 	});
- 	//},2000)
+ 	},1000)
  	
  	
  	$(document).on("click","#insertChat",function(){
