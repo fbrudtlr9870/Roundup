@@ -295,7 +295,7 @@ $(function(){
 	 				if(index=="list"){
 				 		var html='<div>';
 	 					for(var li in c){
-	 						console.log(c[li].member_id+","+c[li].chat_content);
+	 						
 	 						html+='<div class="chatting-comment" style="text-align:left;">';
 	 						html+=''+c[li].member_id+' : '+c[li].chat_content+'</div>';
 	 					}
