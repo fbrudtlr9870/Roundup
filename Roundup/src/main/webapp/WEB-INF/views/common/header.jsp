@@ -290,15 +290,12 @@ $(function(){
 	 				if(index=="list"){
 				 		var html='<div>';
 	 					for(var li in c){
-	 						console.log(c[li].member_id+","+c[li].chat_content);
 	 						html+='<div class="chatting-comment" style="text-align:left;">';
 	 						html+=''+c[li].member_id+' : '+c[li].chat_content+'</div>';
 	 					}
 	 					html+='</div>';
 	 					$(".chatting-comment").empty();
 	 		 			$("#chatting-content").html(html);
-	 		 			var offset = $(".chatting-comment:last").offset();
-	 		 	        $("#chatting-content").animate({scrollTop : offset.top}, 400);
 	 				}
 	 			}
 	 		},
@@ -309,7 +306,7 @@ $(function(){
 				console.log(errorThrown);
 			 }
 	 	});
- 	},500)
+ 	},1000)
  	
  	
  	$(document).on("click","#insertChat",function(){
@@ -337,6 +334,8 @@ $(function(){
  		 		dataType:"json",
  		 		success:function(data){
 					console.log("보내기 성공 ");
+ 		 			var offset = $(".chatting-comment:last").offset();
+ 		 	        $("#chatting-content").animate({scrollTop : offset.top}, 400);
  		 		},
  		 		error:function(jqxhr, testStatus, errorThrown){
  					console.log("ajax처리실패");
@@ -373,6 +372,8 @@ $(function(){
 	 		 		dataType:"json",
 	 		 		success:function(data){
 						console.log("보내기 성공 ");
+	 		 			var offset = $(".chatting-comment:last").offset();
+	 		 	        $("#chatting-content").animate({scrollTop : offset.top}, 400);
 	 		 		},
 	 		 		error:function(jqxhr, testStatus, errorThrown){
 	 					console.log("ajax처리실패");

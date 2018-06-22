@@ -43,13 +43,17 @@ public class ChattingController {
 	
 	@RequestMapping(value="/chatting/insertChat.do",method=RequestMethod.GET,produces="application/json; charset=utf8")
 	@ResponseBody
-	public void insertChat(@RequestParam(value="member_id")String member_id,
+	public Map<String,Object> insertChat(@RequestParam(value="member_id")String member_id,
 						   @RequestParam(value="chat_content")String chat_content) {
 		
 		Chatting chatting = new Chatting(0,member_id,chat_content,null);
 		
 		int insertChat = chattingService.insertChat(chatting);
 		
+		Map<String,Object> map = new HashMap<>();
+		int connectCount = chattingService.connectCount();
+		map.put("connectCount", connectCount);
+		return map;	
 	}
 		
 }
