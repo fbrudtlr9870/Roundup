@@ -14,14 +14,14 @@
         
         $("#auth_btn").click(function () {
         	console.log("인증버튼 클릭");
-            var data = {"email": $("#email").val()};
-            var authNum = "";
-            
+            var email = $("#email").val();
             $.ajax({
-                url : "${pageContext.request.contextPath}/common/util/emailAuth.do",
-                data : data,
+                url : "${pageContext.request.contextPath}/common/util/sendmail.do",
+                data : "email="+email,
+                dataType:"json",
                 success : function (data) {
-                    authNum = data;
+                	console.log(data);
+                    /* authNum = data;
                     alert("인증번호 전송완료.");
                     
                     chk = checkNum(authNum);
@@ -33,9 +33,11 @@
                     }else{
                         alert("인증실패");
                         $("#lab1").html("<label>인증실패</label>");
-                    }
+                    } */
                     
-                }
+                },error:function(jqxhr,textStatus,errorThrown){
+					console.log("ajax실패",jqxhr,textStatus,errorThrown);
+				}
                 
             });
             
