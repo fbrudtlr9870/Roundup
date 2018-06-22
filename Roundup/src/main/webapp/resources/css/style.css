@@ -46,8 +46,15 @@ div.blog-container{
     border: 1px solid lightgray;
 }
 div.search-div{
+	border:1px solid lightgray;
 	width:500px;
 	margin:0 auto;
+	border-radius: 10px;
+	text-align:center;
+}
+div.search-div select{
+	margin-left:25%;
+	margin-bottom:5px;
 }
 /* 메인페이지 */
 
@@ -171,15 +178,15 @@ li.main-li:last-child{
     border-bottom: 0px;
 }
 li.main-li:nth-child(3n){
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid white;
 }
 li.main-li:nth-child(3n+1){
-    border-right: 1px solid lightgray;
-    border-bottom: 1px solid lightgray;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
 }
 li.main-li:nth-child(3n+2){
-    border-right: 1px solid lightgray;
-    border-bottom: 1px solid lightgray;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
 }
 
 li.main-li{
@@ -187,12 +194,13 @@ li.main-li{
     height:450px;
     float: left;
     list-style: none;
-    
+    padding-top:10px;
+    padding-left:10px;
 }
 
 li.main-li img{
-    width:320px;
-    height:250px;
+    width:300px;
+    height:230px;
 }
 li.main-li div.ptext{
    font-size: 20px;
