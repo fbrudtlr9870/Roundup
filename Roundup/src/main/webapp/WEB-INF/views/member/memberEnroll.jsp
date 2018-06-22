@@ -154,7 +154,7 @@ function validate(str){
 			</select>
 			<br/><br>
 		<input type="submit" value="가입" class="btn btn-outline-success"/>
-		<input type="reset" value="취소" class="btn btn-outline-success"/> 
+		<input type="reset" value="초기화" class="btn btn-outline-success"/> 
 		<br><br> 
 		</form>
 	</div>

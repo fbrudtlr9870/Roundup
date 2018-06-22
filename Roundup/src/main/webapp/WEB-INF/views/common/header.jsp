@@ -80,7 +80,7 @@
 	               </c:if>
 	             
 	                <c:if test="${memberLoggedIn!=null }">
-				    <a href="#">${memberLoggedIn.member_name }</a>님, 안녕하세요
+				    <a>${memberLoggedIn.member_name }</a>님, 안녕하세요
 				     <button class="btn btn-outline-success" type="button" onclick="location.href='${pageContext.request.contextPath}/member/memberLogout.do'">
 			    		로그아웃
 			    	</button>
