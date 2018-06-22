@@ -102,123 +102,126 @@ table#info2-hyelin td {
 	<br>
 	
 
-	<span class="h3-hyelin">배송지 정보 </span> 
-	<div class="inline-hyelin right-hyelin">
-		<input class="btn btn-light" id="user_info" type="button" value="회원정보 동일"/> &nbsp; 
-	    <input class="btn btn-light" id="addr_list" type="button" value="주소록" onclick="popup_addrList();"/> &nbsp; 
-	    <input class="btn btn-light" id="new_info" type="button" value="신규입력"/> &nbsp;
-    </div>  
-	<br /><br />
-	<table class="table">
-		<tr>
-			<th>받으시는 분</th>
-			<td>
-	        	<input type="text" class="form-control" name="userId" id="userId" title="받으시는분" style="width: 100px;" required>
-           </td>
-		</tr>
-		<tr>
-			<th>휴대폰 번호</th>
-			<td>
-               <select name="phone_num1" id="phone_num1" title="휴대폰 앞자리" class="form-control inline-hyelin" style="width:80px;">
-                     <option value="010">010</option>
-                     <option value="011">011</option>
-                     <option value="016">016</option>
-                     <option value="017">017</option>
-                     <option value="018">018</option>
-                     <option value="019">019</option>
-               </select> - 
-               <input name="phone_num2" class="form-control inline-hyelin" id="phone_num2" type="text" title="중간자리" style="width: 80px;" maxlength="4"> -
-               <input name="phone_num3" class="form-control inline-hyelin" id="phone_num3" type="text" title="뒷자리" style="width: 80px;" maxlength="4">
-            </td>
-		</tr>
-		<tr>
-           <th>배송 주소</th>
-           <td>
-              <input type="text" class="form-control inline-hyelin" id="sample4_postcode" placeholder="우편번호" style="width: 120px;" required> 
-              <input type="button" class="btn btn-light" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" size="35px"><br>
-              <input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소" required> 
-              <input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번주소" required>
-              <input type="text" class="form-control" id="sample4_detailAddress" placeholder="상세주소" required/>
-              <span id="guide" style="color: #999"></span>
-           </td>
-        </tr>
-        <tr>
-         <th class="info-container2">배송 메세지</th>
-         <td>
-            <input type="text" class="form-control" name="msg" list="msg" size="40px" placeholder="직접입력"> 
-            <!-- datalist id값과 위에 input의 list 속성 값이 일치해야 함. -->
-            <datalist id="msg">
-            <option value="부재시 경비실에 맡겨주세요.">
-            <option value="부재시 휴대폰으로 연락바랍니다.">
-            <option value="집 앞에 놓아주세요.">
-            <option value="택배함에 넣어주세요.">
-            </datalist>
-         </td>
-    	</tr>
-	</table>
-	<hr />
-
-	<button type="button" class="btn btn-success"
-		style="float: right; margin: 10px;" onclick="return payRequest();">구매하기</button>
+	<form action="" id="addressInfo">
+		<span class="h3-hyelin">배송지 정보 </span> 
+		<div class="inline-hyelin right-hyelin">
+			<input class="btn btn-light" id="user_info" type="button" value="회원정보 동일"/> &nbsp; 
+		    <input class="btn btn-light" id="addr_list" type="button" value="주소록" /> &nbsp; 
+		    <input class="btn btn-light" id="new_info" type="button" value="신규입력"/> &nbsp;
+	    </div>  
+		<br /><br />
+		<table class="table">
+			<tr>
+				<th>받으시는 분</th>
+				<td>
+		        	<input type="text" class="form-control" placeholder="이름" name="userId" id="userId" title="받으시는분" style="width: 100px;" required>
+	           </td>
+			</tr>
+			<tr>
+				<th>휴대폰 번호</th>
+				<td>
+	               <select name="phone_num1" id="phone_num1" title="휴대폰 앞자리" class="form-control inline-hyelin" style="width:80px;">
+	                     <option value="010">010</option>
+	                     <option value="011">011</option>
+	                     <option value="016">016</option>
+	                     <option value="017">017</option>
+	                     <option value="018">018</option>
+	                     <option value="019">019</option>
+	               </select> - 
+	               <input name="phone_num2" class="form-control inline-hyelin" id="phone_num2" placeholder="1234" type="text" title="중간자리" style="width: 80px;" maxlength="4"> -
+	               <input name="phone_num3" class="form-control inline-hyelin" id="phone_num3" placeholder="5678" type="text" title="뒷자리" style="width: 80px;" maxlength="4">
+	            </td>
+			</tr>
+			<tr>
+	           <th>배송 주소</th>
+	           <td>
+	              <input type="text" class="form-control inline-hyelin" id="sample4_postcode" placeholder="우편번호" style="width: 120px;" required> 
+	              <input type="button" class="btn btn-light" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" size="35px"><br>
+	              <input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명 주소" required> 
+	              <input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번 주소" required>
+	              <input type="text" class="form-control" id="sample4_detailAddress" placeholder="상세 주소" required/>
+	              <span id="guide" style="color: #999"></span>
+	           </td>
+	        </tr>
+	        <tr>
+	         <th class="info-container2">배송 메세지</th>
+	         <td>
+	            <input type="text" class="form-control" name="msg" list="msg" size="40px" placeholder="직접 입력"> 
+	            <!-- datalist id값과 위에 input의 list 속성 값이 일치해야 함. -->
+	            <datalist id="msg">
+	            <option value="부재시 경비실에 맡겨주세요.">
+	            <option value="부재시 휴대폰으로 연락바랍니다.">
+	            <option value="집 앞에 놓아주세요.">
+	            <option value="택배함에 넣어주세요.">
+	            </datalist>
+	         </td>
+	    	</tr>
+		</table>
+		<hr />
+	
+		<button type="button" class="btn btn-success" style="float: right; margin: 10px;" onclick="return validate(); return payRequest();">구매하기</button>
+	</form>
 </div>
 
 
 <script>
-   //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
-   function sample4_execDaumPostcode() {
-      new daum.Postcode(
-            {
-               oncomplete : function(data) {
-                  // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+// 우편번호 검색 api
+function sample4_execDaumPostcode() {
+     new daum.Postcode(
+      {
+         oncomplete : function(data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-                  // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
-                  // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                  var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
-                  var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+            // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
+            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+            var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+            var extraRoadAddr = ''; // 도로명 조합형 주소 변수
 
-                  // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                  // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                  if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-                     extraRoadAddr += data.bname;
-                  }
-                  // 건물명이 있고, 공동주택일 경우 추가한다.
-                  if (data.buildingName !== '' && data.apartment === 'Y') {
-                     extraRoadAddr += (extraRoadAddr !== '' ? ', '
-                           + data.buildingName : data.buildingName);
-                  }
-                  // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                  if (extraRoadAddr !== '') {
-                     extraRoadAddr = ' (' + extraRoadAddr + ')';
-                  }
-                  // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
-                  if (fullRoadAddr !== '') {
-                     fullRoadAddr += extraRoadAddr;
-                  }
+            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+            if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+               extraRoadAddr += data.bname;
+            }
+            // 건물명이 있고, 공동주택일 경우 추가한다.
+            if (data.buildingName !== '' && data.apartment === 'Y') {
+               extraRoadAddr += (extraRoadAddr !== '' ? ', '
+                     + data.buildingName : data.buildingName);
+            }
+            // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+            if (extraRoadAddr !== '') {
+               extraRoadAddr = ' (' + extraRoadAddr + ')';
+            }
+            // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+            if (fullRoadAddr !== '') {
+               fullRoadAddr += extraRoadAddr;
+            }
 
-                  // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                  document.getElementById('sample4_postcode').value = data.zonecode; //5자리 새우편번호 사용
-                  document.getElementById('sample4_roadAddress').value = fullRoadAddr;
-                  document.getElementById('sample4_jibunAddress').value = data.jibunAddress;
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById('sample4_postcode').value = data.zonecode; //5자리 새우편번호 사용
+            document.getElementById('sample4_roadAddress').value = fullRoadAddr;
+            document.getElementById('sample4_jibunAddress').value = data.jibunAddress;
 
-                  // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-                  if (data.autoRoadAddress) {
-                     //예상되는 도로명 주소에 조합형 주소를 추가한다.
-                     var expRoadAddr = data.autoRoadAddress
-                           + extraRoadAddr;
-                     document.getElementById('guide').innerHTML = '(예상 도로명 주소 : '
-                           + expRoadAddr + ')';
+            // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+            if (data.autoRoadAddress) {
+               //예상되는 도로명 주소에 조합형 주소를 추가한다.
+               var expRoadAddr = data.autoRoadAddress
+                     + extraRoadAddr;
+               document.getElementById('guide').innerHTML = '(예상 도로명 주소 : '
+                     + expRoadAddr + ')';
 
-                  } else if (data.autoJibunAddress) {
-                     var expJibunAddr = data.autoJibunAddress;
-                     document.getElementById('guide').innerHTML = '(예상 지번 주소 : '
-                           + expJibunAddr + ')';
+            } else if (data.autoJibunAddress) {
+               var expJibunAddr = data.autoJibunAddress;
+               document.getElementById('guide').innerHTML = '(예상 지번 주소 : '
+                     + expJibunAddr + ')';
 
-                  } else {
-                     document.getElementById('guide').innerHTML = '';
-                  }
-               }
-            }).open();
-   }
+            } else {
+               document.getElementById('guide').innerHTML = '';
+            }
+         }
+      }).open();
+  }
+   
+// 결제 api
 function payRequest() {
     var IMP = window.IMP; // 생략가능
 	IMP.init('imp34778853');
@@ -271,6 +274,77 @@ function payRequest() {
 		        alert(msg);
 		    }
 	});
+}
+
+// 배송지 정보 버튼 
+$(function() {
+	// 신규 입력 버튼
+	$("#new_info").click(function() {
+	 	document.getElementById("addressInfo").reset();
+	});
+	
+	// 회원정보 동일 버튼
+	$("#user_info").click(function() {
+	 	$.ajax({
+			url:"${pageContext.request.contextPath}/purchase/selectMemberInfo.do",
+			data: {
+				memberId : "${memberLoggedIn.member_id}"
+    		},
+			success:function(data) {
+				console.log(data);
+				$("#userId").val(data.member_name);
+			
+				$("#phone_num1").val(data.member_phone.substring(0, 3));
+				if(data.member_phone.length == 11) {
+					$("#phone_num2").val(data.member_phone.substring(3, 7));
+					$("#phone_num3").val(data.member_phone.substring(7));
+				} else if(data.member_phone.length == 10) {
+					$("#phone_num2").val(data.member_phone.substring(3, 6));
+					$("#phone_num3").val(data.member_phone.substring(6));				
+				}
+					
+				$("#sample4_postcode").val(data.zip_code);
+				
+				var address = data.address.split("#");
+				$("#sample4_roadAddress").val(address[0]);
+				$("#sample4_jibunAddress").val(address[1]);
+				$("#sample4_detailAddress").val(address[2]);
+				
+			},
+			error:function(jqxhr, textStatus, errorThrown) {
+                  console.log("ajax처리실패!");
+                  console.log(jqxhr);
+                  console.log(textStatus);
+                  console.log(errorThrown);
+            }
+		});
+	});
+	
+	$("#addr_list").click(function() {
+		var url = "${pageContext.request.contextPath}/purchase/selectAddrList.do?memberId=${memberLoggedIn.member_id}";
+		var title = "주소록";
+		var status = "left=500px, top=200px, width=900px, height=300px";
+		
+	 	window.open(url, title, status);
+	});
+});
+
+// 유효성 검사
+function validate() {
+	var userId = $("#userId").val();
+	var regExp3 = /^[가-힣]{2,}$/;
+    if(!(regExpTest(regExp3, userId, "한글 2글자이상 입력하세요.")))
+        return false;
+}
+
+function regExpTest(regExp, el, msg){
+    if(regExp.test(el.value))
+        return true;
+    
+    // 적합한 문자열이 아닌경우
+    alert(msg);
+    el.value="";    // 해당 요소 초기화
+    el.focus="";    // 해당 요소에 포커스 맞춰줌.
 }
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
