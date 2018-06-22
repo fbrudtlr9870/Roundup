@@ -10,4 +10,7 @@ public interface ChattingService {
 
 	int connectCount();
 
+	int insertChat(Chatting chatting);
+
+
 }

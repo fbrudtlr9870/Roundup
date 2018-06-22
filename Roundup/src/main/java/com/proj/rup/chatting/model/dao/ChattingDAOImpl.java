@@ -27,6 +27,13 @@ public class ChattingDAOImpl implements ChattingDAO {
 		return sqlSession.selectOne("chatting.connectCount");
 	}
 
+	@Override
+	public int insertChat(Chatting chatting) {
+		return sqlSession.insert("chatting.insertChat",chatting);
+	}
+
+
+
 	
 	
 }
