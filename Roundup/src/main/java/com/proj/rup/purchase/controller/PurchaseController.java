@@ -50,11 +50,17 @@ public class PurchaseController {
 	}
 	
 	@RequestMapping("/purchase/purchaseEnd.do")
-	public void purchaseEnd(@RequestParam int amount, @RequestParam String email, @RequestParam String userId) {
+	public void purchaseEnd(@RequestParam(value="amount") int amount, 
+							@RequestParam(value="email") String email, 
+							@RequestParam(value="userId") String userId,
+							@RequestParam(value="addr") String addr,
+							@RequestParam(value="addr_level") int addr_level) {
 		System.out.println("구매했다!!!!!!!!!!!!!!");
 		System.out.println(amount);
 		System.out.println(email);
 		System.out.println(userId);		
+		System.out.println(addr);		
+		System.out.println(addr_level);		
 	}
 	
 	@RequestMapping("/purchase/selectMemberInfo.do")

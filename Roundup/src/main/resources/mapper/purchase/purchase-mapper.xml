@@ -14,6 +14,6 @@
 	</select>
 	
 	<select id="selectAddrList" resultType="address">
-		select * from address where member_id=#{memberId} order by address_no
+		select * from address where member_id=#{memberId} order by address_level
 	</select>
 </mapper>

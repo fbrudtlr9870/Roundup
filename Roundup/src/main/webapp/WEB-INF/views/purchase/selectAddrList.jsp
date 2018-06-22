@@ -35,7 +35,10 @@ div#popup_btn-hyelin {
 			<c:if test="${not empty addrList }">
 				<c:forEach var="i" items="${addrList }" varStatus="vs">
 					<tr>
-						<td class="tbl-td">${vs.count }</td>
+						<td class="tbl-td">
+							<input type="hidden" id="address_level" value="${i['address_level']}"/>
+							${i['address_level'] }
+						</td>
 						<td class="tbl-td">
 							<input type="hidden" id="zip_code" value="${i['zip_code']}"/>
 							${i["zip_code"] }
@@ -96,6 +99,8 @@ $(function() {
         opener.document.getElementById("sample4_jibunAddress").value = address[1];   
         opener.document.getElementById("sample4_detailAddress").value = address[2]; 
        
+        // 주소 레벨
+        opener.document.getElementById("addrLevel").value = $("[name=addr]:checked").parent().parent().find("#address_level").val();
      });
 });
 

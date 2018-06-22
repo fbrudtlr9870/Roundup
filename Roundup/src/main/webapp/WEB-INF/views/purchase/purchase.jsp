@@ -102,7 +102,7 @@ table#info2-hyelin td {
 	<br>
 	
 
-	<form action="" id="addressInfo">
+	<form action="" id="addressInfo" >
 		<span class="h3-hyelin">배송지 정보 </span> 
 		<div class="inline-hyelin right-hyelin">
 			<input class="btn btn-light" id="user_info" type="button" value="회원정보 동일"/> &nbsp; 
@@ -158,8 +158,8 @@ table#info2-hyelin td {
 	    	</tr>
 		</table>
 		<hr />
-	
-		<button type="button" class="btn btn-success" style="float: right; margin: 10px;" onclick="return validate(); return payRequest();">구매하기</button>
+		<input type="hidden" name="addrLevel" id="addrLevel" value=""/>
+		<button type="button" class="btn btn-success" style="float: right; margin: 10px;" onclick="return payRequest();">구매하기</button>
 	</form>
 </div>
 
@@ -223,68 +223,76 @@ function sample4_execDaumPostcode() {
    
 // 결제 api
 function payRequest() {
-    var IMP = window.IMP; // 생략가능
-	IMP.init('imp34778853');
-	IMP.request_pay({
-	       pg : 'inicis', // 결제방식
-	       pay_method : 'card',	// 결제 수단
-	       merchant_uid : 'merchant_' + new Date().getTime(),
-	       name : '주문명: 결제 테스트',	// order 테이블에 들어갈 주문명 혹은 주문 번호
-	       amount : '100',	// 결제 금액
-	       buyer_email : '',	// 구매자 email
-	       buyer_name : $("#userId").val(),	// 구매자 이름
-	       // buyer_tel :  $("#phone_num1").val()+'-'+$("#phone_num2").val()+'-'+$("#phone_num3").val()+'-',	// 구매자 전화번호
-	       buyer_addr :  $("#sample4_roadAddress").val() + '#' + $("#sample4_jibunAddress").val() + '#' + $("#sample4_detailAddress").val(),	// 구매자 주소
-	       buyer_postcode :  $("#sample4_postcode").val()	// 구매자 우편번호
-	       
-	   }, function(rsp) {
-		   console.log(rsp);
-		   if ( rsp.success ) {
-		    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
-		    	jQuery.ajax({
-		    		url: "${pageContext.request.contextPath}/purchase/purchaseEnd.do", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
-		    		type: 'POST',
-		    		dataType: 'json',
-		    		data: {
-			    		imp_uid : rsp.imp_uid,
-			    		amount : rsp.paid_amount,
-			    		email : rsp.buyer_email,
-			    		userId : rsp.buyer_name
-			    		//productNo/memberId
-		    		}
-		    	}).done(function(data) {
-		    		//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
-		    		if ( everythings_fine ) {
-		    			var msg = '결제가 완료되었습니다.';
-		    			msg += '\n고유ID : ' + rsp.imp_uid;
-		    			msg += '\n상점 거래ID : ' + rsp.merchant_uid;
-		    			msg += '\결제 금액 : ' + rsp.paid_amount;
-		    			msg += '카드 승인번호 : ' + rsp.apply_num;
-
-		    			alert(msg);
-		    		} else {
-		    			//[3] 아직 제대로 결제가 되지 않았습니다.
-		    			//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
-		    		}
-		    	});
-		    } else {
-		        var msg = '결제에 실패하였습니다.';
-		        msg += '에러내용 : ' + rsp.error_msg;
-
-		        alert(msg);
-		    }
-	});
+	if(validate()) {
+		/* alert($("#addrLevel").val()); */
+	    var IMP = window.IMP; // 생략가능
+		IMP.init('imp34778853');
+		IMP.request_pay({
+			pg : 'inicis', // 결제방식
+	        pay_method : 'card',   // 결제 수단
+	        merchant_uid : 'merchant_' + new Date().getTime(),
+	        name : '주문명: 결제 테스트',   // order 테이블에 들어갈 주문명 혹은 주문 번호
+	        amount : '100',   // 결제 금액
+	        buyer_email : '',   // 구매자 email
+	        buyer_name : $("#userId").val(),   // 구매자 이름
+	        // buyer_tel :  $("#phone_num1").val()+'-'+$("#phone_num2").val()+'-'+$("#phone_num3").val()+'-',   // 구매자 전화번호
+	        buyer_addr :  $("#sample4_roadAddress").val() + '#' + $("#sample4_jibunAddress").val() + '#' + $("#sample4_detailAddress").val(),   // 구매자 주소
+	        buyer_postcode :  $("#sample4_postcode").val()   // 구매자 우편번호
+		       
+		   }, function(rsp) {
+			   console.log(rsp);
+			   if ( rsp.success ) {
+			    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
+			    	jQuery.ajax({
+			    		url: "${pageContext.request.contextPath}/purchase/purchaseEnd.do", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
+			    		type: 'POST',
+			    		dataType: 'json',
+			    		data: {
+				    		imp_uid : rsp.imp_uid,
+				    		amount : rsp.paid_amount,
+				    		email : rsp.buyer_email,
+				    		userId : "${memberLoggedIn.member_id}",
+				    		addr : rsp.buyer_addr,
+				    		addr_level : $("#addrLevel").val()
+			    		}
+			    	}).done(function(data) {
+			    		//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
+			    		if ( everythings_fine ) {
+			    			var msg = '결제가 완료되었습니다.';
+			    			msg += '\n고유ID : ' + rsp.imp_uid;
+			    			msg += '\n상점 거래ID : ' + rsp.merchant_uid;
+			    			msg += '\결제 금액 : ' + rsp.paid_amount;
+			    			msg += '카드 승인번호 : ' + rsp.apply_num;
+	
+			    			alert(msg);
+			    		} else {
+			    			//[3] 아직 제대로 결제가 되지 않았습니다.
+			    			//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
+			    		}
+			    	});
+			    } else {
+			        var msg = '결제에 실패하였습니다.';
+			        msg += '에러내용 : ' + rsp.error_msg;
+	
+			        alert(msg);
+			    }
+		});
+	} else {
+		alert("배송지 정보를 입력해주세요");
+	}
 }
 
 // 배송지 정보 버튼 
 $(function() {
 	// 신규 입력 버튼
 	$("#new_info").click(function() {
+	 	$("#addrLevel").val("0");
 	 	document.getElementById("addressInfo").reset();
 	});
 	
 	// 회원정보 동일 버튼
 	$("#user_info").click(function() {
+		$("#addrLevel").val("1");
 	 	$.ajax({
 			url:"${pageContext.request.contextPath}/purchase/selectMemberInfo.do",
 			data: {
@@ -332,14 +340,18 @@ $(function() {
 // 유효성 검사
 function validate() {
 	var userId = $("#userId").val();
-	var regExp3 = /^[가-힣]{2,}$/;
-    if(!(regExpTest(regExp3, userId, "한글 2글자이상 입력하세요.")))
+	var regExp = /^[가-힣]{2,}$/;
+	
+    if(!(regExpTest(regExp, userId, "한글 2글자이상 입력하세요.")))
         return false;
+    
+    return true;
 }
 
 function regExpTest(regExp, el, msg){
-    if(regExp.test(el.value))
+    if(regExp.test(el)) {
         return true;
+    }
     
     // 적합한 문자열이 아닌경우
     alert(msg);
