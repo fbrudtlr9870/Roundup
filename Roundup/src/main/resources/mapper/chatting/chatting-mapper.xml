@@ -4,9 +4,13 @@
 
 <select id="selectChattingList" resultType="chatting">
 	<![CDATA[
-		select * from chatting
-		where rownum<31
-		order by chat_no
+		select *
+		from(
+		select *
+		from chatting
+		order by chat_date desc)
+		where rownum<30
+		order by chat_no asc
 	]]>
 </select>
 
@@ -14,6 +18,9 @@
 	select count(*) from connect_member
 </select>
 
+<insert id="insertChat">
+	insert into chatting values(chat_no_seq.nextval,#{member_id},#{chat_content},default)
+</insert>
 
 
 </mapper>

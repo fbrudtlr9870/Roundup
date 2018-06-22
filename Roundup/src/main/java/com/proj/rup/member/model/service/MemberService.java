@@ -19,5 +19,10 @@ public interface MemberService {
 
 	int deleteMember(Member member);
 
+	int totalMember();
+
+	/*지우지마*/
+	int deleteConnect(String member_id);
+
 
 }

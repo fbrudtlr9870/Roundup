@@ -251,4 +251,11 @@ div#chatting-content{
 	overflow-y:scroll;
 }
 
-
+.nav-item{
+	margin-left:40px;
+	margin-right:40px;
+}
+.nav-item>a{
+    font-size: 18px;
+    color: black;
+}
