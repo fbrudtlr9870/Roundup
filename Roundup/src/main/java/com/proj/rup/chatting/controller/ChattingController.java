@@ -34,6 +34,9 @@ public class ChattingController {
 		
 		map.put("list", list);
 		map.put("connectCount", connectCount);
+		
+		logger.debug("map="+map);
+		
 		return map;
 		
 	}
