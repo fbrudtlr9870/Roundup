@@ -245,6 +245,7 @@ $(function(){
 	 					}
 	 					html+='</div>';
 	 					console.log(html);
+	 					$(".chatting-comment").empty();
 	 		 			$("#chatting-content").html(html);
 	 				}
 	 			}
@@ -258,7 +259,7 @@ $(function(){
 				console.log(errorThrown);
 			 }
 	 	});
- 	},2000)
+ 	},1000)
  	
  	
  	$(document).on("click","#insertChat",function(){
