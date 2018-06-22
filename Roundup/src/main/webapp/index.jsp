@@ -8,7 +8,7 @@
 	<jsp:param value="메인" name="pageTitle"/>
 </jsp:include>
 <script>
-/* master병합 2018.06.21. 09:30 */
+/* master병합 2018.06.22. 09:25 */
 $(function(){
     $(".main-li").hover(function(){
         $(this).css("border","1px solid black");
@@ -30,6 +30,7 @@ $(function(){
            </ul>
      </div>
  </nav>
+ 
     <div class="main-img-wrapper">
             <div class="main-img">
                 <div class="main-category">

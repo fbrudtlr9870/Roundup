@@ -13,6 +13,10 @@
 	bottom:-25px;
 	
 } */
+section#content{
+	width:980px;
+	margin:0 auto;
+}
 button.btn-default{
 	bottom:2px;
 }

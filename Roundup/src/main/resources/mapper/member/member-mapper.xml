@@ -41,13 +41,12 @@
 		insert into connect_member values(#{member_id},#{member_name},sysdate)
 	</insert>
 	
-	<delete id="deleteMember">
-		delete connect_member where member_id=#{memberId}
-	</delete>
-	
 	<select id="selectMember" resultType="_int">
 		select count(*) from connect_member where member_id=#{member_id}
 	</select>
 	
-	
+	<delete id="deleteMember">
+	DELETE FROM MEMBER WHERE MEMBER_ID=#{member_id}
+	</delete>
+
 </mapper>

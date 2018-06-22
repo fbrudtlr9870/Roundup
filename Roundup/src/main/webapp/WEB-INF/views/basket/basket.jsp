@@ -47,7 +47,7 @@
 						<button type="button" class="btn btn-light updateBasket">수정</button>
 					</td>
 					<td class="tbl-td">
-						<input type="hidden" id="price" value="${i['product_amount']*i['price']}"/>
+						<input type="hidden" value="${i['product_amount']*i['price']}" name="price" id="price"/>
 						<fmt:formatNumber value="${i['product_amount']*i['price']}" type="currency" currencySymbol=""/>원
 					</td>
 					<td class="tbl-td">
@@ -76,7 +76,10 @@
 		</tr>
 		<tr>
 			<td class="tbl-td"><fmt:formatNumber value="2000" type="currency" currencySymbol=""/>원</td>
-			<td class="tbl-td totalPrice"></td>
+			<td class="tbl-td">
+				<fmt:formatNumber value="0" type="currency" currencySymbol=""/>원 
+				<!-- <input type="text" name="" id="totalPrice" value="" />원 -->
+			</td>
 		</tr>
 	</table>
 	<hr>
@@ -156,7 +159,7 @@ $(function() {
 	    		},
 				success:function(data) {
 					console.log(data);
-					location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?member_id=${memberLoggedIn.member_id}";
+					location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
 				},
 				error:function(jqxhr, textStatus, errorThrown) {
 	                  console.log("ajax처리실패!");
@@ -201,23 +204,27 @@ $(function() {
 			basketNo += "/";
         });
 		
-		if(confirm("장바구니에서 삭제하시겠습니까?")) {
-			$.ajax({
-				url:"${pageContext.request.contextPath}/basket/deleteBasket.do",
-				data: {
-					basketNo : basketNo
-	    		},
-				success:function(data) {
-					console.log(data);
-					location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
-				},
-				error:function(jqxhr, textStatus, errorThrown) {
-	                  console.log("ajax처리실패!");
-	                  console.log(jqxhr);
-	                  console.log(textStatus);
-	                  console.log(errorThrown);
-	            }
-			});
+		if(basketNo === "") {
+			alert("선택된 상품이 없습니다.");
+		} else {		
+			if(confirm("장바구니에서 삭제하시겠습니까?")) {
+				$.ajax({
+					url:"${pageContext.request.contextPath}/basket/deleteBasket.do",
+					data: {
+						basketNo : basketNo
+		    		},
+					success:function(data) {
+						console.log(data);
+						location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
+					},
+					error:function(jqxhr, textStatus, errorThrown) {
+		                  console.log("ajax처리실패!");
+		                  console.log(jqxhr);
+		                  console.log(textStatus);
+		                  console.log(errorThrown);
+		            }
+				});
+			}
 		}
 	}); 
 	
@@ -227,11 +234,11 @@ $(function() {
 		$("[name=basketList]:checked").filter(function() {
 			price += parseInt($(this).parent().parent().find("#price").val()); 
         });
-		console.log($(".totalPrice").children().val());
-		console.log(price);
 		
-		
-	
+		/* $("#totalPrice").val(price);  */
+		/* console.log($(".totalPrice").children().val());
+		console.log(price); */
+
 		/* $.ajax({
 			url:"${pageContext.request.contextPath}/basket/deleteBasket.do",
 			data: {

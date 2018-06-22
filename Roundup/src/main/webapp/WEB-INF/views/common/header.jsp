@@ -13,9 +13,11 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.js"></script>		
 <!-- 부트스트랩관련 라이브러리 -->
 <!-- navi관련 수정(18.06.15) -->
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
 </head>	
@@ -36,7 +38,12 @@
 	                    
 	                    	
                     </li>
-                    <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/member/myPage.do?member_id=${memberLoggedIn.member_id }" style="color:black">마이페이지</a></li>
+                    <c:if test="${memberLoggedIn!=null}">
+                    	<li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/member/myPage.do?member_id=${memberLoggedIn.member_id }" style="color:black">마이페이지</a></li>
+                    </c:if>
+                    <c:if test="${memberLoggedIn==null}">
+	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">마이페이지</a>
+	                    </c:if>
                     <li class="nav-bar-site-li">고객센터</li>
                     <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/manager/managerPage.do">관리자페이지</a></li>
                 </ul>
@@ -93,6 +100,7 @@
             </div>
             <!-- 채팅관련 끝 -->
         </nav>
+        
         <!-- 여기있었으 -->
         <!-- 로그인 Modal 시작 -->
 		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -106,7 +114,7 @@
 		      </div>
 		      <form action="${pageContext.request.contextPath }/member/memberLogin.do" method="post">
 		      <div class="modal-body">
-		      	<input type="text" class="form-control" name="member_id" id="member_id" placeholder="아이디" required/>
+		      	<input type="text" class="form-control" name="member_id" id="member_id" placeholder="아이디" required autocomplete="off"/>
 		      	<br />
 		      	<input type="password" class="form-control" name="member_password" id="member_password" placeholder="비밀번호" required/>
 		      </div>
