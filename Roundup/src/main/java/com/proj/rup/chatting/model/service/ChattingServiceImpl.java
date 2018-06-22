@@ -25,4 +25,11 @@ public class ChattingServiceImpl implements ChattingService {
 		return chattingDAO.connectCount();
 	}
 
+	@Override
+	public int insertChat(Chatting chatting) {
+		return chattingDAO.insertChat(chatting);
+	}
+
+
+
 }

@@ -16,8 +16,11 @@
 <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script> -->
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
 </head>	
@@ -96,10 +99,15 @@
             <div id="chatting-room">
             	<input type="hidden" name="member_id" value="${memberLoggedIn['member_id']}" />
             	<div style="text-align:center;">현재 접속중인 회원<span id="connected-member"style="font-weight:bold;">${totalMember }</span> 명</div>
-            	<div style="text-align:center;margin-top:10px;">채팅방에 접속되었습니다.</div>   	
-            	<div class="chatting-content"></div>
+            	<c:if test="${memberLoggedIn!=null }">
+            	<div style="text-align:center;margin-top:10px;">채팅방에 접속되었습니다.</div>  
+            	</c:if>
+            	<c:if test="${memberLoggedIn==null }">
+            	<div style="text-align:center;margin-top:10px;">로그인 후 사용가능합니다.</div>  
+            	</c:if> 	 	
+            	<div id="chatting-content"></div>
             	<div id="member-chat">
-            		<input id="insertText" style="float:left; width:230px;"class="form-control form-control-sm" type="text" placeholder="로그인 후 입력 가능합니다.">
+            		<input id="insertText" style="float:left; width:230px;"class="form-control form-control-sm" type="text">
             		<button style="float:left; width:50px;" type="button" class="btn btn-primary" id="insertChat">전송</button>
             	</div>
             </div>
@@ -107,6 +115,49 @@
         </nav>
         
         <!-- 여기있었으 -->
+        
+        <nav class="nav-list">
+     <div class="nav-list-wrapper">
+     <!--       <ul class="nav nav-tabs nav-justified">
+               <li role="presentation" class="active"><a href="#">카테고리</a></li>
+               <li role="presentation"><a href="#">행사</a></li>
+               <li role="presentation"><a href="notice.html">공지사항</a></li>
+               <li role="presentation"><a href="./freeboard/freeBoardList.do">게시판</a></li>
+               <li role="presentation"><a href="#">1:1문의</a></li>
+           </ul>  -->
+           <ul class="nav nav-tabs justify-content-center">
+			  <li class="nav-item dropdown">
+			    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">카테고리</a>
+			    <div class="dropdown-menu">
+			      <a class="dropdown-item" href="#">간편식사</a>
+			      <a class="dropdown-item" href="#">즉석조리</a>
+			      <a class="dropdown-item" href="#">과자류</a>
+			      <a class="dropdown-item" href="#">아이스크림</a>
+			      <a class="dropdown-item" href="#">식품</a>
+			      <a class="dropdown-item" href="#">음료</a>
+			      <a class="dropdown-item" href="#">생활용품</a>
+			      <div class="dropdown-divider"></div>
+			      <a class="dropdown-item" href="#">Separated link</a>
+			    </div>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" href="#">행사</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" href="#">공지사항</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" href="./freeboard/freeBoardList.do">게시판</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" href="#">1:1문의</a>
+			  </li>
+			</ul>
+			
+     </div>
+     
+ </nav>
+        
         <!-- 로그인 Modal 시작 -->
 		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog" role="document">
@@ -230,24 +281,31 @@ $(document).ready(function(){
 <!-- 채팅 관련 스크립트 -->
 <script>
 $(function(){
- 	//setInterval(function(){ 
+ 	setInterval(function(){ 
 	 	$.ajax({
 	 		url:"${pageContext.request.contextPath}/chatting/showChat.do",
 	 		type:"get",
 	 		dataType:"json",
 	 		success:function(data){
-	 			var html='<div class="chatting-comment" style="text-align:left;>';
 	 			for(var index in data){
 	 				var c = data[index];
 	 				if(index=="connectCount"){
 	 					$("#connected-member").text(c);
 	 				}
 	 				if(index=="list"){
-	 					html+=''+c["member_id"]+' : '+c["chat_content"]+'</div>';
+				 		var html='<div>';
+	 					for(var li in c){
+	 						console.log(c[li].member_id+","+c[li].chat_content);
+	 						html+='<div class="chatting-comment" style="text-align:left;">';
+	 						html+=''+c[li].member_id+' : '+c[li].chat_content+'</div>';
+	 					}
+	 					html+='</div>';
+	 					$(".chatting-comment").empty();
+	 		 			$("#chatting-content").html(html);
+	 		 			var offset = $(".chatting-comment:last").offset();
+	 		 	        $("#chatting-content").animate({scrollTop : offset.top}, 400);
 	 				}
 	 			}
-	 			
-	 			("#chatting-content").html(html);
 	 		},
 	 		error:function(jqxhr, testStatus, errorThrown){
 				console.log("ajax처리실패");
@@ -256,7 +314,7 @@ $(function(){
 				console.log(errorThrown);
 			 }
 	 	});
- 	//},2000)
+ 	},500)
  	
  	
  	$(document).on("click","#insertChat",function(){
@@ -273,6 +331,7 @@ $(function(){
  			return false;
  		}else{
  			console.log(chatText,member_id);
+ 			$("#insertText").val('');
  		 	$.ajax({
  		 		url:"${pageContext.request.contextPath}/chatting/insertChat.do",
  		 		type:"get",
@@ -293,6 +352,43 @@ $(function(){
  		 	});
  		}
  	});
+ 	
+ 	$("#insertText").keypress(function (e) {
+ 		var chatText=$("#insertText").val().trim();
+ 		var member_id =$("[name=member_id]").val().trim();
+ 		
+ 		if(e.which == 13){
+	 		if(chatText==""){
+	 			alert("내용을 입력하셔야 합니다.");
+	 			return false;
+	 		}
+	 		
+	 		if(member_id ==""){
+	 			alert("로그인 후 이용가능합니다.");
+	 			return false;
+	 		}else{
+	 			$("#insertText").val('');
+	 		 	$.ajax({
+	 		 		url:"${pageContext.request.contextPath}/chatting/insertChat.do",
+	 		 		type:"get",
+	 		 		data:{
+	 		 			member_id:member_id,
+	 		 			chat_content:chatText
+	 		 		},
+	 		 		dataType:"json",
+	 		 		success:function(data){
+						console.log("보내기 성공 ");
+	 		 		},
+	 		 		error:function(jqxhr, testStatus, errorThrown){
+	 					console.log("ajax처리실패");
+	 					console.log(jqxhr);
+	 					console.log(testStatus);
+	 					console.log(errorThrown);
+	 				 }
+	 		 	});	 			
+	 		}
+ 		}
+    });
  	
 })
 </script>

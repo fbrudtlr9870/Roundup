@@ -33,6 +33,7 @@
 	WHERE MEMBER_ID = #{member_id}
 	</update>
 	
+	<!-- 로그인 회원 토탈 관련 시작 -->
 	<select id="totalMember" resultType="_int">
 		select count(*) from connect_member
 	</select>
@@ -44,6 +45,12 @@
 	<select id="selectMember" resultType="_int">
 		select count(*) from connect_member where member_id=#{member_id}
 	</select>
+	
+	<delete id="deleteConnect">
+		delete from connect_member where member_id=#{member_id}
+	</delete>
+	
+	<!-- 로그인 회원 토탈 관련 끝 -->
 	
 	<delete id="deleteMember">
 	DELETE FROM MEMBER WHERE MEMBER_ID=#{member_id}

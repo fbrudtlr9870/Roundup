@@ -41,5 +41,17 @@ public class MemberDAOImpl implements MemberDAO {
 	public int selectMember(String member_id) {
 		return sqlSession.selectOne("member.selectMember",member_id);
 	}
+	@Override
+	public int totalMember() {
+		return sqlSession.selectOne("member.totalMember");
+	}
+	
+			
+	
+	/**/
+	@Override
+	public int deleteConnect(String member_id) {
+		return sqlSession.delete("member.deleteConnect",member_id);
+	}
 	
 }
