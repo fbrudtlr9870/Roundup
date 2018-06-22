@@ -7,5 +7,5 @@
 
 	<!-- #7.2 패스워드암호화관련 빈등록 -->
 	<bean id="shaPasswordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder"/>
-	<bean id="bcryptPasswordencoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+	<bean id="bcryptPasswordencoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>	
 </beans>

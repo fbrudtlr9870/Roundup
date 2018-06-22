@@ -32,4 +32,19 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.updateMember(member);
 	}
 
+	@Override
+	public int deleteMember(String memberId) {
+		return memberDAO.deleteMember(memberId);
+	}
+
+	@Override
+	public int connectMember(Member member) {
+		return memberDAO.connectMember(member);
+	}
+
+	@Override
+	public int selectMember(String member_id) {
+		return memberDAO.selectMember(member_id);
+	}
+
 }

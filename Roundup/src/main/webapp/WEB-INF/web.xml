@@ -54,5 +54,10 @@
   		<exception-type>java.lang.Exception</exception-type>
   		<location>/WEB-INF/views/common/error.jsp</location>
   	</error-page>
+  	
+  	<!-- 세션만료 시간 60분 -->
+  	<session-config>
+  		<session-timeout>60</session-timeout>
+  	</session-config>
 
 </web-app>

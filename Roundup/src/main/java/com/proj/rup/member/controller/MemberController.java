@@ -3,6 +3,8 @@ package com.proj.rup.member.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +98,15 @@ public class MemberController {
 		if(bcryptPasswordEncoder.matches(member_password, m.getMember_password())) {
 		//if(member_password.equals(m.getMember_password())) {
 			msg = "로그인성공!";
+			
+			int selectMember = memberService.selectMember(m.getMember_id());
+			if(selectMember==1){
+				int deleteMember = memberService.deleteMember(m.getMember_id());
+				int conenctMember = memberService.connectMember(m);
+			}else{
+				int conenctMember = memberService.connectMember(m);
+			}
+			
 			mav.addObject("memberLoggedIn", m);
 			/*mav.addObject("memberLoggedIn", m);*/
 		}
@@ -113,13 +124,16 @@ public class MemberController {
 		}
 			
 	@RequestMapping("/member/memberLogout.do")
-	public String memberLogout(SessionStatus sessionStatus) {
+	public String memberLogout(SessionStatus sessionStatus, HttpSession session) {
 		if(logger.isDebugEnabled())
 			logger.debug("로그아웃요청");
 		
-		if(!sessionStatus.isComplete())
+		if(!sessionStatus.isComplete()) {
+			Member m = (Member)session.getAttribute("memberLoggedIn");
+			int deleteMember = memberService.deleteMember(m.getMember_id());
 			sessionStatus.setComplete();
-		
+			
+		}
 		return "redirect:/";
 	}
 	
@@ -178,4 +192,5 @@ public class MemberController {
 		
 		return mav;
 	}
+	
 }
