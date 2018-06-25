@@ -1,6 +1,7 @@
 package com.proj.rup.purchase.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,11 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 	@Override
 	public List<Address> selectAddrList(String memberId) {
 		return sqlSession.selectList("purchase.selectAddrList", memberId);
+	}
+
+	@Override
+	public int insertPurchase(Map<String, Object> map) {
+		return sqlSession.insert("purchase.insertPurchase", map);
 	}
 
 }

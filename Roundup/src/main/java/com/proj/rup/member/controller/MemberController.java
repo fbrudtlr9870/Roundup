@@ -44,7 +44,12 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/memberEnrollEnd.do")
-	public String memberEnrollEnd(Member member, Model model) {
+	public String memberEnrollEnd(Member member, Model model,
+								  @RequestParam(value="sample4_postcode") String postCode,
+								  @RequestParam(value="sample4_roadAddress") String road,
+								  @RequestParam(value="sample4_jibunAddress") String jibun,
+								  @RequestParam(value="sample4_detailAddress") String detail
+									) {
 		if(logger.isDebugEnabled())
 			logger.debug("회원등록처리페이지");
 		
@@ -60,7 +65,20 @@ public class MemberController {
 		System.out.println("암호화후 : "+member.getMember_password());
 		
 		//1.
-		int result = memberService.insertMember(member);
+		/* memberService.insertMember(member);*/
+
+		int result = 0;
+		
+		if(memberService.insertMember(member) > 0) {
+			Map<String,Object> map = new HashMap<>();
+			String address = road + "#" + jibun + "#" + detail;
+			
+			map.put("member_id", member.getMember_id());
+			map.put("address", address);
+			map.put("zip_code", postCode);
+			
+			result = memberService.insertAddress(map);
+		}
 		
 		//2. 
 		String loc = "/";

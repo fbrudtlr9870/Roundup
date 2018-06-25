@@ -276,7 +276,7 @@ $(document).ready(function(){
 <!-- 채팅 관련 스크립트 -->
 <script>
 $(function(){
- 	setInterval(function(){ 
+ 	/* setInterval(function(){  */
 	 	$.ajax({
 	 		url:"${pageContext.request.contextPath}/chatting/showChat.do",
 	 		type:"post",
@@ -298,6 +298,7 @@ $(function(){
 	 		 			$("#chatting-content").html(html);
 	 				}
 	 			}
+	 			$("#chatting-content").html(html);
 	 		},
 	 		error:function(jqxhr, testStatus, errorThrown){
 				console.log("ajax처리실패");
@@ -306,7 +307,10 @@ $(function(){
 				console.log(errorThrown);
 			 }
 	 	});
- 	},1000)
+
+
+ 	/* },500) */
+
  	
 	
  	$(document).on("click","#insertChat",function(){

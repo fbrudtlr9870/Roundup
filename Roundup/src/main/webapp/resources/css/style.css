@@ -134,16 +134,16 @@ div.nav-bar-btn{
 div.main-img-wrapper{
     background: lightblue;
     width:100%;
-    height:500px;
+    height:450px;
 }
 div.main-img{
     width:980px;
-    height:500px;
+    height:450px;
     margin:0 auto;
 }
 img.main-img-one{
     width:784px;
-    height:500px;
+    height:450px;
 }
 
 nav.nav-list{
@@ -163,7 +163,7 @@ div.searchbtn{
 }
 div.main-category{
     width:196px;
-    height:500px;
+    height:450px;
     border: 1px lightgray solid;
     background: white;
     position: relative;
@@ -171,7 +171,7 @@ div.main-category{
 }
 div.main-category-img{
     width:784px;
-    height:500px;
+    height:450px;
     overflow: hidden;
     position: relative;
     float: left;
