@@ -3,95 +3,91 @@ package com.proj.rup.purchase.model.vo;
 import java.sql.Date;
 
 public class Purchase {
-	private int purchaseNo;
-	private int productNo;
-	private String memberId;
-	private int addressNo;
-	private Date purchaseDate;
-	private int productAmount;
-	
+	private int purchase_no;
+	private int product_no;
+	private String member_id;
+	private Date purchase_date;
+	private int product_amount;
+	private String address;
+	private String zip_code;
 	
 	public Purchase() {
 		super();
 	}
 
-
-	public Purchase(int purchaseNo, int productNo, String memberId, int addressNo, Date purchaseDate,
-			int productAmount) {
+	public Purchase(int purchase_no, int product_no, String member_id, Date purchase_date,
+			int product_amount, String address, String zip_code) {
 		super();
-		this.purchaseNo = purchaseNo;
-		this.productNo = productNo;
-		this.memberId = memberId;
-		this.addressNo = addressNo;
-		this.purchaseDate = purchaseDate;
-		this.productAmount = productAmount;
+		this.purchase_no = purchase_no;
+		this.product_no = product_no;
+		this.member_id = member_id;
+		this.purchase_date = purchase_date;
+		this.product_amount = product_amount;
+		this.address = address;
+		this.zip_code = zip_code;
 	}
 
-
-	public int getPurchaseNo() {
-		return purchaseNo;
+	public int getPurchase_no() {
+		return purchase_no;
 	}
 
-
-	public void setPurchaseNo(int purchaseNo) {
-		this.purchaseNo = purchaseNo;
+	public void setPurchase_no(int purchase_no) {
+		this.purchase_no = purchase_no;
 	}
 
-
-	public int getProductNo() {
-		return productNo;
+	public int getProduct_no() {
+		return product_no;
 	}
 
-
-	public void setProductNo(int productNo) {
-		this.productNo = productNo;
+	public void setProduct_no(int product_no) {
+		this.product_no = product_no;
 	}
 
-
-	public String getMemberId() {
-		return memberId;
+	public String getMember_id() {
+		return member_id;
 	}
 
-
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
+	public void setMember_id(String member_id) {
+		this.member_id = member_id;
 	}
 
-
-	public int getAddressNo() {
-		return addressNo;
+	public Date getPurchase_date() {
+		return purchase_date;
 	}
 
-
-	public void setAddressNo(int addressNo) {
-		this.addressNo = addressNo;
+	public void setPurchase_date(Date purchase_date) {
+		this.purchase_date = purchase_date;
 	}
 
-
-	public Date getPurchaseDate() {
-		return purchaseDate;
+	public int getProduct_amount() {
+		return product_amount;
 	}
 
-
-	public void setPurchaseDate(Date purchaseDate) {
-		this.purchaseDate = purchaseDate;
+	public void setProduct_amount(int product_amount) {
+		this.product_amount = product_amount;
 	}
 
-
-	public int getProductAmount() {
-		return productAmount;
+	public String getAddress() {
+		return address;
 	}
 
-
-	public void setProductAmount(int productAmount) {
-		this.productAmount = productAmount;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
+	public String getZip_code() {
+		return zip_code;
+	}
+
+	public void setZip_code(String zip_code) {
+		this.zip_code = zip_code;
+	}
 
 	@Override
 	public String toString() {
-		return "Purchase [purchaseNo=" + purchaseNo + ", productNo=" + productNo + ", memberId=" + memberId
-				+ ", addressNo=" + addressNo + ", purchaseDate=" + purchaseDate + ", productAmount=" + productAmount
-				+ "]";
+		return "Purchase [purchase_no=" + purchase_no + ", product_no=" + product_no + ", member_id=" + member_id
+				+ ", purchase_date=" + purchase_date + ", product_amount="
+				+ product_amount + ", address=" + address + ", zip_code=" + zip_code + "]";
 	}
+
 }

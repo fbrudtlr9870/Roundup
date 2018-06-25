@@ -1,5 +1,7 @@
 package com.proj.rup.member.model.service;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,6 +59,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int deleteConnect(String member_id) {
 		return memberDAO.deleteConnect(member_id);
+	}
+
+	@Override
+	public int insertAddress(Map<String, Object> map) {
+		return memberDAO.insertAddress(map);
 	}
 
 }

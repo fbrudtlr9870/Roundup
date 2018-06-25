@@ -1,6 +1,7 @@
 package com.proj.rup.purchase.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.proj.rup.basket.model.vo.BasketProduct;
 import com.proj.rup.member.model.vo.Address;
@@ -16,5 +17,7 @@ public interface PurchaseService {
 	MemberAddress selectMemberInfo(String memberId);
 
 	List<Address> selectAddrList(String memberId);
+
+	int insertPurchase(Map<String, Object> map);
 
 }

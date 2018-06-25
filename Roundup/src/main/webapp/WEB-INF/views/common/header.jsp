@@ -309,6 +309,7 @@ $(function(){
 				console.log(errorThrown);
 			 }
 	 	});
+
  	/* },500) */
  	
  	
