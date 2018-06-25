@@ -16,4 +16,8 @@
 	<select id="selectAddrList" resultType="address">
 		select * from address where member_id=#{memberId} order by address_level
 	</select>
+	
+	<insert id="insertPurchase">
+		insert into purchase values(seq_purchase_no.nextval, #{product_no}, #{member_id}, sysdate, #{product_amount}, #{address}, #{zip_code})
+	</insert>	
 </mapper>

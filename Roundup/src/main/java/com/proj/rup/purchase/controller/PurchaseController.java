@@ -1,7 +1,9 @@
 package com.proj.rup.purchase.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,17 +52,55 @@ public class PurchaseController {
 	}
 	
 	@RequestMapping("/purchase/purchaseEnd.do")
-	public void purchaseEnd(@RequestParam(value="amount") int amount, 
-							@RequestParam(value="zip_code") String zip_code, 
-							@RequestParam(value="userId") String userId,
-							@RequestParam(value="addr") String addr,
-							@RequestParam(value="addr_level") int addr_level) {
-		System.out.println("구매했다!!!!!!!!!!!!!!");
-		System.out.println(amount);
-		System.out.println(zip_code);
-		System.out.println(userId);		
-		System.out.println(addr);		
-		System.out.println(addr_level);		
+	@ResponseBody
+	public String purchaseEnd(@RequestParam(value="product_no") String product_no,
+							@RequestParam(value="member_id") String member_id,
+							@RequestParam(value="product_amount") String product_amount,
+							@RequestParam(value="address") String address, 
+							@RequestParam(value="zip_code") String zip_code) {
+
+		Map<String, Object> map = new HashMap<>();	
+		int result = 0;
+		int count = 0;
+		String returnMsg = "";
+		
+		if(!product_no.contains("/")) {
+			map.put("product_no", Integer.parseInt(product_no));
+			map.put("member_id", member_id);
+			map.put("product_amount", Integer.parseInt(product_amount));
+			map.put("address", address);
+			map.put("zip_code", zip_code);			
+
+			result = purchaseService.insertPurchase(map);
+		}
+		else {			
+			String[] productNoList = product_no.split("/");
+			String[] amountList = product_amount.split("/");
+			
+			for(int i=0; i<productNoList.length; i++) {
+				map = new HashMap<>();
+				map.put("product_no", Integer.parseInt(productNoList[i]));
+				map.put("member_id", member_id);
+				map.put("product_amount", Integer.parseInt(amountList[i]));
+				map.put("address", address);
+				map.put("zip_code", zip_code);	
+				
+				if(purchaseService.insertPurchase(map)>0);
+					count++;
+			}
+			
+			if(count==productNoList.length) {
+				result = 1;
+			}
+		}
+		
+		if(result > 0) {
+			returnMsg = "success";
+		} else {
+			returnMsg = "fail";
+		}
+
+		return returnMsg;
 	}
 	
 	@RequestMapping("/purchase/selectMemberInfo.do")

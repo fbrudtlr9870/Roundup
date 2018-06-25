@@ -36,7 +36,7 @@ div#popup_btn-hyelin {
 				<c:forEach var="i" items="${addrList }" varStatus="vs">
 					<tr>
 						<td class="tbl-td">
-							<input type="hidden" id="address_level" value="${i['address_level']}"/>
+							<%-- <input type="hidden" id="address_no" value="${i['address_no']}"/> --%>
 							${i['address_level'] }
 						</td>
 						<td class="tbl-td">
@@ -54,7 +54,6 @@ div#popup_btn-hyelin {
 						</td>
 					</tr>
 				</c:forEach>
-				<input type="hidden" name="" />
 			</c:if> 
 		</table>
 		<hr />
@@ -73,23 +72,9 @@ $(function() {
 	$("#addr1").attr('checked', 'checked'); 
 	
 	$("#chooseAddr").on("click",function(){
-        var phone = '${memberLoggedIn.member_phone}';
         var fullAddress = $("[name=addr]:checked").parent().parent().find("#fullAddress").val();
         var zip_code = $("[name=addr]:checked").parent().parent().find("#zip_code").val();
         var address = fullAddress.split("#");
-		
-        // 이름
-        opener.document.getElementById("userId").value = '${memberLoggedIn.member_name}';
-        
-        // 핸드폰 번호
-        opener.document.getElementById("phone_num1").value = phone.substring(0, 3);
-        if(phone.length == 11) {
-        	opener.document.getElementById("phone_num2").value = phone.substring(3, 7);
-        	opener.document.getElementById("phone_num3").value = phone.substring(7);
-		} else if(phone.length == 10) {
-			opener.document.getElementById("phone_num2").value = phone.substring(3, 6);
-        	opener.document.getElementById("phone_num3").value = phone.substring(6);				
-		}
         
         // 우편번호
         opener.document.getElementById("sample4_postcode").value = zip_code; 
@@ -99,8 +84,6 @@ $(function() {
         opener.document.getElementById("sample4_jibunAddress").value = address[1];   
         opener.document.getElementById("sample4_detailAddress").value = address[2]; 
        
-        // 주소 레벨
-        opener.document.getElementById("addrLevel").value = $("[name=addr]:checked").parent().parent().find("#address_level").val();
      });
 });
 
