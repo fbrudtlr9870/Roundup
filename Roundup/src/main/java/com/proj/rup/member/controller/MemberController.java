@@ -119,12 +119,12 @@ public class MemberController {
 	         msg = "로그인성공!";
 	         
 	         /* 토탈관리 시작*/
-	         int selectMember = memberService.selectMember(m.getMember_id());
+	      /*   int selectMember = memberService.selectMember(m.getMember_id());
 	         if(selectMember ==1) {
 	        	 int deleteConnect = memberService.deleteConnect(m.getMember_id());
 	         }else {
 	        	 int connectMember = memberService.connectMember(m);	        	 
-	         }
+	         }*/
 	         /*토탈 관리 끝*/
 	         mav.addObject("memberLoggedIn", m);
 	         /*mav.addObject("memberLoggedIn", m);*/
@@ -152,7 +152,7 @@ public class MemberController {
 		 /* 딜리트 관련*/
 	      if(!sessionStatus.isComplete()) {
 	    	  Member m = (Member)session.getAttribute("memberLoggedIn");    	  
-	    	  int deleteConnect = memberService.deleteConnect(m.getMember_id());	    	 
+	    	  //int deleteConnect = memberService.deleteConnect(m.getMember_id());	    	 
 	    	  sessionStatus.setComplete();
 	      }
 	      return "redirect:/";
@@ -240,6 +240,11 @@ public class MemberController {
 		mav.setViewName("common/msg");
 		
 		return mav;
+	}
+	
+	@RequestMapping("/member/loginPage.do")
+	public String login(){
+		return "common/login";
 	}
 
 }

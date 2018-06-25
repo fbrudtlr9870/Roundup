@@ -17,6 +17,9 @@ public class MemberAddress {
 	   private String zip_code;
 	   private int address_level;
 	   
+	   private boolean enabled;
+	   private String autority;
+	   
 	public MemberAddress() {
 		super();
 	}
@@ -142,6 +145,24 @@ public class MemberAddress {
 
 	public void setAddress_level(int address_level) {
 		this.address_level = address_level;
+	}
+	
+	
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public String getAutority() {
+		return autority;
+	}
+
+	public void setAutority(String autority) {
+		this.autority = autority;
 	}
 
 	@Override

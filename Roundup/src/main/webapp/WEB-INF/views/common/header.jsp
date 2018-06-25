@@ -75,8 +75,12 @@
 				<!-- 로그인 회원가입 -->
               	<div class="nav-bar-btn">
 	               <c:if test="${memberLoggedIn==null}">
+	               <!--  
 	                  <button type="button" class="btn btn-outline-success" data-toggle="modal" 
 			    		data-target="#exampleModal">로그인</button>
+			    	!-->
+			    		<button type="button" class="btn btn-outline-success"
+	               		 onclick="location.href='${pageContext.request.contextPath}/member/loginPage.do'">로그인</button>
 			    		&nbsp;
 	                  <button type="button" class="btn btn-outline-success"
 	               		 onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
@@ -142,7 +146,7 @@
 			    <a class="nav-link" href="#">공지사항</a>
 			  </li>
 			  <li class="nav-item">
-			    <a class="nav-link" href="./freeboard/freeBoardList.do">게시판</a>
+			    <a class="nav-link" href="${pageContext.request.contextPath}/freeboard/freeBoardList.do">게시판</a>
 			  </li>
 			  <li class="nav-item">
 			    <a class="nav-link" href="#">1:1문의</a>

@@ -29,4 +29,5 @@ public interface MemberDAO {
 	int insertAddress(Map<String, Object> map);
 
 
+
 }

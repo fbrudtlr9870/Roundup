@@ -59,5 +59,27 @@
   	<session-config>
   		<session-timeout>60</session-timeout>
   	</session-config>
+  	
+  	
+  	<!--##1 다른 브라우저에서 같은 계정 로그인 방지를 위한 리스너 -->
+  	<listener>
+		<listener-class>
+			org.springframework.security.web.session.HttpSessionEventPublisher
+		</listener-class>
+	</listener>
+
+	<!--##2 웹으로 들어오는 모든 요청에 대해 시큐리티 적용을 위한 필터 -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>
+			org.springframework.web.filter.DelegatingFilterProxy
+		</filter-class>
+	</filter>
+  	<filter-mapping>
+  		<filter-name>springSecurityFilterChain</filter-name>
+  		<url-pattern>/*</url-pattern>
+  	</filter-mapping>
+
+
 
 </web-app>

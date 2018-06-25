@@ -15,6 +15,9 @@ public class Member implements java.io.Serializable{
    private String member_email;
    private Date member_enrollDate;
    private String member_grade;
+
+   private boolean enabled;
+   private String autority;
    
    public Member() {}
 
@@ -108,8 +111,27 @@ public class Member implements java.io.Serializable{
    public static long getSerialversionuid() {
       return serialVersionUID;
    }
+   
+   
+   
 
-   @Override
+   public boolean isEnabled() {
+	return enabled;
+}
+
+public void setEnabled(boolean enabled) {
+	this.enabled = enabled;
+}
+
+public String getAutority() {
+	return autority;
+}
+
+public void setAutority(String autority) {
+	this.autority = autority;
+}
+
+@Override
    public String toString() {
       return "Member [member_id=" + member_id + ", member_password=" + member_password + ", member_name="
             + member_name + ", member_gender=" + member_gender + ", member_birthday=" + member_birthday

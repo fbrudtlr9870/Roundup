@@ -8,4 +8,39 @@
 	<!-- #7.2 패스워드암호화관련 빈등록 -->
 	<bean id="shaPasswordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder"/>
 	<bean id="bcryptPasswordencoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>	
+	
+	<!--##3 시큐리티 설정 -->
+	<!-- 아래와 같은 패턴(/**,/*)을 ant-pattern이라 한다.-->
+	<!-- 리소시즈 하위폴더들에는 시큐리티 적용안시킴-->
+	<security:http pattern="/resources/**" security="none"/>
+	
+	<!-- ##3.1 인터셉트를 이용해 url패턴마다의 role설정(소스 수정 줄이려고 그냥 관리자페이지만 설정했음) -->
+	<security:http auto-config="true" use-expressions="true">
+		<security:intercept-url pattern="/manager/**" access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/freeboard/**" access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/**" access="permitAll"/>
+		<security:form-login login-page="/member/loginPage.do"
+							default-target-url="/member/memberLogin.do"
+							username-parameter="member_id"
+							password-parameter="member_password"
+							authentication-failure-url="/member/loginPage.do"/>
+		
+		<security:logout logout-url="/member/memberLogout.do"/>
+		
+		
+		<security:session-management>
+			<security:concurrency-control max-sessions="1" expired-url="/member/loginPage.do"/>
+		</security:session-management>
+	</security:http>
+	
+
+	<!-- ##3.2 role 권한 관리 -->
+	<security:authentication-manager>
+		<security:authentication-provider user-service-ref="MemberDetails">
+			<security:password-encoder ref="bcryptPasswordencoder"/>
+		</security:authentication-provider>
+	</security:authentication-manager>
+	
+	
+	
 </beans>
