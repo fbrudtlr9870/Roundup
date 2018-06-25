@@ -301,6 +301,9 @@ $(function(){
 	 		 	        $("#chatting-content").animate({scrollTop : offset.top}, 400);
 	 				}
 	 			}
+	 			
+	 			$("#chatting-content").html(html);
+
 	 		},
 	 		error:function(jqxhr, testStatus, errorThrown){
 				console.log("ajax처리실패");
