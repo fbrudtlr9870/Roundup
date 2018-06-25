@@ -79,4 +79,8 @@
 	<insert id="insertProductCategory">
 	insert into product_category values(seq_prodcategory_no.nextval,#{productNo},#{categoryNo},#{categoryLevel})
 	</insert>
+	
+	<select id="selectNewProduct" resultMap="search">
+	select * from product p left join product_file f on p.product_no = f.product_no left join brand b on p.brand_no = b.brand_no order by reg_date desc
+	</select>
 </mapper>

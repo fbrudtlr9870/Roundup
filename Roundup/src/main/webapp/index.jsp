@@ -10,15 +10,86 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.js"></script>	
 <script>
 /* master병합 2018.06.22. 12:00 */
+
+
 $(function(){
-    $(".main-li").hover(function(){
-        $(this).css("border","1px solid black");
-        $(this).children(".buy-btn").show();
-    },function(){
-        $(this).css("border","1px solid lightgray");
-        $(this).children(".buy-btn").hide();
-    });
-})
+	// 상품 리스트 불러오기
+	$.ajax({
+		url:"${pageContext.request.contextPath}/product/selectNewProduct.do",
+		dataType:"json",
+		success:function(data) {
+			var html = "<ul class='list-group number-hyelin'>";
+			
+			for(var i in data.productList) {
+				html += "<li class='main-li'>";
+				html += "<img src='${pageContext.request.contextPath}/resources/upload/productFile/" + data.productList[i].renamedFileName + "'>";
+				html += "<div class='buy-btn'>";
+				html += "<input type='hidden' value='" + data.productList[i].productNo +"' name='product_no'>";
+				html += "<input type='number' class='form-control number-hyelin' style='width: 70px; margin: 0 auto;' name='product_amount' min='1' value='1'>&nbsp;";
+                html += "<button type='button' class='btn btn-primary insertBasket'>장바구니</button> &nbsp;";
+                html += "<button type='button' class='btn btn-success purchase'>구매</button>";
+				html += "</div>";
+				html += "<div class='ptext'>" + data.productList[i].brandName + "</div>"; 
+				html += "<div class='ptext'>" + data.productList[i].productName + "</div>";
+                html += "<div class='pprice'>" + data.productList[i].price + "</div>";
+                html += "</li>";
+			}
+			html += "</ul>";
+			
+			$("#NewProductList").html(html);
+			
+			$(".main-li").hover(function(){
+		        $(this).css("border","1px solid black");
+		        $(this).children(".buy-btn").show();
+		    },function(){
+		        $(this).css("border","1px solid lightgray");
+		        $(this).children(".buy-btn").hide();
+		    });
+			
+			// 장바구니에 담기
+			$(".insertBasket").on("click",function(){
+				$.ajax({
+					url:"${pageContext.request.contextPath }/basket/insertBasket.do",
+					data: {
+						productAmount: $(this).parent().find("[name=product_amount]").val(),
+						productNo: $(this).parent().find("[name=product_no]").val(),
+						memberId :"${memberLoggedIn.member_id}"
+					},
+					success:function(data) {
+						if(confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하시겠습니까?")) {
+							location.href = "${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
+						} else {
+							location.href = "${pageContext.request.contextPath }";
+						}
+					},
+					error:function(jqxhr, textStatus, errorThrown) {
+		                 console.log("ajax처리실패!");
+		                 console.log(jqxhr);
+		                 console.log(textStatus);
+		                 console.log(errorThrown);
+		        	}
+				});			
+			});
+
+			$(".purchase").on("click",function(){
+				var productNo = $(this).parent().find("[name=product_no]").val();
+				var productAmount = $(this).parent().find("[name=product_amount]").val();
+
+				location.href="${pageContext.request.contextPath}/purchase/buyNow.do?productNo=" + productNo + "&productAmount=" + productAmount;
+			});  
+		},
+		error:function(jqxhr, textStatus, errorThrown) {
+                 console.log("ajax처리실패!");
+                 console.log(jqxhr);
+                 console.log(textStatus);
+                 console.log(errorThrown);
+        }
+	});
+	
+});
+
+
+
 </script>
 
 <!-- <nav class="nav-list">
@@ -84,109 +155,7 @@ $(function(){
         </div>
         <br><br>
         <h2>Hot & New</h2>
-        <div class="main-li-container">
-                    <li class="main-li">
-                            <img src="${pageContext.request.contextPath}/resources/img/test1.png">
-                            <div class="buy-btn">
-                                <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                <button type="button" class="btn btn-success">구매</button>
-                            </div>
-                            <div class="ptext">GS25</div>
-                            <div class="ptext">핑크죠스바</div>
-                            <div class="pprice">1,000원</div>
-                        </li>
-                        <li class="main-li">
-                            <img src="${pageContext.request.contextPath}/resources/img/test1.png">
-                            <div class="buy-btn">
-                                    <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                    <button type="button" class="btn btn-success">구매</button>
-                                </div>
-                            <div class="ptext">GS25</div>
-                            <div class="ptext">핑크죠스바</div>
-                            <div class="pprice">1,000원</div>
-                        </li>
-                        <li class="main-li">
-                            <img src="${pageContext.request.contextPath}/resources/img/test1.png">
-                            <div class="buy-btn">
-                                    <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                    <button type="button" class="btn btn-success">구매</button>
-                                </div>
-                            <div class="ptext">GS25</div>
-                            <div class="ptext">핑크죠스바</div>
-                            <div class="pprice">1,000원</div>
-                        </li>
-                        <li class="main-li">
-                            <img src="${pageContext.request.contextPath}/resources/img/test1.png">
-                            <div class="buy-btn">
-                                    <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                    <button type="button" class="btn btn-success">구매</button>
-                                </div>
-                            <div class="ptext">GS25</div>
-                            <div class="ptext">핑크죠스바</div>
-                            <div class="pprice">1,000원</div>
-                        </li>
-                        <li class="main-li">
-                           <img src="${pageContext.request.contextPath}/resources/img/test1.png">
-                           <div class="buy-btn">
-                                   <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                   <button type="button" class="btn btn-success">구매</button>
-                               </div>
-                           <div class="ptext">GS25</div>
-                           <div class="ptext">핑크죠스바</div>
-                           <div class="pprice">1,000원</div>
-                       </li>
-                       <li class="main-li">
-                            <img src="${pageContext.request.contextPath}/resources/img/test1.png">
-                            <div class="buy-btn">
-                                    <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                    <button type="button" class="btn btn-success">구매</button>
-                                </div>
-                            <div class="ptext">GS25</div>
-                            <div class="ptext">핑크죠스바</div>
-                            <div class="pprice">1,000원</div>
-                        </li>
-                        <li class="main-li">
-                            <img src="${pageContext.request.contextPath}/resources/img/test1.png">
-                            <div class="buy-btn">
-                                    <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                    <button type="button" class="btn btn-success">구매</button>
-                                </div>
-                            <div class="ptext">GS25</div>
-                            <div class="ptext">핑크죠스바</div>
-                            <div class="pprice">1,000원</div>
-                        </li>
-                        <li class="main-li">
-                            <img src="${pageContext.request.contextPath}/resources/img/test1.png">
-                            <div class="buy-btn">
-                                    <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                    <button type="button" class="btn btn-success">구매</button>
-                                </div>
-                            <div class="ptext">GS25</div>
-                            <div class="ptext">핑크죠스바</div>
-                            <div class="pprice">1,000원</div>
-                        </li>
-                        <li class="main-li">
-                            <img src="${pageContext.request.contextPath}/resources/img/test1.png">
-                            <div class="buy-btn">
-                                    <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                    <button type="button" class="btn btn-success">구매</button>
-                                </div>
-                            <div class="ptext">GS25</div>
-                            <div class="ptext">핑크죠스바</div>
-                            <div class="pprice">1,000원</div>
-                        </li>
-                        <li class="main-li">
-                            <img src="${pageContext.request.contextPath}/resources/img/test1.png">
-                            <div class="buy-btn">
-                                    <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
-                                    <button type="button" class="btn btn-success">구매</button>
-                                </div>
-                            <div class="ptext">GS25</div>
-                            <div class="ptext">핑크죠스바</div>
-                            <div class="pprice">1,000원</div>
-                        </li>
-            </ul>
+        <div class="main-li-container" id="NewProductList">
         </div>
         <br><br>
-
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

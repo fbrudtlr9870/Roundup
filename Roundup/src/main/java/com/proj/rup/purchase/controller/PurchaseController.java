@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.proj.rup.basket.model.vo.BasketProduct;
 import com.proj.rup.member.model.vo.Address;
 import com.proj.rup.member.model.vo.MemberAddress;
+import com.proj.rup.product.model.vo.Product;
 import com.proj.rup.purchase.model.service.PurchaseService;
 import com.proj.rup.purchase.model.service.PurchaseServiceImpl;
 
@@ -122,4 +123,21 @@ public class PurchaseController {
 		
 		return mav;
 	}
+	
+	@RequestMapping("/purchase/buyNow.do")
+	public ModelAndView buyNow(@RequestParam(value="productAmount") int productAmount,
+							   @RequestParam(value="productNo") int productNo) {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		Product buyNow = purchaseService.buyNow(productNo);
+
+		mav.addObject("productAmount", productAmount);
+		mav.addObject("buyNow", buyNow);
+		
+		mav.setViewName("/purchase/purchase");
+		
+		return mav;
+	}
+	
 }

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
 import com.proj.rup.product.model.service.ProductService;
 import com.proj.rup.product.model.vo.Product;
 import com.proj.rup.product.model.vo.Product_File;
@@ -280,5 +283,17 @@ public class ProductController {
 		}
 		
 		return mav;
+	}
+	
+	@RequestMapping("/product/selectNewProduct.do") 
+	@ResponseBody
+	public Map<String, Object> selectNewProduct(HttpServletResponse response) {
+		List<Product> productList = productService.selectNewProduct();
+	    System.out.println("productList" + productList);
+	    
+		Map<String, Object> map = new HashMap<>();
+		map.put("productList", productList);
+		
+		return map;
 	}
 }
