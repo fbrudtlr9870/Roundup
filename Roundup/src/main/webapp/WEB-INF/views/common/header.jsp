@@ -16,7 +16,7 @@
 <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+   <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -279,7 +279,7 @@ $(function(){
  	/* setInterval(function(){  */
 	 	$.ajax({
 	 		url:"${pageContext.request.contextPath}/chatting/showChat.do",
-	 		type:"get",
+	 		type:"post",
 	 		dataType:"json",
 	 		success:function(data){
 	 			for(var index in data){
@@ -290,15 +290,12 @@ $(function(){
 	 				if(index=="list"){
 				 		var html='<div>';
 	 					for(var li in c){
-	 						console.log(c[li].member_id+","+c[li].chat_content);
 	 						html+='<div class="chatting-comment" style="text-align:left;">';
 	 						html+=''+c[li].member_id+' : '+c[li].chat_content+'</div>';
 	 					}
 	 					html+='</div>';
 	 					$(".chatting-comment").empty();
 	 		 			$("#chatting-content").html(html);
-	 		 			var offset = $(".chatting-comment:last").offset();
-	 		 	        $("#chatting-content").animate({scrollTop : offset.top}, 400);
 	 				}
 	 			}
 	 			
@@ -313,9 +310,11 @@ $(function(){
 			 }
 	 	});
 
+
  	/* },500) */
+
  	
- 	
+	
  	$(document).on("click","#insertChat",function(){
  		var chatText=$("#insertText").val().trim();
  		var member_id =$("[name=member_id]").val().trim();
@@ -341,6 +340,8 @@ $(function(){
  		 		dataType:"json",
  		 		success:function(data){
 					console.log("보내기 성공 ");
+ 		 			var offset = $(".chatting-comment:last").offset();
+ 		 	        $("#chatting-content").animate({scrollTop : offset.top}, 400);
  		 		},
  		 		error:function(jqxhr, testStatus, errorThrown){
  					console.log("ajax처리실패");
@@ -377,6 +378,8 @@ $(function(){
 	 		 		dataType:"json",
 	 		 		success:function(data){
 						console.log("보내기 성공 ");
+	 		 			var offset = $(".chatting-comment:last").offset();
+	 		 	        $("#chatting-content").animate({scrollTop : offset.top}, 400);
 	 		 		},
 	 		 		error:function(jqxhr, testStatus, errorThrown){
 	 					console.log("ajax처리실패");
