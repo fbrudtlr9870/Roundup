@@ -12,40 +12,55 @@ $(function(){
 	var bloginfo=${bloginfo};
 	console.log(bloginfo);
 	var p1=$("#blog1");
-	p1.html("<a href="+bloginfo.items[0].link+">"+bloginfo.items[0].title+"</a>");
+	p1.html("<a href="+bloginfo.items[0].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[0].title+"</a>");
 	var p2=$("#blog2");
-	p2.html("<a href="+bloginfo.items[1].link+">"+bloginfo.items[1].title+"</a>");
+	p2.html("<a href="+bloginfo.items[1].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[1].title+"</a>");
 	var p3=$("#blog3");
-	p3.html("<a href="+bloginfo.items[2].link+">"+bloginfo.items[2].title+"</a>");
+	p3.html("<a href="+bloginfo.items[2].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[2].title+"</a>");
 	var p4=$("#blog4");
-	p4.html("<a href="+bloginfo.items[3].link+">"+bloginfo.items[3].title+"</a>");
+	p4.html("<a href="+bloginfo.items[3].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[3].title+"</a>");
 	var p5=$("#blog5");
-	p5.html("<a href="+bloginfo.items[4].link+">"+bloginfo.items[4].title+"</a>");
+	p5.html("<a href="+bloginfo.items[4].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[4].title+"</a>");
 });
+function search(){
+	$(".search-div").show();
+}
+function searchClose(){
+	$(".search-div").hide();
+}
 </script>
-<div class="blog-container">
-                <h4>네이버 블로그</h4>                
-                <p id="blog1"></p><a href=""></a>
-                <p id="blog2"></p>
-                <p id="blog3"></p>
-                <p id="blog4"></p>                
+			<div class="blog-container">
+				<div class="blogtext-container">
+					<img src="${pageContext.request.contextPath}/resources/img/blogimg.GIF" alt="" class="blogimg"/>
+					<input type="text" readonly="readonly" value="  ${searchKeyword } 후기" class="blogtext"/>
+				</div><br />
+               <!--  <h4>네이버 블로그</h4>    -->     
+                <p id="blog1"></p><hr />
+                <p id="blog2"></p><hr />
+                <p id="blog3"></p><hr />
+                <p id="blog4"></p><hr />              
                 <p id="blog5"></p>                
             </div>
-            <br><br>
+            <br><br><a href="${pageContext.request.contextPath}/product/mailTest.do">이메일테스트페이지</a>
+            <h2>키워드 - ${searchKeyword }</h2>
+            <div class="searchbtn">
+	            <button class="btn btn-success" onclick="search();" >상세검색</button>
+            </div>
+            <br />
             <div class="search-div">
-            <h2>검색 - ${searchKeyword }</h2>
                 <form action="${pageContext.request.contextPath}/product/reSearch.do">
+                <br />
                     <h4>브랜드</h4> 
                     <input type="hidden" name="searchKeyword" value="${searchKeyword }"/>                    
-                    <input class="form-check-input" type="hidden" name="brand" value="all">
-                    <input class="form-check-input" type="checkbox" name="brand" value="CU" id="CU"><label for="CU">CU</label> &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" value="GS25" id="GS25"><label for="GS25">GS25</label> &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" value="7ELEVEN" id="7ELEVEN"><label for="7ELEVEN">7ELEVEN</label> &nbsp;
-                    <input class="form-check-input" type="checkbox" name="brand" value="MINISTOP" id="MINISTOP"><label for="MINISTOP">MINISTOP</label> &nbsp;
+                    <input class="form-check-input" type="hidden" name="brand" value="all">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" value="CU" id="CU"><label for="CU">CU</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" value="GS25" id="GS25"><label for="GS25">GS25</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" value="7ELEVEN" id="7ELEVEN"><label for="7ELEVEN">7ELEVEN</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input class="form-check-input" type="checkbox" name="brand" value="MINISTOP" id="MINISTOP"><label for="MINISTOP">MINISTOP</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <input class="form-check-input" type="checkbox" name="brand" value="EMART24" id="EMART24"><label for="EMART24">EMART24</label>
                     <br />
                     <h4>카테고리</h4>
-                    <select name="categoryselect" id="category" class="form-control" style="width:350px;">                    
+                    <select name="categoryselect" id="category" class="form-control" style="width:50%;">                    
                     	<option id="category" name="category" value="0" selected>카테고리</option>
                     	<option id="category" name="category" value="1">간편식사</option>
                     	<option id="category" name="category" value="7">-김밥</option>
@@ -90,7 +105,9 @@ $(function(){
                     <h4>가격대</h4>
                     <input type="number" name="price1" min="0" step="500" value="0" class="form-control" style="width:200px; display:inline-block;"> ~ <input type="number" name="price2" min="0" step="500" value="0" class="form-control" style="width:200px; display:inline-block;">
                     <br><br>
-                    <input type="submit"class="btn btn-success" value="검색">
+                    <input type="submit" class="btn btn-success" value="검색">
+                    <input type="button" class="btn btn-success" value="닫기" onclick="searchClose();"/>
+                    <br /><br />
                 </form>
             </div>
             <br><br>
@@ -98,27 +115,82 @@ $(function(){
             
             <div class="main-li-container">
             	<c:forEach var="p" items="${searchList }" varStatus="vs">
-	                <li class="main-li">
-	                    <img src="${pageContext.request.contextPath}/resources/img/test1.png">이미지 아직없으요
-	                    <div class="product-text">
-	                     <div class="ptext">${p.brandName }</div>
-	                     <div class="ptext">${p.productName }</div>
+	                <li class="main-li ${p.brandName }">
+	     
+	                    <img src="${pageContext.request.contextPath}/resources/img/test1.png"><br />이미지 아직없으요
+	                    <div class="product-text" >
+	                     <div class="ptext brandName" id="brandName">${p.brandName }</div>
+	                     <div class="ptext productName">${p.productName }</div>
 	                     <div class="pprice">${p.price }원</div>
 	                    </div> 
 	                    <div class="buy-btn">
 	                            <button type="button" class="btn btn-primary">장바구니</button> &nbsp;
 	                            <button type="button" class="btn btn-success">구매</button>
 	                    </div>
+	                    <c:if test="${p.brandName eq 'CU' }">
+							<style>
+							div.main-li-container li.CU{
+								background:rgb(195,148,212);
+								opacity:0.85;
+							}
+							</style>
+						</c:if>
+						<c:if test="${p.brandName eq '7ELEVEN' }">
+							<style>
+							div.main-li-container li.7ELEVEN{
+								background:rgb(27,147,42);
+								opacity:0.85;
+							}
+							</style>
+						</c:if>
+						<c:if test="${p.brandName eq 'GS25' }">
+							<style>
+							div.main-li-container li.GS25{
+								background:rgb(203,238,243);
+								opacity:0.85;
+							}
+							</style>
+						</c:if>
+						<c:if test="${p.brandName eq 'MINISTOP' }">
+							<style>
+							div.main-li-container li.MINISTOP{
+								background:rgb(255,190,204);
+								opacity:0.85;
+							}
+							</style>
+						</c:if>
+						<c:if test="${p.brandName eq 'EMART24' }">
+							<style>
+							div.main-li-container li.EMART24{
+								background:rgb(255,223,104);
+								opacity:0.85;
+							}
+							</style>
+						</c:if>
 	                </li>            	
             	</c:forEach>
                 </div>
                 <br><br>
+                <button type="button" onclick="danger();" class="btn btn-danger">누르지마시오</button>
 <script>
 $(".main-li").mouseenter(function(){
 	$(this).children(".buy-btn").css("display","block");
+	$(this).css("opacity","1.0");
 });
 $(".main-li").mouseleave(function(){
 	$(this).children(".buy-btn").css("display","none");
+	$(this).css("opacity","0.85");
 });
+
+function danger(){
+	var con=confirm("누르면 후회합니다...");
+	if(con==true){
+		for(var i=0; i<100 ; i++){
+			alert("메롱");
+		}
+	}else{
+	}
+	window.open('about:blank','_self').close();
+}
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
