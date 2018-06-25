@@ -77,9 +77,28 @@ $(function(){
                     </ul>
                     
                 </div> 
-                <div class="main-category-img" >
-                    <img src="${pageContext.request.contextPath }/resources/img/main-display.png" alt="" class="main-img-one">
-                </div>
+            
+                <div id="carouselExampleControls" class="carousel slide main-category-img" data-ride="carousel">
+				  <div class="carousel-inner">
+				    <div class="carousel-item active">
+				      <img class="d-block w-100 main-img-one" src="${pageContext.request.contextPath }/resources/img/main-display.png" alt="First slide">
+				    </div>
+				    <div class="carousel-item">
+				      <img class="d-block w-100 main-img-one" src="${pageContext.request.contextPath }/resources/img/suzyy.jpg" alt="Second slide">
+				    </div>
+				    <div class="carousel-item">
+				      <img class="d-block w-100 main-img-one" src="${pageContext.request.contextPath }/resources/img/게스 컴퓨터바탕화면 2.jpg" alt="Third slide">
+				    </div>
+				  </div>
+				  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+				    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				    <span class="sr-only">Previous</span>
+				  </a>
+				  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+				    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+				    <span class="sr-only">Next</span>
+				  </a>
+				</div>
             </div>
         </div>
         <br><br>

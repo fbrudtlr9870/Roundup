@@ -276,7 +276,7 @@ $(document).ready(function(){
 <!-- 채팅 관련 스크립트 -->
 <script>
 $(function(){
- 	setInterval(function(){ 
+ 	/* setInterval(function(){  */
 	 	$.ajax({
 	 		url:"${pageContext.request.contextPath}/chatting/showChat.do",
 	 		type:"get",
@@ -309,7 +309,7 @@ $(function(){
 				console.log(errorThrown);
 			 }
 	 	});
- 	},500)
+ 	/* },500) */
  	
  	
  	$(document).on("click","#insertChat",function(){
