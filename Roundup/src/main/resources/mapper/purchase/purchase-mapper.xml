@@ -20,4 +20,26 @@
 	<insert id="insertPurchase">
 		insert into purchase values(seq_purchase_no.nextval, #{product_no}, #{member_id}, sysdate, #{product_amount}, #{address}, #{zip_code})
 	</insert>	
+	
+	<select id="buyNow" resultMap="search">
+		select * from product p left join product_file f on p.product_no = f.product_no left join brand br on p.brand_no = br.brand_no where p.product_no = #{productNo}
+	</select>
+	<resultMap type="product" id="search" >
+		<result column="product_no" property="productNo"/>
+		<result column="product_name" property="productName"/>
+		<result column="brand_no" property="brandNo"/>
+		<result column="brand_name" property="brandName"/>
+		<result column="price" property="price"/>
+		<result column="reg_date" property="regDate"/>
+		<result column="member_id" property="memberId"/>
+		<result column="product_file_no" property="productFileNo"/>
+		<result column="original_filename" property="originalFileName"/>
+		<result column="renamed_filename" property="renamedFileName"/>
+		<result column="file_reg_date" property="fileRegDate"/>
+		<result column="pro_category_no" property="proCategoryNo"/>
+		<result column="category_no" property="categoryNo"/>
+		<result column="category_name" property="categoryName"/>
+		<result column="parent_category" property="parentCategory"/>
+		<result column="category_level" property="categoryLevel"/>
+	</resultMap>
 </mapper>

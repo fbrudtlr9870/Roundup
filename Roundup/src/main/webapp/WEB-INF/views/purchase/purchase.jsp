@@ -113,6 +113,28 @@ table#info2-hyelin td {
 			</tr>
 			</c:forEach>
 		</c:if>
+		
+		<c:if test="${not empty buyNow }">
+			<tr>
+				<td class="tbl-td">
+					<div id="tbl-img-row">
+						<input type="hidden" name="productNo" id="productNo" value="${buyNow['productNo'] }"/>
+						<img src="${pageContext.request.contextPath }/resources/img/${buyNow['renamedFileName']}" alt="" width="100px" height="100px">
+						<span>[${buyNow["brandName"]}] &nbsp; ${buyNow["productName"]}</span>
+					</div>
+				</td>
+				<td class="tbl-td">
+					<fmt:formatNumber value="${buyNow['price']}" type="currency" currencySymbol=""/>원
+				</td>
+				<td class="tbl-td">
+					<input type="hidden" name="amount" id="amount" value="${productAmount }"/>
+					${productAmount}
+				</td>
+				<td class="tbl-td">
+					<fmt:formatNumber value="${productAmount*buyNow['price']}" type="currency" currencySymbol=""/>원
+				</td>
+			</tr>
+		</c:if>
 	
 	</table>
 	<hr>
@@ -410,7 +432,7 @@ $(function() {
 		
 	 	window.open(url, title, status);
 	 	
-	/*  	$.ajax({
+	  	/* $.ajax({
 			url:"${pageContext.request.contextPath}/purchase/selectAddrList.do",
 			dataType:"json",
 			data: {
@@ -438,18 +460,19 @@ $(function() {
                   console.log(textStatus);
                   console.log(errorThrown);
             }
-		}); */
+			dkfdsjklfjdskl
+		});  */
 	 	
 	});
 });
 
 // 유효성 검사
 function validate() {
-/* 	var userId = $("#userId").val();
+	var userId = $("#userId").val();
 	var regExp = /^[가-힣]{2,}$/;
 	
     if(!(regExpTest(regExp, userId, "한글 2글자이상 입력하세요.")))
-        return false; */
+        return false;
     
     return true;
 }

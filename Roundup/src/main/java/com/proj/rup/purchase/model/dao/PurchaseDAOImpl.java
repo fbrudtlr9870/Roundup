@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.proj.rup.basket.model.vo.BasketProduct;
 import com.proj.rup.member.model.vo.Address;
 import com.proj.rup.member.model.vo.MemberAddress;
+import com.proj.rup.product.model.vo.Product;
 import com.proj.rup.purchase.model.vo.PurchaseComplete;
 
 @Repository
@@ -41,6 +42,11 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 	@Override
 	public int insertPurchase(Map<String, Object> map) {
 		return sqlSession.insert("purchase.insertPurchase", map);
+	}
+
+	@Override
+	public Product buyNow(int productNo) {
+		return sqlSession.selectOne("purchase.buyNow", productNo);
 	}
 
 }
