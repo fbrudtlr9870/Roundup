@@ -69,4 +69,20 @@ public class BasketController {
 		
 		return "redirect:/";
 	}
+	
+	@RequestMapping("/basket/insertBasket.do")
+	public String insertBasket(@RequestParam(value="productNo") int productNo,
+							   @RequestParam(value="productAmount") int productAmount,
+							   @RequestParam(value="memberId") String memberId) {
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("productNo", productNo);
+		map.put("productAmount", productAmount);
+		map.put("memberId", memberId);
+
+		basketService.insertBasket(map);
+		
+		return "redirect:/";
+	}
+	
 }

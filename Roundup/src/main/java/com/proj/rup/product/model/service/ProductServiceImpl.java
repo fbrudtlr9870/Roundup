@@ -81,6 +81,11 @@ public class ProductServiceImpl<ProductVO> implements ProductService {
 		return result;
 	}
 
+	@Override
+	public List selectNewProduct() {
+		return productDAO.selectNewProduct();
+	}
+
 
 
 }

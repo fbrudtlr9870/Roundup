@@ -30,4 +30,9 @@ public class BasketDAOImpl implements BasketDAO {
 	public int updateBasket(Map<String, Integer> map) {
 		return sqlSession.update("basket.updateBasket", map);
 	}
+
+	@Override
+	public int insertBasket(Map<String, Object> map) {
+		return sqlSession.insert("basket.insertBasket", map);
+	}
 }

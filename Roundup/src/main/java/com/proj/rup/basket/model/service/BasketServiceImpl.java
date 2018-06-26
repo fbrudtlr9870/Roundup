@@ -31,4 +31,9 @@ public class BasketServiceImpl implements BasketService {
 	public int updateBasket(Map<String, Integer> map) {
 		return basketDAO.updateBasket(map);
 	}
+
+	@Override
+	public int insertBasket(Map<String, Object> map) {
+		return basketDAO.insertBasket(map);
+	}
 }

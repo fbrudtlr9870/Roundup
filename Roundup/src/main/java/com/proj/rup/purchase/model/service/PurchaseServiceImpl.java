@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.proj.rup.basket.model.vo.BasketProduct;
 import com.proj.rup.member.model.vo.Address;
 import com.proj.rup.member.model.vo.MemberAddress;
+import com.proj.rup.product.model.vo.Product;
 import com.proj.rup.purchase.model.dao.PurchaseDAO;
 import com.proj.rup.purchase.model.dao.PurchaseDAOImpl;
 import com.proj.rup.purchase.model.vo.PurchaseComplete;
@@ -43,6 +44,11 @@ public class PurchaseServiceImpl implements PurchaseService {
 	@Override
 	public int insertPurchase(Map<String, Object> map) {
 		return purchaseDAO.insertPurchase(map);
+	}
+
+	@Override
+	public Product buyNow(int productNo) {
+		return purchaseDAO.buyNow(productNo);
 	}
 
 }

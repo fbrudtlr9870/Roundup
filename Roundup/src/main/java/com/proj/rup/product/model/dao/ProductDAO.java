@@ -33,6 +33,9 @@ public interface ProductDAO {
 	int insertProductCategory(Map<String, Integer> map);
 
 
+	List<Product> selectNewProduct();
+
+
 	
 
 
