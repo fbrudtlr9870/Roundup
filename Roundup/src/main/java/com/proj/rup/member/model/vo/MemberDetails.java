@@ -25,7 +25,18 @@ public class MemberDetails extends User {
 		
 	}
 
+	   
+	
+	 
+	   
 	  
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString()+getMember_name();
+	}
+
+
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub

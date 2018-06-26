@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <!DOCTYPE html>
 <html>
@@ -24,6 +25,12 @@
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
 </head>	
+
+<sec:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+	<sec:authentication property="principal.username" var="member_id"/>
+	<sec:authentication property="principal.member_name" var="member_name"/>
+</sec:authorize>
+
 <body>
 <div id="main-container">
         <nav class="nav-bar">
@@ -74,7 +81,9 @@
                 
 				<!-- 로그인 회원가입 -->
               	<div class="nav-bar-btn">
-	               <c:if test="${memberLoggedIn==null}">
+              		<c:choose>
+              		<c:when test="${empty member_id }">
+	               <%-- <c:if test="${memberLoggedIn==null}"> --%>
 	               <!--  
 	                  <button type="button" class="btn btn-outline-success" data-toggle="modal" 
 			    		data-target="#exampleModal">로그인</button>
@@ -84,14 +93,22 @@
 			    		&nbsp;
 	                  <button type="button" class="btn btn-outline-success"
 	               		 onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
-	               </c:if>
-	             
-	                <c:if test="${memberLoggedIn!=null }">
-				    <a href="#">${memberLoggedIn.member_name }</a>님, 안녕하세요
-				     <button class="btn btn-outline-success" type="button" onclick="location.href='${pageContext.request.contextPath}/member/memberLogout.do'">
+	               <%-- </c:if> --%>
+	             	</c:when>
+	             	<c:otherwise>
+	                <%-- <c:if test="${memberLoggedIn!=null }"> --%>
+				    <a href="#">${member_name }</a>님, 안녕하세요			    
+				  
+				     <button class="btn btn-outline-success" type="button" onclick="document.getElementById('logout-form').submit();" />
 			    		로그아웃
 			    	</button>
-				    </c:if>
+			    	<form id="logout-form" action="<c:url value="/logout"/>" method="post">
+				        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+				    </form>
+				    <%-- </c:if> --%>
+				    </c:otherwise>
+				    </c:choose>
+
                 </div>
             </div>
             <!-- 채팅 관련 html 시작 -->

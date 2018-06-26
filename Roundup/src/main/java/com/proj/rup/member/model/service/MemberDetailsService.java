@@ -40,9 +40,9 @@ public class MemberDetailsService implements UserDetailsService {
 		
 		
 		List<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
-		auth.add(new SimpleGrantedAuthority(member.get("authority").toString()));
+		auth.add(new SimpleGrantedAuthority(member.get("AUTHORITY").toString()));
 		
-		return  new MemberDetails(member.get("username").toString(), member.get("password").toString(), (Integer)member.get("enabled") == 1, true, true, true, auth,member.get("member_id").toString());
+		return  new MemberDetails(member.get("USERNAME").toString(), member.get("PASSWORD").toString(), true, true, true, true, auth,member.get("MEMBER_NAME").toString());
 	}
 
 
