@@ -189,6 +189,7 @@
 		        <button type="submit" class="btn btn-outline-primary">로그인</button>
 		        <button type="button" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
 		      </div>
+		      
 		      </form>
 		    </div>
 		  </div>

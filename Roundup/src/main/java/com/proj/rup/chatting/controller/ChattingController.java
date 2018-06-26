@@ -28,7 +28,7 @@ public class ChattingController {
 	@RequestMapping(value="/chatting/showChat.do",method=RequestMethod.POST,produces="application/json; charset=utf8")
 	@ResponseBody
 	public Map<String,Object> showChat(){
-		Map<String,Object> map = new HashMap<>();
+		Map<String,Object> map = new HashMap<String, Object>();
 		
 		List<Chatting> list = chattingService.selectChattingList();
 		int connectCount = chattingService.connectCount(); 
@@ -50,7 +50,7 @@ public class ChattingController {
 		
 		int insertChat = chattingService.insertChat(chatting);
 		
-		Map<String,Object> map = new HashMap<>();
+		Map<String,Object> map = new HashMap<String, Object>();
 		int connectCount = chattingService.connectCount();
 		map.put("connectCount", connectCount);
 		return map;	

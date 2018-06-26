@@ -18,7 +18,7 @@ div#update-container{
 div#userId-container span.guide{
 	display:none;
 	font-size:12px;
-	position:absolute;
+	position:relative;
 	top:12px;
 	right:10px;
 }
@@ -54,7 +54,7 @@ $(function(){
 	
 	$("#member_id_").on("keyup",function(){
 		var member_id = $(this).val().trim();
-		if(member_id.length<4){
+		if(member_id.length<3){
 			$(".guide").hide();
 			$("#idDuplicateCheck").val(0);
 			return;
@@ -89,40 +89,54 @@ $(function(){
 /*
  * 유효성검사함수
  */
-function validate(str){
-	var member_id = $("#member_id_");
-	var member_password = $("#member_password_");
-	var member_name = $("#member_name_");
-	var member_birthday = $("#member_birthday_");
-	var member_phone = $("#member_phone_")
+ function validate(str){
+	   var member_id = $("#member_id_").val().trim();
+	   var member_password = $("#member_password_").val().trim();
+	   var member_name = $("#member_name_").val().trim();
+	   var member_birthday = $("#member_birthday_").val().trim();
+	   var member_phone = $("#member_phone_").val().trim();
+	   var regExp = /^[가-힣]{2,8}$/;
+	   var regExp0 = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
+	   
 
-	
-	if(member_id.val().trim().length<4 || member_id.val().trim().length>=12){
-		alert("아이디는 최소4자리이상 12자 미만여야 합니다");
-		member_id.focus();
-		return false;
+
+	   
+	   if(member_id.length<4 || member_id.length>=12){
+	      alert("아이디는 최소4자리이상 12자 미만여야 합니다");
+	      /* member_id.focus(); */
+	      $("#member_id_").focus();
+	      return false;
+	   }
+	   
+	   if(member_password.length<4 || member_password.length>8){
+	      alert("비밀번호는 최소4자리이상이거나 8자리 미만여야 합니다.");
+	      /* member_password.focus(); */
+	      $("#member_password_").focus();
+	      return false;      
+	   }
+	   
+	   /* if(member_name.val().trim().length>8){
+	      alert("이름을 8글자 미만로 적어주세요");
+	      return false;
+	   } */
+	   
+	   if(!regExp.test(member_name)){
+	      alert("이름을 2글자 이상 8글자 이하로 적으세요.");
+	      $("#member_name_").val("");
+	      $("#member_name_").focus();
+	      return false;
+	   }
+	   
+	   if(!regExp0.test(member_phone)){
+	      alert("번호를 형식에 맞게 적으세요");
+	      $("#member_phone_").val("");
+	      $("#member_phone_").focus();
+	      return false;
+	   }
+
+
+	   return true;
 	}
-	
-	if(member_password.val().trim().length<4 || member_password.val().trim().length>8){
-		alert("비밀번호는 최소4자리이상이거나 8자리 미만여야 합니다.");
-		member_password.focus();
-		return false;		
-	}
-	
-	if(member_name.val().trim().length>8){
-		alert("이름을 8글자 미만로 적어주세요");
-		return false;
-	}
-	
-	if (member_name.val().indexOf(" ") >= 0) {
-        alert("이름에 공백을 사용할 수 없습니다.")
-        document.member_name_.focus()
-        document.member_name_.select()
-        return false;
-    }
-	
-	return true;
-}
 
 function sample4_execDaumPostcode() {
     new daum.Postcode(
