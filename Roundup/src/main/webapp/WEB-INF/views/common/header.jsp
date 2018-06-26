@@ -9,7 +9,19 @@
 <head>
 <meta charset="UTF-8">
 <title>${param.pageTitle }</title>
-
+<style>
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #fff;
+    background: #5c83ad;
+    width:80px;
+}
+.nav-fill .nav-item {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    text-align: center;
+    margin: 0;
+}
+</style>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.js"></script>		
 <!-- 부트스트랩관련 라이브러리 -->
 <!-- navi관련 수정(18.06.15) -->
@@ -64,7 +76,7 @@
                        <div class="input-group">
                          <input type="text" class="form-control" id="productKey" placeholder="Search for..." name="searchKeyword" autocomplete="off">
                          <span class="input-group-btn">
-                           <button class="btn btn-default" type="submit" value="Go!">Go!!</button>
+                           <button type="button" class="btn btn-outline-info" type="submit">Go!!</button>
                          </span><br />       
                           	<ul id="autoComplete"></ul>                     
                        </div>
@@ -78,8 +90,7 @@
 	                  <button type="button" class="btn btn-outline-success" data-toggle="modal" 
 			    		data-target="#exampleModal">로그인</button>
 			    		&nbsp;
-	                  <button type="button" class="btn btn-outline-success"
-	               		 onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
+	                  
 	               </c:if>
 	             
 	                <c:if test="${memberLoggedIn!=null }">
@@ -91,7 +102,7 @@
                 </div>
             </div>
             <!-- 채팅 관련 html 시작 -->
-            <div id="chatting-room">
+           <div id="chatting-room">
             	<input type="hidden" name="member_id" value="${memberLoggedIn['member_id']}" />
             	<div style="text-align:center;">현재 접속중인 회원<span id="connected-member"style="font-weight:bold;">${totalMember }</span> 명</div>
             	<c:if test="${memberLoggedIn!=null }">
@@ -105,7 +116,7 @@
             		<input id="insertText" style="float:left; width:230px;"class="form-control form-control-sm" type="text">
             		<button style="float:left; width:50px;" type="button" class="btn btn-primary" id="insertChat">전송</button>
             	</div>
-            </div>
+            </div> 
             <!-- 채팅관련 끝 -->
         </nav>
         
@@ -120,7 +131,7 @@
                <li role="presentation"><a href="./freeboard/freeBoardList.do">게시판</a></li>
                <li role="presentation"><a href="#">1:1문의</a></li>
            </ul>  -->
-           <ul class="nav nav-tabs justify-content-center">
+           <!-- <ul class="nav nav-tabs justify-content-center">
 			  <li class="nav-item dropdown">
 			    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">카테고리</a>
 			    <div class="dropdown-menu">
@@ -147,7 +158,11 @@
 			  <li class="nav-item">
 			    <a class="nav-link" href="#">1:1문의</a>
 			  </li>
-			</ul>
+			</ul> -->
+			<!-- ----------------- -->
+			
+			
+			<!-- ----------------- -->
 			
      </div>
      
@@ -171,7 +186,7 @@
 		      </div>
 		      <div class="modal-footer">
 		        <button type="submit" class="btn btn-outline-primary">로그인</button>
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
 		      </div>
 		      </form>
 		    </div>

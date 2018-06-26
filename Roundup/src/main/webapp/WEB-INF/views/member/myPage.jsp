@@ -30,7 +30,7 @@ function memberDelete(member_id){
 }
 
 </script>
-<nav class="nav-list">
+<%-- <nav class="nav-list">
      <div class="nav-list-wrapper">
            <ul class="nav nav-tabs nav-justified">
                <li role="presentation" class="active"><a href="#">회원정보수정</a></li>
@@ -40,7 +40,7 @@ function memberDelete(member_id){
                <li role="presentation"><a href="#">1:1문의</a></li>
            </ul>
      </div>
- </nav>
+ </nav> --%>
 <div class="mypage-container-master">
 	<div id="update-container">
 	<br/>

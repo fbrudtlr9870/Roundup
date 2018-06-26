@@ -125,6 +125,7 @@ ul.nav-bar-list{
     top:100px;
     left:200px;
     height:30px;
+    margin-top:10px;
 }
 div.nav-bar-btn{
     position: absolute;
@@ -284,4 +285,8 @@ div#chatting-content{
 .nav-item>a{
     font-size: 18px;
     color: black;
+}
+
+.nav-bar-site-li>a{
+	color:#266fbd;
 }
