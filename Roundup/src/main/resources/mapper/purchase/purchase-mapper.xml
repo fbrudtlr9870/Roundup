@@ -19,6 +19,9 @@
 	
 	<insert id="insertPurchase">
 		insert into purchase values(seq_purchase_no.nextval, #{product_no}, #{member_id}, sysdate, #{product_amount}, #{address}, #{zip_code})
+		<selectKey keyProperty="purchase_no" resultType="_int" order="AFTER">
+        	select seq_purchase_no.currval from dual
+      	</selectKey>
 	</insert>	
 	
 	<select id="buyNow" resultMap="search">
@@ -42,4 +45,12 @@
 		<result column="parent_category" property="parentCategory"/>
 		<result column="category_level" property="categoryLevel"/>
 	</resultMap>
+
+	<insert id="insertPurchaseComplete">
+		insert into purchase_complete values(seq_purchase_com_no.nextval, #{purchase_no}, #{product_no}, #{member_id}, default, #{product_amount}, #{address}, #{zip_code})
+	</insert>	
+	
+	<update id="updateProductPurchase" statementType="CALLABLE">
+ 		{call proc_purchase_amount(#{product_no}, #{product_amount})}
+	</update>
 </mapper>

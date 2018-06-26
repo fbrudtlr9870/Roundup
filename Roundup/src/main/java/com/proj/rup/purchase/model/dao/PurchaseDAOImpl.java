@@ -11,6 +11,7 @@ import com.proj.rup.basket.model.vo.BasketProduct;
 import com.proj.rup.member.model.vo.Address;
 import com.proj.rup.member.model.vo.MemberAddress;
 import com.proj.rup.product.model.vo.Product;
+import com.proj.rup.purchase.model.vo.Purchase;
 import com.proj.rup.purchase.model.vo.PurchaseComplete;
 
 @Repository
@@ -40,13 +41,23 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 	}
 
 	@Override
-	public int insertPurchase(Map<String, Object> map) {
-		return sqlSession.insert("purchase.insertPurchase", map);
+	public Product buyNow(int productNo) {
+		return sqlSession.selectOne("purchase.buyNow", productNo);
 	}
 
 	@Override
-	public Product buyNow(int productNo) {
-		return sqlSession.selectOne("purchase.buyNow", productNo);
+	public int insertPurchase(Purchase purchase) {
+		return sqlSession.insert("purchase.insertPurchase", purchase);
+	}
+
+	@Override
+	public int insertPurchaseComplete(PurchaseComplete purchaseComplete) {
+		return sqlSession.insert("purchase.insertPurchaseComplete", purchaseComplete);
+	}
+
+	@Override
+	public int updateProductPurchase(Map<String, Integer> map) {
+		return sqlSession.update("purchase.updateProductPurchase", map);
 	}
 
 }

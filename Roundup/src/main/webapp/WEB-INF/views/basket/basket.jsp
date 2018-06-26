@@ -38,7 +38,7 @@
 						<fmt:formatNumber value="${i['price']}" type="currency" currencySymbol=""/>원
 					</td>
 					<td class="tbl-td">
-						<input type="number" class="form-control number-hyelin" style="width: 70px; margin: 0 auto;" name="product_amount" value="${i['product_amount']}" min="1">
+						<input type="number" class="form-control inline-hyelin" style="width: 70px; margin: 0 auto;" name="product_amount" value="${i['product_amount']}" min="1">
 						<button type="button" class="btn btn-light updateBasket">수정</button>
 					</td>
 					<td class="tbl-td">

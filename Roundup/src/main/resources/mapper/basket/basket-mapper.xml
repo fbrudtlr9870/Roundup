@@ -14,7 +14,7 @@
 	update basket set product_amount = #{productAmount} where basket_no = #{basketNo}
 </update>
 
-<insert id="insertBasket">
-	insert into basket values(seq_basket_no.nextval, #{memberId}, #{productNo}, #{productAmount})
+<insert id="insertBasket" statementType="CALLABLE">
+	{call proc_basket_amount(#{memberId}, #{productNo}, #{productAmount})}
 </insert>
 </mapper>
