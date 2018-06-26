@@ -55,9 +55,9 @@
   		<location>/WEB-INF/views/common/error.jsp</location>
   	</error-page>
   	
-  	<!-- 세션만료 시간 60분 -->
+  	<!-- 세션만료 시간 30분 -->
   	<session-config>
-  		<session-timeout>60</session-timeout>
+  		<session-timeout>30</session-timeout>
   	</session-config>
   	
   	
