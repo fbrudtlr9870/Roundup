@@ -60,5 +60,11 @@ public class MemberDAOImpl implements MemberDAO {
 	public int insertAddress(Map<String, Object> map) {
 		return sqlSession.insert("member.insertAddress", map);
 	}
+	@Override
+	public Map<String, Object> selectConnectMember(String user_name) {
+		Map<String,Object> map = sqlSession.selectOne("member.selectConnectMember", user_name);
+		System.out.println("map@DAOImpl="+map);
+		return map;
+	}
 	
 }

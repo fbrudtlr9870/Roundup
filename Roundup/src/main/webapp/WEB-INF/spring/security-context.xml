@@ -20,10 +20,10 @@
 		<security:intercept-url pattern="/freeboard/**" access="hasRole('ROLE_USER')"/>
 		<security:intercept-url pattern="/**" access="permitAll"/>
 		<security:form-login login-page="/member/loginPage.do"
-							default-target-url="/member/memberLogin.do"
+							login-processing-url="/member/memberLogin.do"
 							username-parameter="member_id"
 							password-parameter="member_password"
-							authentication-failure-url="/member/loginPage.do"/>
+							authentication-success-handler-ref="memberAuthenticationSuccessHandler"/>
 		
 		<security:logout logout-url="/member/memberLogout.do"/>
 		
@@ -34,9 +34,13 @@
 	</security:http>
 	
 
+	<bean id="memberAuthenticationSuccessHandler" class="com.proj.rup.member.model.service.MemberAuthenticationSuccessHandler"/>
+
+	<bean id="MemberDetailsService" class="com.proj.rup.member.model.service.MemberDetailsService"/>
+
 	<!-- ##3.2 role 권한 관리 -->
 	<security:authentication-manager>
-		<security:authentication-provider user-service-ref="MemberDetails">
+		<security:authentication-provider user-service-ref="MemberDetailsService">
 			<security:password-encoder ref="bcryptPasswordencoder"/>
 		</security:authentication-provider>
 	</security:authentication-manager>

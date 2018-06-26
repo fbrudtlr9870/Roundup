@@ -50,6 +50,12 @@
 		delete from connect_member where member_id=#{member_id}
 	</delete>
 	
+	<select id="selectConnectMembers" resultType="map">
+		select member_id as username, member_password as password, enabled, authority, member_name
+		from member
+		where member_id=#{username}
+	</select>
+	
 	<!-- 로그인 회원 토탈 관련 끝 -->
 	
 	<delete id="deleteMember">
