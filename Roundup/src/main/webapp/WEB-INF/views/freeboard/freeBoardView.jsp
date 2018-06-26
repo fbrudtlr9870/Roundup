@@ -250,7 +250,7 @@ $(function(){
 		var parent_id=null;
 		
 		$.ajax({
-			url:"insertComment.do",
+			url:"/*",
 			data:{
 				  member_id:member_id,
 				  free_board_no:free_board_no,

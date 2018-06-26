@@ -1,6 +1,7 @@
 package com.proj.rup.purchase.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,11 @@ public class PurchaseServiceImpl implements PurchaseService {
 	@Override
 	public List<Address> selectAddrList(String memberId) {
 		return purchaseDAO.selectAddrList(memberId);
+	}
+
+	@Override
+	public int insertPurchase(Map<String, Object> map) {
+		return purchaseDAO.insertPurchase(map);
 	}
 
 }

@@ -6,16 +6,15 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="회원등록" name="pageTitle"/>
 </jsp:include>	
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script charset="UTF-8" type="text/javascript"
+   src="http://t1.daumcdn.net/cssjs/postcode/1522037570977/180326.js"></script>
 <style>
 div#update-container{
-	width:400px;
+	width:980px;
 	margin:0 auto;
-	text-align:center;
 }
-div#update-container input.form-control{display:inline-block;}
-div#update-container select.form-control{display:inline-block;}
 
-div#userId-container{position:relative; padding:0px;}
 div#userId-container span.guide{
 	display:none;
 	font-size:12px;
@@ -25,6 +24,22 @@ div#userId-container span.guide{
 }
 div#userId-container span.ok{color:blue;}
 div#userId-container span.error{color:orange;}
+
+table#tbl_enroll {
+	width: 980px
+	margin: 0 auto;
+}
+#update-container h2 {
+	text-align: left;
+	padding-bottom: 30px;
+	padding-top: 20px;
+}
+table#tbl_enroll input, table#tbl_enroll select{
+	width: 500px;
+}
+div#btnDiv {
+	text-align: center;
+}
 </style>
 <script>
 $(function(){
@@ -99,9 +114,6 @@ function validate(str){
 		return false;
 	}
 	
-
-
-	
 	if (member_name.val().indexOf(" ") >= 0) {
         alert("이름에 공백을 사용할 수 없습니다.")
         document.member_name_.focus()
@@ -112,39 +124,129 @@ function validate(str){
 	return true;
 }
 
+function sample4_execDaumPostcode() {
+    new daum.Postcode(
+     {
+        oncomplete : function(data) {
+           // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+           // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
+           // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+           var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+           var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+
+           // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+           // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+           if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+              extraRoadAddr += data.bname;
+           }
+           // 건물명이 있고, 공동주택일 경우 추가한다.
+           if (data.buildingName !== '' && data.apartment === 'Y') {
+              extraRoadAddr += (extraRoadAddr !== '' ? ', '
+                    + data.buildingName : data.buildingName);
+           }
+           // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+           if (extraRoadAddr !== '') {
+              extraRoadAddr = ' (' + extraRoadAddr + ')';
+           }
+           // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+           if (fullRoadAddr !== '') {
+              fullRoadAddr += extraRoadAddr;
+           }
+
+           // 우편번호와 주소 정보를 해당 필드에 넣는다.
+           document.getElementById('sample4_postcode').value = data.zonecode; //5자리 새우편번호 사용
+           document.getElementById('sample4_roadAddress').value = fullRoadAddr;
+           document.getElementById('sample4_jibunAddress').value = data.jibunAddress;
+
+           // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+           if (data.autoRoadAddress) {
+              //예상되는 도로명 주소에 조합형 주소를 추가한다.
+              var expRoadAddr = data.autoRoadAddress
+                    + extraRoadAddr;
+              document.getElementById('guide').innerHTML = '(예상 도로명 주소 : '
+                    + expRoadAddr + ')';
+
+           } else if (data.autoJibunAddress) {
+              var expJibunAddr = data.autoJibunAddress;
+              document.getElementById('guide').innerHTML = '(예상 지번 주소 : '
+                    + expJibunAddr + ')';
+
+           } else {
+              document.getElementById('guide').innerHTML = '';
+           }
+        }
+     }).open();
+ }
 
 </script>
 	<div id="update-container">
 	<h2>회원가입</h2>
 		<form action="memberEnrollEnd.do" method="post" onsubmit="return validate();">
-			<div id="userId-container">
-				 아이디 : <input type="text" name="member_id" id=member_id_ class="input form-control" placeholder="아이디는 최소4자리이상 12자 미만여야 합니다" required style="width:340px;"/>
-				<span class="guide ok">이 아이디는 사용가능합니다.</span>
-				<span class="guide error">이 아이디는 사용할 수 없습니다.</span>
-				<input type="hidden" id="idDuplicateCheck" value="0" />
+			<table class="table" id="tbl_enroll">
+			<tr>
+				<th><label for="member_id_">아이디</label></th>
+				<td>
+					<div id="userId-container">
+					<input type="text" name="member_id" id=member_id_ class="input form-control" placeholder="아이디는 최소4자리이상 12자 미만여야 합니다" required />
+					<span class="guide ok">이 아이디는 사용가능합니다.</span>
+					<span class="guide error">이 아이디는 사용할 수 없습니다.</span>
+					<input type="hidden" id="idDuplicateCheck" value="0" />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="member_password_">비밀번호</label></th>
+				<td><input type="password" name="member_password" id="member_password_" class="input form-control" required/></td>
+			</tr>
+			<tr>
+				<th><label for="password_chk">비밀번호 확인</label></th>
+				<td><input type="password" id="password_chk" class="form-control" required /></td>
+			</tr>
+			<tr>
+				<th><label for="member_name_">이름</label></th>
+				<td><input type="text" name="member_name" id="member_name_" class="form-control" required autocomplete="off" /></td>
+			</tr>
+			<tr>
+				<th><label for="member_email_">이메일</label></th>
+				<td><input type="email" name="member_email" id="member_email_" class="form-control" autocomplete="off" /></td>
+			</tr>
+			<tr>
+				<th><label for="member_phone_">전화번호</label></th>
+				<td><input type="text" name="member_phone" id="member_phone_" class="form-control" placeholder="-를 제외하고 입력하세요" required autocomplete="off"/></td>
+			</tr>
+			<tr>
+				<th><label for="member_birthday_">생일</label></th>
+				<td><input type="date" name="member_birthday" id="member_birthday_" class="form-control"  /></td>
+			</tr>
+			<tr>
+				<th><label for="member_gender_">성별</label></th>
+				<td>
+					<select name="member_gender" id="member_gender_" class="form-control" required>
+						<option value=""disabled selected>성별</option>
+						<option value="M">남자</option>
+						<option value="F">여자</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="sample4_postcode">주소</label></th>
+				<td>
+					<input type="text" name="sample4_postcode" class="form-control inline-hyelin" id="sample4_postcode" placeholder="우편번호" style="width: 120px; display:inline;" required> 
+	                <input type="button" class="btn btn-light" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="width: 120px;"><br>
+	                <input type="text" class="form-control" name="sample4_roadAddress" id="sample4_roadAddress" placeholder="도로명 주소" required > 
+	                <input type="text" class="form-control" name="sample4_jibunAddress" id="sample4_jibunAddress" placeholder="지번 주소" required >
+	                <input type="text" class="form-control" name="sample4_detailAddress" id="sample4_detailAddress" placeholder="상세 주소" required>
+	                <span id="guide" style="color: #999"></span>
+                </td>
+			</tr>
+			</table>	
+			<hr />
+			
+			<div id="btnDiv">
+				<input type="submit" value="가입" class="btn btn-outline-success"/> &nbsp;
+				<input type="reset" value="취소" class="btn btn-outline-success"/>
 			</div>
-			<br/>
-			 비밀번호 : <input type="password" name="member_password" id="member_password_" class="input form-control" required style="width:329px;"/>
-			<br/><br/>
-			비번확인 : <input type="password" id="password_chk" class="form-control" required style="width:329px;"/>
-			<br/><br>
-			이름 : <input type="text" name="member_name" id="member_name_" class="form-control" required autocomplete="off" style="width:357px;"/>
-			<br/><br>
-			이메일 : <input type="email" name="member_email" id="member_email_" class="form-control" autocomplete="off" style="width:340px;"/>
-			<br/><br>
-			전화번호 : <input type="text" name="member_phone" id="member_phone_" class="form-control" placeholder="-써서 쓰세요" required autocomplete="off" style="width:329px;"/>
-			<br/><br>
-			<!-- 생일 : <input type="date" name="member_birthday" id="member_birthday_" class="input" style="width:300px;"/> -->
-			생일 : <input type="date" name="member_birthday" id="member_birthday_" class="form-control" style="width:360px;" />
-			<br/><br/>
-			성별 : <select name="member_gender" id="member_gender_" class="form-control" required style="width:353px;">
-				<option value=""disabled selected>성별</option>
-				<option value="M">남자</option>
-				<option value="F">여자</option>
-			</select>
-			<br/><br>
-		<input type="submit" value="가입" class="btn btn-outline-success"/>
-		<input type="reset" value="취소" class="btn btn-outline-success"/> 
 		<br><br> 
 		</form>
 	</div>

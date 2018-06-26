@@ -1,58 +1,58 @@
 package com.proj.rup.basket.model.vo;
 
 public class Basket {
-	private int basketNo;
-	private String memberId;
-	private int productNo;
-	private int productAmount;
+	private int basket_no;
+	private String member_id;
+	private int product_no;
+	private int product_amount;
 	
 	public Basket() {
 		super();
 	}
 
-	public Basket(int basketNo, String memberId, int productNo, int productAmount) {
+	public Basket(int basket_no, String member_id, int product_no, int product_amount) {
 		super();
-		this.basketNo = basketNo;
-		this.memberId = memberId;
-		this.productNo = productNo;
-		this.productAmount = productAmount;
+		this.basket_no = basket_no;
+		this.member_id = member_id;
+		this.product_no = product_no;
+		this.product_amount = product_amount;
 	}
 
-	public int getBasketNo() {
-		return basketNo;
+	public int getBasket_no() {
+		return basket_no;
 	}
 
-	public void setBasketNo(int basketNo) {
-		this.basketNo = basketNo;
+	public void setBasket_no(int basket_no) {
+		this.basket_no = basket_no;
 	}
 
-	public String getMemberId() {
-		return memberId;
+	public String getMember_id() {
+		return member_id;
 	}
 
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
+	public void setMember_id(String member_id) {
+		this.member_id = member_id;
 	}
 
-	public int getProductNo() {
-		return productNo;
+	public int getProduct_no() {
+		return product_no;
 	}
 
-	public void setProductNo(int productNo) {
-		this.productNo = productNo;
+	public void setProduct_no(int product_no) {
+		this.product_no = product_no;
 	}
 
-	public int getProductAmount() {
-		return productAmount;
+	public int getProduct_amount() {
+		return product_amount;
 	}
 
-	public void setProductAmount(int productAmount) {
-		this.productAmount = productAmount;
+	public void setProduct_amount(int product_amount) {
+		this.product_amount = product_amount;
 	}
 
 	@Override
 	public String toString() {
-		return "Basket [basketNo=" + basketNo + ", memberId=" + memberId + ", productNo=" + productNo
-				+ ", productAmount=" + productAmount + "]";
+		return "Basket [basket_no=" + basket_no + ", member_id=" + member_id + ", product_no=" + product_no
+				+ ", product_amount=" + product_amount + "]";
 	}
 }

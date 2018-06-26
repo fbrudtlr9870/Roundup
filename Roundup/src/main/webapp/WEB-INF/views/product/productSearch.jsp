@@ -12,30 +12,44 @@ $(function(){
 	var bloginfo=${bloginfo};
 	console.log(bloginfo);
 	var p1=$("#blog1");
-	p1.html("<a href="+bloginfo.items[0].link+">"+bloginfo.items[0].title+"</a>");
+	p1.html("<a href="+bloginfo.items[0].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[0].title+"</a>");
 	var p2=$("#blog2");
-	p2.html("<a href="+bloginfo.items[1].link+">"+bloginfo.items[1].title+"</a>");
+	p2.html("<a href="+bloginfo.items[1].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[1].title+"</a>");
 	var p3=$("#blog3");
-	p3.html("<a href="+bloginfo.items[2].link+">"+bloginfo.items[2].title+"</a>");
+	p3.html("<a href="+bloginfo.items[2].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[2].title+"</a>");
 	var p4=$("#blog4");
-	p4.html("<a href="+bloginfo.items[3].link+">"+bloginfo.items[3].title+"</a>");
+	p4.html("<a href="+bloginfo.items[3].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[3].title+"</a>");
 	var p5=$("#blog5");
-	p5.html("<a href="+bloginfo.items[4].link+">"+bloginfo.items[4].title+"</a>");
+	p5.html("<a href="+bloginfo.items[4].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[4].title+"</a>");
 });
+function search(){
+	$(".search-div").show();
+}
+function searchClose(){
+	$(".search-div").hide();
+}
 </script>
 			<div class="blog-container">
-                <h4>네이버 블로그</h4>        
-                <br />        
-                <p id="blog1"></p>
-                <p id="blog2"></p>
-                <p id="blog3"></p>
-                <p id="blog4"></p>                
+				<div class="blogtext-container">
+					<img src="${pageContext.request.contextPath}/resources/img/blogimg.GIF" alt="" class="blogimg"/>
+					<input type="text" readonly="readonly" value="  ${searchKeyword } 후기" class="blogtext"/>
+				</div><br />
+               <!--  <h4>네이버 블로그</h4>    -->     
+                <p id="blog1"></p><hr />
+                <p id="blog2"></p><hr />
+                <p id="blog3"></p><hr />
+                <p id="blog4"></p><hr />              
                 <p id="blog5"></p>                
             </div>
-            <br><br>
+            <br><br><a href="${pageContext.request.contextPath}/product/mailTest.do">이메일테스트페이지</a>
+            <h2>키워드 - ${searchKeyword }</h2>
+            <div class="searchbtn">
+	            <button class="btn btn-success" onclick="search();" >상세검색</button>
+            </div>
+            <br />
             <div class="search-div">
-            <h2>검색 - ${searchKeyword }</h2>
                 <form action="${pageContext.request.contextPath}/product/reSearch.do">
+                <br />
                     <h4>브랜드</h4> 
                     <input type="hidden" name="searchKeyword" value="${searchKeyword }"/>                    
                     <input class="form-check-input" type="hidden" name="brand" value="all">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -91,7 +105,8 @@ $(function(){
                     <h4>가격대</h4>
                     <input type="number" name="price1" min="0" step="500" value="0" class="form-control" style="width:200px; display:inline-block;"> ~ <input type="number" name="price2" min="0" step="500" value="0" class="form-control" style="width:200px; display:inline-block;">
                     <br><br>
-                    <input type="submit"class="btn btn-success" value="검색">
+                    <input type="submit" class="btn btn-success" value="검색">
+                    <input type="button" class="btn btn-success" value="닫기" onclick="searchClose();"/>
                     <br /><br />
                 </form>
             </div>
@@ -115,14 +130,16 @@ $(function(){
 	                    <c:if test="${p.brandName eq 'CU' }">
 							<style>
 							div.main-li-container li.CU{
-								background:rgba(195,148,212,0.5);
+								background:rgb(195,148,212);
+								opacity:0.85;
 							}
 							</style>
 						</c:if>
 						<c:if test="${p.brandName eq '7ELEVEN' }">
 							<style>
 							div.main-li-container li.7ELEVEN{
-								background:rgba(27,147,42,0.5);
+								background:rgb(27,147,42);
+								opacity:0.85;
 							}
 							</style>
 						</c:if>
@@ -130,20 +147,23 @@ $(function(){
 							<style>
 							div.main-li-container li.GS25{
 								background:rgb(203,238,243);
+								opacity:0.85;
 							}
 							</style>
 						</c:if>
 						<c:if test="${p.brandName eq 'MINISTOP' }">
 							<style>
 							div.main-li-container li.MINISTOP{
-								background:rgba(255,190,204,0.5);
+								background:rgb(255,190,204);
+								opacity:0.85;
 							}
 							</style>
 						</c:if>
 						<c:if test="${p.brandName eq 'EMART24' }">
 							<style>
 							div.main-li-container li.EMART24{
-								background:rgba(255,223,104,0.5);
+								background:rgb(255,223,104);
+								opacity:0.85;
 							}
 							</style>
 						</c:if>
@@ -155,9 +175,11 @@ $(function(){
 <script>
 $(".main-li").mouseenter(function(){
 	$(this).children(".buy-btn").css("display","block");
+	$(this).css("opacity","1.0");
 });
 $(".main-li").mouseleave(function(){
 	$(this).children(".buy-btn").css("display","none");
+	$(this).css("opacity","0.85");
 });
 
 function danger(){

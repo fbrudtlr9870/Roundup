@@ -1,5 +1,7 @@
 package com.proj.rup.member.model.dao;
 
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -52,6 +54,11 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public int deleteConnect(String member_id) {
 		return sqlSession.delete("member.deleteConnect",member_id);
+	}
+	
+	@Override
+	public int insertAddress(Map<String, Object> map) {
+		return sqlSession.insert("member.insertAddress", map);
 	}
 	
 }
