@@ -110,13 +110,13 @@ $(function(){
                 <div id="carouselExampleControls" class="carousel slide main-category-img" data-ride="carousel">
 				  <div class="carousel-inner">
 				    <div class="carousel-item active">
-				      <img class="d-block w-100 main-img-one" src="${pageContext.request.contextPath }/resources/img/main-display.png" alt="First slide">
+				      <img class="d-block w-100 main-img-one" src="${pageContext.request.contextPath }/resources/img/resource_img1.jpg" alt="First slide">
 				    </div>
 				    <div class="carousel-item">
-				      <img class="d-block w-100 main-img-one" src="${pageContext.request.contextPath }/resources/img/hotdog.jpg" alt="Second slide">
+				      <img class="d-block w-100 main-img-one" src="${pageContext.request.contextPath }/resources/img/resource_img2.jpg" alt="Second slide">
 				    </div>
 				    <div class="carousel-item">
-				      <img class="d-block w-100 main-img-one" src="${pageContext.request.contextPath }/resources/img/게스 컴퓨터바탕화면 2.jpg" alt="Third slide">
+				      <img class="d-block w-100 main-img-one" src="${pageContext.request.contextPath }/resources/img/resource_img3.jpg" alt="Third slide">
 				    </div>
 				  </div>
 				  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
