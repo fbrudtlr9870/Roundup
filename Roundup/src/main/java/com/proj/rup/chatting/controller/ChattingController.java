@@ -25,7 +25,8 @@ public class ChattingController {
 	
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
-	
+
+	/*
 	@RequestMapping(value="/chatting/showChat.do",method=RequestMethod.POST,produces="application/json; charset=utf8")
 	@ResponseBody
 	public Map<String,Object> showChat(){
@@ -56,5 +57,7 @@ public class ChattingController {
 		map.put("connectCount", connectCount);
 		return map;	
 	}
+	*/
+	
 		
 }

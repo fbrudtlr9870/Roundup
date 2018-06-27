@@ -24,7 +24,8 @@
 <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script> -->
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
-
+<!-- 소켓통신 라이브러리 -->
+<script src="${pageContext.request.contextPath }/resources/sockjs-0.3.4.js"></script>
 <meta name="_csrf" content="${_csrf.token}"/>
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
 
@@ -128,12 +129,12 @@
             </div>
             <!-- 채팅 관련 html 시작 -->
             <div id="chatting-room">
-            	<input type="hidden" name="member_id" value="${memberLoggedIn['member_id']}" />
+            	<!-- <input type="hidden" name="member_id" value="${memberLoggedIn['member_id']}" /> -->
             	<div style="text-align:center;">현재 접속중인 회원<span id="connected-member"style="font-weight:bold;">${totalMember }</span> 명</div>
-            	<c:if test="${memberLoggedIn!=null }">
+            	<c:if test="${member_id!=null }">
             	<div style="text-align:center;margin-top:10px;">채팅방에 접속되었습니다.</div>  
             	</c:if>
-            	<c:if test="${memberLoggedIn==null }">
+            	<c:if test="${member_id==null }">
             	<div style="text-align:center;margin-top:10px;">로그인 후 사용가능합니다.</div>  
             	</c:if> 	 	
             	<div id="chatting-content"></div>
@@ -309,7 +310,55 @@ $(document).ready(function(){
 });
 </script>
 
-<!-- 채팅 관련 스크립트 -->
+
+<!-- 채팅 관련 스크립트(소켓) -->
+<script>
+
+var sock=new SockJS("http://localhost:9090/rup/echo.do");
+
+sock.onmessage= onMessage;
+sock.onclose = onClose;
+
+$(function(){
+	$("#insertChat").click(function(){
+		sendMessage();
+	});
+});
+
+function sendMessage(){
+	sock.send($("#insertText").val());
+}
+
+function onClose(){
+	$("#chatting-content").append("연결끊김");
+}
+
+function onMessage(evt){
+	var data=evt.data;
+	var sessionid=null;
+	var message=null;
+	var offset = $(".chatting-comment:last").offset();
+	var strArr=data.split('|');
+	
+	sessionid=strArr[0];
+	message=strArray[1];
+	
+	var html='<div class="chatting-comment" style="text-align:left;">';
+	html+='<strong>['+sessionid+'] :</strong>'+message;
+	html+='</div>';
+	$("#chatting-content").append(html);
+
+    $("#chatting-content").animate({scrollTop : offset.top}, 400);
+}
+
+</script>
+
+
+
+
+
+
+<!-- 채팅 관련 스크립트(ajax polling) -->
 <script>
 /*  
 $(function(){
