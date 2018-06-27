@@ -13,16 +13,6 @@
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
 
-<style>
-div#addrList-hyelin {
-	width: 800px;
-	margin: 0 auto;
-}
-div#popup_btn-hyelin {
-	margin: 0 auto;
-	width: 120px;
-}
-</style>
 <form action="">
 	<div id="addrList-hyelin">
 		<table id="tblAddrList-hyelin" class="table">
