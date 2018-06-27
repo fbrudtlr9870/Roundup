@@ -39,8 +39,20 @@ div#btn-container{
 </style>
 <script>
 $(function(){
-	$("#loginFrm").submit(function(e){
+	$("#login_btn").click(function(e){
 		var member_id = $("[name=member_id]").val().trim();
+		var password=$("[name=member_password]").val().trim();
+		
+		if(member_id==""){
+			alert("아이디를 입력해주세요.");
+			return false;
+		}
+		
+		if(password==""){
+			alert("비밀번호를 입력해주세요");
+			return false;
+		}
+		
 		$.ajax({
 			url:"checkConnectMember.do",
 			data:{
@@ -50,10 +62,10 @@ $(function(){
 			success:function(data){
 				console.log(data);			
 				if(data.isUsable==true){
-					console.log("접속중인 계정아님");
-					return;
-				}else if(data.isUsable==false){
-					if(confirm("현재 접속중인 계정인디 접속하실라우?")==true){
+					$("#loginFrm").submit();
+				}else{
+					var result=confirm("현재 접속중입니다.그래도 로그인 하시겠습니까?");
+					if(result){
 						$.ajax({
 							url:"deleteConnectMember.do",
 							data:{
@@ -62,25 +74,22 @@ $(function(){
 							dataType:"json",
 							success:function(data){
 								if(data.isUsable==true){
-									return;
-								}else{
-									alert("알수없는 에러발생. 관리자에게 문의하세요");
-									e.preventDefault();
+									$("#loginFrm").submit();
 								}
 							},
 							error:function(jqxhr,textStatus, errorThrown){
 								console.log("ajax실패",jqxhr,textStatus, errorThrown);
 							}
 						});
-					}
 					}else{
-						e.preventDefault();
+						alert("로그인취소");
 					}
+				}
 			},
 			error:function(jqxhr,textStatus, errorThrown){
 				console.log("ajax실패",jqxhr,textStatus, errorThrown);
 			}	
-		});
+		});	
 	});
 });
 </script>
@@ -95,7 +104,7 @@ $(function(){
             <br>
             <input class="form-control" type="password" placeholder="비밀번호" name="member_password">
             <br>
-            <input type="submit" value="로그인">
+            <input type="button" value="로그인" id="login_btn">
             <br><br>
         </form>
         <hr>
