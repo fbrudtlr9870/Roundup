@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="메인" name="pageTitle"/>
+	<jsp:param value="main" name="pageTitle"/>
 </jsp:include>
 <jsp:include page="/WEB-INF/views/common/nav.jsp"></jsp:include>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.js"></script>	
@@ -113,7 +113,7 @@ $(function(){
 				      <img class="d-block w-100 main-img-one" src="${pageContext.request.contextPath }/resources/img/main-display.png" alt="First slide">
 				    </div>
 				    <div class="carousel-item">
-				      <img class="d-block w-100 main-img-one" src="${pageContext.request.contextPath }/resources/img/suzyy.jpg" alt="Second slide">
+				      <img class="d-block w-100 main-img-one" src="${pageContext.request.contextPath }/resources/img/hotdog.jpg" alt="Second slide">
 				    </div>
 				    <div class="carousel-item">
 				      <img class="d-block w-100 main-img-one" src="${pageContext.request.contextPath }/resources/img/게스 컴퓨터바탕화면 2.jpg" alt="Third slide">

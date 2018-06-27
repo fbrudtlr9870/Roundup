@@ -70,7 +70,7 @@ public class MemberController {
 		int result = 0;
 		
 		if(memberService.insertMember(member) > 0) {
-			Map<String,Object> map = new HashMap<>();
+			Map<String,Object> map = new HashMap<String, Object>();
 			String address = road + "#" + jibun + "#" + detail;
 			
 			map.put("member_id", member.getMember_id());

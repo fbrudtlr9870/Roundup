@@ -51,7 +51,7 @@ public class ChattingController {
 		
 		int insertChat = chattingService.insertChat(chatting);
 		
-		Map<String,Object> map = new HashMap<>();
+		Map<String,Object> map = new HashMap<String, Object>();
 		int connectCount = chattingService.connectCount();
 		map.put("connectCount", connectCount);
 		return map;	

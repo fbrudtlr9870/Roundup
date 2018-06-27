@@ -67,7 +67,12 @@
 	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">마이페이지</a>
 	                    </c:if>
                     <li class="nav-bar-site-li">고객센터</li>
-                    <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/manager/managerPage.do">관리자페이지</a></li>
+                    
+                    <!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! -->
+                     <c:if test="${memberLoggedIn!=null && ((memberLoggedIn.member_grade=='A')) }">  
+                       
+                    <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/manager/managerPage.do">관리자페이지</a></li>  
+                        </c:if>  
                 </ul>
                 <ul class="nav-bar-list">
                         <li class="nav-bar-site-li"><a href="http://www.7-eleven.co.kr" target="blank">세븐일레븐</a></li>
@@ -216,6 +221,7 @@
 		        <button type="submit" class="btn btn-outline-primary">로그인</button>
 		        <button type="button" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
 		      </div>
+		      
 		      </form>
 		    </div>
 		  </div>

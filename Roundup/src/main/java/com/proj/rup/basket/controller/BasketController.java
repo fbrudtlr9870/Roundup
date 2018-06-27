@@ -60,7 +60,7 @@ public class BasketController {
 	@ResponseBody
 	public String updateBasket(@RequestParam(value="basketNo") int basketNo, @RequestParam(value="productAmount") int productAmount) {
 		
-		Map<String, Integer> map = new HashMap<>();
+		Map<String, Integer> map = new HashMap<String, Integer>();
 		
 		map.put("basketNo", basketNo);
 		map.put("productAmount", productAmount);
@@ -74,7 +74,7 @@ public class BasketController {
 	public String insertBasket(@RequestParam(value="productNo") int productNo,
 							   @RequestParam(value="productAmount") int productAmount,
 							   @RequestParam(value="memberId") String memberId) {
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		
 		map.put("productNo", productNo);
 		map.put("productAmount", productAmount);

@@ -299,7 +299,7 @@ public class ProductController {
 		List<Product> productList = productService.selectNewProduct();
 	    System.out.println("productList" + productList);
 	    
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("productList", productList);
 		
 		return map;

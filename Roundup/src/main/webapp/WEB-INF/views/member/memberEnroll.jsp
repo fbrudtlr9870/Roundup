@@ -48,7 +48,7 @@ div#update-container{
 div#userId-container span.guide{
 	display:none;
 	font-size:12px;
-	position:absolute;
+	position:relative;
 	top:12px;
 	right:10px;
 	margin-right:1000px;
@@ -87,7 +87,7 @@ $(function(){
 	
 	$("#member_id_").on("keyup",function(){
 		var member_id = $(this).val().trim();
-		if(member_id.length<4){
+		if(member_id.length<3){
 			$(".guide").hide();
 			$("#idDuplicateCheck").val(0);
 			return;
@@ -122,6 +122,7 @@ $(function(){
 /*
  * 유효성검사함수
  */
+
 function validate(str){
 	var member_id = $("#member_id_").val().trim();
 	var member_password = $("#member_password_").val().trim();
@@ -130,8 +131,6 @@ function validate(str){
 	var member_phone = $("#member_phone_").val().trim();
 	var regExp = /^[가-힣]{2,8}$/;
 	var regExp0 = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
-	
-
 
 	
 	if(member_id.length<4 || member_id.length>=12){
@@ -139,6 +138,7 @@ function validate(str){
 		/* member_id.focus(); */
 		$("#member_id_").focus();
 		return false;
+
 	}
 	
 	if(member_password.length<4 || member_password.length>8){
@@ -178,6 +178,7 @@ function validate(str){
 
 	return true;
 }
+
 
 function sample4_execDaumPostcode() {
     new daum.Postcode(
