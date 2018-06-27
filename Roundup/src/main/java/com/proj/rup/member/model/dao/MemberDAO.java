@@ -28,5 +28,8 @@ public interface MemberDAO {
 
 	int insertAddress(Map<String, Object> map);
 
+	Map<String, Object> selectConnectMember(String username);
+
+
 
 }

@@ -23,6 +23,7 @@ public class ChattingController {
 	@Autowired
 	private ChattingService chattingService = new ChattingServiceImpl();
 	
+	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@RequestMapping(value="/chatting/showChat.do",method=RequestMethod.POST,produces="application/json; charset=utf8")

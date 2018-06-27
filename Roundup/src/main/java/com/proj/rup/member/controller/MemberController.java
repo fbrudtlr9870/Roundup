@@ -93,7 +93,7 @@ public class MemberController {
 	}
 	
 	
-	   @RequestMapping("/member/memberLogin.do")
+	/* @RequestMapping("/member/memberLogin.do")
 	   public ModelAndView memberLogin(@RequestParam String member_id,
 	                           @RequestParam String member_password) {
 	      if(logger.isDebugEnabled())
@@ -118,16 +118,16 @@ public class MemberController {
 	      //if(member_password.equals(m.getMember_password())) {
 	         msg = "로그인성공!";
 	         
-	        /*  토탈관리 시작
+	          토탈관리 시작
 	         int selectMember = memberService.selectMember(m.getMember_id());
 	         if(selectMember ==1) {
 	        	 int deleteConnect = memberService.deleteConnect(m.getMember_id());
 	         }else {
 	        	 int connectMember = memberService.connectMember(m);	        	 
-	         }*/
-	         /*토탈 관리 끝*/
+	         }
+	         토탈 관리 끝
 	         mav.addObject("memberLoggedIn", m);
-	         /*mav.addObject("memberLoggedIn", m);*/
+	         mav.addObject("memberLoggedIn", m);
 	      }
 	      else {
 	         msg = "비밀번호가 틀렸습니다.";
@@ -140,24 +140,24 @@ public class MemberController {
 	      mav.setViewName("common/msg");
 	      
 	      return mav;
-      }
-			
+	      }*/
+	
+	
 	 @RequestMapping("/member/memberLogout.do")
 	   public String memberLogout(SessionStatus sessionStatus, HttpSession session) {
-	     
-		 
+	    		
 		 if(logger.isDebugEnabled())
 	         logger.debug("로그아웃요청");
 	      
-		 /* 딜리트 관련*/
 	      if(!sessionStatus.isComplete()) {
 	    	  Member m = (Member)session.getAttribute("memberLoggedIn");    	  
 	    	 /* int deleteConnect = memberService.deleteConnect(m.getMember_id());	  */  	 
 	    	  sessionStatus.setComplete();
 	      }
 	      return "redirect:/";
-	   }
-	 
+	   } 
+
+
 	@RequestMapping("member/checkIdDuplicate.do")
 	@ResponseBody
 	public Map<String,Object> checkIdDuplicate(@RequestParam("member_id") String member_id){
@@ -240,6 +240,11 @@ public class MemberController {
 		mav.setViewName("common/msg");
 		
 		return mav;
+	}
+	
+	@RequestMapping("/member/loginPage.do")
+	public String login(){
+		return "common/login";
 	}
 
 }

@@ -45,10 +45,16 @@
 	<select id="selectMember" resultType="_int">
 		select count(*) from connect_member where member_id=#{member_id}
 	</select>
-	
+		
 	<delete id="deleteConnect">
 		delete from connect_member where member_id=#{member_id}
 	</delete>
+	
+	<select id="selectConnectMember" resultType="map">
+		select member_id as username, member_password as password, enabled, authority, member_name
+		from member
+		where member_id=#{user_name}
+	</select>
 	
 	<!-- 로그인 회원 토탈 관련 끝 -->
 	
