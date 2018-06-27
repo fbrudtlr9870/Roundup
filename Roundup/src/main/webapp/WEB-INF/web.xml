@@ -81,5 +81,9 @@
   	</filter-mapping>
 
 
+	<!-- 세션종료시 접속중인 사용자정보(DB) 삭제 위한 리스너 -->
+	<listener>
+		<listener-class>com.proj.rup.member.model.service.SessionDestoryListener</listener-class>
+	</listener>
 
 </web-app>
