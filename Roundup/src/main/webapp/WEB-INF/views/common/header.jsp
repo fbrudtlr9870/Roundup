@@ -24,12 +24,25 @@
 <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script> -->
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
+
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
+
 </head>	
 
-<sec:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+<!-- 유저롤을 가진 유저  -->
+<sec:authorize access="hasAnyRole('ROLE_USER')">
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
+
+<!-- 관리자롤을 가진 유저 -->
+<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+	<sec:authentication property="principal.username" var="admin_id"/>
+	<sec:authentication property="principal.member_name" var="admin_name"/>
+</sec:authorize>
+
+
 
 <body>
 <div id="main-container">
@@ -39,23 +52,25 @@
                 <ul class="nav-bar-site">
 
                     <li class="nav-bar-site-li">
-	                    <c:if test="${memberLoggedIn!=null}">
-	                    	<a href="${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}" style="color:black">장바구니</a>
+	                    <c:if test="${member_id!=null}">
+	                    	<a href="${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${member_id}" style="color:black">장바구니</a>
 	                    </c:if>
-	                    <c:if test="${memberLoggedIn==null}">
+	                    <c:if test="${member_id==null}">
 	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">장바구니</a>
 	                    </c:if>
 	                    
 	                    	
                     </li>
-                    <c:if test="${memberLoggedIn!=null}">
-                    	<li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/member/myPage.do?member_id=${memberLoggedIn.member_id }" style="color:black">마이페이지</a></li>
+                    <c:if test="${member_id!=null}">
+                    	<li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/member/myPage.do?member_id=${member_id }" style="color:black">마이페이지</a></li>
                     </c:if>
-                    <c:if test="${memberLoggedIn==null}">
+                    <c:if test="${member_id==null}">
 	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">마이페이지</a>
 	                    </c:if>
                     <li class="nav-bar-site-li">고객센터</li>
+                    <c:if test="${admin_id !=null }">
                     <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/manager/managerPage.do">관리자페이지</a></li>
+                	</c:if>
                 </ul>
                 <ul class="nav-bar-list">
                         <li class="nav-bar-site-li"><a href="http://www.7-eleven.co.kr" target="blank">세븐일레븐</a></li>
@@ -296,8 +311,9 @@ $(document).ready(function(){
 
 <!-- 채팅 관련 스크립트 -->
 <script>
+/*  
 $(function(){
- 	/* setInterval(function(){  */
+ 	 setInterval(function(){  
 	 	$.ajax({
 	 		url:"${pageContext.request.contextPath}/chatting/showChat.do",
 	 		type:"post",
@@ -330,7 +346,7 @@ $(function(){
 	 	});
 
 
- 	/* },500) */
+ 	 },500) 
 
  	
 	
@@ -412,4 +428,5 @@ $(function(){
     });
  	
 })
+*/
 </script>
