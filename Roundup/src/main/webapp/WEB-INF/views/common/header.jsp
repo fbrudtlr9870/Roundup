@@ -106,6 +106,7 @@
 			    		&nbsp;
 	                  <button type="button" class="btn btn-outline-success"
 	               		 onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
+
 	               <%-- </c:if> --%>
 	             	</c:when>
 	             	<c:otherwise>
@@ -113,6 +114,7 @@
 				    <a href="#">${member_name }</a>님, 안녕하세요			    
 				  
 				     <button class="btn btn-outline-success" type="button" onclick="document.getElementById('logout-form').submit();" />
+ 
 			    		로그아웃
 			    	</button>
 			    	<form id="logout-form" action="<c:url value="/logout"/>" method="post">

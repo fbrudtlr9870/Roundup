@@ -57,7 +57,7 @@ public class ProductServiceImpl<ProductVO> implements ProductService {
 			
 			if(p.getCategoryNo()>0) {
 				categoryLevel = productDAO.selectCategoryLevel(p.getCategoryNo());
-				
+	
 				Map<String,Integer> map = new HashMap<>();
 				
 				map.put("productNo", productNo);

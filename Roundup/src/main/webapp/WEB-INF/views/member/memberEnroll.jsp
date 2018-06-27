@@ -10,10 +10,40 @@
 <script charset="UTF-8" type="text/javascript"
    src="http://t1.daumcdn.net/cssjs/postcode/1522037570977/180326.js"></script>
 <style>
+/* table input[id="member_name_"], table input[id="member_id_"], table input[id="member_password_"], table input[id="password_chk"]
+table input[id="member_phone_"], table input[id="member_email_"], table input[id="member_gender_"], table input[id="member_birthday_"] {
+   background-color: lightblue;
+   color: black;
+   border-bottom-left-radius: 0;
+   border-top-left-radius: 0;
+   border: 0;
+   color: inherit;
+   font: inherit;
+   margin: 0;
+   outline: 2;
+   padding: 10px;
+   transition: background-color .3s;
+}
+
+table input[id="member_id_"]  {
+   background-color: lightpink;
+   color: black;
+   border-bottom-left-radius: 0;
+   border-top-left-radius: 0;
+   border: 0;
+   color: inherit;
+   font: inherit;
+   margin: 0;
+   outline: 0;
+   padding: 1;
+   transition: background-color .3s;
+} */
+
 div#update-container{
 	width:980px;
 	margin:0 auto;
 }
+<<<<<<< HEAD
 
 div#userId-container span.guide{
 	display:none;
@@ -21,7 +51,9 @@ div#userId-container span.guide{
 	position:absolute;
 	top:12px;
 	right:10px;
+	margin-right:1000px;
 }
+
 div#userId-container span.ok{color:blue;}
 div#userId-container span.error{color:orange;}
 
@@ -40,6 +72,7 @@ table#tbl_enroll input, table#tbl_enroll select{
 div#btnDiv {
 	text-align: center;
 }
+
 </style>
 <script>
 $(function(){
@@ -90,30 +123,44 @@ $(function(){
  * 유효성검사함수
  */
 function validate(str){
-	var member_id = $("#member_id_");
-	var member_password = $("#member_password_");
-	var member_name = $("#member_name_");
-	var member_birthday = $("#member_birthday_");
-	var member_phone = $("#member_phone_")
+	var member_id = $("#member_id_").val().trim();
+	var member_password = $("#member_password_").val().trim();
+	var member_name = $("#member_name_").val().trim();
+	var member_birthday = $("#member_birthday_").val().trim();
+	var member_phone = $("#member_phone_").val().trim();
+	var regExp = /^[가-힣]{2,8}$/;
+	var regExp0 = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
+	
+
 
 	
-	if(member_id.val().trim().length<4 || member_id.val().trim().length>=12){
+	if(member_id.length<4 || member_id.length>=12){
 		alert("아이디는 최소4자리이상 12자 미만여야 합니다");
-		member_id.focus();
+		/* member_id.focus(); */
+		$("#member_id_").focus();
 		return false;
 	}
 	
-	if(member_password.val().trim().length<4 || member_password.val().trim().length>8){
+	if(member_password.length<4 || member_password.length>8){
 		alert("비밀번호는 최소4자리이상이거나 8자리 미만여야 합니다.");
-		member_password.focus();
+		/* member_password.focus(); */
+		$("#member_password_").focus();
 		return false;		
 	}
 	
-	if(member_name.val().trim().length>8){
+	/* if(member_name.val().trim().length>8){
 		alert("이름을 8글자 미만로 적어주세요");
+		return false;
+	} */
+	
+	if(!regExp.test(member_name)){
+		alert("이름을 2글자 이상 8글자 이하로 적으세요.");
+		$("#member_name_").val("");
+		$("#member_name_").focus();
 		return false;
 	}
 	
+
 	if (member_name.val().indexOf(" ") >= 0) {
         alert("이름에 공백을 사용할 수 없습니다.")
         document.member_name_.focus()
@@ -121,6 +168,14 @@ function validate(str){
         return false;
     }
 	
+
+	if(!regExp0.test(member_phone)){
+		alert("번호를 형식에 맞게 적으세요");
+		$("#member_phone_").val("");
+		$("#member_phone_").focus();
+		return false;
+	}
+
 	return true;
 }
 
@@ -182,7 +237,9 @@ function sample4_execDaumPostcode() {
 </script>
 	<div id="update-container">
 	<h2>회원가입</h2>
+	<hr size="5px;" style="background:rgb(126, 183, 230);">
 		<form action="memberEnrollEnd.do" method="post" onsubmit="return validate();">
+
 			<table class="table" id="tbl_enroll">
 			<tr>
 				<th><label for="member_id_">아이디</label></th>
@@ -246,7 +303,7 @@ function sample4_execDaumPostcode() {
 			<div id="btnDiv">
 				<input type="submit" value="가입" class="btn btn-outline-success"/> &nbsp;
 				<input type="reset" value="취소" class="btn btn-outline-success"/>
-			</div>
+
 		<br><br> 
 		</form>
 	</div>
