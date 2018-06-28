@@ -41,7 +41,7 @@
 <meta name="_csrf_header" content="${_csrf.headerName}"/> 
 
 <!-- 소켓통신 라이브러리 --> 
-<script src="${pageContext.request.contextPath }/resources/sockjs-0.3.4.js"></script> 
+<script src="${pageContext.request.contextPath }/resources/js/sockjs.min.js"></script> 
 
 
 </head>	
@@ -328,6 +328,54 @@ $(document).ready(function(){
 	
 });
 </script>
+
+
+
+
+<!-- 채팅 관련 스크립트(소켓) --> 
+<script> 
+ 
+var sock=new SockJS("/echo.do"); 
+ 
+sock.onmessage= onMessage; 
+sock.onclose = onClose; 
+ 
+$(function(){ 
+  $("#insertChat").click(function(){ 
+    sendMessage(); 
+  }); 
+}); 
+ 
+function sendMessage(){ 
+  sock.send($("#insertText").val()); 
+} 
+ 
+function onClose(){ 
+  $("#chatting-content").append("연결끊김"); 
+} 
+ 
+function onMessage(evt){ 
+  var data=evt.data; 
+  var sessionid=null; 
+  var message=null; 
+  var offset = $(".chatting-comment:last").offset(); 
+  var strArr=data.split('|'); 
+   
+  sessionid=strArr[0]; 
+  message=strArray[1]; 
+   
+  var html='<div class="chatting-comment" style="text-align:left;">'; 
+  html+='<strong>['+sessionid+'] :</strong>'+message; 
+  html+='</div>'; 
+  $("#chatting-content").append(html); 
+ 
+    $("#chatting-content").animate({scrollTop : offset.top}, 400); 
+} 
+ 
+</script> 
+
+
+
 
 <!-- 채팅 관련 스크립트 -->
 <script>
