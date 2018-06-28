@@ -143,7 +143,7 @@
  
             <!-- 채팅 관련 html 시작 -->
    			 <div id="chatting-room">
-            	<%-- <input type="hidden" name="member_id" value="${memberLoggedIn['member_id']}" /> --%>
+            	<input type="hidden" name="member_id" value="${member_id}" />
             	<div style="text-align:center;">현재 접속중인 회원<span id="connected-member"style="font-weight:bold;">${totalMember }</span> 명</div>
             	<c:if test="${member_id!=null }">
             	<div style="text-align:center;margin-top:10px;">채팅방에 접속되었습니다.</div>  
@@ -344,6 +344,25 @@ $(function(){
   $("#insertChat").click(function(){ 
     sendMessage(); 
   }); 
+  $("#insertText").keypress(function (e) {
+		var chatText=$("#insertText").val().trim();
+		var member_id =$("[name=member_id]").val().trim();
+		
+		if(e.which == 13){
+	 		if(chatText==""){
+	 			alert("내용을 입력하셔야 합니다.");
+	 			return false;
+	 		}
+	 		
+	 		if(member_id ==""){
+	 			alert("로그인 후 이용가능합니다.");
+	 			return false;
+	 		}else{
+	 			sendMessage();
+	 			$("#insertText").val('');
+	 		}
+		}
+  });
 }); 
  
 function sendMessage(){ 
@@ -358,7 +377,6 @@ function onMessage(evt){
   var data=evt.data; 
   var sessionid=null; 
   var message=null; 
-  var offset = $(".chatting-comment:last").offset(); 
   var strArr=data.split('|'); 
    
   sessionid=strArr[0]; 
