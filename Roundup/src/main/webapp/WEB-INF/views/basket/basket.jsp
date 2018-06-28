@@ -223,7 +223,12 @@ $(function() {
 		}
 	}); 
 
+	var total = 0;
+	$("[name=basketList]:checked").filter(function() {
+		total += $(this).parent().parent().find("[name=price]").val();
+    });
+	
+	alert(total);
 });
-
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

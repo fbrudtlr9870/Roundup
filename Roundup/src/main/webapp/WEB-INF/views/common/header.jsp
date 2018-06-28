@@ -51,12 +51,13 @@
                 <ul class="nav-bar-site">
 
                     <li class="nav-bar-site-li">
-	                    <c:if test="${memberLoggedIn!=null}">
+                    <a href="${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}" style="color:black">장바구니</a>
+	                    <%-- <c:if test="${memberLoggedIn!=null}">
 	                    	<a href="${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}" style="color:black">장바구니</a>
 	                    </c:if>
 	                    <c:if test="${memberLoggedIn==null}">
 	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">장바구니</a>
-	                    </c:if>
+	                    </c:if> --%>
 	                    
 	                    	
                     </li>
