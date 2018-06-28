@@ -39,7 +39,7 @@
 	</select>
 	
 	<insert id="connectMember">
-		insert into connect_member values(#{member_id},#{member_name},sysdate)
+		insert into connect_member values(#{username},#{member_name},sysdate)
 	</insert>
 	
 	<select id="selectMember" resultType="_int">
@@ -47,7 +47,7 @@
 	</select>
 		
 	<delete id="deleteConnect">
-		delete from connect_member where member_id=#{member_id}
+		delete from connect_member where member_id=#{username}
 	</delete>
 	
 	<select id="selectConnectMember" resultType="map">

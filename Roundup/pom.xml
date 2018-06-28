@@ -225,6 +225,12 @@
 	        <version>2.9.5</version>
 	    </dependency>
 
+	    <dependency>
+	    	<groupId>org.codehaus.jackson</groupId>
+	    	<artifactId>jackson-mapper-asl</artifactId>
+	    	<version>1.4.2</version>
+	    </dependency>
+
 		<!-- 메일발송 지원 기능 -->
 		<dependency>
 		    <groupId>org.springframework</groupId>
@@ -237,8 +243,7 @@
 		    <groupId>javax.mail</groupId>
 		    <artifactId>mail</artifactId>
 		    <version>1.4.7</version>
-		</dependency>
-		     
+		</dependency>		     
 		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
       <dependency>
           <groupId>com.google.code.gson</groupId>
@@ -252,7 +257,13 @@
 		    <artifactId>spring-security-taglibs</artifactId>
 		    <version>4.2.6.RELEASE</version>
 		</dependency>
-		      
+
+		<!-- 웹소켓 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
+			<version>4.2.6.RELEASE</version>
+		</dependency>
 
 	</dependencies>
     <build>

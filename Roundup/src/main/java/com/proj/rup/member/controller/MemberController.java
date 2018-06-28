@@ -93,7 +93,7 @@ public class MemberController {
 	}
 	
 	
-	 @RequestMapping("/member/memberLogin.do")
+	 /*@RequestMapping("/member/memberLogin.do")
 	   public ModelAndView memberLogin(@RequestParam String member_id,
 	                           @RequestParam String member_password) {
 	      if(logger.isDebugEnabled())
@@ -118,14 +118,14 @@ public class MemberController {
 	      //if(member_password.equals(m.getMember_password())) {
 	         msg = "로그인성공!";
 	         
-	          /*토탈관리시작 */
+	          토탈관리시작 
 	         int selectMember = memberService.selectMember(m.getMember_id());
 	         if(selectMember ==1) {
 	        	 int deleteConnect = memberService.deleteConnect(m.getMember_id());
 	         }else {
 	        	 int connectMember = memberService.connectMember(m);	        	 
 	         }
-	        /* 토탈 관리 끝*/
+	         토탈 관리 끝
 	         mav.addObject("memberLoggedIn", m);
 	         mav.addObject("memberLoggedIn", m);
 	      }
@@ -140,23 +140,22 @@ public class MemberController {
 	      mav.setViewName("common/msg");
 	      
 	      return mav;
-	      }
+	      }*/
 	
-	
-	 @RequestMapping("/member/memberLogout.do")
+/*	 @RequestMapping("/member/memberLogout.do")
 	   public String memberLogout(SessionStatus sessionStatus, HttpSession session) {
 	    		
 		 if(logger.isDebugEnabled())
 	         logger.debug("로그아웃요청");
 	      
-	      if(!sessionStatus.isComplete()) {
-	    	  Member m = (Member)session.getAttribute("memberLoggedIn");    	  
-	    	 /* int deleteConnect = memberService.deleteConnect(m.getMember_id());	  */  	 
+		  딜리트 관련
+	      if(!sessionStatus.isComplete()) {   	  
+	    	  //int deleteConnect = memberService.deleteConnect(m.getMember_id());	    	 
 	    	  sessionStatus.setComplete();
 	      }
 	      return "redirect:/";
 	   } 
-
+*/
 
 	@RequestMapping("member/checkIdDuplicate.do")
 	@ResponseBody
@@ -246,5 +245,36 @@ public class MemberController {
 	public String login(){
 		return "common/login";
 	}
-
+	
+	@RequestMapping("/member/checkConnectMember.do")
+	@ResponseBody
+	public Map<String,Object> checkConnectMember(@RequestParam("member_id") String member_id){
+		logger.debug("@ResponseBody-javaObj ajax : "+member_id);
+		Map<String,Object> map = new HashMap<String, Object>();
+		//업무로직
+		int count = memberService.selectMember(member_id);
+		boolean isUsable = count==0?true:false;
+		
+		map.put("isUsable", isUsable);
+		
+		System.out.println(map.get("isUsable"));
+		
+		return map;
+	}			
+	
+	@RequestMapping("/member/deleteConnectMember.do")
+	@ResponseBody
+	public Map<String,Object> deleteConnectMember(@RequestParam("member_id") String member_id){
+		logger.debug("@ResponseBody-javaObj ajax : "+member_id);
+		Map<String,Object> map = new HashMap<String, Object>();
+		//업무로직
+		int count = memberService.deleteConnect(member_id);
+		boolean isUsable = count==1?true:false;
+		
+		map.put("isUsable", isUsable);
+		
+		System.out.println(map.get("isUsable"));
+		
+		return map;
+	}	
 }

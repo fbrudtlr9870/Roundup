@@ -26,7 +26,6 @@
 	<!-- ##3.1 인터셉트를 이용해 url패턴마다의 role설정(그냥 관리자페이지만 설정했음) -->
 	<security:http auto-config="true" use-expressions="true">
 		<security:intercept-url pattern="/manager/**" access="hasRole('ROLE_ADMIN')" />
-		<security:intercept-url pattern="/freeboard/**" access="hasRole('ROLE_USER')"/>
 		<security:intercept-url pattern="/**" access="permitAll"/>
 		<security:form-login login-page="/member/loginPage.do"
 							login-processing-url="/member/memberLogin.do"
