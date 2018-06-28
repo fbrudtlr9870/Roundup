@@ -51,7 +51,7 @@
 	
 	<!-- 웹소켓핸들러 -->
 	<websocket:handlers>
-		<websocket:mapping handler="echoHandler" path="/echo.do"/>
+		<websocket:mapping handler="echoHandler" path="/echo"/>
 		<websocket:sockjs/>
 	</websocket:handlers>
 	

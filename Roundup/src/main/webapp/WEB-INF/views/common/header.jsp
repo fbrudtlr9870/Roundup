@@ -335,7 +335,7 @@ $(document).ready(function(){
 <!-- 채팅 관련 스크립트(소켓) --> 
 <script> 
  
-var sock=new SockJS("/echo.do"); 
+var sock=new SockJS("<c:url value="/echo"/>"); 
  
 sock.onmessage= onMessage; 
 sock.onclose = onClose; 
@@ -351,7 +351,7 @@ function sendMessage(){
 } 
  
 function onClose(){ 
-  $("#chatting-content").append("연결끊김"); 
+  $("#chatting-content").append("연결이 끊켰습니당."); 
 } 
  
 function onMessage(evt){ 
@@ -362,7 +362,7 @@ function onMessage(evt){
   var strArr=data.split('|'); 
    
   sessionid=strArr[0]; 
-  message=strArray[1]; 
+  message=strArr[1]; 
    
   var html='<div class="chatting-comment" style="text-align:left;">'; 
   html+='<strong>['+sessionid+'] :</strong>'+message; 

@@ -28,7 +28,7 @@
 		<security:intercept-url pattern="/manager/**" access="hasRole('ROLE_ADMIN')" />
 		<security:intercept-url pattern="/**" access="permitAll"/>
 		<security:form-login login-page="/member/loginPage.do"
-							login-processing-url="/member/memberLogin.do"
+							login-processing-url="/member/memberLogin"
 							username-parameter="member_id"
 							password-parameter="member_password"
 							authentication-success-handler-ref="memberAuthenticationSuccessHandler"/>

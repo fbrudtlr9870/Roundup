@@ -96,7 +96,7 @@ $(function(){
 <body>
     
     <div id="container">
-       <form id="loginFrm" action="${pageContext.request.contextPath }/member/memberLogin.do" method="post">
+       <form id="loginFrm" action="${pageContext.request.contextPath }/member/memberLogin" method="post">
       		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             <h1>편의점마스터</h1>
             <br>
