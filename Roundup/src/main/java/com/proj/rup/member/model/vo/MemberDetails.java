@@ -24,11 +24,7 @@ public class MemberDetails extends User {
 		this.member_name= member_name;
 		
 	}
-
-	   
-	
-	 
-	   
+ 
 	  
 	@Override
 	public String toString() {

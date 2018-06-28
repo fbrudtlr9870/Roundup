@@ -36,6 +36,14 @@
 <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script> -->
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
+<!-- 메타값 -->
+<meta name="_csrf" content="${_csrf.token}"/> 
+<meta name="_csrf_header" content="${_csrf.headerName}"/> 
+
+<!-- 소켓통신 라이브러리 --> 
+<script src="${pageContext.request.contextPath }/resources/sockjs-0.3.4.js"></script> 
+
+
 </head>	
 
 <sec:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
@@ -51,25 +59,25 @@
                 <ul class="nav-bar-site">
 
                     <li class="nav-bar-site-li">
-	                    <c:if test="${memberLoggedIn!=null}">
-	                    	<a href="${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}" style="color:black">장바구니</a>
+	                    <c:if test="${member_id!=null}">
+	                    	<a href="${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${member_id}" style="color:black">장바구니</a>
 	                    </c:if>
-	                    <c:if test="${memberLoggedIn==null}">
+	                    <c:if test="${member_id==null}">
 	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">장바구니</a>
 	                    </c:if>
 	                    
 	                    	
                     </li>
-                    <c:if test="${memberLoggedIn!=null}">
-                    	<li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/member/myPage.do?member_id=${memberLoggedIn.member_id }" style="color:black">마이페이지</a></li>
+                    <c:if test="${member_id!=null}">
+                    	<li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/member/myPage.do?member_id=${member_id }" style="color:black">마이페이지</a></li>
                     </c:if>
-                    <c:if test="${memberLoggedIn==null}">
+                    <c:if test="${member_id==null}">
 	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">마이페이지</a>
 	                    </c:if>
                     <li class="nav-bar-site-li">고객센터</li>
                     
                     <!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! -->
-                     <c:if test="${memberLoggedIn!=null && ((memberLoggedIn.member_grade=='A')) }">  
+                     <c:if test="${member_id!=null}">  
                        
                     <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/manager/managerPage.do">관리자페이지</a></li>  
                         </c:if>  
@@ -135,13 +143,12 @@
  
             <!-- 채팅 관련 html 시작 -->
    			 <div id="chatting-room">
-
-            	<input type="hidden" name="member_id" value="${memberLoggedIn['member_id']}" />
+            	<%-- <input type="hidden" name="member_id" value="${memberLoggedIn['member_id']}" /> --%>
             	<div style="text-align:center;">현재 접속중인 회원<span id="connected-member"style="font-weight:bold;">${totalMember }</span> 명</div>
-            	<c:if test="${memberLoggedIn!=null }">
+            	<c:if test="${member_id!=null }">
             	<div style="text-align:center;margin-top:10px;">채팅방에 접속되었습니다.</div>  
             	</c:if>
-            	<c:if test="${memberLoggedIn==null }">
+            	<c:if test="${member_id==null }">
             	<div style="text-align:center;margin-top:10px;">로그인 후 사용가능합니다.</div>  
             	</c:if> 	 	
             	<div id="chatting-content"></div>
@@ -324,8 +331,8 @@ $(document).ready(function(){
 
 <!-- 채팅 관련 스크립트 -->
 <script>
-$(function(){
- 	/* setInterval(function(){  */
+/* $(function(){
+ 	 setInterval(function(){ 
 	 	$.ajax({
 	 		url:"${pageContext.request.contextPath}/chatting/showChat.do",
 	 		type:"post",
@@ -358,7 +365,7 @@ $(function(){
 	 	});
 
 
- 	/* },500) */
+ 	 },500) 
 
  	
 	
@@ -439,5 +446,5 @@ $(function(){
  		}
     });
  	
-})
+}) */
 </script>
