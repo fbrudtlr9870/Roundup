@@ -70,7 +70,7 @@ public class MemberController {
 		int result = 0;
 		
 		if(memberService.insertMember(member) > 0) {
-			Map<String,Object> map = new HashMap<>();
+			Map<String,Object> map = new HashMap<String, Object>();
 			String address = road + "#" + jibun + "#" + detail;
 			
 			map.put("member_id", member.getMember_id());
@@ -83,8 +83,8 @@ public class MemberController {
 		//2. 
 		String loc = "/";
 		String msg = "";
-		if(result>0) msg="회원가입성공";
-		else msg="회원가입실패";
+		if(result>0) msg="회원가입성공!! 편의점 마스터에 오신것을 환영합니다.";
+		else msg="회원가입실패ㅠㅠ 다시 작성해주세요";
 		
 		model.addAttribute("loc",loc);
 		model.addAttribute("msg",msg);
@@ -93,7 +93,7 @@ public class MemberController {
 	}
 	
 	
-	  /* @RequestMapping("/member/memberLogin.do")
+	/* @RequestMapping("/member/memberLogin.do")
 	   public ModelAndView memberLogin(@RequestParam String member_id,
 	                           @RequestParam String member_password) {
 	      if(logger.isDebugEnabled())
@@ -142,18 +142,20 @@ public class MemberController {
 	      return mav;
 	      }*/
 	
-	
 /*	 @RequestMapping("/member/memberLogout.do")
+
+>>>>>>> branch 'master' of https://github.com/fbrudtlr9870/Roundup.git
 	   public String memberLogout(SessionStatus sessionStatus, HttpSession session) {
 	    		
 		 if(logger.isDebugEnabled())
 	         logger.debug("로그아웃요청");
-	      
+
 		  딜리트 관련
 	      if(!sessionStatus.isComplete()) {   	  
 	    	  //int deleteConnect = memberService.deleteConnect(m.getMember_id());	    	 
+
 	    	  sessionStatus.setComplete();
-      }
+	      }
 	      return "redirect:/";
 	   } 
 */

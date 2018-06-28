@@ -10,14 +10,26 @@
 <head>
 <meta charset="UTF-8">
 <title>${param.pageTitle }</title>
-
+<style>
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #fff;
+    background: #5c83ad;
+    width:80px;
+}
+.nav-fill .nav-item {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    text-align: center;
+    margin: 0;
+}
+</style>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.js"></script>		
 <!-- 부트스트랩관련 라이브러리 -->
 <!-- navi관련 수정(18.06.15) -->
 <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-   <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+  <!--  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -87,7 +99,7 @@
                        <div class="input-group">
                          <input type="text" class="form-control" id="productKey" placeholder="Search for..." name="searchKeyword" autocomplete="off">
                          <span class="input-group-btn">
-                           <button class="btn btn-default" type="submit" value="Go!">Go!!</button>
+                           <button type="button" class="btn btn-outline-info" type="submit">Go!!</button>
                          </span><br />       
                           	<ul id="autoComplete"></ul>                     
                        </div>
@@ -96,6 +108,7 @@
                 </fieldset>
                 
 				<!-- 로그인 회원가입 -->
+              	<!-- 로그인 회원가입 -->
               	<div class="nav-bar-btn">
               		<c:choose>
               		<c:when test="${empty member_id }">
@@ -109,6 +122,7 @@
 			    		&nbsp;
 	                  <button type="button" class="btn btn-outline-success"
 	               		 onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
+
 	               <%-- </c:if> --%>
 	             	</c:when>
 	             	<c:otherwise>
@@ -116,6 +130,7 @@
 				    <a href="#">${member_name }</a>님, 안녕하세요			    
 				  
 				     <button class="btn btn-outline-success" type="button" onclick="document.getElementById('logout-form').submit();" />
+ 
 			    		로그아웃
 			    	</button>
 			    	<form id="logout-form" action="<c:url value="/logout"/>" method="post">
@@ -127,6 +142,8 @@
 
                 </div>
             </div>
+            
+ 
             <!-- 채팅 관련 html 시작 -->
             <div id="chatting-room">
             	<!-- <input type="hidden" name="member_id" value="${memberLoggedIn['member_id']}" /> -->
@@ -142,7 +159,7 @@
             		<input id="insertText" style="float:left; width:230px;"class="form-control form-control-sm" type="text">
             		<button style="float:left; width:50px;" type="button" class="btn btn-primary" id="insertChat">전송</button>
             	</div>
-            </div>
+            </div> 
             <!-- 채팅관련 끝 -->
         </nav>
         
@@ -157,7 +174,7 @@
                <li role="presentation"><a href="./freeboard/freeBoardList.do">게시판</a></li>
                <li role="presentation"><a href="#">1:1문의</a></li>
            </ul>  -->
-           <ul class="nav nav-tabs justify-content-center">
+           <!-- <ul class="nav nav-tabs justify-content-center">
 			  <li class="nav-item dropdown">
 			    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">카테고리</a>
 			    <div class="dropdown-menu">
@@ -184,7 +201,11 @@
 			  <li class="nav-item">
 			    <a class="nav-link" href="#">1:1문의</a>
 			  </li>
-			</ul>
+			</ul> -->
+			<!-- ----------------- -->
+			
+			
+			<!-- ----------------- -->
 			
      </div>
      
@@ -208,8 +229,9 @@
 		      </div>
 		      <div class="modal-footer">
 		        <button type="submit" class="btn btn-outline-primary">로그인</button>
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
 		      </div>
+		      
 		      </form>
 		    </div>
 		  </div>
@@ -360,8 +382,8 @@ function onMessage(evt){
 
 <!-- 채팅 관련 스크립트(ajax polling) -->
 <script>
-/*  
-$(function(){
+  
+/*$(function(){
  	 setInterval(function(){  
 	 	$.ajax({
 	 		url:"${pageContext.request.contextPath}/chatting/showChat.do",

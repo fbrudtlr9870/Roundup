@@ -7,11 +7,6 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="장바구니" name="pageTitle"/>
 </jsp:include>
-<style>
-.number-hyelin {
-	display:inline;
-}
-</style>
 
 <div class="step-buy">
 	<br> <img src="${pageContext.request.contextPath }/resources/img/step-img.png" width="980px" height="100px">
@@ -43,7 +38,7 @@
 						<fmt:formatNumber value="${i['price']}" type="currency" currencySymbol=""/>원
 					</td>
 					<td class="tbl-td">
-						<input type="number" class="form-control number-hyelin" style="width: 70px; margin: 0 auto;" name="product_amount" value="${i['product_amount']}" min="1">
+						<input type="number" class="form-control inline-hyelin" style="width: 70px; margin: 0 auto;" name="product_amount" value="${i['product_amount']}" min="1">
 						<button type="button" class="btn btn-light updateBasket">수정</button>
 					</td>
 					<td class="tbl-td">
@@ -227,35 +222,7 @@ $(function() {
 			}
 		}
 	}); 
-	
-	// 상품 선택 시 총 결제 금액 표시
-	$(".basketList").change(function() {
-		var price = 0;
-		$("[name=basketList]:checked").filter(function() {
-			price += parseInt($(this).parent().parent().find("#price").val()); 
-        });
-		
-		/* $("#totalPrice").val(price);  */
-		/* console.log($(".totalPrice").children().val());
-		console.log(price); */
 
-		/* $.ajax({
-			url:"${pageContext.request.contextPath}/basket/deleteBasket.do",
-			data: {
-				basketNo : basketNo
-    		},
-			success:function(data) {
-				console.log(data);
-				location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
-			},
-			error:function(jqxhr, textStatus, errorThrown) {
-                  console.log("ajax처리실패!");
-                  console.log(jqxhr);
-                  console.log(textStatus);
-                  console.log(errorThrown);
-            }
-		}); */
-	}); 
 });
 
 </script>

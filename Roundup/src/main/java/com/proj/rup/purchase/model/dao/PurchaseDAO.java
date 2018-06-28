@@ -6,6 +6,8 @@ import java.util.Map;
 import com.proj.rup.basket.model.vo.BasketProduct;
 import com.proj.rup.member.model.vo.Address;
 import com.proj.rup.member.model.vo.MemberAddress;
+import com.proj.rup.product.model.vo.Product;
+import com.proj.rup.purchase.model.vo.Purchase;
 import com.proj.rup.purchase.model.vo.PurchaseComplete;
 
 public interface PurchaseDAO {
@@ -18,6 +20,12 @@ public interface PurchaseDAO {
 
 	List<Address> selectAddrList(String memberId);
 
-	int insertPurchase(Map<String, Object> map);
+	Product buyNow(int productNo);
+
+	int insertPurchase(Purchase purchase);
+
+	int insertPurchaseComplete(PurchaseComplete purchaseComplete);
+
+	int updateProductPurchase(Map<String, Integer> map);
 
 }

@@ -19,8 +19,9 @@ public interface ProductService<ProductVO> {
 
 	String fileInfo(int productId);
 
-
 	int insertProduct(Product p, Product_File pf);
+
+	List<Product> selectNewProduct();
 
 }
 

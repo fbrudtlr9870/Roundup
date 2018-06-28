@@ -12,28 +12,7 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript"
    src="http://t1.daumcdn.net/cssjs/postcode/1522037570977/180326.js"></script>
-<style>
-.inline-hyelin {
-	display: inline !important;
-}
-table#info2-hyelin {
-	width: 80%;
-}
-table#info2-hyelin td {
-	padding: 5px;
-}
-.red-hyelin {
-	color: red;
-	font-weight: bold;
-}
-.h3-hyelin {
-	font-size: 25px;
-	/* font-weight: bold;  */
-}
-.right-hyelin {
-	float: right;
-}
-</style>
+
 <!-- 결제완료 모달 -->
 <%-- <div class="modal fade" id="purchaseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog" role="document">
@@ -72,6 +51,7 @@ table#info2-hyelin td {
 			<tr>
 				<td class="tbl-td">
 					<div id="tbl-img-row">
+						<input type="hidden" name="basketNo" id="basketNo" value="${purchase['basket_no'] }"/>
 						<input type="hidden" name="productNo" id="productNo" value="${purchase['product_no'] }"/>
 						<img src="${pageContext.request.contextPath }/resources/img/${purchase['renamed_filename']}" alt="" width="100px" height="100px">
 						<span>[${purchase["brand_name"]}] &nbsp; ${purchase["product_name"]}</span>
@@ -95,6 +75,7 @@ table#info2-hyelin td {
 				<tr>
 				<td class="tbl-td">
 					<div id="tbl-img-row">
+						<input type="hidden" name="basketNo" class="basketNo" value="${i['basket_no'] }"/>
 						<input type="hidden" name="productNo" class="productNo" value="${i['product_no'] }"/>
 						<img src="${pageContext.request.contextPath }/resources/img/${i['renamed_filename']}" alt="" width="100px" height="100px">
 						<span>[${i["brand_name"]}] &nbsp; ${i["product_name"]}</span>
@@ -112,6 +93,29 @@ table#info2-hyelin td {
 				</td>
 			</tr>
 			</c:forEach>
+		</c:if>
+		
+		<c:if test="${not empty buyNow }">
+			<tr>
+				<td class="tbl-td">
+					<div id="tbl-img-row">
+						<input type="hidden" name="buyNow" id="buyNow"/>
+						<input type="hidden" name="productNo" id="productNo" value="${buyNow['productNo'] }"/>
+						<img src="${pageContext.request.contextPath }/resources/img/${buyNow['renamedFileName']}" alt="" width="100px" height="100px">
+						<span>[${buyNow["brandName"]}] &nbsp; ${buyNow["productName"]}</span>
+					</div>
+				</td>
+				<td class="tbl-td">
+					<fmt:formatNumber value="${buyNow['price']}" type="currency" currencySymbol=""/>원
+				</td>
+				<td class="tbl-td">
+					<input type="hidden" name="amount" id="amount" value="${productAmount }"/>
+					${productAmount}
+				</td>
+				<td class="tbl-td">
+					<fmt:formatNumber value="${productAmount*buyNow['price']}" type="currency" currencySymbol=""/>원
+				</td>
+			</tr>
 		</c:if>
 	
 	</table>
@@ -286,7 +290,23 @@ function payRequest() {
 			productList = productId.value;
 		}
 		
-	    var IMP = window.IMP; // 생략가능
+		var basketId = document.getElementById('basketNo');
+		var basketClass = document.getElementsByClassName('basketNo');
+		var buyNow = document.getElementById('buyNow');
+		var basketList = "";
+		
+		if(basketId == null && buyNow == null) {
+			for(var i=0; i<basketClass.length; i++){
+				basketList +=  basketClass[i].value + "/";
+			}			
+		} else if(basketId != null) {
+			basketList = basketId.value;
+			
+		} else {
+			basketList = "";
+		}
+
+		var IMP = window.IMP; // 생략가능
 		IMP.init('imp34778853');
 		IMP.request_pay({
 			pg : 'inicis', // 결제방식
@@ -312,13 +332,16 @@ function payRequest() {
 				    		member_id : "${memberLoggedIn.member_id}",
 				    		product_amount : amountList, 
 				    		address : rsp.buyer_addr,
-				    		zip_code : rsp.buyer_postcode
+				    		zip_code : rsp.buyer_postcode,
+				    		basketNo : basketList
 			    		},
 			    		success:function(data) {
-			    			if(data==='success') {
+			    			console.log(data);
+			    			if(data==="success") {
+			    				alert("dfd");
 			    				if(confirm("결제가 완료되었습니다. 결제 내역 페이지로 이동하시겠습니까?")) {
 			    					// 결제내역 페이지 보여주기
-			    					location.href="${pageContext.request.contextPath}";			    					
+			    					location.href="${pageContext.request.contextPath}"; 
 			    				} else {
 			    					// 장바구니 페이지 보여주기
 			    					location.href="${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
@@ -410,7 +433,7 @@ $(function() {
 		
 	 	window.open(url, title, status);
 	 	
-	/*  	$.ajax({
+	  	/* $.ajax({
 			url:"${pageContext.request.contextPath}/purchase/selectAddrList.do",
 			dataType:"json",
 			data: {
@@ -438,18 +461,19 @@ $(function() {
                   console.log(textStatus);
                   console.log(errorThrown);
             }
-		}); */
+			dkfdsjklfjdskl
+		});  */
 	 	
 	});
 });
 
 // 유효성 검사
 function validate() {
-/* 	var userId = $("#userId").val();
+	var userId = $("#userId").val();
 	var regExp = /^[가-힣]{2,}$/;
 	
     if(!(regExpTest(regExp, userId, "한글 2글자이상 입력하세요.")))
-        return false; */
+        return false;
     
     return true;
 }

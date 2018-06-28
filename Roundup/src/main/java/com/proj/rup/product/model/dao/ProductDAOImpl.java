@@ -75,9 +75,9 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 
 
-
-
-
-	
+	@Override
+	public List<Product> selectNewProduct() {
+		return session.selectList("product.selectNewProduct");
+	}
 
 }

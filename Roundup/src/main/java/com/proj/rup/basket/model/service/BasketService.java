@@ -14,4 +14,6 @@ public interface BasketService {
 
 	int updateBasket(Map<String, Integer> map);
 
+	int insertBasket(Map<String, Object> map);
+
 }

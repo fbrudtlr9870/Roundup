@@ -125,6 +125,7 @@ ul.nav-bar-list{
     top:100px;
     left:200px;
     height:30px;
+    margin-top:10px;
 }
 div.nav-bar-btn{
     position: absolute;
@@ -284,4 +285,36 @@ div#chatting-content{
 .nav-item>a{
     font-size: 18px;
     color: black;
+}
+
+.nav-bar-site-li>a{
+	color:#266fbd;
+}
+.inline-hyelin {
+	display: inline !important;
+}
+table#info2-hyelin {
+	width: 80%;
+}
+table#info2-hyelin td {
+	padding: 5px;
+}
+.red-hyelin {
+	color: red;
+	font-weight: bold;
+}
+.h3-hyelin {
+	font-size: 25px;
+	/* font-weight: bold;  */
+}
+.right-hyelin {
+	float: right;
+}
+div#addrList-hyelin {
+	width: 800px;
+	margin: 0 auto;
+}
+div#popup_btn-hyelin {
+	margin: 0 auto;
+	width: 120px;
 }
