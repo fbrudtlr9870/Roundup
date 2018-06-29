@@ -3,10 +3,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="장바구니" name="pageTitle"/>
 </jsp:include>
+<sec:authorize access="hasAnyRole('ROLE_USER')">
+	<sec:authentication property="principal.username" var="member_id"/>
+	<sec:authentication property="principal.member_name" var="member_name"/>
+</sec:authorize>
 
 <div class="step-buy">
 	<br> <img src="${pageContext.request.contextPath }/resources/img/step-img.png" width="980px" height="100px">
@@ -47,7 +52,7 @@
 					</td>
 					<td class="tbl-td">
 						<input type="hidden" value="${i['basket_no'] }" name="basket_no"/>
-						<button type="button" class="btn btn-success" onclick="window.location.href='${pageContext.request.contextPath }/purchase/purchase.do?basketNo=${i['basket_no'] }'">구매</button> &nbsp;
+						<button type="button" class="btn btn-success" onclick="window.location.href='${pageContext.request.contextPath }/purchase/purchase.do?basketNo=${i['basket_no'] }&memberId=${member_id}'">구매</button> &nbsp;
 						<button type="button" class="btn btn-danger deleteBasket">삭제</button>
 					</td>
 				</tr>
@@ -116,24 +121,27 @@ function fn_toggle(bool) {
 function purchaseAll() {
 	var chkboxes = document.getElementsByName("basketList");
 	var basketNo = "";
+	var memberId = '${member_id}';
 	
 	for(var i=0; i<chkboxes.length; i++) {
 		basketNo += $(chkboxes[i]).parent().parent().find("[name=basket_no]").val();     
 		basketNo += "/";
     }
 	
-	location.href="${pageContext.request.contextPath}/purchase/purchase.do?basketNo="+basketNo;
+	location.href="${pageContext.request.contextPath}/purchase/purchase.do?basketNo="+basketNo+"&memberId="+memberId;
 }
 
 function purchaseChk() {
 	var basketNo = "";
+	var memberId = '${member_id}';
+	
 	$("[name=basketList]:checked").filter(function() {
 		basketNo += $(this).parent().parent().find("[name=basket_no]").val();
 		basketNo += "/";
     });
 	
 	if(basketNo !== "") {
-		location.href="${pageContext.request.contextPath}/purchase/purchase.do?basketNo="+basketNo;
+		location.href="${pageContext.request.contextPath}/purchase/purchase.do?basketNo="+basketNo+"&memberId="+memberId;
 	}
 	else {
 		alert("선택된 상품이 없습니다.");
@@ -154,7 +162,7 @@ $(function() {
 	    		},
 				success:function(data) {
 					console.log(data);
-					location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
+					location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${member_id}";
 				},
 				error:function(jqxhr, textStatus, errorThrown) {
 	                  console.log("ajax처리실패!");
@@ -180,7 +188,7 @@ $(function() {
     		},
 			success:function(data) {
 				console.log(data);
-				location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
+				location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${member_id}";
 			},
 			error:function(jqxhr, textStatus, errorThrown) {
                   console.log("ajax처리실패!");
@@ -210,7 +218,7 @@ $(function() {
 		    		},
 					success:function(data) {
 						console.log(data);
-						location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
+						location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${member_id}";
 					},
 					error:function(jqxhr, textStatus, errorThrown) {
 		                  console.log("ajax처리실패!");

@@ -3,16 +3,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="purchase" name="pageTitle" />
 </jsp:include>
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> -->
+<script
+  src="https://code.jquery.com/jquery-1.12.4.js"
+  integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+  crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript"
    src="http://t1.daumcdn.net/cssjs/postcode/1522037570977/180326.js"></script>
-
+<sec:authorize access="hasAnyRole('ROLE_USER')">
+	<sec:authentication property="principal.username" var="member_id"/>
+	<sec:authentication property="principal.member_name" var="member_name"/>
+</sec:authorize>
 <!-- 결제완료 모달 -->
 <%-- <div class="modal fade" id="purchaseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog" role="document">
@@ -152,7 +160,7 @@
 			<tr>
 				<th>받으시는 분</th>
 				<td>
-		        	<input type="text" class="form-control" name="userId" id="userId" value="${memberLoggedIn.member_name}" title="받으시는분" style="width: 100px;" readonly>
+		        	<input type="text" class="form-control" name="userId" id="userId" value="${member_name}" title="받으시는분" style="width: 100px;" readonly>
 	           </td>
 			</tr>
 			<tr>
@@ -315,7 +323,7 @@ function payRequest() {
 	        name : '주문명: 결제 테스트',   // order 테이블에 들어갈 주문명 혹은 주문 번호
 	        amount : '100',   // 결제 금액
 	        buyer_email : '',   // 구매자 email
-	        buyer_name : "${memberLoggedIn.member_name}",   // 구매자 이름
+	        buyer_name : "${member_name}",   // 구매자 이름
 	        buyer_addr :  $("#sample4_roadAddress").val() + '#' + $("#sample4_jibunAddress").val() + '#' + $("#sample4_detailAddress").val(),   // 구매자 주소
 	        buyer_postcode :  $("#sample4_postcode").val()   // 구매자 우편번호
 		       
@@ -323,13 +331,16 @@ function payRequest() {
 			   console.log(rsp);
 			   if ( rsp.success ) {
 			    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
+			    	var member_id = "${member_id}";
+			    	console.log(member_id);
+			    	console.log(productList);
 			    	jQuery.ajax({
 			    		url: "${pageContext.request.contextPath}/purchase/purchaseEnd.do", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
 			    		type: 'POST',
 			    		data: {
 				    		imp_uid : rsp.imp_uid,
 				    		product_no : productList,
-				    		member_id : "${memberLoggedIn.member_id}",
+				    		member_id : "${member_id}",
 				    		product_amount : amountList, 
 				    		address : rsp.buyer_addr,
 				    		zip_code : rsp.buyer_postcode,
@@ -344,12 +355,9 @@ function payRequest() {
 			    					location.href="${pageContext.request.contextPath}"; 
 			    				} else {
 			    					// 장바구니 페이지 보여주기
-			    					location.href="${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
+			    					location.href="${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${member_id}";
 			    				} 
-			    			} /* else {
-			    				alert("결제가 실패되었습니다.");
-			    				location.href="${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
-			    			} */
+			    			}
 			    		},
 			    		error:function(jqxhr, textStatus, errorThrown) {
 			                  console.log("ajax처리실패!");
@@ -384,13 +392,13 @@ function payRequest() {
 
 // 배송지 정보 버튼 
 $(function() {
-	$("#phone_num1").val("${memberLoggedIn.member_phone}".substring(0, 3));
-	if("${memberLoggedIn.member_phone}".length == 11) {
-		$("#phone_num2").val("${memberLoggedIn.member_phone}".substring(3, 7));
-		$("#phone_num3").val("${memberLoggedIn.member_phone}".substring(7));
-	} else if("${memberLoggedIn.member_phone}".length == 10) {
-		$("#phone_num2").val("${memberLoggedIn.member_phone}".substring(3, 6));
-		$("#phone_num3").val("${memberLoggedIn.member_phone}".substring(6));				
+	$("#phone_num1").val("${member.member_phone}".substring(0, 3));
+	if("${member.member_phone}".length == 11) {
+		$("#phone_num2").val("${member.member_phone}".substring(3, 7));
+		$("#phone_num3").val("${member.member_phone}".substring(7));
+	} else if("${member.member_phone}".length == 10) {
+		$("#phone_num2").val("${member.member_phone}".substring(3, 6));
+		$("#phone_num3").val("${member.member_phone}".substring(6));				
 	}
 	
 	// 신규 입력 버튼
@@ -406,7 +414,7 @@ $(function() {
 	 	$.ajax({
 			url:"${pageContext.request.contextPath}/purchase/selectMemberInfo.do",
 			data: {
-				memberId : "${memberLoggedIn.member_id}"
+				memberId : "${member_id}"
     		},
 			success:function(data) {			
 				$("#sample4_postcode").val(data.zip_code);
@@ -427,7 +435,7 @@ $(function() {
 	});
 	
 	$("#addr_list").click(function() {
-		var url = "${pageContext.request.contextPath}/purchase/selectAddrList.do?memberId=${memberLoggedIn.member_id}";
+		var url = "${pageContext.request.contextPath}/purchase/selectAddrList.do?memberId=${member_id}";
 		var title = "주소록";
 		var status = "left=500px, top=200px, width=900px, height=300px";
 		
@@ -437,7 +445,7 @@ $(function() {
 			url:"${pageContext.request.contextPath}/purchase/selectAddrList.do",
 			dataType:"json",
 			data: {
-				memberId : "${memberLoggedIn.member_id}"
+				memberId : "${member_id}"
     		},
 			success:function(data) {		
 				var html = "<table>";
@@ -461,7 +469,7 @@ $(function() {
                   console.log(textStatus);
                   console.log(errorThrown);
             }
-			dkfdsjklfjdskl
+
 		});  */
 	 	
 	});

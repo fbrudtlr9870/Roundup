@@ -3,13 +3,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="main" name="pageTitle"/>
 </jsp:include>
 <jsp:include page="/WEB-INF/views/common/nav.jsp"></jsp:include>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.js"></script>	
-
+<sec:authorize access="hasAnyRole('ROLE_USER')">
+	<sec:authentication property="principal.username" var="member_id"/>
+	<sec:authentication property="principal.member_name" var="member_name"/>
+</sec:authorize>
 <script>
 
 /* 2018.06.28 09:53 master 병합완료  */
@@ -50,16 +53,19 @@ $(function(){
 			
 			// 장바구니에 담기
 			$(".insertBasket").on("click",function(){
+				var memberId = '${member_id}';
+				console.log(memberId);
+				
 				$.ajax({
 					url:"${pageContext.request.contextPath }/basket/insertBasket.do",
 					data: {
 						productAmount: $(this).parent().find("[name=product_amount]").val(),
 						productNo: $(this).parent().find("[name=product_no]").val(),
-						memberId :"${memberLoggedIn.member_id}"
+						memberId :memberId
 					},
 					success:function(data) {
 						if(confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하시겠습니까?")) {
-							location.href = "${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
+							location.href = "${pageContext.request.contextPath }/basket/selectBasketList.do?memberId="+memberId;
 						} else {
 							location.href = "${pageContext.request.contextPath }";
 						}
@@ -76,8 +82,9 @@ $(function(){
 			$(".purchase").on("click",function(){
 				var productNo = $(this).parent().find("[name=product_no]").val();
 				var productAmount = $(this).parent().find("[name=product_amount]").val();
+				var memberId = '${member_id}';
 
-				location.href="${pageContext.request.contextPath}/purchase/buyNow.do?productNo=" + productNo + "&productAmount=" + productAmount;
+				location.href="${pageContext.request.contextPath}/purchase/buyNow.do?productNo=" + productNo + "&productAmount=" + productAmount+"&memberId="+memberId;
 			});  
 		},
 		error:function(jqxhr, textStatus, errorThrown) {
@@ -129,7 +136,7 @@ $(function(){
 				  </a>
 				</div>
             </div>
-        </div>1
+        </div>
         <br><br>
 
         <!-- <h2>Hot & New</h2> -->

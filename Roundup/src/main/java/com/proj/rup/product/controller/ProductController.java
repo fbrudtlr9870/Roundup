@@ -251,7 +251,7 @@ public class ProductController {
 			
 			try {
 				upFile.transferTo(new File(saveDirectory+"/"+renamedFileName));
-			} catch (IllegalStateException | IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			

@@ -65,4 +65,5 @@
 	<insert id="insertAddress">
 		insert into address values(seq_address_no.nextval, #{member_id}, #{address}, #{zip_code}, 1)
 	</insert>
+	
 </mapper>

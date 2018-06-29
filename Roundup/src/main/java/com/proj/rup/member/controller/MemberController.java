@@ -1,6 +1,7 @@
 package com.proj.rup.member.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,8 +20,14 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.proj.rup.basket.model.service.BasketService;
+import com.proj.rup.basket.model.service.BasketServiceImpl;
+import com.proj.rup.basket.model.vo.BasketProduct;
 import com.proj.rup.member.model.service.MemberService;
 import com.proj.rup.member.model.vo.Member;
+import com.proj.rup.member.model.vo.MemberAddress;
+import com.proj.rup.purchase.model.service.PurchaseService;
+import com.proj.rup.purchase.model.service.PurchaseServiceImpl;
 
 @SessionAttributes({"memberLoggedIn"})
 @Controller
@@ -31,7 +38,10 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
-	
+	@Autowired
+	private BasketService basketService = new BasketServiceImpl();
+	@Autowired
+	private PurchaseService purchaseService = new PurchaseServiceImpl();
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
@@ -176,12 +186,17 @@ public class MemberController {
 		ModelAndView mav = new ModelAndView();
 		System.out.println("member_id@myPage.do:"+member_id);
 		Member m = memberService.selectOneMember(member_id);
+		MemberAddress ma = purchaseService.selectMemberInfo(member_id);
+		List<BasketProduct> basketList = basketService.selectBasketList(member_id);
 		System.out.println("member@myPage:"+m);
+		System.out.println("memberAddress@myPage:"+ma);
 		
 		//List<PurchaseComplete> pc = purchaseService.selectPCList(memberId);
 		//logger.debug("purchaseComplete@memberController pc:"+pc);
 		
 		mav.addObject("member",m);
+		mav.addObject("memberAddress",ma);
+		mav.addObject("basketList",basketList);
 		//mav.addObject("purchaseComplete",pc);
 		mav.setViewName("member/myPage");
 
