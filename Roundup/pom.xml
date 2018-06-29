@@ -176,11 +176,11 @@
 			<version>4.2.6.RELEASE</version>
 		</dependency>
 		<!-- security taglib 추가  -->
-		 <dependency>
+ 		 <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-taglibs</artifactId>
             <version>4.2.6.RELEASE</version>
-        </dependency>		
+        </dependency>	 	
 		
 		
 		<!-- 서버재부팅없이 자바코드 수정이 가능한 라이브러리 springloaded추가 -->

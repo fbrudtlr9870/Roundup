@@ -152,15 +152,20 @@ public class MemberController {
 	      return mav;
 	      }*/
 	
+
 /*	 @RequestMapping("/member/memberLogout.do")
+
 	   public String memberLogout(SessionStatus sessionStatus, HttpSession session) {
 	    		
 		 if(logger.isDebugEnabled())
+
 	         logger.debug("로그아웃요청");
-	      
+
 		  딜리트 관련
 	      if(!sessionStatus.isComplete()) {   	  
+
 	    	  //int deleteConnect = memberService.deleteConnect(m.getMember_id());	    	 
+
 	    	  sessionStatus.setComplete();
 	      }
 	      return "redirect:/";

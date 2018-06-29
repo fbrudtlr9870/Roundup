@@ -380,8 +380,8 @@ function onMessage(evt){
 
 <!-- 채팅 관련 스크립트(ajax polling) -->
 <script>
-/*  
-$(function(){
+  
+/*$(function(){
  	 setInterval(function(){  
 	 	$.ajax({
 	 		url:"${pageContext.request.contextPath}/chatting/showChat.do",
