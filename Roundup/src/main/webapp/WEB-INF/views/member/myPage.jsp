@@ -15,6 +15,10 @@
 <script src="${pageContext.request.contextPath }/resources/js/code/highcharts.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/code/modules/exporting.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/code/modules/export-data.js"></script>
+<sec:authorize access="hasAnyRole('ROLE_USER')">
+	<sec:authentication property="principal.username" var="member_id"/>
+	<sec:authentication property="principal.member_name" var="member_name"/>
+</sec:authorize>
 <style>
 <style>
 
@@ -127,7 +131,11 @@ div.mypage{
 #pagination {margin:10px auto;text-align: center;}
 #pagination a {display:inline-block;margin-right:10px;}
 #pagination .on {font-weight: bold; cursor: default;color:#777;}
+.map-card{
+	width:780px;
+}
 </style>
+
 <script>
 
 /* 주소검색api */
@@ -326,15 +334,16 @@ $(function(){
 	      
 	      <!-- 지도api시작 -->
 	      
-	   	  <div class="map_wrap">
+	   <%-- 	  <div class="map_wrap">
 		    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
 		
 		    <div id="menu_wrap" class="bg_white">
 		        <div class="option">
 		            <div>
 		                <form onsubmit="searchPlaces(); return false;">
-		                    키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15"> 
-		                    <button type="submit">검색하기</button> 
+			                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+			                   	 키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15"> 
+			                    <button type="submit">검색하기</button> 
 		                </form>
 		            </div>
 		        </div>
@@ -342,6 +351,32 @@ $(function(){
 		        <ul id="placesList"></ul>
 		        <div id="pagination"></div>
 		    </div>
+		</div> --%>
+		<!-- ------------------------ -->
+		<div class="card map-card">
+		  <div class="card-body">
+		    <h5 class="card-title">가까운 편의점을 찾아보세요</h5>
+		   
+		  </div>
+		 <div class="map_wrap">
+		    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+		
+		    <div id="menu_wrap" class="bg_white">
+		        <div class="option">
+		            <div>
+		                <form onsubmit="searchPlaces(); return false;">
+			                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+			                   	 키워드 : <input type="text" value="편의점" id="search_keyword" size="15"> 
+			                    <button type="submit">검색하기</button> 
+		                </form>
+		            </div>
+		        </div>
+		        <hr>
+		        <ul id="placesList"></ul>
+		        <div id="pagination"></div>
+		    </div>
+		</div>
+
 		</div>
 	      <!-- 지도api끝 -->
 	      
@@ -497,6 +532,7 @@ $(function(){
 	</div>
 	
 </div>
+<br /><br /><br />
 <script>
 function fn_checkAll(bool) {
     var chkboxes = document.getElementsByName("basketList");
@@ -706,19 +742,74 @@ Highcharts.chart('ca-container', {
 </script>
 <!-- 지도api관련 스크립트 -->
 <script>
+
+//현재위치정보
+
+
+
+//
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    mapOption = { 
+        center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨 
+    }; 
+
+var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+/* ---------------------------------- */
+// HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
+if (navigator.geolocation) {
+    
+    // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+    navigator.geolocation.getCurrentPosition(function(position) {
+        
+        var lat = position.coords.latitude, // 위도
+            lon = position.coords.longitude; // 경도
+        console.log(lat+","+lon);
+        var locPosition = new daum.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+            message = '<div style="padding:5px;">현재위치입니다.</div>'; // 인포윈도우에 표시될 내용입니다
+        
+        // 마커와 인포윈도우를 표시합니다
+        displayMarker(locPosition, message);
+            
+      });
+    
+} else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+    
+    var locPosition = new daum.maps.LatLng(33.450701, 126.570667),    
+        message = 'geolocation을 사용할수 없어요..'
+        
+    displayMarker(locPosition, message);
+}
+
+// 지도에 마커와 인포윈도우를 표시하는 함수입니다
+function displayMarker(locPosition, message) {
+
+    // 마커를 생성합니다
+    var marker = new daum.maps.Marker({  
+        map: map, 
+        position: locPosition
+    }); 
+    
+    var iwContent = message, // 인포윈도우에 표시할 내용
+        iwRemoveable = true;
+
+    // 인포윈도우를 생성합니다
+    var infowindow = new daum.maps.InfoWindow({
+        content : iwContent,
+        removable : iwRemoveable
+    }); 
+    
+    // 인포윈도우를 마커위에 표시합니다 
+   infowindow.open(map, marker); 
+    
+    // 지도 중심좌표를 접속위치로 변경합니다
+    map.setCenter(locPosition);      
+}    
 // 마커를 담을 배열입니다
 var markers = [];
 
-var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-    mapOption = {
-        center: new daum.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
-    };  
-
-// 지도를 생성합니다    
-var map = new daum.maps.Map(mapContainer, mapOption); 
-
-// 장소 검색 객체를 생성합니다
+//장소 검색 객체를 생성합니다
 var ps = new daum.maps.services.Places();  
 
 // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
@@ -727,21 +818,19 @@ var infowindow = new daum.maps.InfoWindow({zIndex:1});
 // 키워드로 장소를 검색합니다
 searchPlaces();
 
-
 // 키워드 검색을 요청하는 함수입니다
-
 function searchPlaces() {
+
     var keyword = document.getElementById('search_keyword').value;
-	
+
     if (!keyword.replace(/^\s+|\s+$/g, '')) {
-        //alert('키워드를 입력해주세요!');
+        alert('키워드를 입력해주세요!');
         return false;
     }
 
     // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
     ps.keywordSearch( keyword, placesSearchCB); 
 }
-
 
 // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
 function placesSearchCB(data, status, pagination) {
@@ -782,7 +871,7 @@ function displayPlaces(places) {
     // 지도에 표시되고 있는 마커를 제거합니다
     removeMarker();
     
-    for ( var i=0; i<1; i++ ) {
+    for ( var i=0; i<places.length; i++ ) {
 
         // 마커를 생성하고 지도에 표시합니다
         var placePosition = new daum.maps.LatLng(places[i].y, places[i].x),
@@ -831,7 +920,7 @@ function getListItem(index, places) {
     var el = document.createElement('li'),
     itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
                 '<div class="info">' +
-                '   <h5>' + places.place_name + '&nbsp;&nbsp;<input type="radio" name="delivery" id="delivery" /></h5>';
+                '   <h5>' + places.place_name + '</h5>';
 
     if (places.road_address_name) {
         itemStr += '    <span>' + places.road_address_name + '</span>' +
@@ -840,9 +929,8 @@ function getListItem(index, places) {
         itemStr += '    <span>' +  places.address_name  + '</span>'; 
     }
                  
-      itemStr += '  <span class="tel">' + places.phone  + '</span>';      
-                
-      itemStr += '</div>';
+      itemStr += '  <span class="tel">' + places.phone  + '</span>' +
+                '</div>';           
 
     el.innerHTML = itemStr;
     el.className = 'item';

@@ -76,7 +76,7 @@ public class PurchaseController {
 							@RequestParam(value="address") String address, 
 							@RequestParam(value="zip_code") String zip_code,
 							@RequestParam(value="basketNo") String basketNo) {
-		
+		logger.debug(product_no+","+member_id+","+product_amount+","+address+","+zip_code+","+basketNo);
 		int result = 0;
 		String returnMsg = "";
 		
