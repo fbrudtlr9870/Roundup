@@ -48,7 +48,7 @@ public class ProductController {
 		String clientId = "vbEkw23fbdDmfyg_CYg9";//애플리케이션 클라이언트 아이디값";
         String clientSecret = "iTpsbroJuP";//애플리케이션 클라이언트 시크릿값";
         try {
-            String text = URLEncoder.encode(searchKeyword+" 후기", "UTF-8");
+            String text = URLEncoder.encode(searchKeyword, "UTF-8");
             String apiURL = "https://openapi.naver.com/v1/search/blog?query="+ text+"&display=5&start=1"; // json 결과
             //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
             URL url = new URL(apiURL);
@@ -182,7 +182,7 @@ public class ProductController {
 		String clientId = "vbEkw23fbdDmfyg_CYg9";//애플리케이션 클라이언트 아이디값";
         String clientSecret = "iTpsbroJuP";//애플리케이션 클라이언트 시크릿값";
         try {
-            String text = URLEncoder.encode(searchKeyword+" 후기", "UTF-8");
+            String text = URLEncoder.encode(searchKeyword, "UTF-8");
             String apiURL = "https://openapi.naver.com/v1/search/blog?query="+ text+"&display=5&start=1"; // json 결과
             //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
             URL url = new URL(apiURL);

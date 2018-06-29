@@ -42,7 +42,6 @@
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
-
 <body>
 <div id="main-container">
         <nav class="nav-bar">
@@ -89,7 +88,7 @@
                        <div class="input-group">
                          <input type="text" class="form-control" id="productKey" placeholder="Search for..." name="searchKeyword" autocomplete="off">
                          <span class="input-group-btn">
-                           <button type="button" class="btn btn-outline-info" type="submit">Go!!</button>
+                           <button class="btn btn-outline-info" type="submit">Go!!</button>
                          </span><br />       
                           	<ul id="autoComplete"></ul>                     
                        </div>
@@ -135,7 +134,7 @@
             
  
             <!-- 채팅 관련 html 시작 -->
-   			 <div id="chatting-room">
+<%--    			 <div id="chatting-room">
 
             	<input type="hidden" name="member_id" value="${memberLoggedIn['member_id']}" />
             	<div style="text-align:center;">현재 접속중인 회원<span id="connected-member"style="font-weight:bold;">${totalMember }</span> 명</div>
@@ -150,7 +149,7 @@
             		<input id="insertText" style="float:left; width:230px;"class="form-control form-control-sm" type="text">
             		<button style="float:left; width:50px;" type="button" class="btn btn-primary" id="insertChat">전송</button>
             	</div>
-            </div> 
+            </div>  --%>
             <!-- 채팅관련 끝 -->
         </nav>
         
