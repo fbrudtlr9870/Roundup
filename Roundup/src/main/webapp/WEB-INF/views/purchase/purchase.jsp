@@ -17,6 +17,7 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript"
    src="http://t1.daumcdn.net/cssjs/postcode/1522037570977/180326.js"></script>
+<<<<<<< HEAD
 <sec:authorize access="hasAnyRole('ROLE_USER')">
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
@@ -46,6 +47,8 @@
   </div>
 </div>
 </div> --%>
+=======
+>>>>>>> branch 'hyelin' of https://github.com/fbrudtlr9870/Roundup.git
 
 <div class="tbl-container">
 	<table class="table">
@@ -160,7 +163,11 @@
 			<tr>
 				<th>받으시는 분</th>
 				<td>
+<<<<<<< HEAD
 		        	<input type="text" class="form-control" name="userId" id="userId" value="${member_name}" title="받으시는분" style="width: 100px;" readonly>
+=======
+		        	<input type="text" class="form-control" name="userId" id="userId" value="${memberLoggedIn.member_name}" placeholder="이름" title="받으시는분" style="width: 100px;" readonly>
+>>>>>>> branch 'hyelin' of https://github.com/fbrudtlr9870/Roundup.git
 	           </td>
 			</tr>
 			<tr>
@@ -174,18 +181,18 @@
 	                     <option value="018">018</option>
 	                     <option value="019">019</option>
 	               </select> -  -->
-	               <input name="phone_num1" class="form-control inline-hyelin" id="phone_num1" type="text" title="앞자리" style="width: 80px;" value="" readonly> -
-	               <input name="phone_num2" class="form-control inline-hyelin" id="phone_num2" type="text" title="중간자리" style="width: 80px;" value="" readonly> -
-	               <input name="phone_num3" class="form-control inline-hyelin" id="phone_num3" type="text" title="뒷자리" style="width: 80px;" value="" readonly>
+	               <input name="phone_num1" class="form-control inline-hyelin" id="phone_num1" type="text" placeholder="010" title="앞자리" style="width: 80px;" value="" readonly> -
+	               <input name="phone_num2" class="form-control inline-hyelin" id="phone_num2" type="text" placeholder="1234" title="중간자리" style="width: 80px;" value="" readonly> -
+	               <input name="phone_num3" class="form-control inline-hyelin" id="phone_num3" type="text" placeholder="5678" title="뒷자리" style="width: 80px;" value="" readonly>
 	            </td>
 			</tr>
 			<tr>
 	           <th>배송 주소</th>
 	           <td>
-	              <input type="text" class="form-control inline-hyelin addr" id="sample4_postcode" placeholder="우편번호" style="width: 120px;" required> 
+	              <input type="text" class="form-control inline-hyelin addr" id="sample4_postcode" placeholder="우편번호" style="width: 120px;" required readonly> 
 	              <input type="button" class="btn btn-light" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" size="35px"><br>
-	              <input type="text" class="form-control addr" id="sample4_roadAddress" placeholder="도로명 주소" required> 
-	              <input type="text" class="form-control addr" id="sample4_jibunAddress" placeholder="지번 주소" required>
+	              <input type="text" class="form-control addr" id="sample4_roadAddress" placeholder="도로명 주소" required readonly> 
+	              <input type="text" class="form-control addr" id="sample4_jibunAddress" placeholder="지번 주소" required readonly>
 	              <input type="text" class="form-control addr" id="sample4_detailAddress" placeholder="상세 주소" required/>
 	              <span id="guide" style="color: #999"></span>
 	           </td>
@@ -382,8 +389,6 @@ function payRequest() {
 			        alert(msg);
 			    }
 		});
-	} else {
-		alert("배송지 정보를 입력해주세요");
 	}
 }
 
@@ -437,6 +442,7 @@ $(function() {
 		var status = "left=500px, top=200px, width=900px, height=300px";
 		
 	 	window.open(url, title, status);
+
 	 	
 	  	/* $.ajax({
 			url:"${pageContext.request.contextPath}/purchase/selectAddrList.do",
@@ -469,29 +475,24 @@ $(function() {
 
 		});  */
 	 	
+
 	});
 });
 
 // 유효성 검사
 function validate() {
-	var userId = $("#userId").val();
-	var regExp = /^[가-힣]{2,}$/;
+	var postCode = $("#sample4_postcode").val();
+	var roadAddress = $("#sample4_roadAddress").val();
+	var jibunAddress = $("#sample4_jibunAddress").val();
+	var detailAddress = $("#sample4_detailAddress").val();
 	
-    if(!(regExpTest(regExp, userId, "한글 2글자이상 입력하세요.")))
-        return false;
-    
-    return true;
-}
+	if(postCode != "" && roadAddress != "" && jibunAddress != "" && detailAddress != "")
+		return true;
+	else { 
+		alert("배송지 정보를 입력해주세요");
+		return false;
+	}
 
-function regExpTest(regExp, el, msg){
-    if(regExp.test(el)) {
-        return true;
-    }
-    
-    // 적합한 문자열이 아닌경우
-    alert(msg);
-    el.value="";    // 해당 요소 초기화
-    el.focus="";    // 해당 요소에 포커스 맞춰줌.
 }
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

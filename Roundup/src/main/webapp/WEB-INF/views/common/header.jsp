@@ -49,7 +49,6 @@
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
-
 <!-- 관리자롤을 가진 유저 -->
 <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
 	<sec:authentication property="principal.username" var="admin_id"/>
@@ -67,10 +66,14 @@
                     <li class="nav-bar-site-li">
 	                    <c:if test="${member_id!=null}">
 	                    	<a href="${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${member_id}" style="color:black">장바구니</a>
+
 	                    </c:if>
 	                    <c:if test="${member_id==null}">
 	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">장바구니</a>
+
 	                    </c:if>     	
+
+
                     </li>
                     <c:if test="${member_id!=null}">
                     	<li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/member/myPage.do?member_id=${member_id }" style="color:black">마이페이지</a></li>
@@ -99,7 +102,7 @@
                        <div class="input-group">
                          <input type="text" class="form-control" id="productKey" placeholder="Search for..." name="searchKeyword" autocomplete="off">
                          <span class="input-group-btn">
-                           <button type="button" class="btn btn-outline-info" type="submit">Go!!</button>
+                           <button class="btn btn-outline-info" type="submit">Go!!</button>
                          </span><br />       
                           	<ul id="autoComplete"></ul>                     
                        </div>
@@ -143,8 +146,14 @@
             </div>
             
             <!-- 채팅 관련 html 시작 -->
+<<<<<<< HEAD
             <div id="chatting-room">
             	<!-- <input type="hidden" name="member_id" value="${memberLoggedIn['member_id']}" /> -->
+=======
+<%--    			 <div id="chatting-room">
+
+            	<input type="hidden" name="member_id" value="${memberLoggedIn['member_id']}" />
+>>>>>>> branch 'hyelin' of https://github.com/fbrudtlr9870/Roundup.git
             	<div style="text-align:center;">현재 접속중인 회원<span id="connected-member"style="font-weight:bold;">${totalMember }</span> 명</div>
             	<c:if test="${member_id!=null }">
             	<div style="text-align:center;margin-top:10px;">채팅방에 접속되었습니다.</div>  
@@ -157,7 +166,7 @@
             		<input id="insertText" style="float:left; width:230px;"class="form-control form-control-sm" type="text">
             		<button style="float:left; width:50px;" type="button" class="btn btn-primary" id="insertChat">전송</button>
             	</div>
-            </div> 
+            </div>  --%>
             <!-- 채팅관련 끝 -->
         </nav>
         
