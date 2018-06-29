@@ -143,7 +143,6 @@ public class MemberController {
 	      }*/
 	
 /*	 @RequestMapping("/member/memberLogout.do")
->>>>>>> branch 'master' of https://github.com/fbrudtlr9870/Roundup.git
 	   public String memberLogout(SessionStatus sessionStatus, HttpSession session) {
 	    		
 		 if(logger.isDebugEnabled())
@@ -277,4 +276,6 @@ public class MemberController {
 		
 		return map;
 	}	
+	
+	
 }

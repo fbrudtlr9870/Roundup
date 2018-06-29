@@ -343,6 +343,7 @@ sock.onclose = onClose;
 $(function(){ 
   $("#insertChat").click(function(){ 
     sendMessage(); 
+    $("#insertText").val('');
   }); 
   $("#insertText").keypress(function (e) {
 		var chatText=$("#insertText").val().trim();
@@ -386,8 +387,10 @@ function onMessage(evt){
   html+='<strong>['+sessionid+'] :</strong>'+message; 
   html+='</div>'; 
   $("#chatting-content").append(html); 
- 
-    $("#chatting-content").animate({scrollTop : offset.top}, 400); 
+  
+  var offset = $(".chatting-comment:last").offset();
+  $("#chatting-content").animate({scrollTop : offset.top}, 400);
+    
 } 
  
 </script> 
