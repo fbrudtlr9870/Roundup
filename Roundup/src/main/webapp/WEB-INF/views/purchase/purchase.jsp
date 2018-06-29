@@ -17,7 +17,6 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript"
    src="http://t1.daumcdn.net/cssjs/postcode/1522037570977/180326.js"></script>
-<<<<<<< HEAD
 <sec:authorize access="hasAnyRole('ROLE_USER')">
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
@@ -47,8 +46,7 @@
   </div>
 </div>
 </div> --%>
-=======
->>>>>>> branch 'hyelin' of https://github.com/fbrudtlr9870/Roundup.git
+
 
 <div class="tbl-container">
 	<table class="table">
@@ -152,6 +150,7 @@
 	
 
 	<form action="" id="addressInfo" >
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		<span class="h3-hyelin">배송지 정보 </span> 
 		<div class="inline-hyelin right-hyelin">
 			<input class="btn btn-light" id="user_info" type="button" value="회원정보 동일"/> &nbsp; 
@@ -163,11 +162,8 @@
 			<tr>
 				<th>받으시는 분</th>
 				<td>
-<<<<<<< HEAD
 		        	<input type="text" class="form-control" name="userId" id="userId" value="${member_name}" title="받으시는분" style="width: 100px;" readonly>
-=======
-		        	<input type="text" class="form-control" name="userId" id="userId" value="${memberLoggedIn.member_name}" placeholder="이름" title="받으시는분" style="width: 100px;" readonly>
->>>>>>> branch 'hyelin' of https://github.com/fbrudtlr9870/Roundup.git
+
 	           </td>
 			</tr>
 			<tr>
