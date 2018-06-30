@@ -8,11 +8,8 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="purchase" name="pageTitle" />
 </jsp:include>
-<<<<<<< HEAD
 <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
-=======
 
->>>>>>> branch 'hyelin' of https://github.com/fbrudtlr9870/Roundup.git
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript"
@@ -64,7 +61,7 @@
 					${purchase['product_amount'] }
 				</td>
 				<td class="tbl-td">
-					<input type="hidden" name="total" value="${purchase['product_amount']*purchase['price']}" id="total"/>
+					<input type="hidden" class="total" name="total" value="${purchase['product_amount']*purchase['price']}" id="total"/>
 					<fmt:formatNumber value="${purchase['product_amount']*purchase['price']}" type="currency" currencySymbol=""/>원
 				</td>
 			</tr>
@@ -94,7 +91,7 @@
 				</td>
 			</tr>
 			</c:forEach>
-			<input type="hidden" name="total" value="" id="total"/>
+		<!-- 	<input type="hidden" name="total" value="" id="total"/> -->
 		</c:if>
 		
 		<c:if test="${not empty buyNow }">
@@ -115,7 +112,7 @@
 					${productAmount}
 				</td>
 				<td class="tbl-td">
-					<input type="hidden" name="total" value="${productAmount*buyNow['price']}" id="total"/>
+					<input type="hidden" class="total" name="total" value="${productAmount*buyNow['price']}" id="total"/>
 					<fmt:formatNumber value="${productAmount*buyNow['price']}" type="currency" currencySymbol=""/>원
 				</td>
 			</tr>
@@ -454,11 +451,12 @@ $(function() {
  	// 리스트인 경우
  	if(totalClass != null) {
 		var total = 0;
-	
+		console.log(totalClass.length);
 		for(var i=0; i<totalClass.length; i++){
 	    	total += parseInt(totalClass[i].value);
+	    	console.log(parseInt(totalClass[i].value));
 		}			
-		
+		console.log(total);
 		$("#total").val(total+2000); 		
  	}
 	
@@ -482,7 +480,8 @@ $(function() {
 	// 적립금 전액 사용 버튼 
 	$("#allUse").click(function() {
 		$("#membership").val($("#membershipText").text());
-		totalCalc($("#membership").val());
+		console.log(Number($("#membership").val()));
+		totalCalc(Number($("#membership").val()));
 	});
 	
 	// 총 결제 금액 표시
@@ -494,6 +493,7 @@ $(function() {
 	// 적립금 직접 입력 시
 	$("#membership").on("keyup", function() {
 		$("#totalPrice").text(addCommaSearch($("#totalPrice").text()));
+		console.log(this.value);
 		if(this.value>=1000)
 			totalCalc(this.value);
 	});
@@ -503,8 +503,9 @@ $(function() {
 });
 
 function totalCalc(membership) {
-	var total = parseInt(document.getElementById('total').value)+2000;
-	total -= membership;
+	var total = parseInt(document.getElementById('total').value);
+	console.log(parseInt(membership));
+	total -= parseInt(membership);
 	$("#totalPrice").text(addCommaSearch(total));
 }
 

@@ -26,6 +26,7 @@ import com.proj.rup.member.model.vo.MemberAddress;
 import com.proj.rup.member.model.vo.Membership;
 import com.proj.rup.purchase.model.service.PurchaseService;
 import com.proj.rup.purchase.model.service.PurchaseServiceImpl;
+import com.proj.rup.purchase.model.vo.PurchaseComplete;
 
 @SessionAttributes({"memberLoggedIn"})
 @Controller
@@ -195,15 +196,18 @@ public class MemberController {
 		Member m = memberService.selectOneMember(member_id);
 		MemberAddress ma = purchaseService.selectMemberInfo(member_id);
 		List<BasketProduct> basketList = basketService.selectBasketList(member_id);
+		List<PurchaseComplete> completeList = purchaseService.selectPCList(member_id);
+		
 		System.out.println("member@myPage:"+m);
 		System.out.println("memberAddress@myPage:"+ma);
-		
+		logger.debug("completeList:"+completeList);
 		//List<PurchaseComplete> pc = purchaseService.selectPCList(memberId);
 		//logger.debug("purchaseComplete@memberController pc:"+pc);
 		
 		mav.addObject("member",m);
 		mav.addObject("memberAddress",ma);
 		mav.addObject("basketList",basketList);
+		mav.addObject("completeList",completeList);
 		//mav.addObject("purchaseComplete",pc);
 		mav.setViewName("member/myPage");
 

@@ -455,7 +455,7 @@ $(function(){
 										</td>
 										<td class="tbl-td">
 											<div id="tbl-img-row">
-												<img src="${pageContext.request.contextPath }/resources/img/${i['renamed_filename']}" alt="" width="100px" height="100px">
+												<img src="${pageContext.request.contextPath }/resources/upload/productFile/${i['renamed_filename']}" alt="" width="100px" height="100px">
 												<span>[${i["brand_name"]}] &nbsp; ${i["product_name"]}</span>
 											</div>
 										</td>
@@ -514,22 +514,18 @@ $(function(){
 	       		<div class="basket-container">
 						<table class="table">
 							<tr>
-								<th><input type="checkbox" id="allCheck" name="allCheck" onchange="fn_checkAll(this.checked);"></th>
 								<th>상품정보</th>
-								<th>판매가</th>
 								<th>수량</th>
 								<th>결재금액</th>
+								<th>결재일</th>
 								<th>배송지조회</th>
 							</tr>
-							<c:if test="${not empty basketList }">
-								<c:forEach var="i" items="${basketList }" varStatus="vs">
+							<c:if test="${not empty completeList }">
+								<c:forEach var="i" items="${completeList }" varStatus="vs">
 									<tr>
 										<td class="tbl-td">
-											<input type="checkbox" class="basketList" name="basketList" id="basketItem${vs.count }" onclick="fn_toggle(basketItem${vs.count }, this.checked)">
-										</td>
-										<td class="tbl-td">
 											<div id="tbl-img-row">
-												<img src="${pageContext.request.contextPath }/resources/img/${i['renamed_filename']}" alt="" width="100px" height="100px">
+												<img src="${pageContext.request.contextPath }/resources/upload/productFile/${i['renamed_filename']}" alt="" width="100px" height="100px">
 												<span>[${i["brand_name"]}] &nbsp; ${i["product_name"]}</span>
 											</div>
 										</td>
@@ -545,40 +541,40 @@ $(function(){
 											<fmt:formatNumber value="${i['product_amount']*i['price']}" type="currency" currencySymbol=""/>원
 										</td>
 										<td class="tbl-td">
-											<input type="hidden" value="${i['basket_no'] }" name="basket_no"/>
-											<button type="button" class="btn btn-success" onclick="window.location.href='${pageContext.request.contextPath }/purchase/purchase.do?basketNo=${i['basket_no'] }&memberId=${member_id }'">구매</button> &nbsp;
-											<button type="button" class="btn btn-danger deleteBasket">삭제</button>
+											<button type="button" class="btn btn-outline-primary" id="searchMap" onclick="searchMap();">조회</button>
 										</td>
 									</tr>
 								</c:forEach>
 							</c:if>
-							<c:if test="${empty basketList }">
+							<c:if test="${empty completeList }">
 						          <tr>
-						             <td colspan="6">장바구니에 담긴 상품이 없습니다.</td>
+						             <td colspan="6">구매내역이 없습니다.</td>
 						          </tr>
 							</c:if>
 						</table>
-						<hr>
-						<button type="button" class="btn btn-danger" id="deleteChkItem" style="float: left;">선택상품 삭제</button>
+						<hr style="width:780px">
+						
 						<br>
 						<br>
 						<br>
-						<table class="table">
-							<tr>
-								<th>총 배송비</th>
-								<th>총 결제금액</th>
-							</tr>
-							<tr>
-								<td class="tbl-td"><fmt:formatNumber value="2000" type="currency" currencySymbol=""/>원</td>
-								<td class="tbl-td">
-									<fmt:formatNumber value="0" type="currency" currencySymbol=""/>원 
-									<!-- <input type="text" name="" id="totalPrice" value="" />원 -->
-								</td>
-							</tr>
-						</table>
-						<hr>
-						<button type="button" class="btn btn-primary" id="purchaseAll" style="float: right; margin: 10px;" onclick="return purchaseAll();">전체상품 주문</button>
-						<button type="button" class="btn btn-success" id="purchaseChk" style="float: right; margin: 10px;" onclick="return purchaseChk();">선택상품 주문</button>
+						<div class="map_wrap">
+						    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+						
+						    <div id="menu_wrap" class="bg_white">
+						        <div class="option">
+						            <div>
+						                <form onsubmit="searchPlaces(); return false;">
+							                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+							                   	 키워드 : <input type="text" value="편의점" id="search_keyword" size="15"> 
+							                    <button type="submit">검색하기</button> 
+						                </form>
+						            </div>
+						        </div>
+						        <hr>
+						        <ul id="placesList"></ul>
+						        <div id="pagination"></div>
+						    </div>
+						</div>
 					</div> 
 	       </div>
 					
@@ -800,11 +796,7 @@ Highcharts.chart('ca-container', {
 <!-- 지도api관련 스크립트 -->
 <script>
 
-//현재위치정보
 
-
-
-//
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = { 
         center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -1070,5 +1062,14 @@ function removeAllChildNods(el) {
         el.removeChild (el.lastChild);
     }
 }
+ 
+
+/* 배송지 찾기 */
+function searchMap(){
+	
+}
+
 </script>
+
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
