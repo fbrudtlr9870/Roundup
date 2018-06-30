@@ -135,6 +135,9 @@ div.mypage{
 .map-card{
 	width:780px;
 }
+.delivery-map{
+	display:hidden;
+}
 </style>
 
 <script>
@@ -530,15 +533,14 @@ $(function(){
 											</div>
 										</td>
 										<td class="tbl-td">
-											<fmt:formatNumber value="${i['price']}" type="currency" currencySymbol=""/>원
-										</td>
-										<td class="tbl-td">
 											<input type="number" class="form-control number-hyelin" style="width: 70px; margin: 0 auto;" name="product_amount" value="${i['product_amount']}" min="1">
-											<button type="button" class="btn btn-light updateBasket">수정</button>
 										</td>
 										<td class="tbl-td">
 											<input type="hidden" value="${i['product_amount']*i['price']}" name="price" id="price"/>
 											<fmt:formatNumber value="${i['product_amount']*i['price']}" type="currency" currencySymbol=""/>원
+										</td>
+										<td class="tbl-td">
+											<span>${i['purchase_date'] }</span>
 										</td>
 										<td class="tbl-td">
 											<button type="button" class="btn btn-outline-primary" id="searchMap" onclick="searchMap();">조회</button>
@@ -557,7 +559,14 @@ $(function(){
 						<br>
 						<br>
 						<br>
-						<div class="map_wrap">
+						
+					</div> 
+					<div class="card map-card">
+						  <div class="card-body">
+						    <h5 class="card-title">가까운 편의점을 찾아보세요</h5>
+						   
+						  </div>
+						 <div class="map_wrap">
 						    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
 						
 						    <div id="menu_wrap" class="bg_white">
@@ -575,7 +584,8 @@ $(function(){
 						        <div id="pagination"></div>
 						    </div>
 						</div>
-					</div> 
+				
+						</div>
 	       </div>
 					
 	       <!-- 결재내역페이지 끝-->
