@@ -34,6 +34,8 @@ public interface MemberDAO {
 
 	Membership selectMembership(String memberId);
 
+	int updateMembership(Map<String, Object> map);
+
 
 
 }

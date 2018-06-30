@@ -78,4 +78,9 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.selectMembership(memberId);
 	}
 
+	@Override
+	public int updateMembership(Map<String, Object> map) {
+		return memberDAO.updateMembership(map);
+	}
+
 }
