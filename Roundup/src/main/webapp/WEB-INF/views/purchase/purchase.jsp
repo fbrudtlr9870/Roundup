@@ -89,7 +89,6 @@
 				</td>
 			</tr>
 			</c:forEach>
-			<input type="hidden" name="total" value="" id="total"/>
 		</c:if>
 		
 		<c:if test="${not empty buyNow }">
@@ -133,11 +132,12 @@
 				<fmt:formatNumber value="2000" type="currency" currencySymbol=""/>원
 			</td>
 			<td>
-				<input class="form-control membership-hyelin" type="text" name="membership" id="membership" placeholder="0" onkeyup="membershipCheck(event);"/>원 &nbsp;&nbsp;&nbsp;
+				<input class="form-control membership-hyelin" type="number" name="membership" id="membership" placeholder="0" min="0"/>원 &nbsp;&nbsp;&nbsp;
 				<button class="btn btn-secondary" id="allUse">전액사용</button><br />
 				(사용가능금액 : <p id="membershipText"></p>원)
 			</td>
 			<td class="tbl-td">
+				<input type="hidden" name="total" value="" id="total2"/>
 				<c:if test="${not empty purchase }">
 					<span id="totalPrice"></span>원
 				</c:if>
@@ -274,7 +274,6 @@ function sample4_execDaumPostcode() {
 // 결제 api
 function payRequest() {
 	if(validate()) {
-		alert($("#membership").val());
 		// 수량 목록
 		var amountId = document.getElementById('amount');
 		var amountClass = document.getElementsByClassName('amount');
@@ -391,7 +390,7 @@ function payRequest() {
 	}
 }
 
-// 배송지 정보 버튼 
+//배송지 정보 버튼 
 $(function() {
 	$("#phone_num1").val("${member.member_phone}".substring(0, 3));
 	if("${member.member_phone}".length == 11) {
@@ -442,19 +441,26 @@ $(function() {
 		
 	 	window.open(url, title, status);
 	});
-	
- 	// 총 결제금액 계산
+});
+
+
+// 총 결제 금액
+$(function() {
+	// 총 결제금액 계산
 	var totalClass = document.getElementsByClassName('total');
- 	// 리스트인 경우
- 	if(totalClass != null) {
-		var total = 0;
+	var totalId = document.getElementById('total');
+
+	var total = 0;
 	
+	if(totalId == null) {
 		for(var i=0; i<totalClass.length; i++){
-	    	total += parseInt(totalClass[i].value);
+			total += parseInt(totalClass[i].value);
 		}			
-		
-		$("#total").val(total+2000); 		
- 	}
+	} else {
+		total = parseInt(totalId.value);
+	}	
+	$("#total2").val(total+2000);
+	$("#totalPrice").text(addCommaSearch(parseInt(document.getElementById('total2').value)));
 	
 	// 멤버십 가져오기
 	$.ajax({
@@ -463,7 +469,7 @@ $(function() {
 			memberId : "${member_id}"
 		},
 		success:function(data) {			
-			$("#membershipText").text(addCommaSearch(data.point));
+			$("#membershipText").text(data.point);
 		},
 		error:function(jqxhr, textStatus, errorThrown) {
               console.log("ajax처리실패!");
@@ -475,29 +481,44 @@ $(function() {
 	
 	// 적립금 전액 사용 버튼 
 	$("#allUse").click(function() {
-		$("#membership").val($("#membershipText").text());
+		if(parseInt($("#membershipText").text()) > parseInt($("#total2").val())) {
+			$("#membership").val($("#total2").val());
+		}
+		else {
+			$("#membership").val($("#membershipText").text());		
+		}
 		totalCalc($("#membership").val());
 	});
 	
-	// 총 결제 금액 표시
-	$("#totalPrice").text(addCommaSearch(parseInt(document.getElementById('total').value)));
-	alert($("#totalPrice").text());
-	alert(document.getElementById('total').value);
-	
-	
-	// 적립금 직접 입력 시
+ 	// 총 결제 금액 표시
+	$("#totalPrice").text(addCommaSearch(parseInt(document.getElementById('total2').value)));
+
+ 	// 적립금 직접 입력 시
 	$("#membership").on("keyup", function() {
+		var membership = document.getElementById("membership");
+		var total = parseInt(document.getElementById("total2").value);
+		
+		if(parseInt($("#membershipText").text()) < parseInt(membership.value)) {
+			alert("보유 금액 이상 사용하실 수 없습니다.");
+			membership.value=0;
+			$("#totalPrice").text(addCommaSearch(total));
+		} else if(parseInt(membership.value) > $("#total2").val()) {
+			alert("결제 금액을 초과하였습니다.");
+			membership.value=$("#total2").val();
+			$("#totalPrice").text(0);
+		}
+		
 		$("#totalPrice").text(addCommaSearch($("#totalPrice").text()));
-		if(this.value>=1000)
+		if(this.value >= 1000)
 			totalCalc(this.value);
+		else
+			totalCalc(0);
 	});
-	
-	alert(document.getElementById('total').value);
-	
 });
 
+
 function totalCalc(membership) {
-	var total = parseInt(document.getElementById('total').value)+2000;
+	var total = parseInt(document.getElementById("total2").value);
 	total -= membership;
 	$("#totalPrice").text(addCommaSearch(total));
 }
@@ -520,17 +541,6 @@ function validate() {
 function addCommaSearch(value) {
 	str = String(value);
     return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-}
-
-function membershipCheck(e) {
-	var membership = document.getElementById("membership");
-	var total = parseInt(document.getElementById("total").value)+2000;
-	
-	if(parseInt($("#membershipText").text()) < parseInt(membership.value)) {
-		alert("보유 금액 이상 사용하실 수 없습니다.");
-		membership.value=0;
-		$("#totalPrice").text(addCommaSearch(total));
-	}
 }
 
 </script>
