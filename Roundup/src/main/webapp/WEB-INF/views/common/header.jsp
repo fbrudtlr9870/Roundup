@@ -22,6 +22,18 @@
     text-align: center;
     margin: 0;
 }
+div#chatting-room{
+	display:none;
+}
+img#chat-icon{
+	width:100px;
+	height:100px;
+	position:fixed; 
+	bottom:0; 
+	right:0;
+	z-index:10;
+	cursor:pointer;
+}
 </style>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.js"></script>		
 <!-- 부트스트랩관련 라이브러리 -->
@@ -140,6 +152,8 @@
                 </div>
             </div>
             
+            <!-- 채팅아이콘 -->
+            <img src="${pageContext.request.contextPath }/resources/img/chat-icon.png" id="chat-icon"/>
  
             <!-- 채팅 관련 html 시작 -->
    			 <div id="chatting-room">
@@ -330,7 +344,15 @@ $(document).ready(function(){
 </script>
 
 
+<script>
 
+$(function(){
+	$("#chat-icon").click(function(){
+		$("#chatting-room").show();
+	});
+});
+
+</script>
 
 <!-- 채팅 관련 스크립트(소켓) --> 
 <script> 
