@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.js"></script>		
 <!-- 부트스트랩관련 라이브러리 -->
 <!-- navi관련 수정(18.06.15) -->
@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
 
 <form action="">
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	<div id="addrList-hyelin">
 		<table id="tblAddrList-hyelin" class="table">
 			<tr>

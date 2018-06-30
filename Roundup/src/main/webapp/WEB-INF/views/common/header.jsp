@@ -99,6 +99,7 @@
 
                     <div class="col-lg-6">
                        <form action="${pageContext.request.contextPath }/product/productSearch.do">
+                       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                        <div class="input-group">
                          <input type="text" class="form-control" id="productKey" placeholder="Search for..." name="searchKeyword" autocomplete="off">
                          <span class="input-group-btn">
@@ -113,7 +114,7 @@
               	<!-- 로그인 회원가입 -->
               	<div class="nav-bar-btn">
               		<c:choose>
-              		<c:when test="${empty member_id }">
+              		<c:when test="${empty member_id and empty admin_id}">
 	               <%-- <c:if test="${memberLoggedIn==null}"> --%>
 	               <!--  
 	                  <button type="button" class="btn btn-outline-success" data-toggle="modal" 
@@ -129,7 +130,12 @@
 	             	</c:when>
 	             	<c:otherwise>
 	                <%-- <c:if test="${memberLoggedIn!=null }"> --%>
-				    <a href="#">${member_name }</a>님, 안녕하세요			    
+	                <c:if test="${not empty member_id }">
+				   	 <a href="#">${member_name }</a>님, 안녕하세요			    
+	                </c:if>
+	                <c:if test="${not empty admin_id }">
+	                	<a href="#">${admin_name }</a>님, 안녕하세요
+	                </c:if>
 				  
 				     <button class="btn btn-outline-success" type="button" onclick="document.getElementById('logout-form').submit();" />
  
@@ -224,6 +230,7 @@
 		        </button>
 		      </div>
 		      <form action="${pageContext.request.contextPath }/member/memberLogin.do" method="post">
+		      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		      <div class="modal-body">
 		      	<input type="text" class="form-control" name="member_id" id="member_id" placeholder="아이디" required autocomplete="off"/>
 		      	<br />

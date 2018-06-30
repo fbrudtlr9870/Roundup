@@ -8,11 +8,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="purchase" name="pageTitle" />
 </jsp:include>
-<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> -->
-<script
-  src="https://code.jquery.com/jquery-1.12.4.js"
-  integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
-  crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript"
@@ -21,6 +17,8 @@
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
 <!-- 결제완료 모달 -->
 <%-- <div class="modal fade" id="purchaseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog" role="document">
@@ -332,6 +330,8 @@ function payRequest() {
 		       
 		   }, function(rsp) {
 			   console.log(rsp);
+			   var token = $("meta[name='_csrf']").attr("content");
+			   var header = $("meta[name='_csrf_header']").attr("content");
 			   if ( rsp.success ) {
 			    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
 			    	jQuery.ajax({
@@ -345,7 +345,10 @@ function payRequest() {
 				    		address : rsp.buyer_addr,
 				    		zip_code : rsp.buyer_postcode,
 				    		basketNo : basketList
-			    		},
+			    		}, 
+			    		beforeSend: function(xhr) {
+							xhr.setRequestHeader(header, token);
+						},
 			    		success:function(data) {
 			    			console.log(data);
 			    			if(data==="success") {
