@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +23,7 @@ import com.proj.rup.basket.model.vo.BasketProduct;
 import com.proj.rup.member.model.service.MemberService;
 import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.vo.MemberAddress;
+import com.proj.rup.member.model.vo.Membership;
 import com.proj.rup.purchase.model.service.PurchaseService;
 import com.proj.rup.purchase.model.service.PurchaseServiceImpl;
 
@@ -80,6 +78,7 @@ public class MemberController {
 		int result = 0;
 		
 		if(memberService.insertMember(member) > 0) {
+			// address 테이블에 주소 추가
 			Map<String,Object> map = new HashMap<String, Object>();
 			String address = road + "#" + jibun + "#" + detail;
 			
@@ -88,6 +87,9 @@ public class MemberController {
 			map.put("zip_code", postCode);
 			
 			result = memberService.insertAddress(map);
+			
+			// membership 테이블에 id 추가
+			memberService.insertMembership(member.getMember_id());
 		}
 		
 		//2. 
@@ -297,4 +299,12 @@ public class MemberController {
 		
 		return map;
 	}	
+	
+	@RequestMapping("/member/selectMembership.do")
+	@ResponseBody
+	public Membership selectMembership(@RequestParam(value="memberId") String memberId) {
+		Membership m = memberService.selectMembership(memberId);
+
+		return m;
+	}
 }

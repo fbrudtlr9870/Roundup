@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.vo.MemberDetails;
+import com.proj.rup.member.model.vo.Membership;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {
@@ -62,6 +63,14 @@ public class MemberDAOImpl implements MemberDAO {
 		Map<String,Object> map = sqlSession.selectOne("member.selectConnectMember", user_name);
 		System.out.println("map@DAOImpl="+map);
 		return map;
+	}
+	@Override
+	public int insertMembership(String member_id) {
+		return sqlSession.insert("member.insertMembership", member_id);
+	}
+	@Override
+	public Membership selectMembership(String memberId) {
+		return sqlSession.selectOne("member.selectMembership", memberId);
 	}
 	
 }

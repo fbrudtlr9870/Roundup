@@ -8,11 +8,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="purchase" name="pageTitle" />
 </jsp:include>
-<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> -->
-<script
-  src="https://code.jquery.com/jquery-1.12.4.js"
-  integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
-  crossorigin="anonymous"></script>
+
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript"
@@ -21,32 +17,21 @@
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
-<!-- 결제완료 모달 -->
-<%-- <div class="modal fade" id="purchaseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog" role="document">
-  <div class="modal-content">
-	<div class="modal-header">
-    <h5 class="modal-title" id="purchaseModalLabel">결제 완료</h5> 
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <form action="${pageContext.request.contextPath }/member/memberLogin.do" method="post">
-    <div class="modal-body">
-    	결제가 완료되었습니다. <br />
-    	이동하려는 페이지를 선택해주세요.<br /> 
-    </div>
-	 <div class="modal-footer">
-    	<button type="button" class="btn btn-outline-primary">구매내역</button>
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">장바구니</button>
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">메인페이지</button>
-      
-    </div> 
-    </form>
-  </div>
-</div>
-</div> --%>
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
 
+<style>
+.membership-hyelin {
+	width: 100px;
+	text-align: right;
+	display: inline;
+}
+#membershipText {
+	display: inline;
+	color: blue;
+	font-weight: bold;
+}
+</style>
 
 <div class="tbl-container">
 	<table class="table">
@@ -62,7 +47,7 @@
 					<div id="tbl-img-row">
 						<input type="hidden" name="basketNo" id="basketNo" value="${purchase['basket_no'] }"/>
 						<input type="hidden" name="productNo" id="productNo" value="${purchase['product_no'] }"/>
-						<img src="${pageContext.request.contextPath }/resources/img/${purchase['renamed_filename']}" alt="" width="100px" height="100px">
+						<img src="${pageContext.request.contextPath }/resources/upload/productFile/${purchase['renamed_filename']}" alt="" width="100px" height="100px">
 						<span>[${purchase["brand_name"]}] &nbsp; ${purchase["product_name"]}</span>
 					</div>
 				</td>
@@ -74,6 +59,7 @@
 					${purchase['product_amount'] }
 				</td>
 				<td class="tbl-td">
+					<input type="hidden" name="total" value="${purchase['product_amount']*purchase['price']}" id="total"/>
 					<fmt:formatNumber value="${purchase['product_amount']*purchase['price']}" type="currency" currencySymbol=""/>원
 				</td>
 			</tr>
@@ -86,7 +72,7 @@
 					<div id="tbl-img-row">
 						<input type="hidden" name="basketNo" class="basketNo" value="${i['basket_no'] }"/>
 						<input type="hidden" name="productNo" class="productNo" value="${i['product_no'] }"/>
-						<img src="${pageContext.request.contextPath }/resources/img/${i['renamed_filename']}" alt="" width="100px" height="100px">
+						<img src="${pageContext.request.contextPath }/resources/upload/productFile/${i['renamed_filename']}" alt="" width="100px" height="100px">
 						<span>[${i["brand_name"]}] &nbsp; ${i["product_name"]}</span>
 					</div>
 				</td>
@@ -98,10 +84,12 @@
 					${i['product_amount'] }
 				</td>
 				<td class="tbl-td">
-					<fmt:formatNumber value="${i['product_amount']*i['price']}" type="currency" currencySymbol=""/>원
+					<input type="hidden" name="total" value="${i['product_amount']*i['price']}" class="total"/>
+					<fmt:formatNumber value="${i['product_amount']*i['price']}" type="currency" currencySymbol=""/>원 
 				</td>
 			</tr>
 			</c:forEach>
+			<input type="hidden" name="total" value="" id="total"/>
 		</c:if>
 		
 		<c:if test="${not empty buyNow }">
@@ -110,7 +98,7 @@
 					<div id="tbl-img-row">
 						<input type="hidden" name="buyNow" id="buyNow"/>
 						<input type="hidden" name="productNo" id="productNo" value="${buyNow['productNo'] }"/>
-						<img src="${pageContext.request.contextPath }/resources/img/${buyNow['renamedFileName']}" alt="" width="100px" height="100px">
+						<img src="${pageContext.request.contextPath }/resources/upload/productFile/${buyNow['renamedFileName']}" alt="" width="100px" height="100px">
 						<span>[${buyNow["brandName"]}] &nbsp; ${buyNow["productName"]}</span>
 					</div>
 				</td>
@@ -122,6 +110,7 @@
 					${productAmount}
 				</td>
 				<td class="tbl-td">
+					<input type="hidden" name="total" value="${productAmount*buyNow['price']}" id="total"/>
 					<fmt:formatNumber value="${productAmount*buyNow['price']}" type="currency" currencySymbol=""/>원
 				</td>
 			</tr>
@@ -135,12 +124,31 @@
 	<br>
 	<table class="table">
 		<tr>
-			<th>총 배송비</th>
+			<th>배송비</th>
+			<th>적립금</th>
 			<th>총 결제금액</th>
 		</tr>
 		<tr>
-			<td class="tbl-td"><fmt:formatNumber value="2000" type="currency" currencySymbol=""/>원</td>
-			<td class="tbl-td"><fmt:formatNumber value="0" type="currency" currencySymbol=""/>원</td>
+			<td class="tbl-td">
+				<fmt:formatNumber value="2000" type="currency" currencySymbol=""/>원
+			</td>
+			<td>
+				<input class="form-control membership-hyelin" type="text" name="membership" id="membership" placeholder="0" onkeyup="membershipCheck(event);"/>원 &nbsp;&nbsp;&nbsp;
+				<button class="btn btn-secondary" id="allUse">전액사용</button><br />
+				(사용가능금액 : <p id="membershipText"></p>원)
+			</td>
+			<td class="tbl-td">
+				<c:if test="${not empty purchase }">
+					<span id="totalPrice"></span>원
+				</c:if>
+				<c:if test="${not empty purchaseList }">
+					<!-- <span id="listPrice"></span> -->
+					<span id="totalPrice"></span>원
+				</c:if>
+				<c:if test="${not empty buyNow }">
+					<span id="totalPrice"></span>원
+				</c:if>
+			</td>
 		</tr>
 	</table>
 	<hr>
@@ -169,14 +177,6 @@
 			<tr>
 				<th>휴대폰 번호</th>
 				<td>
-	               <!-- <select name="phone_num1" id="phone_num1" title="휴대폰 앞자리" class="form-control inline-hyelin" style="width:80px;">
-	                     <option value="010">010</option>
-	                     <option value="011">011</option>
-	                     <option value="016">016</option>
-	                     <option value="017">017</option>
-	                     <option value="018">018</option>
-	                     <option value="019">019</option>
-	               </select> -  -->
 	               <input name="phone_num1" class="form-control inline-hyelin" id="phone_num1" type="text" placeholder="010" title="앞자리" style="width: 80px;" value="" readonly> -
 	               <input name="phone_num2" class="form-control inline-hyelin" id="phone_num2" type="text" placeholder="1234" title="중간자리" style="width: 80px;" value="" readonly> -
 	               <input name="phone_num3" class="form-control inline-hyelin" id="phone_num3" type="text" placeholder="5678" title="뒷자리" style="width: 80px;" value="" readonly>
@@ -208,7 +208,6 @@
 	    	</tr>
 		</table>
 		<hr />
-		<!-- <input type="hidden" name="address_no" id="address_no" value="0"/> -->
 		<button type="button" class="btn btn-success" style="float: right; margin: 10px;" onclick="return payRequest();">구매하기</button>
 	</form>
 </div>
@@ -275,6 +274,7 @@ function sample4_execDaumPostcode() {
 // 결제 api
 function payRequest() {
 	if(validate()) {
+		alert($("#membership").val());
 		// 수량 목록
 		var amountId = document.getElementById('amount');
 		var amountClass = document.getElementsByClassName('amount');
@@ -329,9 +329,10 @@ function payRequest() {
 	        buyer_name : "${member_name}",   // 구매자 이름
 	        buyer_addr :  $("#sample4_roadAddress").val() + '#' + $("#sample4_jibunAddress").val() + '#' + $("#sample4_detailAddress").val(),   // 구매자 주소
 	        buyer_postcode :  $("#sample4_postcode").val()   // 구매자 우편번호
-		       
 		   }, function(rsp) {
 			   console.log(rsp);
+			   var token = $("meta[name='_csrf']").attr("content");
+	           var header = $("meta[name='_csrf_header']").attr("content");
 			   if ( rsp.success ) {
 			    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
 			    	jQuery.ajax({
@@ -346,10 +347,12 @@ function payRequest() {
 				    		zip_code : rsp.buyer_postcode,
 				    		basketNo : basketList
 			    		},
+			    		beforeSend: function(xhr) {
+		                     xhr.setRequestHeader(header, token);
+		                },
 			    		success:function(data) {
 			    			console.log(data);
 			    			if(data==="success") {
-			    				alert("dfd");
 			    				if(confirm("결제가 완료되었습니다. 결제 내역 페이지로 이동하시겠습니까?")) {
 			    					// 결제내역 페이지 보여주기
 			    					location.href="${pageContext.request.contextPath}"; 
@@ -438,42 +441,66 @@ $(function() {
 		var status = "left=500px, top=200px, width=900px, height=300px";
 		
 	 	window.open(url, title, status);
-
-	 	
-	  	/* $.ajax({
-			url:"${pageContext.request.contextPath}/purchase/selectAddrList.do",
-			dataType:"json",
-			data: {
-				memberId : "${member_id}"
-    		},
-			success:function(data) {		
-				var html = "<table>";
-				for(var i in data) {
-					var u = data[i];
-					html += "<tr>";
-					html += "<td>" + u.userId + "</td>";
-					html += "<td>" + u.userName + "</td>";
-					html += "<td>" + u.userAddr + "</td>";
-					
-					html += "</tr>";
-				}
-				html += "</table>";
-				
-				console.log(data);
-				alert(data);
-			},
-			error:function(jqxhr, textStatus, errorThrown) {
-                  console.log("ajax처리실패!");
-                  console.log(jqxhr);
-                  console.log(textStatus);
-                  console.log(errorThrown);
-            }
-
-		});  */
-	 	
-
 	});
+	
+ 	// 총 결제금액 계산
+	var totalClass = document.getElementsByClassName('total');
+ 	// 리스트인 경우
+ 	if(totalClass != null) {
+		var total = 0;
+	
+		for(var i=0; i<totalClass.length; i++){
+	    	total += parseInt(totalClass[i].value);
+		}			
+		
+		$("#total").val(total+2000); 		
+ 	}
+	
+	// 멤버십 가져오기
+	$.ajax({
+		url:"${pageContext.request.contextPath}/member/selectMembership.do",
+		data: {
+			memberId : "${member_id}"
+		},
+		success:function(data) {			
+			$("#membershipText").text(addCommaSearch(data.point));
+		},
+		error:function(jqxhr, textStatus, errorThrown) {
+              console.log("ajax처리실패!");
+              console.log(jqxhr);
+              console.log(textStatus);
+              console.log(errorThrown);
+        }
+	});
+	
+	// 적립금 전액 사용 버튼 
+	$("#allUse").click(function() {
+		$("#membership").val($("#membershipText").text());
+		totalCalc($("#membership").val());
+	});
+	
+	// 총 결제 금액 표시
+	$("#totalPrice").text(addCommaSearch(parseInt(document.getElementById('total').value)));
+	alert($("#totalPrice").text());
+	alert(document.getElementById('total').value);
+	
+	
+	// 적립금 직접 입력 시
+	$("#membership").on("keyup", function() {
+		$("#totalPrice").text(addCommaSearch($("#totalPrice").text()));
+		if(this.value>=1000)
+			totalCalc(this.value);
+	});
+	
+	alert(document.getElementById('total').value);
+	
 });
+
+function totalCalc(membership) {
+	var total = parseInt(document.getElementById('total').value)+2000;
+	total -= membership;
+	$("#totalPrice").text(addCommaSearch(total));
+}
 
 // 유효성 검사
 function validate() {
@@ -488,7 +515,23 @@ function validate() {
 		alert("배송지 정보를 입력해주세요");
 		return false;
 	}
-
 }
+
+function addCommaSearch(value) {
+	str = String(value);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+
+function membershipCheck(e) {
+	var membership = document.getElementById("membership");
+	var total = parseInt(document.getElementById("total").value)+2000;
+	
+	if(parseInt($("#membershipText").text()) < parseInt(membership.value)) {
+		alert("보유 금액 이상 사용하실 수 없습니다.");
+		membership.value=0;
+		$("#totalPrice").text(addCommaSearch(total));
+	}
+}
+
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

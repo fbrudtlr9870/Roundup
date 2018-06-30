@@ -26,19 +26,19 @@ $(function(){
 			var html = "<ul class='list-group inline-hyelin'>";
 			
 			for(var i in data.productList) {
-				html += "<li class='main-li'>";
-				html += "<img src='${pageContext.request.contextPath}/resources/upload/productFile/" + data.productList[i].renamedFileName + "'>";
-				html += "<div class='buy-btn'>";
-				html += "<input type='hidden' value='" + data.productList[i].productNo +"' name='product_no'>";
-				html += "<input type='number' class='form-control inline-hyelin' style='width: 70px; margin: 0 auto;' name='product_amount' min='1' value='1'>&nbsp;";
+	            html += "<li class='main-li'>";
+	            html += "<img src='${pageContext.request.contextPath}/resources/upload/productFile/" + data.productList[i].renamedFileName + "'>";
+	            html += "<div class='buy-btn'>";
+	            html += "<input type='hidden' value='" + data.productList[i].productNo +"' name='product_no'>";
+	            html += "<input type='number' class='form-control inline-hyelin' style='width: 70px; margin: 0 auto;' name='product_amount' min='1' value='1'>&nbsp;";
                 html += "<button type='button' class='btn btn-primary insertBasket'>장바구니</button> &nbsp;";
                 html += "<button type='button' class='btn btn-success purchase'>구매</button>";
-				html += "</div>";
-				html += "<div class='ptext'>" + data.productList[i].brandName + "</div>"; 
-				html += "<div class='ptext'>" + data.productList[i].productName + "</div>";
+	            html += "</div>";
+	            html += "<div class='ptext'>" + data.productList[i].brandName + "</div>"; 
+	            html += "<div class='ptext'>" + data.productList[i].productName + "</div>";
                 html += "<div class='pprice'>" + data.productList[i].price + "</div>";
                 html += "</li>";
-			}
+	         }
 			html += "</ul>";
 			
 			$("#NewProductList").html(html);
