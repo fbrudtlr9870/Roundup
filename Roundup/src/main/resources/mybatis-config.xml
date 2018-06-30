@@ -15,6 +15,7 @@
 	 	<typeAlias type="com.proj.rup.member.model.vo.Address" alias="address"/>
 	 	<typeAlias type="com.proj.rup.product.model.vo.Brand" alias="brand"/>
 	 	<typeAlias type="com.proj.rup.product.model.vo.Category" alias="category"/>
+	 	<typeAlias type="com.proj.rup.member.model.vo.Membership" alias="membership"/>
 
 	 </typeAliases>
 </configuration>

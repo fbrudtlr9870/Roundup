@@ -66,4 +66,11 @@
 		insert into address values(seq_address_no.nextval, #{member_id}, #{address}, #{zip_code}, 1)
 	</insert>
 	
+	<insert id="insertMembership">
+		insert into membership values(#{member_id}, default, default)
+	</insert>
+	
+	<select id="selectMembership" resultType="membership">
+		select * from membership where member_id=#{memberId}
+	</select>
 </mapper>
