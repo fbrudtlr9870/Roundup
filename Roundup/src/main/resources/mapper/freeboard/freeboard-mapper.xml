@@ -59,4 +59,21 @@
 </insert>
 
 
+<select id="selectLevelKinds" resultType="String">
+	select distinct level_
+	from ttest
+</select>
+
+<select id="selectContent" resultType="Map">
+	select *
+	from ttest
+	order by level_
+</select>
+
+<insert id="insertBoard">
+	insert into free_board
+	values(seq_freeboard_no.nextval,#{member_id},#{free_comment},sysdate,#{free_board_title})
+</insert>
+
+
 </mapper>

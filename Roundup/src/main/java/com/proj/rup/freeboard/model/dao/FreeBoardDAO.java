@@ -1,6 +1,7 @@
 package com.proj.rup.freeboard.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.proj.rup.freeboard.model.vo.FreeBoard;
 import com.proj.rup.freeboard.model.vo.FreeBoardComment;
@@ -21,5 +22,11 @@ public interface FreeBoardDAO {
 	int totalCommentCount(int no);
 
 	int insertComment(FreeBoardComment fbc);
+
+	List<String> selectLevelKinds();
+
+	List<Map<String, String>> selectContent();
+
+	int insertBoard(FreeBoard board);
 
 }

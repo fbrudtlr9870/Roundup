@@ -17,7 +17,7 @@ public class UtilsView {
 		int pageEnd = pageNo+pageBarSize-1;
 		System.out.println("pageStart["+pageNo+"] ~ pageEnd["+pageEnd+"]");
 		
-		pageBar += "<ul class='pagination justify-content-center pagination-sm'>";
+		pageBar += "<ul class='pagination justify-content-center pagination-sm' style='clear:both'>";
 		//[이전]section
 		if(pageNo == 1 ){
 			pageBar += "<li class='page-item disabled'>";

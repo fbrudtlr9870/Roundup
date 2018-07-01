@@ -1,9 +1,16 @@
 package com.proj.rup.freeboard.controller;
 
 
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,7 +70,7 @@ public class FreeBoardController {
 		
 		//2. 자유게시판 번호에 맞는 업로드된 파일조회해서 가져오기
 		List<FreeBoardFile> list = freeboardService.selectfreeBoardFileList(no);
-		
+
 		//3. 자유게시판 번호에 맞는 댓글리스트 가져오기
 		List<FreeBoardComment> listc = freeboardService.selectfreeBoardCommentList(no);
 		
@@ -128,4 +135,96 @@ public class FreeBoardController {
 		map.put("count", count);
 		return map;
 	}
+	
+	@RequestMapping("/freeboard/insertBoard.do")
+	public String insertBoard(){		
+		/*
+		//레벨 종류 찾기 
+		List<String> list = freeboardService.selectLevelKinds();
+		System.out.println(list.toString());
+		
+		//레벨별 orderby한 값 찾기
+		List<Map<String,String>>list2 = freeboardService.selectContent();
+		System.out.println(list2.toString());
+		
+		//종류개수만큼의 스트링배열 만들기 
+		String[] strarr = new String[list.size()];
+		
+		for(int i=0; i<list.size(); i++){
+			for(int j=0; j<list2.size(); j++){
+				if(String.valueOf(list2.get(j).get("LEVEL_")).equals(list.get(i))){
+					if(strarr[i]==null){
+						strarr[i]=String.valueOf(list2.get(j).get("CONTENT_"));
+					}else{
+						strarr[i]+=","+String.valueOf(list2.get(j).get("CONTENT_"));
+					}
+				}
+			}
+			System.out.println(strarr[i]);
+		}
+		*/	
+		return "freeboard/insertBoard";
+	}
+	
+	/*Ajax을 이용한 포토업로드, 폼제출 전 서버에만 올려서 사용자에게 올린 사진을 에디터에서 바로 보여줌*/
+	@RequestMapping(value="/freeboard/uploadPhoto.do",method=RequestMethod.POST)
+	@ResponseBody
+	public String uploadPhoto(HttpServletRequest request){
+		
+		//파일정보
+		StringBuffer sb = new StringBuffer();
+		try{
+			//원본파일 명
+			String originalFileName= request.getHeader("file-name");
+			//파일저장 경로
+			String saveDirectory = request.getSession().getServletContext().getRealPath("/resources/upload/freeboard/");
+			String ext = originalFileName.substring(originalFileName.lastIndexOf(".")+1);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+			int rndNum = (int)(Math.random()*1000);
+			String renamedFileName = sdf.format(new Date(System.currentTimeMillis()))+"_"+rndNum+"."+ext;
+			
+			InputStream is = request.getInputStream();
+			OutputStream os = new FileOutputStream(saveDirectory+renamedFileName);
+			byte b[] = new byte[Integer.parseInt(request.getHeader("file-size"))];
+			int numRead;
+			while((numRead = is.read(b,0,b.length))!=-1){
+				os.write(b, 0, numRead);
+			}
+			os.flush();
+			os.close();
+			
+			//정보 출력
+			sb = new StringBuffer();
+			sb.append("&NewLine=true")
+			  .append("&sFileName=").append(originalFileName)
+			  .append("&sFileURL=").append("http://localhost:9090/rup/resources/upload/freeboard/")
+			  .append(renamedFileName);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return sb.toString();
+	}
+	
+	
+	//게시물 등록
+	@RequestMapping("/freeboard/insertEndBoard.do")
+	public ModelAndView insertEndBoard(@RequestParam(value="boardTitle")String boardTitle,
+								 @RequestParam(value="memberId")String memberId,
+								 @RequestParam(value="smarteditor")String boardComment){
+		
+		FreeBoard board = new FreeBoard();
+		board.setFree_board_title(boardTitle);
+		board.setMember_id(memberId);
+		board.setFree_comment(boardComment);
+		
+		int result = freeboardService.insertBoard(board);
+		logger.debug("게시물 등록 성공");
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("msg", "등록 완료");
+		mav.addObject("loc", "/freeboard/freeBoardList.do");
+		mav.setViewName("common/msg");
+		return mav;
+	}
+	
 }

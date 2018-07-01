@@ -118,9 +118,7 @@ div#freetable_container tr th{
 	<div class="freeBoardView-title member">
 		<span>${fboard["member_id"] }</span>
 	</div>
-	<div class="freeBoardView-title member">
-		<p>${fboard["free_comment"]}</p>
-	</div>
+		${fboard["free_comment"]}
 	<br />
 	
 	<span style="margin:0 0 0 20px; color:navy;" id="comment_count">댓글 ${count }개</span>

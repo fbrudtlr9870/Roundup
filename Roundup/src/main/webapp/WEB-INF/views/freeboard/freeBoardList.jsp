@@ -3,11 +3,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="자유게시판" name="pageTitle"/>
 </jsp:include>
-
+<!-- 유저롤을 가진 유저  -->
+<sec:authorize access="hasAnyRole('ROLE_USER')">
+	<sec:authentication property="principal.username" var="member_id"/>
+	<sec:authentication property="principal.member_name" var="member_name"/>
+</sec:authorize>
 <style>
 
 div#freetable_container{
@@ -20,6 +24,14 @@ div#freetable_container tr th{
 }
 
 </style>
+
+<script>
+function fn_insertBoard(){
+	location.href="${pageContext.request.contextPath}/freeboard/insertBoard.do";
+}
+
+</script>
+
 
 <div class="main-img-wrapper">
 	<div class="main-img">
@@ -57,7 +69,9 @@ div#freetable_container tr th{
 		</c:if>
 	</table>
 	<br />
-
+	<c:if test="${member_id !=null}">
+	<input type="button" class="btn btn-light" value="글쓰기" style="float:right;" onclick="fn_insertBoard();"  />
+	</c:if>
 <!-- 페이지바 -->
 <%
 	int count = Integer.parseInt(String.valueOf(request.getAttribute("count")));
