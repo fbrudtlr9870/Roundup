@@ -102,6 +102,9 @@ div#freetable_container{
 div#freetable_container tr th{
 	text-align: center;
 }
+div#freeBoardView-comment img{
+	max-width:550px;
+}
 </style>
 
 <div id="freeBoardView-container">
@@ -118,7 +121,9 @@ div#freetable_container tr th{
 	<div class="freeBoardView-title member">
 		<span>${fboard["member_id"] }</span>
 	</div>
+	<div id="freeBoardView-comment">
 		${fboard["free_comment"]}
+	</div>
 	<br />
 	
 	<span style="margin:0 0 0 20px; color:navy;" id="comment_count">댓글 ${count }개</span>
