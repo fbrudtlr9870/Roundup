@@ -73,4 +73,24 @@ public class FreeBoardDAOImpl implements FreeBoardDAO {
 		return sqlSession.insert("freeboard.insertBoard", board);
 	}
 
+	@Override
+	public int uploadPhoto(Map<String, String> map) {
+		return sqlSession.insert("freeboard.uploadPhoto", map);
+	}
+
+	@Override
+	public List<Map<String, Object>> uploadList(String memberId) {
+		return sqlSession.selectList("freeboard.uploadList", memberId);
+	}
+
+	@Override
+	public int insertFile(FreeBoardFile fbf) {
+		return sqlSession.insert("freeboard.insertFile", fbf);
+	}
+
+	@Override
+	public int deleteuploadPhoto(String username) {
+		return sqlSession.delete("freeboard.deleteuploadPhoto",username);
+	}
+
 }

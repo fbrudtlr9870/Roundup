@@ -19,6 +19,13 @@ public class FreeBoardFile {
 		this.original_filename = original_filename;
 		this.renamed_filename = renamed_filename;
 	}
+	
+
+	public FreeBoardFile(int free_board_no, String renamed_filename) {
+		super();
+		this.free_board_no = free_board_no;
+		this.renamed_filename = renamed_filename;
+	}
 
 	@Override
 	public String toString() {

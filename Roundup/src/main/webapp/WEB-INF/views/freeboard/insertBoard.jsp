@@ -48,7 +48,16 @@ $(function(){
         $("#insertBoardFrm").submit();
     });
     
-})
+});
+
+function fn_cancelBoard(){
+	if(confirm("현재 작성중인 게시글을 취소하시겠습니까?")==true){
+		location.href="cancelBoard.do";
+	}else{
+		return false;
+	}
+	
+}
 </script>
 <style>
 div#insertBoard-container{
@@ -74,10 +83,9 @@ div#insertBoard-container{
 <input type="hidden" name="memberId" value="${member_id }" />
 <div style="text-align: center;">
 	<button type="button" class="btn btn-success" id="insertBoard">제출</button>
-	<button type="button" class="btn btn-danger">취소</button>
+	<button type="button" class="btn btn-danger" onclick="fn_cancelBoard()">취소</button>
 </div>
 </form>
-
 </div>
-
+<br /><br />
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

@@ -69,4 +69,24 @@ public class freeBoardServiceImpl implements freeBoardService {
 		return freeBoardDAO.insertBoard(board);
 	}
 
+	@Override
+	public int uploadPhoto(Map<String, String> map) {
+		return freeBoardDAO.uploadPhoto(map);
+	}
+
+	@Override
+	public List<Map<String, Object>> uploadList(String memberId) {
+		return freeBoardDAO.uploadList(memberId);
+	}
+
+	@Override
+	public int insertFile(FreeBoardFile fbf) {
+		return freeBoardDAO.insertFile(fbf);
+	}
+
+	@Override
+	public int deleteuploadPhoto(String username) {
+		return freeBoardDAO.deleteuploadPhoto(username);
+	}
+
 }

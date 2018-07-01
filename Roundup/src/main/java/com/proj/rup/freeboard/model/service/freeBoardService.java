@@ -29,5 +29,14 @@ public interface freeBoardService {
 
 	int insertBoard(FreeBoard board);
 
+	int uploadPhoto(Map<String, String> map);
+
+	List<Map<String, Object>> uploadList(String memberId);
+
+	int insertFile(FreeBoardFile fbf);
+
+	int deleteuploadPhoto(String username);
+
+
 
 }
