@@ -115,10 +115,11 @@ table input[id="userId-dh"]  {
 
       <br>
       <form action="${pageContext.request.contextPath}/member/memberUpdate.do " method="post" name="memberUpdateFrm" class="formform">
+       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
          <table id="enroll-dh">
             <tr>
                <th>아이디</th>
-               <td><input type="text" name="userId" id="userId-dh"
+               <td><input type="text" name="member_id" id="userId-dh"
                   value="${member.member_id }" readonly /></td>
             </tr>
             <%--    <tr>
@@ -136,23 +137,23 @@ table input[id="userId-dh"]  {
 
             <tr>
                <th>이름</th>
-               <td><input type="text" name="userName" id="userName-dh"
+               <td><input type="text" name="member_name" id="userName-dh"
                   value="${member.member_name }" readonly></td>
             </tr>
             <tr>
                <th>생년월일</th>
-               <td><input type="text" name="age" id="age-dh"
+               <td><input type="text" name="member_birthday" id="age-dh"
                   value="${member.member_birthday }" readonly /></td>
             </tr>
             <tr>
                <th>이메일</th>
-               <td><input type="email" name="email"
+               <td><input type="email" name="member_email"
                   placeholder="abcd@efgh.com" id="email-dh"
                   value="${member.member_email }" readonly /></td>
             </tr>
             <tr>
                <th>휴대폰</th>
-               <td><input type="tel" id="phone-dh" name="phone"
+               <td><input type="tel" id="phone-dh" name="member_phone"
                   placeholder="(-없이)01012345678" maxlength="11"
                   value="${member.member_phone }" required /></td>
             </tr>

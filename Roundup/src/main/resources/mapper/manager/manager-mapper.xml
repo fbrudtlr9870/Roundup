@@ -9,11 +9,6 @@
 		select count(*) from member	
 		</select>
 		
-		<update id="updateMemberGrade">
-		update member set member_grade=? where member_id=?
-		
-		</update>
-		
 		<select id="selectOneMember" resultType="member">
 		SELECT * FROM MEMBER WHERE MEMBER_ID = #{member_id}
 		</select>
