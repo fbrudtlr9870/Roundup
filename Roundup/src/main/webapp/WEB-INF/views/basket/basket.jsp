@@ -82,7 +82,7 @@
 		<tr>
 			<c:if test="${not empty basketList }">
 			<td class="tbl-td"><fmt:formatNumber value="2000" type="currency" currencySymbol="" />원</td>
-			<td class="tbl-td"><span id="totalPrice">0</span>원</td>
+			<td class="tbl-td"><span id="totalPrice">2,000</span>원</td>
 			</c:if>
 			<c:if test="${empty basketList }">
 			<td class="tbl-td"><fmt:formatNumber value="0" type="currency" currencySymbol="" />원</td>
@@ -244,7 +244,7 @@ $(function() {
 	
 	
 	// 선택 상품의 금액 합 구하기
-	var total = 0;
+	var total = 2000;
 	$("[name=basketList]").click(function() {
 		if($(this).is(":checked")) {
 			total += parseInt($(this).parent().parent().find("#price").val());
@@ -263,7 +263,7 @@ $(function() {
 				total += parseInt($(chkboxes[i]).parent().parent().find("#price").val());
 			}
 		} else {
-			total = 0;
+			total = 2000;
 		}
 		$("#totalPrice").text(addCommaSearch(total));
 	});
