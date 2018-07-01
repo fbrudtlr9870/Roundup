@@ -166,9 +166,7 @@ public class MemberController {
 
 		  딜리트 관련
 	      if(!sessionStatus.isComplete()) {   	  
-
 	    	  //int deleteConnect = memberService.deleteConnect(m.getMember_id());	    	 
-
 	    	  sessionStatus.setComplete();
 	      }
 	      return "redirect:/";
@@ -304,6 +302,7 @@ public class MemberController {
 		return map;
 	}	
 	
+
 	@RequestMapping("/member/selectMembership.do")
 	@ResponseBody
 	public Membership selectMembership(@RequestParam(value="memberId") String memberId) {
@@ -312,3 +311,7 @@ public class MemberController {
 		return m;
 	}
 }
+
+	
+}
+

@@ -1,6 +1,7 @@
 package com.proj.rup.freeboard.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -53,6 +54,43 @@ public class FreeBoardDAOImpl implements FreeBoardDAO {
 	@Override
 	public int insertComment(FreeBoardComment fbc) {
 		return sqlSession.insert("freeboard.insertComment",fbc);
+	}
+
+	@Override
+	public List<String> selectLevelKinds() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("freeboard.selectLevelKinds");
+	}
+
+	@Override
+	public List<Map<String, String>> selectContent() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("freeboard.selectContent");
+	}
+
+	@Override
+	public int insertBoard(FreeBoard board) {
+		return sqlSession.insert("freeboard.insertBoard", board);
+	}
+
+	@Override
+	public int uploadPhoto(Map<String, String> map) {
+		return sqlSession.insert("freeboard.uploadPhoto", map);
+	}
+
+	@Override
+	public List<Map<String, Object>> uploadList(String memberId) {
+		return sqlSession.selectList("freeboard.uploadList", memberId);
+	}
+
+	@Override
+	public int insertFile(FreeBoardFile fbf) {
+		return sqlSession.insert("freeboard.insertFile", fbf);
+	}
+
+	@Override
+	public int deleteuploadPhoto(String username) {
+		return sqlSession.delete("freeboard.deleteuploadPhoto",username);
 	}
 
 }

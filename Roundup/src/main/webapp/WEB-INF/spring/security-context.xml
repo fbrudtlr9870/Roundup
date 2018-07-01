@@ -13,7 +13,6 @@
 	<context:component-scan base-package="com.proj.rup.member.model.service"/>
 	<context:component-scan base-package="com.proj.rup.member.model.dao"/>
 
-
 	<!-- #7.2 패스워드암호화관련 빈등록 -->
 	<bean id="shaPasswordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder"/>
 	<bean id="bcryptPasswordencoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>	
@@ -25,10 +24,13 @@
 	
 	<!-- ##3.1 인터셉트를 이용해 url패턴마다의 role설정(그냥 관리자페이지만 설정했음) -->
 	<security:http auto-config="true" use-expressions="true">
+		<!-- 폼 전송 시 csrf방어 끄기..좋은 수단은 아닌거같다.-->
+		<security:csrf disabled="true"/>
+		<security:headers><security:frame-options disabled="true"/></security:headers>
 		<security:intercept-url pattern="/manager/**" access="hasRole('ROLE_ADMIN')" />
 		<security:intercept-url pattern="/**" access="permitAll"/>
 		<security:form-login login-page="/member/loginPage.do"
-							login-processing-url="/member/memberLogin.do"
+							login-processing-url="/member/memberLogin"
 							username-parameter="member_id"
 							password-parameter="member_password"
 							authentication-success-handler-ref="memberAuthenticationSuccessHandler"/>

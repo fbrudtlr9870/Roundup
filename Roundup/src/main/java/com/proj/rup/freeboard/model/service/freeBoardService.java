@@ -1,6 +1,7 @@
 package com.proj.rup.freeboard.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.proj.rup.freeboard.model.vo.FreeBoard;
 import com.proj.rup.freeboard.model.vo.FreeBoardComment;
@@ -21,5 +22,21 @@ public interface freeBoardService {
 	int totalCommentCount(int no);
 
 	int insertComment(FreeBoardComment fbc);
+
+	List<String> selectLevelKinds();
+
+	List<Map<String, String>> selectContent();
+
+	int insertBoard(FreeBoard board);
+
+	int uploadPhoto(Map<String, String> map);
+
+	List<Map<String, Object>> uploadList(String memberId);
+
+	int insertFile(FreeBoardFile fbf);
+
+	int deleteuploadPhoto(String username);
+
+
 
 }

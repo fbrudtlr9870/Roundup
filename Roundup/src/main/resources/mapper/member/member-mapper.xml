@@ -74,3 +74,4 @@
 		select * from membership where member_id=#{memberId}
 	</select>
 </mapper>
+

@@ -9,7 +9,7 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import com.proj.rup.product.model.vo.Brand;
@@ -75,7 +75,8 @@ public class ProductDAOImpl implements ProductDAO {
 		return session.insert("product.insertProductCategory",map);
 	}
 
-
+	//메인에 나오는 상품리스트는 반복적이고 값이 일정한 조회. 따라서 캐시처리해서 서버부하 줄임
+	@Cacheable("SelectCache")
 	@Override
 	public List<Product> selectNewProduct() {
 		return session.selectList("product.selectNewProduct");

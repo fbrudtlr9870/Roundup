@@ -251,19 +251,19 @@
           <version>2.8.4</version>
       </dependency>
       
-      <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
-		<dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-taglibs</artifactId>
-		    <version>4.2.6.RELEASE</version>
-		</dependency>
-
-		<!-- 웹소켓 -->
+      	<!-- 웹소켓 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-websocket</artifactId>
 			<version>4.2.6.RELEASE</version>
 		</dependency>
+
+		<!-- 캐시 -->
+		 <dependency>
+		 	<groupId>net.sf.ehcache</groupId>
+		 	<artifactId>ehcache</artifactId>
+		 	<version>2.10.3</version>
+		 </dependency>
 
 	</dependencies>
     <build>

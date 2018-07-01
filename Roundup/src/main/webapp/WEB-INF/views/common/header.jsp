@@ -22,6 +22,18 @@
     text-align: center;
     margin: 0;
 }
+div#chatting-room{
+	display:none;
+}
+img#chat-icon{
+	width:100px;
+	height:100px;
+	position:fixed; 
+	bottom:0; 
+	right:0;
+	z-index:10;
+	cursor:pointer;
+}
 </style>
 
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.js"></script>		
@@ -37,10 +49,14 @@
 <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script> -->
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
-<!-- 소켓통신 라이브러리 -->
-<script src="${pageContext.request.contextPath }/resources/sockjs-0.3.4.js"></script>
-<meta name="_csrf" content="${_csrf.token}"/>
-<meta name="_csrf_header" content="${_csrf.headerName}"/>
+
+<!-- 메타값 -->
+<meta name="_csrf" content="${_csrf.token}"/> 
+<meta name="_csrf_header" content="${_csrf.headerName}"/> 
+
+<!-- 소켓통신 라이브러리 --> 
+<script src="${pageContext.request.contextPath }/resources/js/sockjs.min.js"></script> 
+
 
 </head>	
 
@@ -83,6 +99,7 @@
 	                    </c:if>
                     <li class="nav-bar-site-li">고객센터</li>
 
+					<!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! -->
                     <c:if test="${admin_id !=null }">
                     <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/manager/managerPage.do">관리자페이지</a></li>
                 	</c:if>
@@ -151,10 +168,13 @@
                 </div>
             </div>
             
+            <!-- 채팅아이콘 -->
+            <img src="${pageContext.request.contextPath }/resources/img/chat-icon.png" id="chat-icon"/>
+ 
             <!-- 채팅 관련 html 시작 -->
-            <%-- <div id="chatting-room">
-            	 <input type="hidden" name="member_id" value="${member_id}" /> 
 
+   			 <div id="chatting-room">
+            	<input type="hidden" name="member_id" value="${member_id}" />
             	<div style="text-align:center;">현재 접속중인 회원<span id="connected-member"style="font-weight:bold;">${totalMember }</span> 명</div>
             	<c:if test="${member_id!=null }">
             	<div style="text-align:center;margin-top:10px;">채팅방에 접속되었습니다.</div>  
@@ -167,7 +187,7 @@
             		<input id="insertText" style="float:left; width:230px;"class="form-control form-control-sm" type="text">
             		<button style="float:left; width:50px;" type="button" class="btn btn-primary" id="insertChat">전송</button>
             	</div>
-            </div>   --%>
+            </div> 
             <!-- 채팅관련 끝 -->
         </nav>
         
@@ -342,58 +362,88 @@ $(document).ready(function(){
 </script>
 
 
-<!-- 채팅 관련 스크립트(소켓) -->
 <script>
 
-var sock=new SockJS("http://localhost:9090/rup/echo.do");
-
-sock.onmessage= onMessage;
-sock.onclose = onClose;
-
 $(function(){
-	$("#insertChat").click(function(){
-		sendMessage();
+	$("#chat-icon").click(function(){
+		$("#chatting-room").show();
 	});
 });
 
-function sendMessage(){
-	sock.send($("#insertText").val());
-}
-
-function onClose(){
-	$("#chatting-content").append("연결끊김");
-}
-
-function onMessage(evt){
-	var data=evt.data;
-	var sessionid=null;
-	var message=null;
-	var offset = $(".chatting-comment:last").offset();
-	var strArr=data.split('|');
-	
-	sessionid=strArr[0];
-	message=strArray[1];
-	
-	var html='<div class="chatting-comment" style="text-align:left;">';
-	html+='<strong>['+sessionid+'] :</strong>'+message;
-	html+='</div>';
-	$("#chatting-content").append(html);
-
-    $("#chatting-content").animate({scrollTop : offset.top}, 400);
-}
-
 </script>
 
-
-
-
-
-
-<!-- 채팅 관련 스크립트(ajax polling) -->
-<script>
+<!-- 채팅 관련 스크립트(소켓) --> 
+<script> 
+ 
+var sock=new SockJS("<c:url value="/echo"/>"); 
+ 
+sock.onmessage= onMessage; 
+sock.onclose = onClose; 
+ 
+$(function(){ 
+  $("#insertChat").click(function(){ 
+    sendMessage(); 
+    $("#insertText").val('');
+  }); 
+  $("#insertText").keypress(function (e) {
+		var chatText=$("#insertText").val().trim();
+		var member_id =$("[name=member_id]").val().trim();
+		
+		if(e.which == 13){
+	 		if(chatText==""){
+	 			alert("내용을 입력하셔야 합니다.");
+	 			return false;
+	 		}
+	 		
+	 		if(member_id ==""){
+	 			alert("로그인 후 이용가능합니다.");
+	 			return false;
+	 		}else{
+	 			sendMessage();
+	 			$("#insertText").val('');
+	 		}
+		}
+  });
+}); 
+ 
+function sendMessage(){ 
+  sock.send($("#insertText").val()); 
+} 
+ 
+function onClose(){ 
+  $("#chatting-content").append("연결이 끊켰습니당."); 
+} 
+ 
+function onMessage(evt){ 
+  var data=evt.data; 
+  var sessionid=null; 
+  var message=null; 
+  var strArr=data.split('|'); 
+   
+  sessionid=strArr[0]; 
+  message=strArr[1]; 
+   
+  var html='<div class="chatting-comment" style="text-align:left;">'; 
+  html+='<strong>['+sessionid+'] :</strong>'+message; 
+  html+='</div>'; 
+  $("#chatting-content").append(html); 
   
-/*$(function(){
- 	 setInterval(function(){  
+  var offset = $(".chatting-comment:last").offset();
+  $("#chatting-content").animate({scrollTop : offset.top}, 400);
+    
+} 
+ 
+</script> 
+
+
+
+
+<!-- 채팅 관련 스크립트 -->
+
+<script>
+
+/* $(function(){
+ 	 setInterval(function(){ 
 	 	$.ajax({
 	 		url:"${pageContext.request.contextPath}/chatting/showChat.do",
 	 		type:"post",
@@ -505,8 +555,8 @@ function onMessage(evt){
 	 		 	});	 			
 	 		}
  		}
-    });
- 	
-})
-*/
+    });	
+
+}) */
+
 </script>
