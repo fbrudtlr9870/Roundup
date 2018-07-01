@@ -102,7 +102,7 @@ div#freetable_container{
 div#freetable_container tr th{
 	text-align: center;
 }
-div#freeBoardView-comment img{
+div#freeBoard-comment img{
 	max-width:550px;
 }
 </style>
@@ -121,7 +121,7 @@ div#freeBoardView-comment img{
 	<div class="freeBoardView-title member">
 		<span>${fboard["member_id"] }</span>
 	</div>
-	<div id="freeBoardView-comment">
+	<div id="freeBoard-comment">
 		${fboard["free_comment"]}
 	</div>
 	<br />
@@ -260,9 +260,6 @@ $(function(){
 		
 		$.ajax({
 			url:"insertComment.do",
-			beforeSend:function(xhr){
-				xhr.setRequestHeader(header, token);
-			},
 			data:{
 				  member_id:member_id,
 				  free_board_no:free_board_no,
@@ -377,9 +374,6 @@ $(function(){
 		
 		$.ajax({
 			url:"insertComment.do",
-			beforeSend:function(xhr){
-				xhr.setRequestHeader(header, token);
-			},
 			data:{member_id:member_id,
 				  free_board_no:free_board_no,
 				  parent_comment:parent_comment,
@@ -452,9 +446,6 @@ $(function(){
 		
 		$.ajax({
 			url:"insertComment.do",
-			beforeSend:function(xhr){
-				xhr.setRequestHeader(header, token);
-			},
 			data:{member_id:member_id,
 				  free_board_no:free_board_no,
 				  parent_comment:parent_comment,
