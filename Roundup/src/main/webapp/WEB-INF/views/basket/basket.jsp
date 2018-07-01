@@ -14,6 +14,12 @@
 	<sec:authentication property="principal.member_name" var="member_name" />
 </sec:authorize>
 
+<style>
+.center-hyelin {
+	text-align: center;
+	margin-top: 20px;
+}
+</style>
 <div class="step-buy">
 	<br> <img
 		src="${pageContext.request.contextPath }/resources/img/step-img.png"
@@ -61,7 +67,7 @@
 		</c:if>
 		<c:if test="${empty basketList }">
 			<tr>
-				<td colspan="6">장바구니에 담긴 상품이 없습니다.</td>
+				<td colspan="6"><h5 class="center-hyelin">장바구니에 담긴 상품이 없습니다.</h5></td>
 			</tr>
 		</c:if>
 	</table>
@@ -74,8 +80,14 @@
 			<th>총 결제금액</th>
 		</tr>
 		<tr>
+			<c:if test="${not empty basketList }">
 			<td class="tbl-td"><fmt:formatNumber value="2000" type="currency" currencySymbol="" />원</td>
+			<td class="tbl-td"><span id="totalPrice">0</span>원</td>
+			</c:if>
+			<c:if test="${empty basketList }">
+			<td class="tbl-td"><fmt:formatNumber value="0" type="currency" currencySymbol="" />원</td>
 			<td class="tbl-td"><fmt:formatNumber value="0" type="currency" currencySymbol="" />원 </td>
+			</c:if>
 		</tr>
 	</table>
 	<hr>
@@ -124,7 +136,10 @@ function purchaseAll() {
 		basketNo += "/";
     }
 	
-	location.href="${pageContext.request.contextPath}/purchase/purchase.do?basketNo="+basketNo+"&memberId="+memberId;
+	if(basketNo != "")
+		location.href="${pageContext.request.contextPath}/purchase/purchase.do?basketNo="+basketNo+"&memberId="+memberId;
+	else 
+		alert("장바구니에 담긴 상품이 없습니다.");
 }
 
 function purchaseChk() {
@@ -226,16 +241,33 @@ $(function() {
 			}
 		}
 	}); 
-/* 	var total = 0;
-	$("[name=basketList]:checked").filter(function() {
-		alert(this.value); 
-    }); */
+	
+	
+	// 선택 상품의 금액 합 구하기
+	var total = 0;
+	$("[name=basketList]").click(function() {
+		if($(this).is(":checked")) {
+			total += parseInt($(this).parent().parent().find("#price").val());
+		} else {
+			total -= parseInt($(this).parent().parent().find("#price").val());
+		}
+		$("#totalPrice").text(addCommaSearch(total));
+	}); 
+	
+	// 전체 상품의 금액 합 구하기
+	$("[name=allCheck]").click(function() {
+		if($(this).is(":checked")) {
+			var chkboxes = document.getElementsByName("basketList");
 
-
-    
-/* 	 $(':checkbox').each(function() { 
-	 $(this).change(alert('changed'));
-	 }); */
+			for(var i=0; i<chkboxes.length; i++) {
+				total += parseInt($(chkboxes[i]).parent().parent().find("#price").val());
+			}
+		} else {
+			total = 0;
+		}
+		$("#totalPrice").text(addCommaSearch(total));
+	});
+	
 });
 
 function addCommaSearch(value) {
