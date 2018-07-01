@@ -75,11 +75,13 @@ public class PurchaseController {
 							@RequestParam(value="product_amount") String product_amount,
 							@RequestParam(value="address") String address, 
 							@RequestParam(value="zip_code") String zip_code,
-							@RequestParam(value="basketNo") String basketNo) {
+							@RequestParam(value="basketNo") String basketNo,
+							@RequestParam(value="membership") int membership,
+							@RequestParam(value="totalPrice") int totalPrice) {
 		logger.debug(product_no+","+member_id+","+product_amount+","+address+","+zip_code+","+basketNo);
 		int result = 0;
 		String returnMsg = "";
-		
+
 		if(!product_no.contains("/")) {
 			// purchase 테이블에 값 넣기
 			Purchase purchase = new Purchase(0, Integer.parseInt(product_no), member_id, null, Integer.parseInt(product_amount), address, zip_code);
@@ -133,6 +135,13 @@ public class PurchaseController {
 		logger.debug("result@purchaseEnd : "+result);
 		
 		if(result > 0) {
+			// membership 테이블에 값 넣기
+			Map<String, Object> map = new HashMap<>();
+			map.put("member_id", member_id);
+			map.put("membership", membership);
+			map.put("totalPrice", totalPrice);
+			
+			memberService.updateMembership(map);
 			returnMsg = "success";
 		} else {
 			returnMsg = "fail";

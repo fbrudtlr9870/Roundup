@@ -33,5 +33,7 @@ public interface MemberService {
 
 	Membership selectMembership(String memberId);
 
+	int updateMembership(Map<String, Object> map);
+
 
 }

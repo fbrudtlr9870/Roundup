@@ -34,6 +34,11 @@
 }
 </style>
 
+<div class="step-buy">
+	<br> <img
+		src="${pageContext.request.contextPath }/resources/img/step-img2.PNG"
+		width="980px" height="100px"> <br>
+</div>
 
 <div class="tbl-container">
 	<table class="table">
@@ -135,7 +140,7 @@
 				<fmt:formatNumber value="2000" type="currency" currencySymbol=""/>원
 			</td>
 			<td>
-				<input class="form-control membership-hyelin" type="number" name="membership" id="membership" placeholder="0" min="0"/>원 &nbsp;&nbsp;&nbsp;
+				<input class="form-control membership-hyelin" type="number" name="membership" id="membership" placeholder="0" min="0" value="0"/>원 &nbsp;&nbsp;&nbsp;
 				<button class="btn btn-secondary" id="allUse">전액사용</button><br />
 				(사용가능금액 : <p id="membershipText"></p>원)
 			</td>
@@ -348,7 +353,9 @@ function payRequest() {
 				    		product_amount : amountList, 
 				    		address : rsp.buyer_addr,
 				    		zip_code : rsp.buyer_postcode,
-				    		basketNo : basketList
+				    		basketNo : basketList,
+				    		membership : $("#membership").val(),
+				    		totalPrice : parseInt($("#total2").val())-parseInt($("#membership").val())-2000
 			    		},
 			    		beforeSend: function(xhr) {
 		                     xhr.setRequestHeader(header, token);
@@ -487,11 +494,18 @@ $(function() {
 	
 	// 적립금 전액 사용 버튼 
 	$("#allUse").click(function() {
+		// 적립금이 결제 금액보다 많은 경우 사용 적립 금액에 결제 금액 값 찍어주기
 		if(parseInt($("#membershipText").text()) > parseInt($("#total2").val())) {
 			$("#membership").val($("#total2").val());
 		}
 		else {
-			$("#membership").val($("#membershipText").text());		
+			// 적립금이 1000원 이상인 경우만 사용 가능
+			if(parseInt($("#membershipText").text()) > 1000) {
+				$("#membership").val(parseInt($("#membershipText").text()));		
+			}
+			else {
+				alert("적립금은 1000원 이상부터 사용 가능합니다.")
+			}
 		}
 		totalCalc($("#membership").val());
 
