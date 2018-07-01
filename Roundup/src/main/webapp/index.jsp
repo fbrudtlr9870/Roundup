@@ -128,10 +128,10 @@ $(function(){
 			$(".slide-new-master").html(html);
 
 			$(".new-product").hover(function(){
-		        $(this).css("border","1px solid black");
+		       
 		        $(this).children(".buy-btn").show();
 		    },function(){
-		        $(this).css("border","1px solid lightgray");
+		       
 		        $(this).children(".buy-btn").hide();
 		    });
 			
