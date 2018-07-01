@@ -30,7 +30,6 @@
     flex: 1 1 auto;
     text-align: center;
     margin: 0;
-    width:140px;
 }
 </style>
 </head>
