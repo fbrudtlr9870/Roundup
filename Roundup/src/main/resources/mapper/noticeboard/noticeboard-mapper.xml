@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="noticeBoard">
+
+<select id="selectNoticeBoardList" resultType="noticeboard">
+	select a.*
+	from notice_board a 
+	order by a.notice_board_no desc
+</select>
+
+<select id="selectNoticeBoardListCount" resultType="_int">
+	select count(*) from notice_board
+</select>
+
+<select id="selectNoticeBoardOne" resultType="noticeboard">
+	select * from notice_board where notice_board_no=#{no}
+</select>
+
+<select id="selectNoticeBoardFileList" resultType="noticeboardFile">
+	select * from notice_board_file where notice_board_no=#{no}
+</select>
+
+
+<select id="totalCommentCount" resultType="_int">
+	select count(*) from tbl_comment where notice_board_no=#{no}
+</select>
+
+<select id="selectLevelKinds" resultType="String">
+	select distinct level_
+	from ttest
+</select>
+
+<select id="selectContent" resultType="Map">
+	select *
+	from ttest
+	order by level_
+</select>
+
+<insert id="insertBoard">
+	insert into notice_board
+	values(seq_noticeboard_no.nextval,#{member_id},#{notice_comment},sysdate,#{notice_board_title})
+	
+	<selectKey keyProperty="notice_board_no" order="AFTER" resultType="_int">
+		select seq_noticeboard_no.currval from dual
+	</selectKey>
+	
+</insert>
+
+<insert id="uploadPhoto">
+	insert into uploadPhoto
+	values(#{member_id},#{renamedFilename},sysdate)
+</insert>
+
+<select id="uploadList" resultType="map">
+	select renamed_Filename
+	from uploadPhoto
+	where member_id=#{memberId}
+</select>
+
+<insert id="insertFile">
+	insert into notice_board_file
+	values(seq_noticeboard_file_no.nextval,#{notice_board_no},null,#{renamed_filename})
+</insert>
+
+<delete id="deleteuploadPhoto">
+	delete uploadPhoto where member_id=#{username}
+</delete>
+
+
+</mapper>
