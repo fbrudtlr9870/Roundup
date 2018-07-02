@@ -340,7 +340,7 @@ function payRequest() {
 			   console.log(rsp);
 			   var token = $("meta[name='_csrf']").attr("content");
 	           var header = $("meta[name='_csrf_header']").attr("content");
-
+			   console.log(token+","+header);
 			   if ( rsp.success ) {
 			    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
 			    	jQuery.ajax({

@@ -13,6 +13,7 @@
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
+
 <script>
 
 /* 2018.07.02 09:25 master 병합완료  */
