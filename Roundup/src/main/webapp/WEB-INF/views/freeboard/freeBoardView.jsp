@@ -107,6 +107,14 @@ div#freeBoard-comment img{
 }
 </style>
 
+<!-- 글쓰기 상세보기 아래에 넣음 -->
+<script>
+function fn_insertBoard(){
+	location.href="${pageContext.request.contextPath}/freeboard/insertBoard.do";
+}
+</script>
+
+
 <div id="freeBoardView-container">
 	<div class="freeBoardView-title title">
 		<div style="float:left;">
@@ -215,6 +223,10 @@ div#freeBoard-comment img{
 		</c:if>
 	</table>
 	<br />
+	
+	<c:if test="${member_id !=null}">
+	<input type="button" class="btn btn-light" value="글쓰기" style="float:right;" onclick="fn_insertBoard();"  />
+	</c:if>
 
 <!-- 페이지바 -->
 <%

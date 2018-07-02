@@ -88,11 +88,11 @@ img#chat-icon{
 	                    </c:if>
                     <li class="nav-bar-site-li">고객센터</li>
                     
-                    <!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! -->
-                     <c:if test="${member_id!=null}">  
-                       
+                    <!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! --> 
+                    <!-- 권한에 따른 접근 방법 기술 -->
+               		<sec:authorize access="hasRole('ROLE_ADMIN')">
                     <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/manager/managerPage.do">관리자페이지</a></li>  
-                        </c:if>  
+              		</sec:authorize>
                 </ul>
                 <ul class="nav-bar-list">
                         <li class="nav-bar-site-li"><a href="http://www.7-eleven.co.kr" target="blank">세븐일레븐</a></li>
