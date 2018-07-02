@@ -132,6 +132,11 @@ public class ProductServiceImpl<ProductVO> implements ProductService {
 		return productDAO.reavgprice(map);
 	}
 
+	@Override
+	public List selecteAllCategoryList() {
+		return productDAO.selecteAllCategoryList();
+	}
+
 
 
 }

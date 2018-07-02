@@ -136,6 +136,12 @@ public class ProductDAOImpl implements ProductDAO {
 		return session.selectOne("product.reavgprice",map);
 	}
 
+
+	@Override
+	public List selecteAllCategoryList() {
+		return session.selectList("product.selecteAllCategoryList");
+	}
+
 	
 
 }

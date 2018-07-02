@@ -64,6 +64,9 @@ public interface ProductDAO {
 	int reavgprice(Map map);
 
 
+	List selecteAllCategoryList();
+
+
 
 
 	

@@ -53,6 +53,9 @@ public interface ProductService<ProductVO> {
 	int reavgprice(Map<String, Object> map);
 
 
+	List<Category> selecteAllCategoryList();
+
+
 
 }
 

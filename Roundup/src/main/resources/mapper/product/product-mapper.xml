@@ -233,4 +233,11 @@
 		</if>
 	order by nvl(pp.purchase_amount,0) desc,p.price) where rownum=1
 	</select>
+	
+	<select id="selecteAllCategoryList" resultMap="categorylist">
+	select * from category
+	start with parent_category is null
+	connect by prior category_no = parent_category
+	</select>
+	<resultMap type="category" id="categorylist" ></resultMap>
 </mapper>

@@ -263,7 +263,6 @@ ul.category-hyelin li label {
 								<img src="${pageContext.request.contextPath}/resources/img/pop.png" style="width: 50px; height: 40px;">			
 						</c:if>					
 					</c:if>
-					
 				</p>					
 				<input type="number" class="form-control inline-hyelin right-hyelin right10-hyelin" style="width: 70px; margin: 0 auto;" name="product_amount" value="1" min="1">
 				<input type="hidden" name="product_no" value="${p.productNo }"/>
@@ -297,7 +296,7 @@ ul.category-hyelin li label {
 		<input class="form-check-input" type="checkbox" name="brand" value="MINISTOP" id="MINISTOP"><label for="MINISTOP">MINISTOP</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 		<input class="form-check-input" type="checkbox" name="brand" value="EMART24" id="EMART24"><label for="EMART24">EMART24</label> <br />
 		<h4>카테고리</h4>
-		<select name="categoryselect" id="category" class="form-control" style="width: 50%;">
+		<!-- <select name="categoryselect" id="category" class="form-control" style="width: 50%;">
 			<option id="category" name="category" value="0" selected>카테고리</option>
 			<option id="category" name="category" value="1">간편식사</option>
 			<option id="category" name="category" value="7">-김밥</option>
@@ -338,6 +337,20 @@ ul.category-hyelin li label {
 			<option id="category" name="category" value="24">-캔</option>
 			<option id="category" name="category" value="25">-페트</option>
 			<option id="category" name="category" value="26">-유리</option>
+		</select> -->
+		<select name="categoryselect" id="category" class="form-control" style="width: 50%;">
+			<option id="category" name="category" value="0" selected>카테고리</option>
+			<c:forEach var="c" items="${categoryList }" varStatus="vs">
+				<c:if test="${c.category_level==1 }">
+					<option id="category" name="category" value="${c.category_no }">${c.category_name }</option>					
+				</c:if>
+				<c:if test="${c.category_level==2 }">
+					<option id="category" name="category" value="${c.category_no }"> - ${c.category_name }</option>					
+				</c:if>
+				<c:if test="${c.category_level==3 }">
+					<option id="category" name="category" value="${c.category_no }"> = = ${c.category_name }</option>					
+				</c:if>
+			</c:forEach>
 		</select>
 		<h4>가격대</h4>
 		<input type="number" name="price1" min="0" step="500" value="0" class="form-control" style="width: 200px; display: inline-block;">
