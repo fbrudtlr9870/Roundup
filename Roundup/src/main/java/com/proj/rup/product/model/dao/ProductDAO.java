@@ -67,6 +67,9 @@ public interface ProductDAO {
 	List selecteAllCategoryList();
 
 
+	List categoryLevelOneSearch(Map map);
+
+
 
 
 

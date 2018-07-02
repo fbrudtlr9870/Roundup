@@ -147,6 +147,12 @@ public class ProductDAOImpl implements ProductDAO {
 		return session.selectList("product.selecteAllCategoryList");
 	}
 
+
+	@Override
+	public List categoryLevelOneSearch(Map map) {
+		return session.selectList("product.categoryLevelOneSearch",map);
+	}
+
 	
 
 }

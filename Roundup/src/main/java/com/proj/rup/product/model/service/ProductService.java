@@ -57,6 +57,9 @@ public interface ProductService<ProductVO> {
 	List<Category> selecteAllCategoryList();
 
 
+	List<Product> categoryLevelOneSearch(Map<String, Object> map);
+
+
 
 
 }

@@ -271,13 +271,13 @@ $(function(){
             <div class="main-img">
                <div class="main-category">
                     <ul class="list-group">
-                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/reSearch.do?categoryselect=1">간편식사</a></li>
-                        <li class="list-group-item"><a href="">즉석조리</a></li>
-                        <li class="list-group-item"><a href="">과자류</a></li>
-                        <li class="list-group-item"><a href="">아이스크림</a></li>
-                        <li class="list-group-item"><a href="">식품</a></li>
-                        <li class="list-group-item"><a href="">음료</a></li>
-                        <li class="list-group-item"><a href="">생활용품</a></li>
+                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=1">간편식사</a></li>
+                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=2">즉석조리</a></li>
+                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=3">과자류</a></li>
+                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=4">아이스크림</a></li>
+                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=5">식품</a></li>
+                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=6">음료</a></li>
+                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=7">생활용품</a></li>
                     </ul>
                     
                 </div> 

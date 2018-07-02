@@ -142,6 +142,11 @@ public class ProductServiceImpl<ProductVO> implements ProductService {
 		return productDAO.selecteAllCategoryList();
 	}
 
+	@Override
+	public List categoryLevelOneSearch(Map map) {
+		return productDAO.categoryLevelOneSearch(map);
+	}
+
 
 
 }
