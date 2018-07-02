@@ -13,7 +13,9 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import com.proj.rup.product.model.vo.Brand;
+import com.proj.rup.product.model.vo.Category;
 import com.proj.rup.product.model.vo.Product;
+import com.proj.rup.product.model.vo.ProductCategoryLevel;
 import com.proj.rup.product.model.vo.Product_File;
 
 @Repository
@@ -84,20 +86,32 @@ public class ProductDAOImpl implements ProductDAO {
 
 
 	@Override
-	public List selectBrandList() {
+	public List<Brand> selectBrandList() {
 		return session.selectList("product.selectBrandList");
 	}
 
 
 	@Override
-	public List seleceCategoryList() {
-		return session.selectList("product.seleceCategoryList");
+	public List<Category> selectCategoryList() {
+		return session.selectList("product.selectCategoryList");
 	}
 
 
 	@Override
-	public List selectChildCategory(int categoryNo) {
+	public List<Category> selectChildCategory(int categoryNo) {
 		return session.selectList("product.selectChildCategory",categoryNo);
+	}
+
+
+	@Override
+	public List<ProductCategoryLevel> selectCategory(String searchKeyword) {
+		return session.selectList("product.selectCategory", searchKeyword);
+	}
+
+
+	@Override
+	public Category selectParentCategory(int parent_category) {
+		return session.selectOne("product.selectParentCategory", parent_category);
 	}
 
 	
