@@ -790,6 +790,7 @@ div.mypage {
 
 			$(this).next(".custom-file-label").html(fileName);
 		});
+		
 	});
 </script>
 <!-- 상품등록 스크립트 끝 -->
