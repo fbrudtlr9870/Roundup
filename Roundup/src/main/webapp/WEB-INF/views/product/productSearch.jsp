@@ -91,11 +91,6 @@ $(function () {
 	$("#productKey").val("${searchKeyword }");
 });
 
-
-$(function () {
-	window.searchSelAll = $('.search-box-sel-all').SumoSelect({ csvDispCount: 3, selectAll:true, search: true, searchText:'편의점명', okCancelInMulti:true });
-});
-
 </script>
 <style>
 /* div.main-li-container li.CU {
@@ -220,6 +215,7 @@ ul.category-hyelin li {
 	font-size: 18px;
 	font-weight: bold;
 	padding-right: 50px;
+	width: 250px;
 }
 
 ul.category-hyelin li label {
@@ -233,9 +229,78 @@ ul.category-hyelin li label {
 	padding-left: 10px;
 }
 .title-hyelin{
-	width: 150px;
+	display: inline;
 }
 </style>
+
+<div class="searchMore-hyelin">
+	<div>
+		<div class="title-hyelin">
+			<span class="listTitle-hyelin">브랜드</span>
+		</div>
+		<ul class="listStyleNone-hyelin paddingLeft10-hyelin category-hyelin">
+			<li>
+				<input type="checkbox" name="CU" id="CU" />
+				<label for="CU">CU</label>
+			</li>
+			<li>
+				<input type="checkbox" name="GS25" id="GS25" />
+				<label for="GS25">GS25</label>
+			</li>
+			<li>
+				<input type="checkbox" name="7ELEVEN" id="7ELEVEN" />
+				<label for="7ELEVEN">7ELEVEN</label>
+			</li>
+			<li>
+				<input type="checkbox" name="MINISTOP" id="MINISTOP" />
+				<label for="MINISTOP">MINISTOP</label>
+			</li>
+			<li>
+				<input type="checkbox" name="EMART24" id="EMART24" />
+				<label for="EMART24">EMART24</label>
+			</li>
+		</ul>
+	</div>
+	<hr />
+	
+	<div>
+		<div class="title-hyelin">
+			<span class="listTitle-hyelin">카테고리</span>
+		</div>
+		<div>
+		<ul class="listStyleNone-hyelin paddingLeft10-hyelin category-hyelin">
+			<!-- <li>
+				<span class="listTitle-hyelin">카테고리</span>
+			</li> -->
+			<li>
+				<input type="checkbox" name="간편식사" id="간편식사" />
+				<label for="간편식사">간편식사</label>
+			</li>
+			<li>
+				<input type="checkbox" name="식품" id="식품" />
+				<label for="식품">식품</label>
+			</li>
+			<li>
+				<input type="checkbox" name="과자류" id="과자류" />
+				<label for="과자류">과자류</label>
+			</li>
+			<li>
+				<input type="checkbox" name="아이스크림" id="아이스크림" />
+				<label for="아이스크림">아이스크림</label>
+			</li>
+			<li>
+				<input type="checkbox" name="즉석식품" id="즉석식품" />
+				<label for="즉석식품">즉석식품</label>
+			</li>
+			<li>
+				<input type="checkbox" name="음료" id="음료" />
+				<label for="음료">음료</label>
+			</li>
+		</ul>
+		</div>
+	</div>
+	<hr />
+</div>
 
 
 <!-- 검색 결과 리스트 보여주기 -->

@@ -31,6 +31,9 @@
 	color: blue;
 	font-weight: bold;
 }
+.marginLeft20-hyelin {
+	margin-left: 20px;
+}
 </style>
 <div class="step-buy">
 	<br> <img
@@ -52,7 +55,7 @@
 						<input type="hidden" name="basketNo" id="basketNo" value="${purchase['basket_no'] }"/>
 						<input type="hidden" name="productNo" id="productNo" value="${purchase['product_no'] }"/>
 						<img src="${pageContext.request.contextPath }/resources/upload/productFile/${purchase['renamed_filename']}" alt="" width="100px" height="100px">
-						<span>[${purchase["brand_name"]}] &nbsp; ${purchase["product_name"]}</span>
+						<span class="marginLeft20-hyelin">[${purchase["brand_name"]}] &nbsp; ${purchase["product_name"]}</span>
 					</div>
 				</td>
 				<td class="tbl-td">
@@ -77,7 +80,7 @@
 						<input type="hidden" name="basketNo" class="basketNo" value="${i['basket_no'] }"/>
 						<input type="hidden" name="productNo" class="productNo" value="${i['product_no'] }"/>
 						<img src="${pageContext.request.contextPath }/resources/upload/productFile/${i['renamed_filename']}" alt="" width="100px" height="100px">
-						<span>[${i["brand_name"]}] &nbsp; ${i["product_name"]}</span>
+						<span class="marginLeft20-hyelin">[${i["brand_name"]}] &nbsp; ${i["product_name"]}</span>
 					</div>
 				</td>
 				<td class="tbl-td">
@@ -102,7 +105,7 @@
 						<input type="hidden" name="buyNow" id="buyNow"/>
 						<input type="hidden" name="productNo" id="productNo" value="${buyNow['productNo'] }"/>
 						<img src="${pageContext.request.contextPath }/resources/upload/productFile/${buyNow['renamedFileName']}" alt="" width="100px" height="100px">
-						<span>[${buyNow["brandName"]}] &nbsp; ${buyNow["productName"]}</span>
+						<span class="marginLeft20-hyelin">[${buyNow["brandName"]}] &nbsp; ${buyNow["productName"]}</span>
 					</div>
 				</td>
 				<td class="tbl-td">
