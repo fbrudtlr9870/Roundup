@@ -182,11 +182,18 @@ public class ProductController {
 		map.put("categoryArr", categoryArr);
 		map.put("price1", price1);
 		map.put("price2", price2);
+		List<Product> plist=productService.productSearch(searchKeyword);
+		List<Product> list=productService.reSearch(map);
 		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색------------------------------
 		String clientId = "vbEkw23fbdDmfyg_CYg9";//애플리케이션 클라이언트 아이디값";
         String clientSecret = "iTpsbroJuP";//애플리케이션 클라이언트 시크릿값";
         try {
-            String text = URLEncoder.encode(searchKeyword, "UTF-8");
+        	String text="";
+        	if(list.isEmpty()) {
+        		text = URLEncoder.encode(searchKeyword, "UTF-8");        		
+        	}else {
+        		text = URLEncoder.encode(list.get(0).getProductName(), "UTF-8");        		
+        	}
             String apiURL = "https://openapi.naver.com/v1/search/blog?query="+ text+"&display=5&start=1"; // json 결과
             //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
             URL url = new URL(apiURL);
@@ -213,7 +220,6 @@ public class ProductController {
             System.out.println(e);
         }
 		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색 끝------------------------------
-        List<Product> list=productService.reSearch(map);
         mav.addObject("searchList", list);
         mav.setViewName("product/productSearch");
 		return mav;
