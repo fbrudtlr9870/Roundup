@@ -15,9 +15,9 @@
 </sec:authorize>
 <script>
 
-/* 2018.06.29 13:30 master 병합완료  */
+/* 2018.07.02 09:25 master 병합완료  */
 
-$(function(){
+/* $(function(){
 	// 상품 리스트 불러오기
 	$.ajax({
 		url:"${pageContext.request.contextPath}/product/selectNewProduct.do",
@@ -95,8 +95,90 @@ $(function(){
         }
 	});
 	
-});
+}); */
 
+//신상품불러오기
+$(function(){
+	$.ajax({
+		url:"${pageContext.request.contextPath}/product/selectNewProduct.do",
+		dataType:"json",
+		success:function(data){
+			console.log(data);
+			var html="";
+			
+			for(var i in data.productList){
+				if(data.productList[i].renamedFileName!=null){	
+					if(i==0){
+						html+="<div class='carousel-item active new-product'><img class='d-block w-100' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productList[0].renamedFileName+"' height='150px' alt='First slide'>";
+					}else{					
+						html += "<div class='carousel-item new-product'><img class='d-block w-100' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productList[i].renamedFileName+"' height='150px' alt='Second slide'>";
+					}
+					html += "<div class='buy-btn'>";
+					html += "<input type='hidden' value='" + data.productList[i].productNo +"' name='product_no'>";
+		            html += "<input type='number' class='form-control inline-hyelin' style='width: 70px; margin: 0 auto;' name='product_amount' min='1' value='1'>&nbsp;";
+	                html += "<button type='button' class='btn btn-primary insertBasket'>장바구니</button> &nbsp;";
+	                html += "<button type='button' class='btn btn-success purchase'>구매</button>";
+		            html += "</div>";
+		            html += "<div class='ptext'>" + data.productList[i].brandName + "</div>"; 
+		            html += "<div class='ptext'>" + data.productList[i].productName + "</div>";
+	                html += "<div class='pprice'>" + data.productList[i].price + "</div></div>";
+				}
+			}
+			
+			$(".slide-new-master").html(html);
+
+			$(".new-product").hover(function(){
+		       
+		        $(this).children(".buy-btn").show();
+		    },function(){
+		       
+		        $(this).children(".buy-btn").hide();
+		    });
+			
+			// 장바구니에 담기
+			$(".insertBasket").on("click",function(){
+				var memberId = '${member_id}';
+				console.log(memberId);
+				
+				$.ajax({
+					url:"${pageContext.request.contextPath }/basket/insertBasket.do",
+					data: {
+						productAmount: $(this).parent().find("[name=product_amount]").val(),
+						productNo: $(this).parent().find("[name=product_no]").val(),
+						memberId :memberId
+					},
+					success:function(data) {
+						if(confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하시겠습니까?")) {
+							location.href = "${pageContext.request.contextPath }/basket/selectBasketList.do?memberId="+memberId;
+						} else {
+							location.href = "${pageContext.request.contextPath }";
+						}
+					},
+					error:function(jqxhr, textStatus, errorThrown) {
+		                 console.log("ajax처리실패!");
+		                 console.log(jqxhr);
+		                 console.log(textStatus);
+		                 console.log(errorThrown);
+		        	}
+				});			
+			});
+
+			$(".purchase").on("click",function(){
+				var productNo = $(this).parent().find("[name=product_no]").val();
+				var productAmount = $(this).parent().find("[name=product_amount]").val();
+				var memberId = '${member_id}';
+
+				location.href="${pageContext.request.contextPath}/purchase/buyNow.do?productNo=" + productNo + "&productAmount=" + productAmount+"&memberId="+memberId;
+			});
+			
+		},error:function(jqxhr, textStatus, errorThrown) {
+            console.log("ajax처리실패!");
+            console.log(jqxhr);
+            console.log(textStatus);
+            console.log(errorThrown);
+   		}
+	});
+}); 
 </script>
  
     <div class="main-img-wrapper">
@@ -143,12 +225,68 @@ $(function(){
         <div class="main-li-container">
         
         <!-- card layout 여기에 이것저것 정보입력예정-->
-   
-                 
+   			 <div class="card-columns">
+					  <!-- 신상품 -->
+					  <div class="card border-primary mb-3" style="max-width: 18rem;">
+						  <div class="card-body text-primary">
+						    <h5 class="card-title">New 신상품</h5>
+						  	<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+							  <div class="carousel-inner slide-new-master"> 
+							   
+							  </div>
+							</div>
+							<br />
+						  </div>
+						</div>
+					  
+					   <!-- ----------------------- -->
+					  <!-- 인기상품 -->
+					   <div class="card border-primary mb-3" style="max-width: 18rem;">
+						  <div class="card-body text-primary">
+						    <h5 class="card-title">New 신상품</h5>
+						  	<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+							  <div class="carousel-inner slide-new-master"> 
+							   
+							  </div>
+							</div>
+							<br />
+						  </div>
+						</div>
+					   <!-- ----------------------- -->
+					 <div class="card">
+					    <div class="card-body text-info">
+					      <h5 class="card-title">이벤트</h5>
+					      <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+						  <div class="carousel-inner slide-hot-master"> 
+						    <div class="carousel-item active">
+						      <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/img/event/event1.jpg" height="300px" alt="First slide">
+						    </div>
+						    <div class="carousel-item">
+						      <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/img/event/event2.jpg" height="300px" alt="Second slide">
+						    </div>
+						    <div class="carousel-item">
+						      <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/img/event/event3.jpg" height="300px" alt="Third slide">
+						    </div>
+						    <div class="carousel-item">
+						      <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/img/event/event4.jpg" height="300px" alt="Third slide">
+						    </div>
+						    <div class="carousel-item">
+						      <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/img/event/event5.jpg" height="300px" alt="Third slide">
+						    </div>
+						  </div>
+						</div>
+					    </div>
+					  </div>
+					 
+					  <!-- ----------------------- -->
+					 
+					  <!-- ----------------------- -->
+				</div> 
+         </div>  
 
-        <h2>Hot & New</h2>
+        <!-- <h2>Hot & New</h2>
         <div class="main-li-container" id="NewProductList">
 
-        </div>
+        </div> -->
         <br><br>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

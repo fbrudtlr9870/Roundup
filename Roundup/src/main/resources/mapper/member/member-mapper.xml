@@ -78,3 +78,4 @@
 		{call proc_membership(#{member_id}, #{membership}, #{totalPrice})}
 	</update>
 </mapper>
+

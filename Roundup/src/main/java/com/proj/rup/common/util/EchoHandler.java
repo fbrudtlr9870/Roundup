@@ -11,10 +11,7 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-
 public class EchoHandler extends TextWebSocketHandler {
-
-	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
 	
@@ -40,7 +37,5 @@ public class EchoHandler extends TextWebSocketHandler {
 		
 		logger.info("연결끊김="+session.getId());
 	}
-	
-	
-	
 }
+

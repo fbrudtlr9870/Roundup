@@ -3,6 +3,7 @@ package com.proj.rup.product.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.proj.rup.product.model.vo.Brand;
 import com.proj.rup.product.model.vo.Product;
 import com.proj.rup.product.model.vo.Product_File;
 
@@ -34,6 +35,17 @@ public interface ProductDAO {
 
 
 	List<Product> selectNewProduct();
+
+
+	List selectBrandList();
+
+
+	List seleceCategoryList();
+
+
+	List selectChildCategory(int categoryNo);
+
+
 
 
 	

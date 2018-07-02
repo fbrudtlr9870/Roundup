@@ -8,6 +8,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="purchase" name="pageTitle" />
 </jsp:include>
+<script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
 
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
@@ -35,11 +36,13 @@
 	margin-left: 20px;
 }
 </style>
+
 <div class="step-buy">
 	<br> <img
 		src="${pageContext.request.contextPath }/resources/img/step-img2.PNG"
 		width="980px" height="100px"> <br>
 </div>
+
 <div class="tbl-container">
 	<table class="table">
 		<tr>
@@ -66,7 +69,7 @@
 					${purchase['product_amount'] }
 				</td>
 				<td class="tbl-td">
-					<input type="hidden" name="total" value="${purchase['product_amount']*purchase['price']}" id="total"/>
+					<input type="hidden" class="total" name="total" value="${purchase['product_amount']*purchase['price']}" id="total"/>
 					<fmt:formatNumber value="${purchase['product_amount']*purchase['price']}" type="currency" currencySymbol=""/>원
 				</td>
 			</tr>
@@ -96,6 +99,7 @@
 				</td>
 			</tr>
 			</c:forEach>
+
 		</c:if>
 		
 		<c:if test="${not empty buyNow }">
@@ -116,7 +120,7 @@
 					${productAmount}
 				</td>
 				<td class="tbl-td">
-					<input type="hidden" name="total" value="${productAmount*buyNow['price']}" id="total"/>
+					<input type="hidden" class="total" name="total" value="${productAmount*buyNow['price']}" id="total"/>
 					<fmt:formatNumber value="${productAmount*buyNow['price']}" type="currency" currencySymbol=""/>원
 				</td>
 			</tr>
@@ -339,6 +343,7 @@ function payRequest() {
 			   console.log(rsp);
 			   var token = $("meta[name='_csrf']").attr("content");
 	           var header = $("meta[name='_csrf_header']").attr("content");
+
 			   if ( rsp.success ) {
 			    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
 			    	jQuery.ajax({
@@ -457,6 +462,7 @@ $(function() {
 $(function() {
 	// 총 결제금액 계산
 	var totalClass = document.getElementsByClassName('total');
+
 	var totalId = document.getElementById('total');
 
 	var total = 0;
@@ -465,6 +471,7 @@ $(function() {
 		for(var i=0; i<totalClass.length; i++){
 			total += parseInt(totalClass[i].value);
 		}			
+
 	} else {
 		total = parseInt(totalId.value);
 	}	
@@ -504,6 +511,7 @@ $(function() {
 			}
 		}
 		totalCalc($("#membership").val());
+
 	});
 	
  	// 총 결제 금액 표시
@@ -536,6 +544,7 @@ $(function() {
 function totalCalc(membership) {
 	var total = parseInt(document.getElementById("total2").value);
 	total -= membership;
+
 	$("#totalPrice").text(addCommaSearch(total));
 }
 

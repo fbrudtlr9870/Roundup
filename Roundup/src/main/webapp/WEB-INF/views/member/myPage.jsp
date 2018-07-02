@@ -4,7 +4,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="마이페이지" name="pageTitle"/>
 </jsp:include>
@@ -133,6 +134,9 @@ div.mypage{
 #pagination .on {font-weight: bold; cursor: default;color:#777;}
 .map-card{
 	width:780px;
+}
+.delivery-map{
+	display:hidden;
 }
 </style>
 
@@ -333,25 +337,7 @@ $(function(){
 	      <!-- chart넣을부분 끝-->
 	      
 	      <!-- 지도api시작 -->
-	      
-	   <%-- 	  <div class="map_wrap">
-		    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
-		
-		    <div id="menu_wrap" class="bg_white">
-		        <div class="option">
-		            <div>
-		                <form onsubmit="searchPlaces(); return false;">
-			                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-			                   	 키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15"> 
-			                    <button type="submit">검색하기</button> 
-		                </form>
-		            </div>
-		        </div>
-		        <hr>
-		        <ul id="placesList"></ul>
-		        <div id="pagination"></div>
-		    </div>
-		</div> --%>
+	    
 		<!-- ------------------------ -->
 		<div class="card map-card">
 		  <div class="card-body">
@@ -472,7 +458,7 @@ $(function(){
 										</td>
 										<td class="tbl-td">
 											<div id="tbl-img-row">
-												<img src="${pageContext.request.contextPath }/resources/img/${i['renamed_filename']}" alt="" width="100px" height="100px">
+												<img src="${pageContext.request.contextPath }/resources/upload/productFile/${i['renamed_filename']}" alt="" width="100px" height="100px">
 												<span>[${i["brand_name"]}] &nbsp; ${i["product_name"]}</span>
 											</div>
 										</td>
@@ -525,7 +511,84 @@ $(function(){
 					</div> 
 	      </div>
 	      <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
-	       test
+	       <!-- 결재내역페이지 시작-->
+	       <h3>구매내역</h3>
+	       <div class="purchase-complete-container">
+	       		<div class="basket-container">
+						<table class="table">
+							<tr>
+								<th>상품정보</th>
+								<th>수량</th>
+								<th>결재금액</th>
+								<th>결재일</th>
+								<th>배송지조회</th>
+							</tr>
+							<c:if test="${not empty completeList }">
+								<c:forEach var="i" items="${completeList }" varStatus="vs">
+									<tr>
+										<td class="tbl-td">
+											<div id="tbl-img-row">
+												<img src="${pageContext.request.contextPath }/resources/upload/productFile/${i['renamed_filename']}" alt="" width="100px" height="100px">
+												<span>[${i["brand_name"]}] &nbsp; ${i["product_name"]}</span>
+											</div>
+										</td>
+										<td class="tbl-td">
+											<input type="number" class="form-control number-hyelin" style="width: 70px; margin: 0 auto;" name="product_amount" value="${i['product_amount']}" min="1">
+										</td>
+										<td class="tbl-td">
+											<input type="hidden" value="${i['product_amount']*i['price']}" name="price" id="price"/>
+											<fmt:formatNumber value="${i['product_amount']*i['price']}" type="currency" currencySymbol=""/>원
+										</td>
+										<td class="tbl-td">
+											<span>${i['purchase_date'] }</span>
+										</td>
+										<td class="tbl-td">
+											<button type="button" class="btn btn-outline-primary" id="searchMap" onclick="searchMap();">조회</button>
+										</td>
+									</tr>
+								</c:forEach>
+							</c:if>
+							<c:if test="${empty completeList }">
+						          <tr>
+						             <td colspan="6">구매내역이 없습니다.</td>
+						          </tr>
+							</c:if>
+						</table>
+						<hr style="width:780px">
+						
+						<br>
+						<br>
+						<br>
+						
+					</div> 
+					<div class="card map-card">
+						  <div class="card-body">
+						    <h5 class="card-title">가까운 편의점을 찾아보세요</h5>
+						   
+						  </div>
+						 <div class="map_wrap">
+						    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+						
+						    <div id="menu_wrap" class="bg_white">
+						        <div class="option">
+						            <div>
+						                <form onsubmit="searchPlaces(); return false;">
+							                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+							                   	 키워드 : <input type="text" value="편의점" id="search_keyword" size="15"> 
+							                    <button type="submit">검색하기</button> 
+						                </form>
+						            </div>
+						        </div>
+						        <hr>
+						        <ul id="placesList"></ul>
+						        <div id="pagination"></div>
+						    </div>
+						</div>
+				
+						</div>
+	       </div>
+					
+	       <!-- 결재내역페이지 끝-->
 	      </div>
 	    </div>
 	  </div>
@@ -705,7 +768,7 @@ Highcharts.chart('ca-container', {
         type: 'pie'
     },
     title: {
-        text: 'Browser market shares at a specific website, 2014'
+        text: '카테고리별 구매현황'
     },
     tooltip: {
         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -728,7 +791,7 @@ Highcharts.chart('ca-container', {
         }
     },
     series: [{
-        name: 'Share',
+        name: '구매현황',
         data: [
             { name: 'Chrome', y: 61.41 },
             { name: 'Internet Explorer', y: 11.84 },
@@ -743,11 +806,7 @@ Highcharts.chart('ca-container', {
 <!-- 지도api관련 스크립트 -->
 <script>
 
-//현재위치정보
 
-
-
-//
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = { 
         center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -1013,5 +1072,14 @@ function removeAllChildNods(el) {
         el.removeChild (el.lastChild);
     }
 }
+ 
+
+/* 배송지 찾기 */
+function searchMap(){
+	
+}
+
 </script>
+
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
