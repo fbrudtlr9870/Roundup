@@ -243,6 +243,7 @@ ul.category-hyelin li label {
 	<c:forEach var="p" items="${searchList }" varStatus="vs">
 		<div class="card card-hyelin">
 			<div class="card-body">
+				<%-- <p>판매량 ${p.purchaseAmount }</p> --%>
 				<img src="${pageContext.request.contextPath}/resources/upload/productFile/${p.renamedFileName}" class="prod-img-hyelin">
 				<h5 class="card-title">${p.brandName } ${p.productName }</h5>
 				<p class="card-text card-text-hyelin inline-hyelin"><fmt:formatNumber value="${p.price }" type="currency" currencySymbol=""/>원</p>					
