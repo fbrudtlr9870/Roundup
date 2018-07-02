@@ -117,7 +117,7 @@ img#chat-icon{
                        <form action="${pageContext.request.contextPath }/product/productSearch.do">
                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                        <div class="input-group">
-                         <input type="text" class="form-control" id="productKey" placeholder="Search for..." name="searchKeyword" autocomplete="off">
+                         <input type="text" class="form-control" id="productKey" placeholder="${param.pageSearch }" name="searchKeyword" autocomplete="off">
                          <span class="input-group-btn">
                            <button class="btn btn-outline-info" type="submit">Go!!</button>
                          </span><br />       

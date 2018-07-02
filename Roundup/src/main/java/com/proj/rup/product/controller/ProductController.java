@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -43,11 +44,18 @@ public class ProductController {
 		ModelAndView mav=new ModelAndView();
 		logger.info("검색 키워드 : "+searchKeyword);
 		mav.addObject("searchKeyword", searchKeyword);
+		List<Category> categoryList=productService.selecteAllCategoryList();
+		List<Product> list=productService.productSearch(searchKeyword);
 		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색------------------------------
 		String clientId = "vbEkw23fbdDmfyg_CYg9";//애플리케이션 클라이언트 아이디값";
         String clientSecret = "iTpsbroJuP";//애플리케이션 클라이언트 시크릿값";
         try {
-            String text = URLEncoder.encode(searchKeyword, "UTF-8");
+        	String text="";
+        	if(list.isEmpty()) {
+        		text = URLEncoder.encode(searchKeyword, "UTF-8");        		
+        	}else {
+        		text = URLEncoder.encode(list.get(0).getProductName(), "UTF-8");        		
+        	}
             String apiURL = "https://openapi.naver.com/v1/search/blog?query="+ text+"&display=5&start=1"; // json 결과
             //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
             URL url = new URL(apiURL);
@@ -74,7 +82,18 @@ public class ProductController {
             System.out.println(e);
         }
 		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색 끝------------------------------
-        List<Product> list=productService.productSearch(searchKeyword);
+        int rowprice=0;
+        int avgprice=0;
+        Product popmenu=null;
+        if(!list.isEmpty()) {
+    		rowprice = productService.rowprice(searchKeyword);   		
+    		avgprice = productService.avgprice(searchKeyword);
+    		popmenu=productService.popmenu(searchKeyword);
+    	}
+        mav.addObject("rowprice", rowprice);
+        mav.addObject("avgprice", avgprice);
+        mav.addObject("categoryList", categoryList);
+        mav.addObject("popmenu", popmenu);
         mav.addObject("searchList", list);
 		return mav;
 	}
@@ -90,8 +109,35 @@ public class ProductController {
 		if(brand.length<2)
 			brand=new String[] {"CU","GS25","7ELEVEN","MINISTOP","EMART24"};
 		Map<String,Object> map=new HashMap<String, Object>();
-		int categoryArr[]= {};
-		if(categoryselect==1) {
+		List<Category> categoryList=productService.selecteAllCategoryList();
+		List<Integer> categoryArr=new ArrayList<>();
+		
+		for(Category c:categoryList) {
+			if(c.getCategory_level()==1 && c.getCategory_no()==categoryselect) {
+				categoryArr.add(c.getCategory_no());
+				for(Category cc:categoryList) {
+					if(cc.getCategory_level()==2 && cc.getParent_category()==c.getCategory_no()) {
+						categoryArr.add(cc.getCategory_no());
+						for(Category ccc:categoryList) {
+							if(ccc.getCategory_level()==3 && ccc.getParent_category()==cc.getCategory_no()) {
+								categoryArr.add(ccc.getCategory_no());
+							}
+						}
+					}
+				}
+			}else if(c.getCategory_level()==2 && c.getCategory_no()==categoryselect) {
+				categoryArr.add(c.getCategory_no());
+				for(Category cc:categoryList) {
+					if(cc.getCategory_level()==3 && cc.getParent_category()==c.getCategory_no()) {
+						categoryArr.add(cc.getCategory_no());
+					}
+				}
+			}else if(c.getCategory_level()==3 && c.getCategory_no()==categoryselect) {
+				categoryArr.add(c.getCategory_no());
+			}
+		}
+		System.out.println("categoryArr="+categoryArr);
+		/*if(categoryselect==1) {
 			categoryArr= new int[]{1,7,8,9,10,27,28,29,30};			
 		}else if(categoryselect==2) {
 			 categoryArr= new int[]{2,11,12,13,14,31,32,33,34,35,36,37,38,39};
@@ -171,17 +217,26 @@ public class ProductController {
 			 categoryArr= new int[]{39};
 		}else {
 			categoryArr= new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39};
-		}
+		}*/
+		
+		mav.addObject("categoryList", categoryList);
 		map.put("searchKeyword", searchKeyword);
 		map.put("brand", brand);
 		map.put("categoryArr", categoryArr);
 		map.put("price1", price1);
 		map.put("price2", price2);
+		List<Product> plist=productService.productSearch(searchKeyword);
+		List<Product> list=productService.reSearch(map);
 		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색------------------------------
 		String clientId = "vbEkw23fbdDmfyg_CYg9";//애플리케이션 클라이언트 아이디값";
         String clientSecret = "iTpsbroJuP";//애플리케이션 클라이언트 시크릿값";
         try {
-            String text = URLEncoder.encode(searchKeyword, "UTF-8");
+        	String text="";
+        	if(list.isEmpty()) {
+        		text = URLEncoder.encode(searchKeyword, "UTF-8");        		
+        	}else {
+        		text = URLEncoder.encode(list.get(0).getProductName(), "UTF-8");        		
+        	}
             String apiURL = "https://openapi.naver.com/v1/search/blog?query="+ text+"&display=5&start=1"; // json 결과
             //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
             URL url = new URL(apiURL);
@@ -208,7 +263,18 @@ public class ProductController {
             System.out.println(e);
         }
 		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색 끝------------------------------
-        List<Product> list=productService.reSearch(map);
+        int rerowprice=0;
+        int reavgprice=0;
+        Product repopmenu=null;
+        if(!list.isEmpty()) {
+    		rerowprice = productService.rerowprice(map);   		
+    		reavgprice = productService.reavgprice(map);
+    		repopmenu=productService.repopmenu(map);
+    	}
+        mav.addObject("rowprice", rerowprice);
+        mav.addObject("avgprice", reavgprice);
+        mav.addObject("popmenu", repopmenu);
+        mav.addObject("searchKeyword", searchKeyword);        
         mav.addObject("searchList", list);
         mav.setViewName("product/productSearch");
 		return mav;
