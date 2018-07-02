@@ -46,6 +46,24 @@ public interface ProductDAO {
 	List selectChildCategory(int categoryNo);
 
 
+	int rowprice(String searchKeyword);
+
+
+	int avgprice(String searchKeyword);
+
+
+	Product popmenu(String searchKeyword);
+
+
+	Product repopmenu(Map<String, Object> map);
+
+
+	int rerowprice(Map map);
+
+
+	int reavgprice(Map map);
+
+
 
 
 	

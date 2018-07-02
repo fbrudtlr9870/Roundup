@@ -80,6 +80,17 @@ public class ProductController {
             System.out.println(e);
         }
 		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색 끝------------------------------
+        int rowprice=0;
+        int avgprice=0;
+        Product popmenu=null;
+        if(!list.isEmpty()) {
+    		rowprice = productService.rowprice(searchKeyword);   		
+    		avgprice = productService.avgprice(searchKeyword);
+    		popmenu=productService.popmenu(searchKeyword);
+    	}
+        mav.addObject("rowprice", rowprice);
+        mav.addObject("avgprice", avgprice);
+        mav.addObject("popmenu", popmenu);
         mav.addObject("searchList", list);
 		return mav;
 	}
@@ -220,6 +231,18 @@ public class ProductController {
             System.out.println(e);
         }
 		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색 끝------------------------------
+        int rerowprice=0;
+        int reavgprice=0;
+        Product repopmenu=null;
+        if(!list.isEmpty()) {
+    		rerowprice = productService.rerowprice(map);   		
+    		reavgprice = productService.reavgprice(map);
+    		repopmenu=productService.repopmenu(map);
+    	}
+        mav.addObject("rowprice", rerowprice);
+        mav.addObject("avgprice", reavgprice);
+        mav.addObject("popmenu", repopmenu);
+        mav.addObject("searchKeyword", searchKeyword);        
         mav.addObject("searchList", list);
         mav.setViewName("product/productSearch");
 		return mav;

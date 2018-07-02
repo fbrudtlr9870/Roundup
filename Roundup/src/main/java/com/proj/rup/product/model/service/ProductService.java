@@ -35,6 +35,24 @@ public interface ProductService<ProductVO> {
 	List<Category> selectChildCategory(int categoryNo);
 
 
+	int rowprice(String searchKeyword);
+
+
+	int avgprice(String searchKeyword);
+
+
+	Product popmenu(String searchKeyword);
+
+
+	Product repopmenu(Map<String, Object> map);
+
+
+	int rerowprice(Map<String, Object> map);
+
+
+	int reavgprice(Map<String, Object> map);
+
+
 
 }
 

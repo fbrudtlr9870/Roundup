@@ -237,8 +237,6 @@ ul.category-hyelin li label {
 	width: 150px;
 }
 </style>
-
-
 <!-- 검색 결과 리스트 보여주기 -->
 <div id="searchContainer-hyelin">
 	<c:forEach var="p" items="${searchList }" varStatus="vs">
@@ -247,7 +245,26 @@ ul.category-hyelin li label {
 				<%-- <p>판매량 ${p.purchaseAmount }</p> --%>
 				<img src="${pageContext.request.contextPath}/resources/upload/productFile/${p.renamedFileName}" class="prod-img-hyelin">
 				<h5 class="card-title">${p.brandName } ${p.productName }</h5>
-				<p class="card-text card-text-hyelin inline-hyelin"><fmt:formatNumber value="${p.price }" type="currency" currencySymbol=""/>원</p>					
+				<p class="card-text card-text-hyelin inline-hyelin"><fmt:formatNumber value="${p.price }" type="currency" currencySymbol=""/>원
+					<c:if test="${searchList.size()>1 }">
+						<c:if test="${p.price>avgprice }">
+								<img src="${pageContext.request.contextPath}/resources/img/up.png" style="width: 30px; height: 30px;">				
+						</c:if>
+						<c:if test="${p.price<avgprice }">
+								<img src="${pageContext.request.contextPath}/resources/img/down.png" style="width: 30px; height: 30px;">			
+						</c:if>
+						<c:if test="${p.price==avgprice }">
+								<img src="${pageContext.request.contextPath}/resources/img/avg.png" style="width: 30px; height: 30px;">					
+						</c:if>
+						<c:if test="${p.price==rowprice }">
+								<img src="${pageContext.request.contextPath}/resources/img/row.GIF" style="width: 40px; height: 30px;">			
+						</c:if>					
+						<c:if test="${p.productName==popmenu.productName }">
+								<img src="${pageContext.request.contextPath}/resources/img/pop.png" style="width: 50px; height: 40px;">			
+						</c:if>					
+					</c:if>
+					
+				</p>					
 				<input type="number" class="form-control inline-hyelin right-hyelin right10-hyelin" style="width: 70px; margin: 0 auto;" name="product_amount" value="1" min="1">
 				<input type="hidden" name="product_no" value="${p.productNo }"/>
 				<div class="btnDiv-hyelin">

@@ -100,6 +100,42 @@ public class ProductDAOImpl implements ProductDAO {
 		return session.selectList("product.selectChildCategory",categoryNo);
 	}
 
+
+	@Override
+	public int rowprice(String searchKeyword) {
+		return session.selectOne("product.rowprice",searchKeyword);
+	}
+
+
+	@Override
+	public int avgprice(String searchKeyword) {
+		return session.selectOne("product.avgprice",searchKeyword);
+	}
+
+
+	@Override
+	public Product popmenu(String searchKeyword) {
+		return session.selectOne("product.popmenu",searchKeyword);
+	}
+
+
+	@Override
+	public Product repopmenu(Map<String, Object> map) {
+		return session.selectOne("product.repopmenu",map);
+	}
+
+
+	@Override
+	public int rerowprice(Map map) {
+		return session.selectOne("product.rerowprice",map);
+	}
+
+
+	@Override
+	public int reavgprice(Map map) {
+		return session.selectOne("product.reavgprice",map);
+	}
+
 	
 
 }
