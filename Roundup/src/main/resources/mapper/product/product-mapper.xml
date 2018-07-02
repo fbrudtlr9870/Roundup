@@ -83,16 +83,4 @@
 	<select id="selectNewProduct" resultMap="search">
 	select * from product p left join product_file f on p.product_no = f.product_no left join brand b on p.brand_no = b.brand_no order by reg_date desc
 	</select>
-	
-	<select id="selectBrandList" resultType="brand">
-	select * from brand
-	</select>
-	
-	<select id="seleceCategoryList" resultType="category">
-	select * from category where category_level=1
-	</select>
-	
-	<select id="selectChildCategory" resultType="category">
-	select * from category where parent_category=#{categoryNo}
-	</select>
 </mapper>

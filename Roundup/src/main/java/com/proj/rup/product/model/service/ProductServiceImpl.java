@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.proj.rup.product.model.dao.ProductDAO;
-import com.proj.rup.product.model.vo.Brand;
 import com.proj.rup.product.model.vo.Product;
 import com.proj.rup.product.model.vo.Product_File;
 @Service
@@ -85,21 +84,6 @@ public class ProductServiceImpl<ProductVO> implements ProductService {
 	@Override
 	public List selectNewProduct() {
 		return productDAO.selectNewProduct();
-	}
-
-	@Override
-	public List selectBrandList() {
-		return productDAO.selectBrandList();
-	}
-
-	@Override
-	public List seleceCategoryList() {
-		return productDAO.seleceCategoryList();
-	}
-
-	@Override
-	public List selectChildCategory(int categoryNo) {
-		return productDAO.selectChildCategory(categoryNo);
 	}
 
 

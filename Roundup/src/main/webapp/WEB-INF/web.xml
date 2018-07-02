@@ -69,16 +69,6 @@
 		</listener-class>
 	</listener>
 
-	<filter>
-    <display-name>springMultipartFilter</display-name>
-    <filter-name>springMultipartFilter</filter-name>
-    <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
-	</filter>
-	<filter-mapping>
-	    <filter-name>springMultipartFilter</filter-name>
-	    <url-pattern>/*</url-pattern>
-	</filter-mapping>
-	
 	<!--##2 웹으로 들어오는 모든 요청에 대해 시큐리티 적용을 위한 필터 -->
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
@@ -90,7 +80,8 @@
   		<filter-name>springSecurityFilterChain</filter-name>
   		<url-pattern>/*</url-pattern>
   	</filter-mapping>
-	
+
+
 	<!-- 세션종료시 접속중인 사용자정보(DB) 삭제 위한 리스너 -->
 	<listener>
 		<listener-class>com.proj.rup.member.model.service.SessionDestoryListener</listener-class>

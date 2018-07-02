@@ -1,8 +1,10 @@
 package com.proj.rup.member.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,16 +19,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.proj.rup.basket.model.service.BasketService;
-import com.proj.rup.basket.model.service.BasketServiceImpl;
-import com.proj.rup.basket.model.vo.BasketProduct;
 import com.proj.rup.member.model.service.MemberService;
 import com.proj.rup.member.model.vo.Member;
-import com.proj.rup.member.model.vo.MemberAddress;
-import com.proj.rup.member.model.vo.Membership;
-import com.proj.rup.purchase.model.service.PurchaseService;
-import com.proj.rup.purchase.model.service.PurchaseServiceImpl;
-import com.proj.rup.purchase.model.vo.PurchaseComplete;
 
 @SessionAttributes({"memberLoggedIn"})
 @Controller
@@ -37,10 +31,7 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
-	@Autowired
-	private BasketService basketService = new BasketServiceImpl();
-	@Autowired
-	private PurchaseService purchaseService = new PurchaseServiceImpl();
+	
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
@@ -79,7 +70,6 @@ public class MemberController {
 		int result = 0;
 		
 		if(memberService.insertMember(member) > 0) {
-			// address 테이블에 주소 추가
 			Map<String,Object> map = new HashMap<String, Object>();
 			String address = road + "#" + jibun + "#" + detail;
 			
@@ -88,9 +78,6 @@ public class MemberController {
 			map.put("zip_code", postCode);
 			
 			result = memberService.insertAddress(map);
-			
-			// membership 테이블에 id 추가
-			memberService.insertMembership(member.getMember_id());
 		}
 		
 		//2. 
@@ -106,7 +93,7 @@ public class MemberController {
 	}
 	
 	
-	 /*@RequestMapping("/member/memberLogin.do")
+	/* @RequestMapping("/member/memberLogin.do")
 	   public ModelAndView memberLogin(@RequestParam String member_id,
 	                           @RequestParam String member_password) {
 	      if(logger.isDebugEnabled())
@@ -131,7 +118,7 @@ public class MemberController {
 	      //if(member_password.equals(m.getMember_password())) {
 	         msg = "로그인성공!";
 	         
-	          토탈관리시작 
+	          토탈관리 시작
 	         int selectMember = memberService.selectMember(m.getMember_id());
 	         if(selectMember ==1) {
 	        	 int deleteConnect = memberService.deleteConnect(m.getMember_id());
@@ -155,15 +142,11 @@ public class MemberController {
 	      return mav;
 	      }*/
 	
-
 /*	 @RequestMapping("/member/memberLogout.do")
-
 	   public String memberLogout(SessionStatus sessionStatus, HttpSession session) {
 	    		
 		 if(logger.isDebugEnabled())
-
 	         logger.debug("로그아웃요청");
-
 		  딜리트 관련
 	      if(!sessionStatus.isComplete()) {   	  
 	    	  //int deleteConnect = memberService.deleteConnect(m.getMember_id());	    	 
@@ -192,20 +175,12 @@ public class MemberController {
 		ModelAndView mav = new ModelAndView();
 		System.out.println("member_id@myPage.do:"+member_id);
 		Member m = memberService.selectOneMember(member_id);
-		MemberAddress ma = purchaseService.selectMemberInfo(member_id);
-		List<BasketProduct> basketList = basketService.selectBasketList(member_id);
-		List<PurchaseComplete> completeList = purchaseService.selectPCList(member_id);
-		
 		System.out.println("member@myPage:"+m);
-		System.out.println("memberAddress@myPage:"+ma);
-		logger.debug("completeList:"+completeList);
+		
 		//List<PurchaseComplete> pc = purchaseService.selectPCList(memberId);
 		//logger.debug("purchaseComplete@memberController pc:"+pc);
 		
 		mav.addObject("member",m);
-		mav.addObject("memberAddress",ma);
-		mav.addObject("basketList",basketList);
-		mav.addObject("completeList",completeList);
 		//mav.addObject("purchaseComplete",pc);
 		mav.setViewName("member/myPage");
 
@@ -302,16 +277,5 @@ public class MemberController {
 		return map;
 	}	
 	
-
-	@RequestMapping("/member/selectMembership.do")
-	@ResponseBody
-	public Membership selectMembership(@RequestParam(value="memberId") String memberId) {
-		Membership m = memberService.selectMembership(memberId);
-
-		return m;
-	}
-}
-
 	
-
-
+}

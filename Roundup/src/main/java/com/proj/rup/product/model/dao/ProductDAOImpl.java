@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
-import com.proj.rup.product.model.vo.Brand;
 import com.proj.rup.product.model.vo.Product;
 import com.proj.rup.product.model.vo.Product_File;
 
@@ -81,25 +80,5 @@ public class ProductDAOImpl implements ProductDAO {
 	public List<Product> selectNewProduct() {
 		return session.selectList("product.selectNewProduct");
 	}
-
-
-	@Override
-	public List selectBrandList() {
-		return session.selectList("product.selectBrandList");
-	}
-
-
-	@Override
-	public List seleceCategoryList() {
-		return session.selectList("product.seleceCategoryList");
-	}
-
-
-	@Override
-	public List selectChildCategory(int categoryNo) {
-		return session.selectList("product.selectChildCategory",categoryNo);
-	}
-
-	
 
 }

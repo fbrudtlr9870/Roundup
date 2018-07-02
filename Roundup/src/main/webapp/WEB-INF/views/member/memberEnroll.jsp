@@ -43,7 +43,7 @@ div#update-container{
 	width:980px;
 	margin:0 auto;
 }
-
+<<<<<<< HEAD
 
 div#userId-container span.guide{
 	display:none;

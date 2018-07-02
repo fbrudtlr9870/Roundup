@@ -3,8 +3,6 @@ package com.proj.rup.product.model.service;
 import java.util.List;
 import java.util.Map;
 
-import com.proj.rup.product.model.vo.Brand;
-import com.proj.rup.product.model.vo.Category;
 import com.proj.rup.product.model.vo.Product;
 import com.proj.rup.product.model.vo.Product_File;
 
@@ -24,17 +22,6 @@ public interface ProductService<ProductVO> {
 	int insertProduct(Product p, Product_File pf);
 
 	List<Product> selectNewProduct();
-
-
-	List<Brand> selectBrandList();
-
-
-	List<Category> seleceCategoryList();
-
-
-	List<Category> selectChildCategory(int categoryNo);
-
-
 
 }
 
