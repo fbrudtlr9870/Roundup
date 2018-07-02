@@ -768,7 +768,7 @@ Highcharts.chart('ca-container', {
         type: 'pie'
     },
     title: {
-        text: 'Browser market shares at a specific website, 2014'
+        text: '카테고리별 구매현황'
     },
     tooltip: {
         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -791,7 +791,7 @@ Highcharts.chart('ca-container', {
         }
     },
     series: [{
-        name: 'Share',
+        name: '구매현황',
         data: [
             { name: 'Chrome', y: 61.41 },
             { name: 'Internet Explorer', y: 11.84 },

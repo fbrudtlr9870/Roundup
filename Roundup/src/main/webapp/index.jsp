@@ -15,7 +15,7 @@
 </sec:authorize>
 <script>
 
-/* 2018.07.01 02:17 master 병합완료  */
+/* 2018.07.02 09:25 master 병합완료  */
 
 /* $(function(){
 	// 상품 리스트 불러오기
@@ -239,39 +239,19 @@ $(function(){
 						  </div>
 						</div>
 					  
-					  <!-- ----------------------- -->
-					  
-					  <div class="card p-3">
-					    <blockquote class="blockquote mb-0 card-body">
-					      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-					      <footer class="blockquote-footer">
-					        <small class="text-muted">
-					          Someone famous in <cite title="Source Title">Source Title</cite>
-					        </small>
-					      </footer>
-					    </blockquote>
-					  </div>
 					   <!-- ----------------------- -->
 					  <!-- 인기상품 -->
-					  <div class="card">
-					    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-						  <div class="carousel-inner slide-hot-master"> 
-						    <div class="carousel-item active">
-						      <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/img/main-display.png" height="150px" alt="First slide">
-						    </div>
-						    <div class="carousel-item">
-						      <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/img/test1.png" height="150px" alt="Second slide">
-						    </div>
-						    <div class="carousel-item">
-						      <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/img/suzyy.jpg" height="150px" alt="Third slide">
-						    </div>
+					   <div class="card border-primary mb-3" style="max-width: 18rem;">
+						  <div class="card-body text-primary">
+						    <h5 class="card-title">New 신상품</h5>
+						  	<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+							  <div class="carousel-inner slide-new-master"> 
+							   
+							  </div>
+							</div>
+							<br />
 						  </div>
 						</div>
-					    <div class="card-body text-danger">
-					      <h5 class="card-title">Hot 인기상품</h5>
-					      <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-					    </div>
-					  </div>
 					   <!-- ----------------------- -->
 					 <div class="card">
 					    <div class="card-body text-info">
@@ -297,30 +277,9 @@ $(function(){
 						</div>
 					    </div>
 					  </div>
+					 
 					  <!-- ----------------------- -->
-					  <div class="card">
-					    <img class="card-img" src="${pageContext.request.contextPath}/resources/img/test1.png" alt="Card image" style="height:auto; width:300px;">
-					  </div>
-					  <!-- ----------------------- -->
-					  <div class="card p-3 text-right">
-					    <blockquote class="blockquote mb-0">
-					      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-					      <footer class="blockquote-footer">
-					        <small class="text-muted">
-					          Someone famous in <cite title="Source Title">Source Title</cite>
-					        </small>
-					      </footer>
-					    </blockquote>
-					  </div>
-					  <!-- ----------------------- -->
-					  <div class="card">
-					    <div class="card-body">
-					      <h5 class="card-title">Card title2</h5>
-					      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-					      <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-					    </div>
-					  
-					  </div>
+					 
 					  <!-- ----------------------- -->
 				</div> 
          </div>  
