@@ -30,6 +30,7 @@ import com.proj.rup.product.model.service.ProductService;
 import com.proj.rup.product.model.vo.Brand;
 import com.proj.rup.product.model.vo.Category;
 import com.proj.rup.product.model.vo.Product;
+import com.proj.rup.product.model.vo.ProductCategoryLevel;
 import com.proj.rup.product.model.vo.Product_File;
 
 @Controller
@@ -82,6 +83,7 @@ public class ProductController {
             System.out.println(e);
         }
 		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색 끝------------------------------
+
         int rowprice=0;
         int avgprice=0;
         Product popmenu=null;
@@ -95,6 +97,7 @@ public class ProductController {
         mav.addObject("categoryList", categoryList);
         mav.addObject("popmenu", popmenu);
         mav.addObject("searchList", list);
+
 		return mav;
 	}
 	
@@ -237,6 +240,7 @@ public class ProductController {
         mav.addObject("popmenu", repopmenu);
         mav.addObject("searchKeyword", searchKeyword);        
         mav.addObject("searchList", list);
+
         mav.setViewName("product/productSearch");
 		return mav;
 	}
@@ -246,7 +250,7 @@ public class ProductController {
 	public ModelAndView pruductEnroll() {
 		ModelAndView mav = new ModelAndView();
 		List<Brand> brandList = productService.selectBrandList();
-		List<Category> categoryList = productService.seleceCategoryList();
+		List<Category> categoryList = productService.selectCategoryList();
 		
 		logger.debug("brandList@controller"+brandList);
 		logger.debug("categoryList@controller"+categoryList);
@@ -367,5 +371,35 @@ public class ProductController {
 		logger.debug("categoryNo@controller:"+categoryList);
 		return categoryList;
 	}
+	
+	@RequestMapping("/product/selectCategory.do")
+	@ResponseBody
+	public List<ProductCategoryLevel> selectCategory(@RequestParam(value="searchKeyword") String searchKeyword) {
+		List<ProductCategoryLevel> list = productService.selectCategory(searchKeyword);
+		
+/*		System.out.println("######################################################################");
+		System.out.println(list);
+*/		
+		for(int i=0; i<list.size(); i++) {
+			if(list.get(i).getCategory_level() == 1) {
+				//List<Category> categoryList = productService.selectCategoryList();
+				
+			} else if(list.get(i).getCategory_level() == 2) {
+				System.out.println("######################################################################");
+				System.out.println(list.get(i).getCategory_name());
+				Category parentCategory = productService.selectParentCategory(list.get(i).getParent_category());
+				System.out.println("######################################################################");
+				System.out.println(parentCategory);
+				System.out.println(parentCategory.getCategory_name());
+				System.out.println("######################################################################");
+				
+			} else {
+				
+			}
+		}
+		
+		return list;
+	}
+	
 
 }

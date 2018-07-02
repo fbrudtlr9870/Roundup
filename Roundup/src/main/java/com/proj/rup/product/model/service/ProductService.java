@@ -6,6 +6,7 @@ import java.util.Map;
 import com.proj.rup.product.model.vo.Brand;
 import com.proj.rup.product.model.vo.Category;
 import com.proj.rup.product.model.vo.Product;
+import com.proj.rup.product.model.vo.ProductCategoryLevel;
 import com.proj.rup.product.model.vo.Product_File;
 
 public interface ProductService<ProductVO> {
@@ -29,7 +30,7 @@ public interface ProductService<ProductVO> {
 	List<Brand> selectBrandList();
 
 
-	List<Category> seleceCategoryList();
+	List<Category> selectCategoryList();
 
 
 	List<Category> selectChildCategory(int categoryNo);
@@ -61,6 +62,10 @@ public interface ProductService<ProductVO> {
 
 
 
+	List<ProductCategoryLevel> selectCategory(String searchKeyword);
+
+
+	Category selectParentCategory(int parent_category);
 
 }
 

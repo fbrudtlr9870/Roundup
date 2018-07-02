@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.proj.rup.product.model.vo.Brand;
+import com.proj.rup.product.model.vo.Category;
 import com.proj.rup.product.model.vo.Product;
+import com.proj.rup.product.model.vo.ProductCategoryLevel;
 import com.proj.rup.product.model.vo.Product_File;
 
 public interface ProductDAO {
@@ -37,13 +39,11 @@ public interface ProductDAO {
 	List<Product> selectNewProduct();
 
 
-	List selectBrandList();
+	List<Brand> selectBrandList();
 
 
-	List seleceCategoryList();
+	List<Category> selectCategoryList();
 
-
-	List selectChildCategory(int categoryNo);
 
 	List selectHotProduct();
 
@@ -68,6 +68,15 @@ public interface ProductDAO {
 
 
 	List categoryLevelOneSearch(Map map);
+
+
+	List<Category> selectChildCategory(int categoryNo);
+
+
+	List<ProductCategoryLevel> selectCategory(String searchKeyword);
+
+
+	Category selectParentCategory(int parent_category);
 
 
 
