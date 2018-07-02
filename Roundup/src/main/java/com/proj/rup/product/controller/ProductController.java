@@ -43,11 +43,17 @@ public class ProductController {
 		ModelAndView mav=new ModelAndView();
 		logger.info("검색 키워드 : "+searchKeyword);
 		mav.addObject("searchKeyword", searchKeyword);
+		List<Product> list=productService.productSearch(searchKeyword);
 		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색------------------------------
 		String clientId = "vbEkw23fbdDmfyg_CYg9";//애플리케이션 클라이언트 아이디값";
         String clientSecret = "iTpsbroJuP";//애플리케이션 클라이언트 시크릿값";
         try {
-            String text = URLEncoder.encode(searchKeyword, "UTF-8");
+        	String text="";
+        	if(list.isEmpty()) {
+        		text = URLEncoder.encode(searchKeyword, "UTF-8");        		
+        	}else {
+        		text = URLEncoder.encode(list.get(0).getProductName(), "UTF-8");        		
+        	}
             String apiURL = "https://openapi.naver.com/v1/search/blog?query="+ text+"&display=5&start=1"; // json 결과
             //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
             URL url = new URL(apiURL);
@@ -74,7 +80,6 @@ public class ProductController {
             System.out.println(e);
         }
 		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색 끝------------------------------
-        List<Product> list=productService.productSearch(searchKeyword);
         mav.addObject("searchList", list);
 		return mav;
 	}

@@ -6,6 +6,7 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="검색결과" name="pageTitle"/>
+   <jsp:param value="${searchKeyword }" name="pageSearch"/>
 </jsp:include>
 
 <script src="${pageContext.request.contextPath }/resources/js/jquery.sumoselect.js"></script>
@@ -355,7 +356,12 @@ ul.category-hyelin li label {
 <div class="blog-container">
 	<div class="blogtext-container">
 		<img src="${pageContext.request.contextPath}/resources/img/blogimg.GIF" alt="" class="blogimg" /> 
-		<input type="text" readonly="readonly" value="  ${searchKeyword } 후기" class="blogtext" />
+			<c:if test="${searchList.size() > 0}"> 
+				<input type="text" readonly="readonly" value="  ${searchList[0].productName } 후기" class="blogtext" />			
+			</c:if>
+			<c:if test="${searchList.size() == 0 }"> 
+				<input type="text" readonly="readonly" value="  ${searchKeyword } 후기" class="blogtext" />			
+			</c:if>			
 	</div>
 	<br />
 	<!--  <h4>네이버 블로그</h4>    -->
@@ -369,4 +375,5 @@ ul.category-hyelin li label {
 	<hr />
 	<p id="blog5"></p>
 </div>
+<br /><br />
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
