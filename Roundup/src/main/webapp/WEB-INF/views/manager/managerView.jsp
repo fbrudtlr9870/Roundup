@@ -94,18 +94,6 @@ table input[id="userId-dh"]  {
 
 </style>
 
-<nav class="nav-list">
-     <div class="nav-list-wrapper">
-           <ul class="nav nav-tabs nav-justified">
-               <li role="presentation" class="active"><a href="#">회원정보수정</a></li>
-               <li role="presentation"><a href="#">장바구니</a></li>
-               <li role="presentation"><a href="${pageContext.request.contextPath }/purchase/purchaseComplete.jsp">구매내역</a></li>
-               <li role="presentation"><a href="./freeboard/freeBoardList.do">공지사항</a></li>
-               <li role="presentation"><a href="#">1:1문의</a></li>
-           </ul>
-     </div>
- </nav>
-
 <div class="rightcolumn">
 
    <section id="enroll-container-dh">

@@ -3,41 +3,37 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="purchase" name="pageTitle" />
 </jsp:include>
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
+
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript"
    src="http://t1.daumcdn.net/cssjs/postcode/1522037570977/180326.js"></script>
+<sec:authorize access="hasAnyRole('ROLE_USER')">
+	<sec:authentication property="principal.username" var="member_id"/>
+	<sec:authentication property="principal.member_name" var="member_name"/>
+</sec:authorize>
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
 
-<!-- 결제완료 모달 -->
-<%-- <div class="modal fade" id="purchaseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog" role="document">
-  <div class="modal-content">
-	<div class="modal-header">
-    <h5 class="modal-title" id="purchaseModalLabel">결제 완료</h5> 
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <form action="${pageContext.request.contextPath }/member/memberLogin.do" method="post">
-    <div class="modal-body">
-    	결제가 완료되었습니다. <br />
-    	이동하려는 페이지를 선택해주세요.<br /> 
-    </div>
-	 <div class="modal-footer">
-    	<button type="button" class="btn btn-outline-primary">구매내역</button>
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">장바구니</button>
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">메인페이지</button>
-      
-    </div> 
-    </form>
-  </div>
-</div>
-</div> --%>
+<style>
+.membership-hyelin {
+	width: 100px;
+	text-align: right;
+	display: inline;
+}
+#membershipText {
+	display: inline;
+	color: blue;
+	font-weight: bold;
+}
+</style>
+
 
 <div class="tbl-container">
 	<table class="table">
@@ -53,7 +49,7 @@
 					<div id="tbl-img-row">
 						<input type="hidden" name="basketNo" id="basketNo" value="${purchase['basket_no'] }"/>
 						<input type="hidden" name="productNo" id="productNo" value="${purchase['product_no'] }"/>
-						<img src="${pageContext.request.contextPath }/resources/img/${purchase['renamed_filename']}" alt="" width="100px" height="100px">
+						<img src="${pageContext.request.contextPath }/resources/upload/productFile/${purchase['renamed_filename']}" alt="" width="100px" height="100px">
 						<span>[${purchase["brand_name"]}] &nbsp; ${purchase["product_name"]}</span>
 					</div>
 				</td>
@@ -65,6 +61,7 @@
 					${purchase['product_amount'] }
 				</td>
 				<td class="tbl-td">
+					<input type="hidden" class="total" name="total" value="${purchase['product_amount']*purchase['price']}" id="total"/>
 					<fmt:formatNumber value="${purchase['product_amount']*purchase['price']}" type="currency" currencySymbol=""/>원
 				</td>
 			</tr>
@@ -77,7 +74,7 @@
 					<div id="tbl-img-row">
 						<input type="hidden" name="basketNo" class="basketNo" value="${i['basket_no'] }"/>
 						<input type="hidden" name="productNo" class="productNo" value="${i['product_no'] }"/>
-						<img src="${pageContext.request.contextPath }/resources/img/${i['renamed_filename']}" alt="" width="100px" height="100px">
+						<img src="${pageContext.request.contextPath }/resources/upload/productFile/${i['renamed_filename']}" alt="" width="100px" height="100px">
 						<span>[${i["brand_name"]}] &nbsp; ${i["product_name"]}</span>
 					</div>
 				</td>
@@ -89,10 +86,12 @@
 					${i['product_amount'] }
 				</td>
 				<td class="tbl-td">
-					<fmt:formatNumber value="${i['product_amount']*i['price']}" type="currency" currencySymbol=""/>원
+					<input type="hidden" name="total" value="${i['product_amount']*i['price']}" class="total"/>
+					<fmt:formatNumber value="${i['product_amount']*i['price']}" type="currency" currencySymbol=""/>원 
 				</td>
 			</tr>
 			</c:forEach>
+
 		</c:if>
 		
 		<c:if test="${not empty buyNow }">
@@ -101,7 +100,7 @@
 					<div id="tbl-img-row">
 						<input type="hidden" name="buyNow" id="buyNow"/>
 						<input type="hidden" name="productNo" id="productNo" value="${buyNow['productNo'] }"/>
-						<img src="${pageContext.request.contextPath }/resources/img/${buyNow['renamedFileName']}" alt="" width="100px" height="100px">
+						<img src="${pageContext.request.contextPath }/resources/upload/productFile/${buyNow['renamedFileName']}" alt="" width="100px" height="100px">
 						<span>[${buyNow["brandName"]}] &nbsp; ${buyNow["productName"]}</span>
 					</div>
 				</td>
@@ -113,6 +112,7 @@
 					${productAmount}
 				</td>
 				<td class="tbl-td">
+					<input type="hidden" class="total" name="total" value="${productAmount*buyNow['price']}" id="total"/>
 					<fmt:formatNumber value="${productAmount*buyNow['price']}" type="currency" currencySymbol=""/>원
 				</td>
 			</tr>
@@ -126,12 +126,32 @@
 	<br>
 	<table class="table">
 		<tr>
-			<th>총 배송비</th>
+			<th>배송비</th>
+			<th>적립금</th>
 			<th>총 결제금액</th>
 		</tr>
 		<tr>
-			<td class="tbl-td"><fmt:formatNumber value="2000" type="currency" currencySymbol=""/>원</td>
-			<td class="tbl-td"><fmt:formatNumber value="0" type="currency" currencySymbol=""/>원</td>
+			<td class="tbl-td">
+				<fmt:formatNumber value="2000" type="currency" currencySymbol=""/>원
+			</td>
+			<td>
+				<input class="form-control membership-hyelin" type="number" name="membership" id="membership" placeholder="0" min="0"/>원 &nbsp;&nbsp;&nbsp;
+				<button class="btn btn-secondary" id="allUse">전액사용</button><br />
+				(사용가능금액 : <p id="membershipText"></p>원)
+			</td>
+			<td class="tbl-td">
+				<input type="hidden" name="total" value="" id="total2"/>
+				<c:if test="${not empty purchase }">
+					<span id="totalPrice"></span>원
+				</c:if>
+				<c:if test="${not empty purchaseList }">
+					<!-- <span id="listPrice"></span> -->
+					<span id="totalPrice"></span>원
+				</c:if>
+				<c:if test="${not empty buyNow }">
+					<span id="totalPrice"></span>원
+				</c:if>
+			</td>
 		</tr>
 	</table>
 	<hr>
@@ -141,6 +161,7 @@
 	
 
 	<form action="" id="addressInfo" >
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		<span class="h3-hyelin">배송지 정보 </span> 
 		<div class="inline-hyelin right-hyelin">
 			<input class="btn btn-light" id="user_info" type="button" value="회원정보 동일"/> &nbsp; 
@@ -152,32 +173,25 @@
 			<tr>
 				<th>받으시는 분</th>
 				<td>
-		        	<input type="text" class="form-control" name="userId" id="userId" value="${memberLoggedIn.member_name}" title="받으시는분" style="width: 100px;" readonly>
+		        	<input type="text" class="form-control" name="userId" id="userId" value="${member_name}" title="받으시는분" style="width: 100px;" readonly>
+
 	           </td>
 			</tr>
 			<tr>
 				<th>휴대폰 번호</th>
 				<td>
-	               <!-- <select name="phone_num1" id="phone_num1" title="휴대폰 앞자리" class="form-control inline-hyelin" style="width:80px;">
-	                     <option value="010">010</option>
-	                     <option value="011">011</option>
-	                     <option value="016">016</option>
-	                     <option value="017">017</option>
-	                     <option value="018">018</option>
-	                     <option value="019">019</option>
-	               </select> -  -->
-	               <input name="phone_num1" class="form-control inline-hyelin" id="phone_num1" type="text" title="앞자리" style="width: 80px;" value="" readonly> -
-	               <input name="phone_num2" class="form-control inline-hyelin" id="phone_num2" type="text" title="중간자리" style="width: 80px;" value="" readonly> -
-	               <input name="phone_num3" class="form-control inline-hyelin" id="phone_num3" type="text" title="뒷자리" style="width: 80px;" value="" readonly>
+	               <input name="phone_num1" class="form-control inline-hyelin" id="phone_num1" type="text" placeholder="010" title="앞자리" style="width: 80px;" value="" readonly> -
+	               <input name="phone_num2" class="form-control inline-hyelin" id="phone_num2" type="text" placeholder="1234" title="중간자리" style="width: 80px;" value="" readonly> -
+	               <input name="phone_num3" class="form-control inline-hyelin" id="phone_num3" type="text" placeholder="5678" title="뒷자리" style="width: 80px;" value="" readonly>
 	            </td>
 			</tr>
 			<tr>
 	           <th>배송 주소</th>
 	           <td>
-	              <input type="text" class="form-control inline-hyelin addr" id="sample4_postcode" placeholder="우편번호" style="width: 120px;" required> 
+	              <input type="text" class="form-control inline-hyelin addr" id="sample4_postcode" placeholder="우편번호" style="width: 120px;" required readonly> 
 	              <input type="button" class="btn btn-light" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" size="35px"><br>
-	              <input type="text" class="form-control addr" id="sample4_roadAddress" placeholder="도로명 주소" required> 
-	              <input type="text" class="form-control addr" id="sample4_jibunAddress" placeholder="지번 주소" required>
+	              <input type="text" class="form-control addr" id="sample4_roadAddress" placeholder="도로명 주소" required readonly> 
+	              <input type="text" class="form-control addr" id="sample4_jibunAddress" placeholder="지번 주소" required readonly>
 	              <input type="text" class="form-control addr" id="sample4_detailAddress" placeholder="상세 주소" required/>
 	              <span id="guide" style="color: #999"></span>
 	           </td>
@@ -197,7 +211,6 @@
 	    	</tr>
 		</table>
 		<hr />
-		<!-- <input type="hidden" name="address_no" id="address_no" value="0"/> -->
 		<button type="button" class="btn btn-success" style="float: right; margin: 10px;" onclick="return payRequest();">구매하기</button>
 	</form>
 </div>
@@ -315,12 +328,14 @@ function payRequest() {
 	        name : '주문명: 결제 테스트',   // order 테이블에 들어갈 주문명 혹은 주문 번호
 	        amount : '100',   // 결제 금액
 	        buyer_email : '',   // 구매자 email
-	        buyer_name : "${memberLoggedIn.member_name}",   // 구매자 이름
+	        buyer_name : "${member_name}",   // 구매자 이름
 	        buyer_addr :  $("#sample4_roadAddress").val() + '#' + $("#sample4_jibunAddress").val() + '#' + $("#sample4_detailAddress").val(),   // 구매자 주소
 	        buyer_postcode :  $("#sample4_postcode").val()   // 구매자 우편번호
-		       
 		   }, function(rsp) {
 			   console.log(rsp);
+			   var token = $("meta[name='_csrf']").attr("content");
+	           var header = $("meta[name='_csrf_header']").attr("content");
+
 			   if ( rsp.success ) {
 			    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
 			    	jQuery.ajax({
@@ -329,27 +344,26 @@ function payRequest() {
 			    		data: {
 				    		imp_uid : rsp.imp_uid,
 				    		product_no : productList,
-				    		member_id : "${memberLoggedIn.member_id}",
+				    		member_id : "${member_id}",
 				    		product_amount : amountList, 
 				    		address : rsp.buyer_addr,
 				    		zip_code : rsp.buyer_postcode,
 				    		basketNo : basketList
 			    		},
+			    		beforeSend: function(xhr) {
+		                     xhr.setRequestHeader(header, token);
+		                },
 			    		success:function(data) {
 			    			console.log(data);
 			    			if(data==="success") {
-			    				alert("dfd");
 			    				if(confirm("결제가 완료되었습니다. 결제 내역 페이지로 이동하시겠습니까?")) {
 			    					// 결제내역 페이지 보여주기
 			    					location.href="${pageContext.request.contextPath}"; 
 			    				} else {
 			    					// 장바구니 페이지 보여주기
-			    					location.href="${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
+			    					location.href="${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${member_id}";
 			    				} 
-			    			} /* else {
-			    				alert("결제가 실패되었습니다.");
-			    				location.href="${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
-			    			} */
+			    			}
 			    		},
 			    		error:function(jqxhr, textStatus, errorThrown) {
 			                  console.log("ajax처리실패!");
@@ -377,20 +391,18 @@ function payRequest() {
 			        alert(msg);
 			    }
 		});
-	} else {
-		alert("배송지 정보를 입력해주세요");
 	}
 }
 
-// 배송지 정보 버튼 
+//배송지 정보 버튼 
 $(function() {
-	$("#phone_num1").val("${memberLoggedIn.member_phone}".substring(0, 3));
-	if("${memberLoggedIn.member_phone}".length == 11) {
-		$("#phone_num2").val("${memberLoggedIn.member_phone}".substring(3, 7));
-		$("#phone_num3").val("${memberLoggedIn.member_phone}".substring(7));
-	} else if("${memberLoggedIn.member_phone}".length == 10) {
-		$("#phone_num2").val("${memberLoggedIn.member_phone}".substring(3, 6));
-		$("#phone_num3").val("${memberLoggedIn.member_phone}".substring(6));				
+	$("#phone_num1").val("${member.member_phone}".substring(0, 3));
+	if("${member.member_phone}".length == 11) {
+		$("#phone_num2").val("${member.member_phone}".substring(3, 7));
+		$("#phone_num3").val("${member.member_phone}".substring(7));
+	} else if("${member.member_phone}".length == 10) {
+		$("#phone_num2").val("${member.member_phone}".substring(3, 6));
+		$("#phone_num3").val("${member.member_phone}".substring(6));				
 	}
 	
 	// 신규 입력 버튼
@@ -406,7 +418,7 @@ $(function() {
 	 	$.ajax({
 			url:"${pageContext.request.contextPath}/purchase/selectMemberInfo.do",
 			data: {
-				memberId : "${memberLoggedIn.member_id}"
+				memberId : "${member_id}"
     		},
 			success:function(data) {			
 				$("#sample4_postcode").val(data.zip_code);
@@ -427,66 +439,117 @@ $(function() {
 	});
 	
 	$("#addr_list").click(function() {
-		var url = "${pageContext.request.contextPath}/purchase/selectAddrList.do?memberId=${memberLoggedIn.member_id}";
+		var url = "${pageContext.request.contextPath}/purchase/selectAddrList.do?memberId=${member_id}";
 		var title = "주소록";
 		var status = "left=500px, top=200px, width=900px, height=300px";
 		
 	 	window.open(url, title, status);
-	 	
-	  	/* $.ajax({
-			url:"${pageContext.request.contextPath}/purchase/selectAddrList.do",
-			dataType:"json",
-			data: {
-				memberId : "${memberLoggedIn.member_id}"
-    		},
-			success:function(data) {		
-				var html = "<table>";
-				for(var i in data) {
-					var u = data[i];
-					html += "<tr>";
-					html += "<td>" + u.userId + "</td>";
-					html += "<td>" + u.userName + "</td>";
-					html += "<td>" + u.userAddr + "</td>";
-					
-					html += "</tr>";
-				}
-				html += "</table>";
-				
-				console.log(data);
-				alert(data);
-			},
-			error:function(jqxhr, textStatus, errorThrown) {
-                  console.log("ajax처리실패!");
-                  console.log(jqxhr);
-                  console.log(textStatus);
-                  console.log(errorThrown);
-            }
-			dkfdsjklfjdskl
-		});  */
-	 	
 	});
 });
 
-// 유효성 검사
-function validate() {
-	var userId = $("#userId").val();
-	var regExp = /^[가-힣]{2,}$/;
+
+// 총 결제 금액
+$(function() {
+	// 총 결제금액 계산
+	var totalClass = document.getElementsByClassName('total');
+
+	var totalId = document.getElementById('total');
+
+	var total = 0;
 	
-    if(!(regExpTest(regExp, userId, "한글 2글자이상 입력하세요.")))
-        return false;
-    
-    return true;
+	if(totalId == null) {
+		for(var i=0; i<totalClass.length; i++){
+			total += parseInt(totalClass[i].value);
+		}			
+
+	} else {
+		total = parseInt(totalId.value);
+	}	
+	$("#total2").val(total+2000);
+	$("#totalPrice").text(addCommaSearch(parseInt(document.getElementById('total2').value)));
+	
+	// 멤버십 가져오기
+	$.ajax({
+		url:"${pageContext.request.contextPath}/member/selectMembership.do",
+		data: {
+			memberId : "${member_id}"
+		},
+		success:function(data) {			
+			$("#membershipText").text(data.point);
+		},
+		error:function(jqxhr, textStatus, errorThrown) {
+              console.log("ajax처리실패!");
+              console.log(jqxhr);
+              console.log(textStatus);
+              console.log(errorThrown);
+        }
+	});
+	
+	// 적립금 전액 사용 버튼 
+	$("#allUse").click(function() {
+		if(parseInt($("#membershipText").text()) > parseInt($("#total2").val())) {
+			$("#membership").val($("#total2").val());
+		}
+		else {
+			$("#membership").val($("#membershipText").text());		
+		}
+		totalCalc($("#membership").val());
+
+	});
+	
+ 	// 총 결제 금액 표시
+	$("#totalPrice").text(addCommaSearch(parseInt(document.getElementById('total2').value)));
+
+ 	// 적립금 직접 입력 시
+	$("#membership").on("keyup", function() {
+		var membership = document.getElementById("membership");
+		var total = parseInt(document.getElementById("total2").value);
+		
+		if(parseInt($("#membershipText").text()) < parseInt(membership.value)) {
+			alert("보유 금액 이상 사용하실 수 없습니다.");
+			membership.value=0;
+			$("#totalPrice").text(addCommaSearch(total));
+		} else if(parseInt(membership.value) > $("#total2").val()) {
+			alert("결제 금액을 초과하였습니다.");
+			membership.value=$("#total2").val();
+			$("#totalPrice").text(0);
+		}
+		
+		$("#totalPrice").text(addCommaSearch($("#totalPrice").text()));
+		if(this.value >= 1000)
+			totalCalc(this.value);
+		else
+			totalCalc(0);
+	});
+});
+
+
+function totalCalc(membership) {
+	var total = parseInt(document.getElementById("total2").value);
+	total -= membership;
+
+	$("#totalPrice").text(addCommaSearch(total));
 }
 
-function regExpTest(regExp, el, msg){
-    if(regExp.test(el)) {
-        return true;
-    }
-    
-    // 적합한 문자열이 아닌경우
-    alert(msg);
-    el.value="";    // 해당 요소 초기화
-    el.focus="";    // 해당 요소에 포커스 맞춰줌.
+// 유효성 검사
+function validate() {
+	var postCode = $("#sample4_postcode").val();
+	var roadAddress = $("#sample4_roadAddress").val();
+	var jibunAddress = $("#sample4_jibunAddress").val();
+	var detailAddress = $("#sample4_detailAddress").val();
+	
+	if(postCode != "" && roadAddress != "" && jibunAddress != "" && detailAddress != "")
+		return true;
+	else { 
+		alert("배송지 정보를 입력해주세요");
+		return false;
+	}
 }
+
+function addCommaSearch(value) {
+	str = String(value);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

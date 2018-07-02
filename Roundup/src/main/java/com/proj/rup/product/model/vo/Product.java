@@ -21,8 +21,20 @@ public class Product {
 	private int categoryLevel; //카테고리 레벨
 	public Product() {}
 	
+
 	
-	
+	public Product(String productName, int brandNo, int price, String memberId,int categoryNo) {
+		super();
+		this.productName = productName;
+		this.brandNo = brandNo;
+		this.price = price;
+		this.memberId = memberId;
+		this.categoryNo = categoryNo;
+	}
+
+
+
+
 	public Product(int productNo, String productName, int brandNo, String brandName, int price, Date regDate,
 			String memberId, int productFileNo, String originalFileName, String renamedFileName, Date fileRegDate,
 			int proCategoryNo, int categoryNo, String categoryName, int parentCategory, int categoryLevel) {

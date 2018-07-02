@@ -2,7 +2,6 @@ package com.proj.rup.product.controller;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -26,9 +25,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonIOException;
 import com.proj.rup.product.model.service.ProductService;
+import com.proj.rup.product.model.vo.Brand;
+import com.proj.rup.product.model.vo.Category;
 import com.proj.rup.product.model.vo.Product;
 import com.proj.rup.product.model.vo.Product_File;
 
@@ -48,7 +47,7 @@ public class ProductController {
 		String clientId = "vbEkw23fbdDmfyg_CYg9";//애플리케이션 클라이언트 아이디값";
         String clientSecret = "iTpsbroJuP";//애플리케이션 클라이언트 시크릿값";
         try {
-            String text = URLEncoder.encode(searchKeyword+" 후기", "UTF-8");
+            String text = URLEncoder.encode(searchKeyword, "UTF-8");
             String apiURL = "https://openapi.naver.com/v1/search/blog?query="+ text+"&display=5&start=1"; // json 결과
             //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
             URL url = new URL(apiURL);
@@ -182,7 +181,7 @@ public class ProductController {
 		String clientId = "vbEkw23fbdDmfyg_CYg9";//애플리케이션 클라이언트 아이디값";
         String clientSecret = "iTpsbroJuP";//애플리케이션 클라이언트 시크릿값";
         try {
-            String text = URLEncoder.encode(searchKeyword+" 후기", "UTF-8");
+            String text = URLEncoder.encode(searchKeyword, "UTF-8");
             String apiURL = "https://openapi.naver.com/v1/search/blog?query="+ text+"&display=5&start=1"; // json 결과
             //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
             URL url = new URL(apiURL);
@@ -219,8 +218,14 @@ public class ProductController {
 	@RequestMapping("/product/productEnroll.do")
 	public ModelAndView pruductEnroll() {
 		ModelAndView mav = new ModelAndView();
+		List<Brand> brandList = productService.selectBrandList();
+		List<Category> categoryList = productService.seleceCategoryList();
 		
+		logger.debug("brandList@controller"+brandList);
+		logger.debug("categoryList@controller"+categoryList);
 		
+		mav.addObject("brandList",brandList);
+		mav.addObject("categoryList",categoryList);
 		mav.setViewName("product/productEnroll");
 		return mav;
 	}
@@ -235,7 +240,12 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/product/productEnrollEnd.do")
-	public ModelAndView productEnrollEnd(Product p,@RequestParam(value="upFile") MultipartFile upFile,HttpServletRequest request) {
+	public ModelAndView productEnrollEnd(@RequestParam(value="productName") String productName
+										,@RequestParam(value="memberId") String memberId
+										,@RequestParam(value="brandNo") int brandNo
+										,@RequestParam(value="categoryNo") int[] categoryNo
+										,@RequestParam(value="price") int price
+										,@RequestParam(value="upFile") MultipartFile upFile,HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		logger.debug("상품등록요청");
 		logger.debug("upFile : "+upFile.getOriginalFilename());
@@ -251,9 +261,15 @@ public class ProductController {
 			
 			try {
 				upFile.transferTo(new File(saveDirectory+"/"+renamedFileName));
-			} catch (IllegalStateException | IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			int category_No = 0;
+			for(int i=0;i<categoryNo.length;i++) {
+				category_No = categoryNo[i];
+			}
+			
+			Product p = new Product(productName, brandNo, price, memberId,category_No);
 			
 			Product_File pf = new Product_File();
 			pf.setOriginalFilename(originalFileName);
@@ -303,6 +319,14 @@ public class ProductController {
 		map.put("productList", productList);
 		
 		return map;
+	}
+	
+	@RequestMapping("/product/selectChildCategory.do")
+	@ResponseBody
+	public List<Category> selectChildCategory(@RequestParam(value="categoryNo") int categoryNo) {
+		List<Category> categoryList = productService.selectChildCategory(categoryNo);
+		logger.debug("categoryNo@controller:"+categoryList);
+		return categoryList;
 	}
 
 }

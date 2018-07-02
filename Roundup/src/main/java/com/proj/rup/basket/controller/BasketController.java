@@ -16,6 +16,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.proj.rup.basket.model.service.BasketService;
 import com.proj.rup.basket.model.service.BasketServiceImpl;
 import com.proj.rup.basket.model.vo.BasketProduct;
+import com.proj.rup.member.model.service.MemberService;
+import com.proj.rup.member.model.vo.Member;
+import com.proj.rup.member.model.vo.MemberAddress;
+import com.proj.rup.purchase.model.service.PurchaseService;
+import com.proj.rup.purchase.model.service.PurchaseServiceImpl;
 
 @Controller
 public class BasketController {
@@ -24,6 +29,10 @@ public class BasketController {
 	
 	@Autowired
 	private BasketService basketService = new BasketServiceImpl();
+	@Autowired
+	private MemberService memberService;
+	@Autowired
+	private PurchaseService purchaseService = new PurchaseServiceImpl();
 	
 	@RequestMapping("/basket/selectBasketList.do")
 	public ModelAndView selectBasketList(@RequestParam(value="memberId") String memberId) {
@@ -31,8 +40,12 @@ public class BasketController {
 		ModelAndView mav = new ModelAndView();
 			
 		List<BasketProduct> basketList = basketService.selectBasketList(memberId);
+		Member m = memberService.selectOneMember(memberId);
+		MemberAddress ma = purchaseService.selectMemberInfo(memberId);
 		logger.debug("list@BasketController="+basketList);
 
+		mav.addObject("member",m);
+		mav.addObject("memberAddress",ma);
 		mav.addObject("basketList", basketList);
 		mav.setViewName("/basket/basket");
 		return mav;

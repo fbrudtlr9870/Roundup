@@ -97,7 +97,7 @@ public class FreeBoardController {
 	}
 	
 	//자유게시판 댓글입력
-	@RequestMapping(value="/freeboard/insertComment.do",method=RequestMethod.POST,produces="application/json; charset=utf8")
+	@RequestMapping(value="/freeboard/insertComment.do",method={RequestMethod.POST,RequestMethod.GET},produces="application/json; charset=utf8")
 	@ResponseBody
 	public Map<String,Object> insertComment(
 											@RequestParam(value="member_id")String member_id,
