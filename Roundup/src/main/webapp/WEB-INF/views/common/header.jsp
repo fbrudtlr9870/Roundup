@@ -106,7 +106,7 @@ img#chat-icon{
                     <div class="col-lg-6">
                        <form action="${pageContext.request.contextPath }/product/productSearch.do">
                        <div class="input-group">
-                         <input type="text" class="form-control" id="productKey" placeholder="Search for..." name="searchKeyword" autocomplete="off">
+                         <input type="text" class="form-control" id="productKey" placeholder="${param.pageSearch }" name="searchKeyword" autocomplete="off">
                          <span class="input-group-btn">
                            <button type="button" class="btn btn-outline-info" type="submit">Go!!</button>
                          </span><br />       

@@ -19,13 +19,14 @@ public class Product {
 	private String categoryName; //카테고리 네임
 	private int parentCategory; //부모 카테고리에 해당되는 번호
 	private int categoryLevel; //카테고리 레벨
+	private int purchaseAmount;//판매량
 	public Product() {}
 	
 	
 	
 	public Product(int productNo, String productName, int brandNo, String brandName, int price, Date regDate,
 			String memberId, int productFileNo, String originalFileName, String renamedFileName, Date fileRegDate,
-			int proCategoryNo, int categoryNo, String categoryName, int parentCategory, int categoryLevel) {
+			int proCategoryNo, int categoryNo, String categoryName, int parentCategory, int categoryLevel,int purchaseAmount) {
 		this.productNo = productNo;
 		this.productName = productName;
 		this.brandNo = brandNo;
@@ -42,6 +43,7 @@ public class Product {
 		this.categoryName = categoryName;
 		this.parentCategory = parentCategory;
 		this.categoryLevel = categoryLevel;
+		this.purchaseAmount=purchaseAmount;
 	}
 	@Override
 	public String toString() {
@@ -50,8 +52,20 @@ public class Product {
 				+ ", productFileNo=" + productFileNo + ", originalFileName=" + originalFileName + ", renamedFileName="
 				+ renamedFileName + ", fileRegDate=" + fileRegDate + ", proCategoryNo=" + proCategoryNo
 				+ ", categoryNo=" + categoryNo + ", categoryName=" + categoryName + ", parentCategory=" + parentCategory
-				+ ", categoryLevel=" + categoryLevel + "]";
+				+ ", categoryLevel=" + categoryLevel +", purchaseAmount="+purchaseAmount+ "]";
 	}
+	public int getPurchaseAmount() {
+		return purchaseAmount;
+	}
+
+
+
+	public void setPurchaseAmount(int purchaseAmount) {
+		this.purchaseAmount = purchaseAmount;
+	}
+
+
+
 	public int getProductNo() {
 		return productNo;
 	}
