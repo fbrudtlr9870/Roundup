@@ -28,6 +28,7 @@
 		<result column="category_name" property="categoryName"/>
 		<result column="parent_category" property="parentCategory"/>
 		<result column="category_level" property="categoryLevel"/>
+		<result column="cnt" property="cnt"/>
 	</resultMap>
 	<select id="reSearch" resultMap="search">
 	select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level
@@ -81,7 +82,11 @@
 	</insert>
 	
 	<select id="selectNewProduct" resultMap="search">
-	select * from product p left join product_file f on p.product_no = f.product_no left join brand b on p.brand_no = b.brand_no order by reg_date desc
+	select * from product p left join product_file f on p.product_no = f.product_no left join brand b on p.brand_no = b.brand_no order by reg_date DESC
+	</select>
+	
+	<select id="selectHotProduct" resultMap="search">
+	<![CDATA[select E.* from(select * from (select product_no,count(*) as count from purchase_complete group by product_no) A join product P on A.product_no=P.product_no left join brand b on P.brand_no = b.brand_no left join product_file PF on PF.product_no = P.product_no order by count DESC) E where ROWNUM<=10]]>
 	</select>
 	
 	<select id="selectBrandList" resultType="brand">

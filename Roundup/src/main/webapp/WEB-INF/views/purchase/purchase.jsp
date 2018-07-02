@@ -338,8 +338,7 @@ function payRequest() {
 	        buyer_postcode :  $("#sample4_postcode").val()   // 구매자 우편번호
 		   }, function(rsp) {
 			   console.log(rsp);
-			   var token = $("meta[name='_csrf']").attr("content");
-	           var header = $("meta[name='_csrf_header']").attr("content");
+			 
 			   console.log(token+","+header);
 			   if ( rsp.success ) {
 			    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
@@ -357,9 +356,6 @@ function payRequest() {
 				    		membership : $("#membership").val(),
 				    		totalPrice : parseInt($("#total2").val())-parseInt($("#membership").val())-2000
 			    		},
-			    		beforeSend: function(xhr) {
-		                     xhr.setRequestHeader(header, token);
-		                },
 			    		success:function(data) {
 			    			console.log(data);
 			    			if(data==="success") {

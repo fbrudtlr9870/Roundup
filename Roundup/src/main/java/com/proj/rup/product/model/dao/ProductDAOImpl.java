@@ -100,6 +100,12 @@ public class ProductDAOImpl implements ProductDAO {
 		return session.selectList("product.selectChildCategory",categoryNo);
 	}
 
+
+	@Override
+	public List selectHotProduct() {
+		return session.selectList("product.selectHotProduct");
+	}
+
 	
 
 }

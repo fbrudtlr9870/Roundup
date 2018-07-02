@@ -102,6 +102,11 @@ public class ProductServiceImpl<ProductVO> implements ProductService {
 		return productDAO.selectChildCategory(categoryNo);
 	}
 
+	@Override
+	public List selectHotProduct() {
+		return productDAO.selectHotProduct();
+	}
+
 
 
 }

@@ -79,7 +79,7 @@ public class ProductController {
 		return mav;
 	}
 	@RequestMapping("/product/reSearch.do")
-	public ModelAndView reSearch(@RequestParam String searchKeyword,@RequestParam String[] brand,@RequestParam int categoryselect,@RequestParam int price1,@RequestParam int price2) {
+	public ModelAndView reSearch(@RequestParam(required=false) String searchKeyword,@RequestParam(required=false) String[] brand,@RequestParam(required=false) int categoryselect,@RequestParam(required=false) int price1,@RequestParam(required=false) int price2) {
 		ModelAndView mav=new ModelAndView();
 		System.out.println("검색키워드="+searchKeyword);
 		for(String s:brand) {
@@ -312,11 +312,23 @@ public class ProductController {
 	@RequestMapping("/product/selectNewProduct.do") 
 	@ResponseBody
 	public Map<String, Object> selectNewProduct(HttpServletResponse response) {
-		List<Product> productList = productService.selectNewProduct();
-	    System.out.println("productList" + productList);
+		List<Product> productNewList = productService.selectNewProduct();
+	    System.out.println("productNewList" + productNewList);
 	    
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("productList", productList);
+		map.put("productNewList", productNewList);
+		
+		return map;
+	}
+	
+	@RequestMapping("/product/selectHotProduct.do") 
+	@ResponseBody
+	public Map<String, Object> selectHotProduct(HttpServletResponse response) {
+		List<Product> productHotList = productService.selectHotProduct();
+	    System.out.println("productList" + productHotList);
+	    
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("productHotList", productHotList);
 		
 		return map;
 	}

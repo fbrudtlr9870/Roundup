@@ -46,6 +46,9 @@ public interface ProductDAO {
 	List selectChildCategory(int categoryNo);
 
 
+	List selectHotProduct();
+
+
 
 
 	

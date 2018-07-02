@@ -35,6 +35,9 @@ public interface ProductService<ProductVO> {
 	List<Category> selectChildCategory(int categoryNo);
 
 
+	List<Product> selectHotProduct();
+
+
 
 }
 
