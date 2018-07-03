@@ -383,8 +383,20 @@ sock.onopen=function(){
  
 $(function(){ 
   $("#insertChat").click(function(){ 
-    sendMessage(); 
-    $("#insertText").val('');
+	var chatText=$("#insertText").val().trim();
+	var member_id =$("[name=member_id]").val().trim();
+	if(chatText==""){
+			alert("내용을 입력하셔야 합니다.");
+			return false;
+		}
+		
+		if(member_id ==""){
+			alert("로그인 후 이용가능합니다.");
+			return false;
+		}else{
+			sendMessage();
+			$("#insertText").val('');
+		}
   }); 
   $("#insertText").keypress(function (e) {
 		var chatText=$("#insertText").val().trim();
