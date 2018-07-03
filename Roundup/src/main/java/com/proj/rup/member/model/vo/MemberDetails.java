@@ -99,9 +99,4 @@ public class MemberDetails extends User {
 	public void setMember_name(String member_name) {
 		this.member_name = member_name;
 	}
-	   
-	   
-	   
-	   	   
-
 }
