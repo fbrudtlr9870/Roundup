@@ -28,5 +28,7 @@ public interface MemberService {
 
 	int insertAddress(Map<String, Object> map);
 
+	int updateAddress(Map<String, Object> map);
+
 
 }

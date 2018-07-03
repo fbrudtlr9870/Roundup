@@ -18,85 +18,6 @@
 
 /* 2018.07.03 10:58 master병합완료  */
 
-/* $(function(){
-	// 상품 리스트 불러오기
-	$.ajax({
-		url:"${pageContext.request.contextPath}/product/selectNewProduct.do",
-		dataType:"json",
-		success:function(data) {
-			var html = "<ul class='list-group inline-hyelin'>";
-			
-			for(var i in data.productList) {
-	            html += "<li class='main-li'>";
-	            html += "<img src='${pageContext.request.contextPath}/resources/upload/productFile/" + data.productList[i].renamedFileName + "'>";
-	            html += "<div class='buy-btn'>";
-	            html += "<input type='hidden' value='" + data.productList[i].productNo +"' name='product_no'>";
-	            html += "<input type='number' class='form-control inline-hyelin' style='width: 70px; margin: 0 auto;' name='product_amount' min='1' value='1'>&nbsp;";
-                html += "<button type='button' class='btn btn-primary insertBasket'>장바구니</button> &nbsp;";
-                html += "<button type='button' class='btn btn-success purchase'>구매</button>";
-	            html += "</div>";
-	            html += "<div class='ptext'>" + data.productList[i].brandName + "</div>"; 
-	            html += "<div class='ptext'>" + data.productList[i].productName + "</div>";
-                html += "<div class='pprice'>" + data.productList[i].price + "</div>";
-                html += "</li>";
-	         }
-			html += "</ul>";
-			
-			$("#NewProductList").html(html);
-			
-			$(".main-li").hover(function(){
-		        $(this).css("border","1px solid black");
-		        $(this).children(".buy-btn").show();
-		    },function(){
-		        $(this).css("border","1px solid lightgray");
-		        $(this).children(".buy-btn").hide();
-		    });
-			
-			// 장바구니에 담기
-			$(".insertBasket").on("click",function(){
-				var memberId = '${member_id}';
-				console.log(memberId);
-				
-				$.ajax({
-					url:"${pageContext.request.contextPath }/basket/insertBasket.do",
-					data: {
-						productAmount: $(this).parent().find("[name=product_amount]").val(),
-						productNo: $(this).parent().find("[name=product_no]").val(),
-						memberId :memberId
-					},
-					success:function(data) {
-						if(confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하시겠습니까?")) {
-							location.href = "${pageContext.request.contextPath }/basket/selectBasketList.do?memberId="+memberId;
-						} else {
-							location.href = "${pageContext.request.contextPath }";
-						}
-					},
-					error:function(jqxhr, textStatus, errorThrown) {
-		                 console.log("ajax처리실패!");
-		                 console.log(jqxhr);
-		                 console.log(textStatus);
-		                 console.log(errorThrown);
-		        	}
-				});			
-			});
-
-			$(".purchase").on("click",function(){
-				var productNo = $(this).parent().find("[name=product_no]").val();
-				var productAmount = $(this).parent().find("[name=product_amount]").val();
-				var memberId = '${member_id}';
-
-				location.href="${pageContext.request.contextPath}/purchase/buyNow.do?productNo=" + productNo + "&productAmount=" + productAmount+"&memberId="+memberId;
-			});  
-		},
-		error:function(jqxhr, textStatus, errorThrown) {
-                 console.log("ajax처리실패!");
-                 console.log(jqxhr);
-                 console.log(textStatus);
-                 console.log(errorThrown);
-        }
-	});
-	
-}); */
 
 //신상품불러오기
 $(function(){
@@ -117,8 +38,8 @@ $(function(){
 					html += "<div class='buy-btn'>";
 					html += "<input type='hidden' value='" + data.productNewList[i].productNo +"' name='product_no'>";
 		            html += "<input type='number' class='form-control inline-hyelin' style='width: 70px; margin: 0 auto;' name='product_amount' min='1' value='1'>&nbsp;";
-	                html += "<button type='button' class='btn btn-primary insertBasket'>장바구니</button> &nbsp;";
-	                html += "<button type='button' class='btn btn-success purchase'>구매</button>";
+	                html += "<button type='button' class='btn btn-primary insertBasket-new'>장바구니</button> &nbsp;";
+	                html += "<button type='button' class='btn btn-success purchase-new'>구매</button>";
 		            html += "</div>";
 		            html += "<div class='ptext'>" + data.productNewList[i].brandName + "</div>"; 
 		            html += "<div class='ptext'>" + data.productNewList[i].productName + "</div>";
@@ -137,7 +58,7 @@ $(function(){
 		    });
 			
 			// 장바구니에 담기
-			$(".insertBasket").on("click",function(){
+			$(".insertBasket-new").on("click",function(){
 				var memberId = '${member_id}';
 				console.log(memberId);
 				
@@ -164,7 +85,7 @@ $(function(){
 				});			
 			});
 
-			$(".purchase").on("click",function(){
+			$(".purchase-new").on("click",function(){
 				var productNo = $(this).parent().find("[name=product_no]").val();
 				var productAmount = $(this).parent().find("[name=product_amount]").val();
 				var memberId = '${member_id}';
@@ -234,7 +155,7 @@ $(function(){
 					},
 					success:function(data) {
 						if(confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하시겠습니까?")) {
-							location.href = "${pageContext.request.contextPath }/basket/selectBasketList.do?memberId="+memberId;
+							location.href = "${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${member_id}";
 						} else {
 							location.href = "${pageContext.request.contextPath }";
 						}
@@ -264,8 +185,7 @@ $(function(){
    		}
 	});
 }); 
-
-</script>
+u</script>
  
     <div class="main-img-wrapper">
             <div class="main-img">

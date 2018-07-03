@@ -66,5 +66,9 @@ public class MemberDAOImpl implements MemberDAO {
 		System.out.println("map@DAOImpl="+map);
 		return map;
 	}
+	@Override
+	public int updateAddress(Map<String, Object> map) {
+		return sqlSession.update("member.updateAddress",map);
+	}
 	
 }

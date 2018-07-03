@@ -140,162 +140,6 @@ div.mypage{
 }
 </style>
 
-<script>
-
-/* 주소검색api */
-function sample4_execDaumPostcode() {
-    new daum.Postcode(
-     {
-        oncomplete : function(data) {
-           // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-           // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
-           // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-           var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
-           var extraRoadAddr = ''; // 도로명 조합형 주소 변수
-
-           // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-           // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-           if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-              extraRoadAddr += data.bname;
-           }
-           // 건물명이 있고, 공동주택일 경우 추가한다.
-           if (data.buildingName !== '' && data.apartment === 'Y') {
-              extraRoadAddr += (extraRoadAddr !== '' ? ', '
-                    + data.buildingName : data.buildingName);
-           }
-           // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-           if (extraRoadAddr !== '') {
-              extraRoadAddr = ' (' + extraRoadAddr + ')';
-           }
-           // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
-           if (fullRoadAddr !== '') {
-              fullRoadAddr += extraRoadAddr;
-           }
-
-           // 우편번호와 주소 정보를 해당 필드에 넣는다.
-           document.getElementById('sample4_postcode').value = data.zonecode; //5자리 새우편번호 사용
-           document.getElementById('sample4_roadAddress').value = fullRoadAddr;
-           document.getElementById('sample4_jibunAddress').value = data.jibunAddress;
-
-           // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-           if (data.autoRoadAddress) {
-              //예상되는 도로명 주소에 조합형 주소를 추가한다.
-              var expRoadAddr = data.autoRoadAddress
-                    + extraRoadAddr;
-              document.getElementById('guide').innerHTML = '(예상 도로명 주소 : '
-                    + expRoadAddr + ')';
-
-           } else if (data.autoJibunAddress) {
-              var expJibunAddr = data.autoJibunAddress;
-              document.getElementById('guide').innerHTML = '(예상 지번 주소 : '
-                    + expJibunAddr + ')';
-
-           } else {
-              document.getElementById('guide').innerHTML = '';
-           }
-        }
-     }).open();
- }
-
-
-
-$(function(){
-	$("#password_chk").blur(function(){
-		var p1 = $("#member_password_").val();
-		var p2 = $(this).val();
-		if(p1!=p2){
-			alert("패스워드가 일치하지 않습니다.");
-			$("#member_password_").focus();			
-		};
-	});
-	
-	$("#member_id_").on("keyup",function(){
-		var member_id = $(this).val().trim();
-		if(member_id.length<4){
-			$(".guide").hide();
-			$("#idDuplicateCheck").val(0);
-			return;
-		}
-		
-		$.ajax({
-			url : "checkIdDuplicate.do",
-			data : {member_id:member_id},
-			dataType:"json",
-			success : function(data){
-				console.log(data);//{isUsable: false}
-				if(data.isUsable==true){
-					$(".guide.error").hide();
-					$(".guide.ok").show();
-					$("#idDuplicateCheck").val(1);	
-				}
-				else{
-					$(".guide.error").show();
-					$(".guide.ok").hide();
-					$("#idDuplicateCheck").val(0);						
-				}
-			},
-			error:function(jqxhr,textStatus,errorThrown){
-				console.log("ajax실패",jqxhr,textStatus,errorThrown);
-				
-			}
-			
-		});
-		
-	});
-});	
-/*
- * 유효성검사함수
- */
-function validate(str){
-	var member_id = $("#member_id_");
-	var member_password = $("#member_password_");
-	var member_name = $("#member_name_");
-	var member_birthday = $("#member_birthday_");
-	var member_phone = $("#member_phone_")
-
-	
-	if(member_id.val().trim().length<4 || member_id.val().trim().length>=12){
-		alert("아이디는 최소4자리이상 12자 미만여야 합니다");
-		member_id.focus();
-		return false;
-	}
-	
-	if(member_password.val().trim().length<4 || member_password.val().trim().length>8){
-		alert("비밀번호는 최소4자리이상이거나 8자리 미만여야 합니다.");
-		member_password.focus();
-		return false;		
-	}
-	
-	if(member_name.val().trim().length>8){
-		alert("이름을 8글자 미만로 적어주세요");
-		return false;
-	}
-	
-
-
-	
-	if (member_name.val().indexOf(" ") >= 0) {
-        alert("이름에 공백을 사용할 수 없습니다.")
-        document.member_name_.focus()
-        document.member_name_.select()
-        return false;
-    }
-	
-	return true;
-}
-
-$(function(){
-	var memberAddress = "${memberAddress.address}";
-	var address = memberAddress.split("#");
-	console.log(memberAddress);
-	console.log(address);
-	$("#sample4_roadAddress").val(address[0]);
-	$("#sample4_jibunAddress").val(address[1]);
-	$("#sample4_detailAddress").val(address[2]); 
-});
-</script>
-
 
 
 <sec:authorize access="hasAnyRole('ROLE_USER')">
@@ -307,10 +151,10 @@ $(function(){
 	<div class="row">
 	  <div class="col-sm-3 sidenav">
 	    <div class="list-group" id="list-tab" role="tablist">
-	      <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="tab" href="#list-home" role="tab" aria-controls="home">Home</a>
-	      <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="tab" href="#list-profile" role="tab" aria-controls="profile">내정보</a>
-	      <a class="list-group-item list-group-item-action" id="list-basket-list" data-toggle="tab" href="#list-basket" role="tab" aria-controls="baskeet">장바구니</a>
-	      <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="tab" href="#list-settings" role="tab" aria-controls="settings">구매내역</a>
+	      <a class="list-group-item list-group-item-action active" id="list-home-list"  href="${pageContext.request.contextPath }/member/myPage.do?member_id=${member_id }" role="tab" aria-controls="home">Home</a>
+	      <a class="list-group-item list-group-item-action" id="list-profile-list"  href="${pageContext.request.contextPath }/member/myPageMemberView.do?member_id=${member_id }" role="tab" aria-controls="profile">내정보</a>
+	      <a class="list-group-item list-group-item-action" id="list-basket-list"  href="${pageContext.request.contextPath }/member/myPageBasket.do?member_id=${member_id }" role="tab" aria-controls="baskeet">장바구니</a>
+	      <a class="list-group-item list-group-item-action" id="list-settings-list"  href="${pageContext.request.contextPath }/member/myPagePurchaseComplete.do?member_id=${member_id }" role="tab" aria-controls="settings">구매내역</a>
 	    </div>
 	  </div>
 	  <div class="col-8">
@@ -324,269 +168,52 @@ $(function(){
 			      <li class="nav-item">
 			        <a class="nav-link active" href="#">카테고리</a>
 			      </li>
-			      <li class="nav-item">
-			        <a class="nav-link" href="#">가격</a>
-			      </li>
 			    </ul>
 			  </div>
 			  <div class="card-body">
-			  	 <div id="ca-container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+			  	 <div id="ca-container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto">
+			  	 	<!-- 이 부분에 차트 삽입 -->
+			  	 </div>
 			  </div>
 			</div>
 	      
 	      <!-- chart넣을부분 끝-->
 	      
 	      <!-- 지도api시작 -->
-	    
-		<!-- ------------------------ -->
+		<!-- ---------------------------------------------------------------------------------------------------------------------------- -->
 		<div class="card map-card">
-		  <div class="card-body">
-		    <h5 class="card-title">가까운 편의점을 찾아보세요</h5>
-		   
-		  </div>
-		 <div class="map_wrap">
-		    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
-		
-		    <div id="menu_wrap" class="bg_white">
-		        <div class="option">
-		            <div>
-		                <form onsubmit="searchPlaces(); return false;">
-			                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-			                   	 키워드 : <input type="text" value="편의점" id="search_keyword" size="15"> 
-			                    <button type="submit">검색하기</button> 
-		                </form>
-		            </div>
-		        </div>
-		        <hr>
-		        <ul id="placesList"></ul>
-		        <div id="pagination"></div>
-		    </div>
-		</div>
+			<div class="card-body">
+				<h5 class="card-title">가까운 편의점을 찾아보세요</h5>
 
+			</div>
+			<div class="map_wrap">
+				<div id="map"
+					style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
+
+				<div id="menu_wrap" class="bg_white">
+					<div class="option">
+						<div>
+							<form onsubmit="searchPlaces(); return false;">
+								<input type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token}" /> 키워드 : <input type="text"
+									value="편의점" id="search_keyword" size="15">
+								<button type="submit">검색하기</button>
+							</form>
+						</div>
+					</div>
+					<hr>
+					<ul id="placesList"></ul>
+					<div id="pagination"></div>
+				</div>
+			</div>
 		</div>
-	      <!-- 지도api끝 -->
+		<!-- 지도api끝 -->
 	      
 	      
 	      </div>
-	      <!-- 회원정보div -->
-	      <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
-      			<div id="update-container">
-      				<h2>회원정보 </h2>
-      				
-      			<form action="memberEnrollEnd.do" method="post" onsubmit="return validate();">
-      				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-	      			<table class="table" id="tbl_enroll">
-							<tr>
-								<th><label for="member_id_">아이디</label></th>
-								<td>
-									<div id="userId-container">
-									<input type="text" name="member_id" id=member_id_ class="input form-control" value="${member.member_id }" readonly required />
-									
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<th><label for="member_name_">이름</label></th>
-								<td><input type="text" name="member_name" id="member_name_" class="form-control" value="${member.member_name }" required autocomplete="off" /></td>
-							</tr>
-							<tr>
-								<th><label for="member_email_">이메일</label></th>
-								<td><input type="email" name="member_email" id="member_email_" class="form-control" value="${member.member_email} " autocomplete="off" /></td>
-							</tr>
-							<tr>
-								<th><label for="member_phone_">전화번호</label></th>
-								<td><input type="text" name="member_phone" id="member_phone_" class="form-control" value="${member.member_phone} " placeholder="-를 제외하고 입력하세요" required autocomplete="off"/></td>
-							</tr>
-							<tr>
-								<th><label for="member_birthday_">생일</label></th>
-								<td><input type="date" name="member_birthday" id="member_birthday_" value="${member.member_birthday }" class="form-control"  /></td>
-							</tr>
-							<tr>
-								<th><label for="member_gender_">성별</label></th>
-								<td>
-									<select name="member_gender" id="member_gender_" class="form-control" required>
-										<option value=""disabled selected>성별</option>
-										<option value="M">남자</option>
-										<option value="F">여자</option>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<th><label for="sample4_postcode">주소</label></th>
-								<td>
-									<input type="text" name="sample4_postcode" class="form-control inline-hyelin" id="sample4_postcode" value="${memberAddress.zip_code }" style="width: 120px; display:inline;" required> 
-					                <input type="button" class="btn btn-light" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="width: 120px;"><br>
-					                <input type="text" class="form-control" name="sample4_roadAddress" id="sample4_roadAddress" placeholder="도로명 주소" required > 
-					                <input type="text" class="form-control" name="sample4_jibunAddress" id="sample4_jibunAddress" placeholder="지번 주소" required >
-					                <input type="text" class="form-control" name="sample4_detailAddress" id="sample4_detailAddress" placeholder="상세 주소" required>
-					                <span id="guide" style="color: #999"></span>
-				                </td>
-							</tr>
-							</table>
-	      					<div id="btnDiv">
-								<input type="submit" value="수정" class="btn btn-outline-success"/> &nbsp;
-								<input type="reset" value="탈퇴" class="btn btn-outline-success"/>
-							</div>
-					</form>
-      			</div>
-      			<br /><br />
- 	
-	      </div>	      
-	      <!-- 장바구니 -->
-	      <div class="tab-pane fade" id="list-basket" role="tabpanel" aria-labelledby="list-basket-list">
-				  <div class="step-buy">
-					<br> <img src="${pageContext.request.contextPath }/resources/img/step-img.png" width="780px" height="100px">
-					<br>
-					</div>
-					<div class="basket-container">
-						<table class="table">
-							<tr>
-								<th><input type="checkbox" id="allCheck" name="allCheck" onchange="fn_checkAll(this.checked);"></th>
-								<th>상품정보</th>
-								<th>판매가</th>
-								<th>수량</th>
-								<th>판매가X수량</th>
-								<th>선택</th>
-							</tr>
-							<c:if test="${not empty basketList }">
-								<c:forEach var="i" items="${basketList }" varStatus="vs">
-									<tr>
-										<td class="tbl-td">
-											<input type="checkbox" class="basketList" name="basketList" id="basketItem${vs.count }" onclick="fn_toggle(basketItem${vs.count }, this.checked)">
-										</td>
-										<td class="tbl-td">
-											<div id="tbl-img-row">
-												<img src="${pageContext.request.contextPath }/resources/upload/productFile/${i['renamed_filename']}" alt="" width="100px" height="100px">
-												<span>[${i["brand_name"]}] &nbsp; ${i["product_name"]}</span>
-											</div>
-										</td>
-										<td class="tbl-td">
-											<fmt:formatNumber value="${i['price']}" type="currency" currencySymbol=""/>원
-										</td>
-										<td class="tbl-td">
-											<input type="number" class="form-control number-hyelin" style="width: 70px; margin: 0 auto;" name="product_amount" value="${i['product_amount']}" min="1">
-											<button type="button" class="btn btn-light updateBasket">수정</button>
-										</td>
-										<td class="tbl-td">
-											<input type="hidden" value="${i['product_amount']*i['price']}" name="price" id="price"/>
-											<fmt:formatNumber value="${i['product_amount']*i['price']}" type="currency" currencySymbol=""/>원
-										</td>
-										<td class="tbl-td">
-											<input type="hidden" value="${i['basket_no'] }" name="basket_no"/>
-											<button type="button" class="btn btn-success" onclick="window.location.href='${pageContext.request.contextPath }/purchase/purchase.do?basketNo=${i['basket_no'] }&memberId=${member_id }'">구매</button> &nbsp;
-											<button type="button" class="btn btn-danger deleteBasket">삭제</button>
-										</td>
-									</tr>
-								</c:forEach>
-							</c:if>
-							<c:if test="${empty basketList }">
-						          <tr>
-						             <td colspan="6">장바구니에 담긴 상품이 없습니다.</td>
-						          </tr>
-							</c:if>
-						</table>
-						<hr>
-						<button type="button" class="btn btn-danger" id="deleteChkItem" style="float: left;">선택상품 삭제</button>
-						<br>
-						<br>
-						<br>
-						<table class="table">
-							<tr>
-								<th>총 배송비</th>
-								<th>총 결제금액</th>
-							</tr>
-							<tr>
-								<td class="tbl-td"><fmt:formatNumber value="2000" type="currency" currencySymbol=""/>원</td>
-								<td class="tbl-td">
-									<fmt:formatNumber value="0" type="currency" currencySymbol=""/>원 
-									<!-- <input type="text" name="" id="totalPrice" value="" />원 -->
-								</td>
-							</tr>
-						</table>
-						<hr>
-						<button type="button" class="btn btn-primary" id="purchaseAll" style="float: right; margin: 10px;" onclick="return purchaseAll();">전체상품 주문</button>
-						<button type="button" class="btn btn-success" id="purchaseChk" style="float: right; margin: 10px;" onclick="return purchaseChk();">선택상품 주문</button>
-					</div> 
-	      </div>	      
-	       <!-- 결재내역페이지 시작-->
-	      <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
-	       <h3>구매내역</h3>
-	       <div class="purchase-complete-container">
-	       		<div class="basket-container">
-						<table class="table">
-							<tr>
-								<th>상품정보</th>
-								<th>수량</th>
-								<th>결재금액</th>
-								<th>결재일</th>
-								<th>배송지조회</th>
-							</tr>
-							<c:if test="${not empty completeList }">
-								<c:forEach var="i" items="${completeList }" varStatus="vs">
-									<tr>
-										<td class="tbl-td">
-											<div id="tbl-img-row">
-												<img src="${pageContext.request.contextPath }/resources/upload/productFile/${i['renamed_filename']}" alt="" width="100px" height="100px">
-												<span>[${i["brand_name"]}] &nbsp; ${i["product_name"]}</span>
-											</div>
-										</td>
-										<td class="tbl-td">
-											<input type="number" class="form-control number-hyelin" style="width: 70px; margin: 0 auto;" name="product_amount" value="${i['product_amount']}" min="1">
-										</td>
-										<td class="tbl-td">
-											<input type="hidden" value="${i['product_amount']*i['price']}" name="price" id="price"/>
-											<fmt:formatNumber value="${i['product_amount']*i['price']}" type="currency" currencySymbol=""/>원
-										</td>
-										<td class="tbl-td">
-											<span>${i['purchase_date'] }</span>
-										</td>
-										<td class="tbl-td">
-											<button type="button" class="btn btn-outline-primary" id="searchMap" onclick="searchMap();">조회</button>
-										</td>
-									</tr>
-								</c:forEach>
-							</c:if>
-							<c:if test="${empty completeList }">
-						          <tr>
-						             <td colspan="6">구매내역이 없습니다.</td>
-						          </tr>
-							</c:if>
-						</table>
-						<hr style="width:780px">
-						
-						<br>
-						<br>
-						<br>
-						
-					</div> 
-					<div class="card map-card">
-						  <div class="card-body">
-						    <h5 class="card-title">가까운 편의점을 찾아보세요</h5>
-						   
-						  </div>
-						 <div class="map_wrap">
-						    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
-						
-						    <div id="menu_wrap" class="bg_white">
-						        <div class="option">
-						            <div>
-						                <form onsubmit="searchPlaces(); return false;">
-							                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-							                   	 키워드 : <input type="text" value="편의점" id="search_keyword" size="15"> 
-							                    <button type="submit">검색하기</button> 
-						                </form>
-						            </div>
-						        </div>
-						        <hr>
-						        <ul id="placesList"></ul>
-						        <div id="pagination"></div>
-						    </div>
-						</div>
-				
-						</div>
-	      		 </div>
-					
-	       <!-- 결재내역페이지 끝-->
+	          
+	         
+	      
 	      </div>
 	    </div>
 	  </div>
@@ -594,154 +221,7 @@ $(function(){
 	
 </div>
 <br /><br /><br />
-<!-- 장바구니 스크립트 -->
-<script>
-function fn_checkAll(bool) {
-    var chkboxes = document.getElementsByName("basketList");
 
-    for(var i=0; i<chkboxes.length; i++) {
-        chkboxes[i].checked = bool;
-    }
-}
-
-function fn_toggle(bool) {
-    var chkboxes = document.getElementsByName("basketList");
-    var chkall = document.getElementById("allCheck");
-     
-    // 클래스명 부여
-    if(bool == true) {
-        // parent_td.className = 'on';
-    } else{
-        // parent_td.className = 'off';
-        chkall.checked = false;
-    }
-
-    var count = 0;
-    for(var i=0; i<chkboxes.length; i++) {
-        if(chkboxes[i].checked == true)
-            count++;
-    }
-    
-    if(count==chkboxes.length) chkall.checked = true;
-    // else chkall.checked = false;
-}
-
-function purchaseAll() {
-	var chkboxes = document.getElementsByName("basketList");
-	var basketNo = "";
-	var memberId = '${member_id}';
-	
-	for(var i=0; i<chkboxes.length; i++) {
-		basketNo += $(chkboxes[i]).parent().parent().find("[name=basket_no]").val();     
-		basketNo += "/";
-    }
-	
-	location.href="${pageContext.request.contextPath}/purchase/purchase.do?basketNo="+basketNo+"&memberId="+memberId;
-}
-
-function purchaseChk() {
-	var basketNo = "";
-	var memberId = '${member_id}';
-	
-	$("[name=basketList]:checked").filter(function() {
-		basketNo += $(this).parent().parent().find("[name=basket_no]").val();
-		basketNo += "/";
-    });
-	
-	if(basketNo !== "") {
-		location.href="${pageContext.request.contextPath}/purchase/purchase.do?basketNo="+basketNo+"&memberId="+memberId;
-	}
-	else {
-		alert("선택된 상품이 없습니다.");
-	} 
-}
-
-$(function() {
-	// 삭제 버튼
-	$(".deleteBasket").click(function() {
-		var basketNo = $(this).parent().find("[name=basket_no]").val();
-		console.log("basketNo="+basketNo);
-		
-		if(confirm("장바구니에서 삭제하시겠습니까?")) {
-			$.ajax({
-				url:"${pageContext.request.contextPath}/basket/deleteBasket.do",
-				data: {
-					basketNo : basketNo
-	    		},
-				success:function(data) {
-					console.log(data);
-					location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
-				},
-				error:function(jqxhr, textStatus, errorThrown) {
-	                  console.log("ajax처리실패!");
-	                  console.log(jqxhr);
-	                  console.log(textStatus);
-	                  console.log(errorThrown);
-	            }
-			});
-		}
-	});
-	
-	// 수량 수정 버튼
-	$(".updateBasket").click(function() {
-		var basketNo = $(this).parent().parent().find("[name=basket_no]").val();
-		var product_amount = $(this).parent().find("[name=product_amount]").val();
-		console.log("basketNo="+basketNo+"product_amount="+product_amount);
-		
-		$.ajax({
-			url:"${pageContext.request.contextPath}/basket/updateBasket.do",
-			data: {
-				basketNo : basketNo,
-				productAmount : product_amount
-    		},
-			success:function(data) {
-				console.log(data);
-				location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
-			},
-			error:function(jqxhr, textStatus, errorThrown) {
-                  console.log("ajax처리실패!");
-                  console.log(jqxhr);
-                  console.log(textStatus);
-                  console.log(errorThrown);
-            }
-		});
-	});
-	
-	// 선택상품 삭제 버튼
-	$("#deleteChkItem").click(function() {
-		var basketNo = "";
-		$("[name=basketList]:checked").filter(function() {
-			basketNo += $(this).parent().parent().find("[name=basket_no]").val();
-			basketNo += "/";
-        });
-		
-		if(basketNo === "") {
-			alert("선택된 상품이 없습니다.");
-		} else {		
-			if(confirm("장바구니에서 삭제하시겠습니까?")) {
-				$.ajax({
-					url:"${pageContext.request.contextPath}/basket/deleteBasket.do",
-					data: {
-						basketNo : basketNo
-		    		},
-					success:function(data) {
-						console.log(data);
-						location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
-					},
-					error:function(jqxhr, textStatus, errorThrown) {
-		                  console.log("ajax처리실패!");
-		                  console.log(jqxhr);
-		                  console.log(textStatus);
-		                  console.log(errorThrown);
-		            }
-				});
-			}
-		}
-	}); 
-
-});
-
-</script> 
 <script type="text/javascript">
 /* 차트부분스크립트 */
 // Make monochrome colors
@@ -792,12 +272,9 @@ Highcharts.chart('ca-container', {
     series: [{
         name: '구매현황',
         data: [
-            { name: 'Chrome', y: 61.41 },
-            { name: 'Internet Explorer', y: 11.84 },
-            { name: 'Firefox', y: 10.85 },
-            { name: 'Edge', y: 4.67 },
-            { name: 'Safari', y: 4.18 },
-            { name: 'Other', y: 7.05 }
+           <c:forEach var="i" items="${purchaseComplete}" varStatus="vs">
+           		['${i.product_no}',${i.product_amount}],
+           </c:forEach>
         ]
     }]
 });

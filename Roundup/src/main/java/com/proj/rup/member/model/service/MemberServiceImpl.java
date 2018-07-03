@@ -66,4 +66,9 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.insertAddress(map);
 	}
 
+	@Override
+	public int updateAddress(Map<String, Object> map) {
+		return memberDAO.updateAddress(map);
+	}
+
 }

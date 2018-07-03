@@ -9,27 +9,26 @@
    <jsp:param value="${searchKeyword }" name="pageSearch"/>
 </jsp:include>
 
-<script src="${pageContext.request.contextPath }/resources/js/jquery.sumoselect.js"></script>
-<link href="${pageContext.request.contextPath }/resources/css/sumoselect.css" rel="stylesheet" />
-
 <sec:authorize access="hasAnyRole('ROLE_USER')">
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
 <script>
 $(function(){
-   var bloginfo=${bloginfo};
-   console.log(bloginfo);
-   var p1=$("#blog1");
-   p1.html("<a href="+bloginfo.items[0].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[0].title+"</a>");
-   var p2=$("#blog2");
-   p2.html("<a href="+bloginfo.items[1].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[1].title+"</a>");
-   var p3=$("#blog3");
-   p3.html("<a href="+bloginfo.items[2].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[2].title+"</a>");
-   var p4=$("#blog4");
-   p4.html("<a href="+bloginfo.items[3].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[3].title+"</a>");
-   var p5=$("#blog5");
-   p5.html("<a href="+bloginfo.items[4].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[4].title+"</a>");
+	if(${bloginfo!='not'}){		
+	   var bloginfo=${bloginfo};
+	   console.log(bloginfo);
+	   var p1=$("#blog1");
+	   p1.html("<a href="+bloginfo.items[0].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[0].title+"</a>");
+	   var p2=$("#blog2");
+	   p2.html("<a href="+bloginfo.items[1].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[1].title+"</a>");
+	   var p3=$("#blog3");
+	   p3.html("<a href="+bloginfo.items[2].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[2].title+"</a>");
+	   var p4=$("#blog4");
+	   p4.html("<a href="+bloginfo.items[3].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[3].title+"</a>");
+	   var p5=$("#blog5");
+	   p5.html("<a href="+bloginfo.items[4].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[4].title+"</a>");
+	}
 });
 function search(){
    $(".search-div").show();
@@ -160,7 +159,7 @@ $(function(){
 });
 
 // 검색결과에 따른 카테고리 표시
-$(function(){
+/* $(function(){
 	var searchKeyword = "${searchKeyword}";
 	var level1 = "";
 	var level2 = "";
@@ -218,7 +217,26 @@ $(function(){
                 console.log(errorThrown);
           	}
 		}); 
-	}); */
+	}); 
+}); */
+
+
+$(function() {
+	// 최상위 카테고리 클릭 시
+ 	$(".inner").click(function() {
+ 		var inner = document.getElementsByClassName("inner");
+
+ 		for(var i=0; i<inner.length; i++) {
+ 			if(inner[i].parentNode.parentNode.parentNode.className.indexOf('on') != -1) {
+ 				var classname = 'cate0'+(i+1);
+ 				console.log(classname);
+ 				inner[i].parentNode.parentNode.parentNode.className = classname;
+ 			}
+ 		}
+ 		
+ 		// 해당 요소가 선택되었음을 의미하는 on class 추가해줌
+ 		$(this).parents("li").addClass('on');
+	});
 });
 
 </script>
@@ -365,12 +383,11 @@ ul.category-hyelin li label {
 	text-align: right;
 }
 /* 검색페이지 - 카테고리 및 가격대 검색 */
-.search_result_cate {margin-bottom:13px; width: 820px;}
+.search_result_cate {margin-bottom:13px; width: 620px;}
 
 /* 검색페이지 - 카테고리 */
-.search__list_category {position:relative;min-height:49px;border-top:1px solid #ddd;background:url(//image.wemakeprice.com/images/2014/search/bg_sarch_tab.png) repeat-x;*zoom:1;}
 .search__list_category:after {display:block;clear:both;content:'';}
-.search__list_category .list_cate {float:left;min-height:49px;border-right:1px solid #ddd;padding-left: 0;}
+.search__list_category .list_cate {float:left;min-height:49px;padding-left: 0;}
 .search__list_category .list_cate > li {float:left;width:100%;}
 .search__list_category .list_cate .wrap_link_cate {height:0;}
 .search__list_category .list_cate .link_cate {position:absolute;top:0;font-weight:bold;font-size:12px;color:#333;text-align:center;background-color:#f9f9f9;}
@@ -404,7 +421,7 @@ ul.category-hyelin li label {
 .search__list_category .list_cate .link_cate:focus,
 .search__list_category .list_cate > .on .link_cate,
 .search__list_category .list_cate > .on .link_cate .num {color:#ce1710;background-color:#fff;}
-.search__list_category .list_cate .list_depth_02 {display:none;margin-top:49px;padding:8px 0 17px 24px;border-width:0 0 1px 1px;border-style:solid;border-color:transparent transparent #ddd #ddd;*zoom:1;}
+.search__list_category .list_cate .list_depth_02 {display:none;margin-top:49px;padding:8px 0 17px 24px;border-color:transparent transparent #ddd #ddd;*zoom:1;}
 .search__list_category .list_cate > .on .list_depth_02 {display:block;}
 .search__list_category .list_cate .list_depth_02:after {display:block;clear:both;content:'';}
 .search__list_category .list_cate .list_depth_02 > li {float:left;width:24.9%;height:18px;margin-top:10px;}
@@ -423,9 +440,8 @@ ul.category-hyelin li label {
 .search__list_category .list_cate .layer_more_cate .list_more_cate {padding:11px 15px 11px;}
 .search__list_category .list_cate .layer_more_cate .list_more_cate li {margin-top:2px;padding-left:8px;background:url(//image.wemakeprice.com/images/2014/search/ico_dot.png) no-repeat 0 7px;}
 .search__list_category .list_cate .layer_more_cate .list_more_cate a {display:block;}
-.search__list_category ul, .search__list_category li {
-	list-style: none;
-}
+.search__list_category {position:relative;min-height:49px;border:1px solid #ddd;background:url(//image.wemakeprice.com/images/2014/search/bg_sarch_tab.png) repeat-x;*zoom:1;}
+.search__list_category ul, .search__list_category li { list-style: none; }
 </style>
 
 
@@ -469,359 +485,122 @@ ul.category-hyelin li label {
 		<th scope="row">카테고리</th>
 		<td colspan="6">
 		<div class="search_result_cate">
-	<div class="search__list_category">
-		<ul class="list_cate">
-			<li class="cate01 on">
-				<div class="wrap_link_cate">
-					<a href="javascript:category_search(&#039;&#039;,&#039;&#039;,&#039;&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);" class="link_cate"> 
-						<span class="inner">간편식사</span>
-					</a>
+				<div class="search__list_category">
+					<ul class="list_cate">
+						<li class="cate01 ">
+							<div class="wrap_link_cate">
+								<p class="link_cate"><span class="inner">간편식사</span></p>
+							</div>
+							<ul class="list_depth_02">
+								<li><a href="">김밥</a>
+									<button type="button" class="btn_more">하위 카테고리 보기</button>
+									<div class="layer_more_cate">
+										<ul class="list_more_cate">
+											<li class=""><a href="">삼각김밥</a></li>
+											<li class=""><a href="">원형김밥</a></li>
+										</ul>
+									</div>
+								</li>
+
+								<li><a href="">도시락</a>
+									<button type="button" class="btn_more">하위 카테고리 보기</button>
+									<div class="layer_more_cate">
+										<ul class="list_more_cate">
+											<li class=""><a href="">고기</a></li>
+											<li class=""><a href="">치킨</a></li>
+										</ul>
+									</div>
+								</li>
+
+								<li><a href="">샌드위치</a></li>
+								<li><a href="">햄버거</a></li>
+							</ul>
+						</li>
+						<li class="cate02">
+							<div class="wrap_link_cate">
+								<p class="link_cate"><span class="inner">식품</span></p>
+							</div>
+							<ul class="list_depth_02">
+								<li><a href="">컵밥</a></li>
+								<li><a href="">라면</a>
+									<button type="button" class="btn_more">하위 카테고리 보기</button>
+									<div class="layer_more_cate">
+										<ul class="list_more_cate">
+											<li class="on"><a href="">컵라면</a></li>
+											<li class="on"><a href="">봉지라면</a></li>
+										</ul>
+									</div>
+								</li>
+
+								<li><a href="">냉동식품</a>
+									<button type="button" class="btn_more">하위 카테고리 보기</button>
+									<div class="layer_more_cate">
+										<ul class="list_more_cate">
+											<li class="on"><a href="">치킨</a></li>
+											<li class="on"><a href="">피자</a></li>
+											<li class="on"><a href="">만두</a></li>
+											<li class="on"><a href="">돼지고기</a></li>
+										</ul>
+									</div>
+								</li>
+								
+								<li><a href="">냉장식품</a>
+									<button type="button" class="btn_more">하위 카테고리 보기</button>
+									<div class="layer_more_cate">
+										<ul class="list_more_cate">
+											<li class="on"><a href="">가공식품</a></li>
+											<li class="on"><a href="">안주</a></li>
+											<li class="on"><a href="">식재료</a></li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<li class="cate03">
+							<div class="wrap_link_cate">
+								<p class="link_cate"><span class="inner">과자류</span></p>
+							</div>
+							<ul class="list_depth_02">
+								<li><a href="">껌/사탕/초코</a></li>
+								<li><a href="">박스과자</a></li>
+								<li><a href="">봉지과자</a></li>
+							</ul>
+						</li>
+						<li class="cate04">
+							<div class="wrap_link_cate">
+								<p class="link_cate"><span class="inner">아이스크림</span></p>
+							</div>
+							<ul class="list_depth_02">
+								<li><a href="">바</a></li>
+								<li><a href="">콘</a></li>
+								<li><a href="">컵</a></li>
+							</ul>
+						</li>
+						<li class="cate05">
+							<div class="wrap_link_cate">
+								<p class="link_cate"><span class="inner">즉석식품</span></p>
+							</div>
+							<ul class="list_depth_02">
+								<li><a href="">튀김</a></li>
+								<li><a href="">빵</a></li>
+							</ul>
+						</li>
+						<li class="cate06">
+							<div class="wrap_link_cate">
+								<p class="link_cate"><span class="inner">음료</span></p>
+							</div>
+							<ul class="list_depth_02">
+								<li><a href="">유제품</a></li>
+								<li><a href="">캔</a></li>
+								<li><a href="">패트</a></li>
+								<li><a href="">유리</a></li>
+							</ul>
+						</li>
+					</ul>
 				</div>
-				<ul class="list_depth_02">
-					<li><a
-						href="javascript:category_search(&#039;100030&#039;,&#039;105300&#039;,&#039;&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">
-							PC부품&middot;주변기기<span class="num">(1686)</span>
-					</a>
-						<button type="button" class="btn_more">하위 카테고리 보기</button>
-						<div class="layer_more_cate">
-							<ul class="list_more_cate">
-
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105300&#039;,&#039;105303&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">키보드<span
-										class="num">(1,497)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105300&#039;,&#039;105304&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">PC
-										액세서리<span class="num">(81)</span>
-								</a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105300&#039;,&#039;105318&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">마우스<span
-										class="num">(56)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105300&#039;,&#039;105311&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">케이블<span
-										class="num">(16)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105300&#039;,&#039;105309&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">스피커<span
-										class="num">(12)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105300&#039;,&#039;105319&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">타블렛&middot;펜<span
-										class="num">(10)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105300&#039;,&#039;105310&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">헤드셋&middot;마이크<span
-										class="num">(3)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105300&#039;,&#039;105302&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">메인보드&middot;그래픽<span
-										class="num">(2)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105300&#039;,&#039;105306&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">외장하드&middot;NAS<span
-										class="num">(2)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105300&#039;,&#039;105307&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">USB메모리<span
-										class="num">(2)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105300&#039;,&#039;105308&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">증폭기&middot;허브<span
-										class="num">(2)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105300&#039;,&#039;105312&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">소프트웨어<span
-										class="num">(1)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105300&#039;,&#039;105322&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">케이스&middot;파워&middot;쿨러<span
-										class="num">(1)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105300&#039;,&#039;105323&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">PC캠&middot;IP카메라&middot;CCTV<span
-										class="num">(1)</span></a></li>
-
-							</ul>
-						</div></li>
-
-					<li><a
-						href="javascript:category_search(&#039;100030&#039;,&#039;102200&#039;,&#039;&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">
-							노트북&middot;PC<span class="num">(546)</span>
-					</a>
-						<button type="button" class="btn_more">하위 카테고리 보기</button>
-						<div class="layer_more_cate">
-							<ul class="list_more_cate">
-
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;102200&#039;,&#039;102210&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">태블릿
-										액세서리<span class="num">(166)</span>
-								</a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;102200&#039;,&#039;102201&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">노트북<span
-										class="num">(119)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;102200&#039;,&#039;102208&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">중고&middot;리퍼&middot;반품&middot;전시<span
-										class="num">(104)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;102200&#039;,&#039;102202&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">데스크탑PC<span
-										class="num">(97)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;102200&#039;,&#039;102203&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">태블릿PC<span
-										class="num">(31)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;102200&#039;,&#039;102220&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">노트북
-										액세서리<span class="num">(19)</span>
-								</a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;102200&#039;,&#039;102219&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">올인원PC<span
-										class="num">(10)</span></a></li>
-
-							</ul>
-						</div></li>
-
-					<li><a
-						href="javascript:category_search(&#039;100030&#039;,&#039;101000&#039;,&#039;&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">
-							휴대폰<span class="num">(64)</span>
-					</a>
-						<button type="button" class="btn_more">하위 카테고리 보기</button>
-						<div class="layer_more_cate">
-							<ul class="list_more_cate">
-
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;101000&#039;,&#039;101009&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">휴대폰
-										액세서리<span class="num">(21)</span>
-								</a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;101000&#039;,&#039;101024&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">충전기&middot;케이블<span
-										class="num">(12)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;101000&#039;,&#039;101029&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">촬영용품&middot;거치대<span
-										class="num">(10)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;101000&#039;,&#039;101026&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">하드
-										케이스<span class="num">(8)</span>
-								</a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;101000&#039;,&#039;101027&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">가죽
-										케이스<span class="num">(6)</span>
-								</a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;101000&#039;,&#039;101017&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">젤리
-										케이스<span class="num">(4)</span>
-								</a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;101000&#039;,&#039;101004&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">웨어러블&middot;스마트기기<span
-										class="num">(2)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;101000&#039;,&#039;101030&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">중고폰<span
-										class="num">(1)</span></a></li>
-
-							</ul>
-						</div></li>
-
-					<li><a
-						href="javascript:category_search(&#039;100030&#039;,&#039;105100&#039;,&#039;&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">
-							카메라&middot;게임<span class="num">(43)</span>
-					</a>
-						<button type="button" class="btn_more">하위 카테고리 보기</button>
-						<div class="layer_more_cate">
-							<ul class="list_more_cate">
-
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105100&#039;,&#039;105110&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">게임
-										컨트롤러<span class="num">(34)</span>
-								</a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105100&#039;,&#039;105109&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">게임기<span
-										class="num">(5)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105100&#039;,&#039;105111&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">게임
-										액세서리<span class="num">(4)</span>
-								</a></li>
-
-							</ul>
-						</div></li>
-
-					<li><a
-						href="javascript:category_search(&#039;100030&#039;,&#039;105200&#039;,&#039;&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">
-							모니터&middot;프린터<span class="num">(27)</span>
-					</a>
-						<button type="button" class="btn_more">하위 카테고리 보기</button>
-						<div class="layer_more_cate">
-							<ul class="list_more_cate">
-
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105200&#039;,&#039;105201&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">모니터<span
-										class="num">(20)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105200&#039;,&#039;105203&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">모니터
-										액세서리<span class="num">(7)</span>
-								</a></li>
-
-							</ul>
-						</div></li>
-
-					<li><a
-						href="javascript:category_search(&#039;100030&#039;,&#039;105000&#039;,&#039;&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">
-							음향기기<span class="num">(13)</span>
-					</a>
-						<button type="button" class="btn_more">하위 카테고리 보기</button>
-						<div class="layer_more_cate">
-							<ul class="list_more_cate">
-
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105000&#039;,&#039;105003&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">스피커<span
-										class="num">(3)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105000&#039;,&#039;105006&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">노래방&middot;마이크<span
-										class="num">(3)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105000&#039;,&#039;105011&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">블루투스
-										이어폰<span class="num">(3)</span>
-								</a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105000&#039;,&#039;105002&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">일반
-										헤드폰<span class="num">(1)</span>
-								</a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105000&#039;,&#039;105005&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">MP3<span
-										class="num">(1)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105000&#039;,&#039;105013&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">보이스레코더<span
-										class="num">(1)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105000&#039;,&#039;105014&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">전자사전&middot;학습기<span
-										class="num">(1)</span></a></li>
-
-							</ul>
-						</div></li>
-
-					<li><a
-						href="javascript:category_search(&#039;100030&#039;,&#039;105700&#039;,&#039;&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">
-							생활가전<span class="num">(3)</span>
-					</a>
-						<button type="button" class="btn_more">하위 카테고리 보기</button>
-						<div class="layer_more_cate">
-							<ul class="list_more_cate">
-
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;105700&#039;,&#039;105701&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">진공청소기<span
-										class="num">(3)</span></a></li>
-
-							</ul>
-						</div></li>
-
-					<li><a
-						href="javascript:category_search(&#039;100030&#039;,&#039;103800&#039;,&#039;&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">
-							대형가전<span class="num">(2)</span>
-					</a>
-						<button type="button" class="btn_more">하위 카테고리 보기</button>
-						<div class="layer_more_cate">
-							<ul class="list_more_cate">
-
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;103800&#039;,&#039;103825&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">빔프로젝터<span
-										class="num">(2)</span></a></li>
-
-							</ul>
-						</div></li>
-
-					<li><a
-						href="javascript:category_search(&#039;100030&#039;,&#039;104800&#039;,&#039;&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">
-							계절가전<span class="num">(2)</span>
-					</a>
-						<button type="button" class="btn_more">하위 카테고리 보기</button>
-						<div class="layer_more_cate">
-							<ul class="list_more_cate">
-
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;104800&#039;,&#039;104802&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">공기청정기<span
-										class="num">(1)</span></a></li>
-
-								<li class="on"><a
-									href="javascript:category_search(&#039;100030&#039;,&#039;104800&#039;,&#039;104804&#039;,&#039;키보드&#039;,&#039;5&#039;, &#039;3&#039;, &#039;&#039;);">선풍기<span
-										class="num">(1)</span></a></li>
-
-							</ul>
-						</div></li>
-				</ul>
-			</li>
-			<li class="cate02">
-				<div class="wrap_link_cate">
-					<a href="javascript:;" class="link_cate"> 
-						<span class="inner">식품</span>
-					</a>
-				</div>
-			</li>
-					<li class="cate03 ">
-				<div class="wrap_link_cate">
-					<a href="javascript:;" class="link_cate"> 
-						<span class="inner">과자류</span>
-					</a>
-				</div>
-
-			</li>
-			<li class="cate04 ">
-				<div class="wrap_link_cate">
-					<a href="javascript:;" class="link_cate"> 
-						<span class="inner">아이스크림</span>
-					</a>
-				</div>
-
-			</li>
-			<li class="cate05 ">
-				<div class="wrap_link_cate">
-					<a href="javascript:;" class="link_cate"> 
-						<span class="inner">즉석식품</span>
-					</a>
-				</div>
-
-			</li>
-			<li class="cate06 ">
-				<div class="wrap_link_cate">
-					<a href="javascript:;" class="link_cate"> 
-						<span class="inner">음료</span>
-					</a>
-				</div>
-
-			</li>
-		</ul>
-	</div>
-
-</div>
+			</div> 
+			
+			
 			<!-- <div id="addSelectCategory">
 
 			</div>
