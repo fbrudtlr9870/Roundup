@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.proj.rup.basket.model.service.BasketService;
 import com.proj.rup.basket.model.service.BasketServiceImpl;
 import com.proj.rup.basket.model.vo.BasketProduct;
@@ -28,6 +27,7 @@ import com.proj.rup.member.model.vo.Membership;
 import com.proj.rup.purchase.model.service.PurchaseService;
 import com.proj.rup.purchase.model.service.PurchaseServiceImpl;
 import com.proj.rup.purchase.model.vo.PurchaseComplete;
+import com.proj.rup.member.model.vo.Membership;
 
 @SessionAttributes({"memberLoggedIn"})
 @Controller
@@ -344,7 +344,7 @@ public class MemberController {
 		
 		return map;
 	}	
-	
+		
 	@RequestMapping("/member/selectMembership.do")
 	@ResponseBody
 	public Membership selectMembership(@RequestParam(value="memberId") String memberId) {
@@ -352,5 +352,5 @@ public class MemberController {
 
 		return m;
 	}
-	
+
 }

@@ -284,89 +284,6 @@ div.main-li-container li.EMART24 {
 	opacity: 0.85;
 }
  */
-div#searchContainer-hyelin {
-	width: 980px;
-	margin: 0 auto;
-}
-
-img.prod-img-hyelin {
-	width: 280px;
-	height: 280px;
-}
-
-div.card-hyelin {
-	width: 320px;
-	display: inline-block;
-	position: relative;
-	height: 400px;
-}
-
-p.card-text-hyelin {
-	font-size: 20px;	
-}
-
-div.btnDiv-hyelin {
-	opacity: 0;
-	position: absolute;
-	top: 120px;
-	margin: 0 auto;
-	left: 80px;
-}
-
-div.card-hyelin:hover div.btnDiv-hyelin {
-	opacity: 1;
-	z-index: 20;
-}
-
-div.card-body:hover img.prod-img-hyelin{
-	opacity: 0.5;
-}
-
-div.btnDiv-hyelin img {
-	width: 70px;
-	border-radius: 50px;
-}
-
-label.label-bgWhite-hyelin {
-	background: #fff !important;
-	width: 100px;
-}
-
-select.select-hyelin {
-	width: 120px;
-}
-
-div#detailContainer-hyelin {
-	width: 980px;
-	margin: 0 auto;
-}
-
-img.btnImg-hyelin {
-	cursor: pointer;
-}
-
-.right10-hyelin {
-	margin-right: 10px !important;
-}
-.btn-transparent-hyelin {
-	background: transparent;
-	border-color: transparent;
-}
-.card-title {
-	margin-top: 10px;
-}
-.bold-hyelin {
-	font-weight: bold;
-}
-.fontSize30-hyelin{
-	font-size: 30px;
-}
-.colorGray-hyelin {
-	color: gray;
-}
-.alignCenter-hyelin {
-	text-align: center;
-}
 
 
 /* 상세 검색 */
@@ -466,6 +383,10 @@ ul.category-hyelin li label {
 	margin-left: 30px;
 }
 
+.marginRight0-hyelin {
+	margin-right: 0 !important;
+}
+
 </style>
 
 
@@ -547,7 +468,7 @@ ul.category-hyelin li label {
 								<p class="link_cate"><span class="inner">식품</span></p>
 							</div>
 							<ul class="list_depth_02">
-								<li><span>컵밥</span></li>
+								<li class="marginRight0-hyelin"><span>컵밥</span></li>
 								<li><span>라면</span>
 									<button type="button" class="btn btn-transparent-hyelin btn_more"><img src="${pageContext.request.contextPath}/resources/img/add.png" alt="" class="btnImg-hyelin" title="하위 카테고리 보기" data-toggle="tooltip" data-placement="bottom"/></button>
 									<div class="layer_more_cate">

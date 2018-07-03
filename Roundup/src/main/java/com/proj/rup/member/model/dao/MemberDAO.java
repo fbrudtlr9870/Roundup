@@ -31,13 +31,12 @@ public interface MemberDAO {
 
 	Map<String, Object> selectConnectMember(String username);
 
+
 	int updateAddress(Map<String, Object> map);
 
 	Membership selectMembership(String memberId);
 
 	int updateMembership(Map<String, Object> map);
-
-
 
 
 

@@ -66,16 +66,17 @@ public class MemberServiceImpl implements MemberService {
 	public int insertAddress(Map<String, Object> map) {
 		return memberDAO.insertAddress(map);
 	}
+	
+	@Override
+	public Membership selectMembership(String memberId) {
+		return memberDAO.selectMembership(memberId);
+	}
 
 	@Override
 	public int updateAddress(Map<String, Object> map) {
 		return memberDAO.updateAddress(map);
 	}
 
-	@Override
-	public Membership selectMembership(String memberId) {
-		return memberDAO.selectMembership(memberId);
-	}
 
 	@Override
 	public int updateMembership(Map<String, Object> map) {

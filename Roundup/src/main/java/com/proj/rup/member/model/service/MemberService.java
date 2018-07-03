@@ -35,5 +35,4 @@ public interface MemberService {
 
 	int updateMembership(Map<String, Object> map);
 
-
 }

@@ -64,4 +64,12 @@
 	<update id="updateAddress">
 		update address set zip_code=#{zip_code},address=#{address} where member_id = #{member_id}
 	</update>
+
+	<select id="selectMembership" resultType="membership">
+		select * from membership where member_id=#{memberId}
+	</select>
+	
+	<update id="updateMembership" statementType="CALLABLE">
+		{call proc_membership(#{member_id}, #{membership}, #{totalPrice})}
+	</update>
 </mapper>

@@ -30,14 +30,20 @@ $(function(){
 			for(var i in data.productNewList){
 				if(data.productNewList[i].renamedFileName!=null){	
 					if(i==0){
-						html+="<div class='carousel-item active new-product'><img class='d-block w-100' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productNewList[0].renamedFileName+"' height='150px' alt='First slide'>";
+						html+="<div class='carousel-item active new-product'><img class='d-block w-100' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productNewList[0].renamedFileName+"' height='150px' width='auto' alt='First slide'>";
 					}else{					
-						html += "<div class='carousel-item new-product'><img class='d-block w-100' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productNewList[i].renamedFileName+"' height='150px' alt='Second slide'>";
+						html += "<div class='carousel-item new-product'><img class='d-block w-100' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productNewList[i].renamedFileName+"' height='150px' width='auto' alt='Second slide'>";
 					}
 					html += "<div class='buy-btn'>";
 					html += "<input type='hidden' value='" + data.productNewList[i].productNo +"' name='product_no'>";
 		            html += "<input type='number' class='form-control inline-hyelin' style='width: 70px; margin: 0 auto;' name='product_amount' min='1' value='1'>&nbsp;";
-	                html += "<button type='button' class='btn btn-primary insertBasket-new'>장바구니</button> &nbsp;";
+	               /*  html += "<button type='button' class='btn-transparent-hyelin insertBasket_'>";
+	                html += "<img id='img-cart-hyelin' src='${pageContext.request.contextPath}/resources/img/cart.png' alt='' class='btnImg-hyelin' title='장바구니' data-toggle='tooltip' data-placement='bottom'/>";
+	                html += "</button> &nbsp;";
+	                html += "<button type='button' class='btn-transparent-hyelin purchase_'>";
+	                html += "<img src='${pageContext.request.contextPath}/resources/img/card.png' alt='' class='btnImg-hyelin' title='구매하기' data-toggle='tooltip' data-placement='bottom'/>";
+					html += "</button>"; */
+					html += "<button type='button' class='btn btn-primary insertBasket-new'>장바구니</button> &nbsp;";
 	                html += "<button type='button' class='btn btn-success purchase-new'>구매</button>";
 		            html += "</div>";
 		            html += "<div class='ptext'>" + data.productNewList[i].brandName + "</div>"; 
