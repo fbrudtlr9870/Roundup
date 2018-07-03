@@ -166,8 +166,9 @@ img#chat-icon{
             </div>
             
             <!-- 채팅아이콘 -->
+
             <img src="${pageContext.request.contextPath }/resources/img/chat-icon.png" id="chat-icon"/>
- 
+
             <!-- 채팅 관련 html 시작 -->
 
    			 <div id="chatting-room">
@@ -396,7 +397,7 @@ sock.onopen=function(){
 			 		var html='<div>';
  					for(var li in c){
  						html+='<div class="chatting-comment" style="text-align:left;">';
- 						html+='<strong>['+c[li].member_id+']</strong> : '+c[li].chat_content+'</div>';
+ 						html+='<strong>['+c[li].member_id+'] :</strong> '+c[li].chat_content+'</div>';
  					}
  					html+='</div>';
  		 			$("#chatting-content").html(html);
@@ -470,8 +471,10 @@ function onMessage(evt){
    
   if(sessionid==""){
 	  $("#connected-member").html(" "+message+" ");
+  }else if(sessionid=="로그인감지로 인해 접속이 끊어집니다."){
+	 	alert("로그인 감지로 로그인을 해제합니다.");
+	 	location.href="${pageContext.request.contextPath}";
   }else{
-  
 	  var html='<div class="chatting-comment" style="text-align:left;">'; 
 	  html+='<strong>['+sessionid+'] :</strong>'+message; 
 	  html+='</div>'; 

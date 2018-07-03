@@ -24,16 +24,29 @@ public class EchoHandler extends TextWebSocketHandler {
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		
-		sessionList.add(session);
-		logger.info("연결확인="+session.getId());
+
+		//logger.info("session======"+session.toString());
+		//logger.info("seeeeeeeeeeee="+session.getPrincipal());
+		if(session.getPrincipal()!=null){
+			for(WebSocketSession sess : sessionList){
+				if(sess.getPrincipal()!=null&&session.getPrincipal().getName().equals(sess.getPrincipal().getName())){
+					//첫 접속자에게 메세지를 전달 후 소켓연결 끊기
+					sess.sendMessage(new TextMessage("로그인감지로 인해 접속이 끊어집니다.|"));
+				}
+			}
+			sessionList.add(session);
+			logger.info("연결확인="+session.getId());
+		}else{
+			sessionList.add(session);
+			logger.info("연결확인="+session.getId());
+		}
 	}
 
 	@Override
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
 		//logger.info(message.getPayload().toString());
 		if(message.getPayloadLength()==0){
-			//전체유저가 볼수있도록 보냄
+			//전체유저가 볼수있도록 보냄(접속자 수)
 			for(WebSocketSession sess : sessionList){
 				sess.sendMessage(new TextMessage("|"+sessionList.size()));
 			}
