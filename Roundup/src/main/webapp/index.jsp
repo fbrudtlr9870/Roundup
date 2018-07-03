@@ -18,7 +18,6 @@
 
 /* 2018.07.03 10:58 master병합완료  */
 
-
 //신상품불러오기
 $(function(){
 	$.ajax({
@@ -57,40 +56,49 @@ $(function(){
 		        $(this).children(".buy-btn").hide();
 		    });
 			
+
 			// 장바구니에 담기
 			$(".insertBasket-new").on("click",function(){
 				var memberId = '${member_id}';
-				console.log(memberId);
+				if(memberId != "") {
+					$.ajax({
+						url:"${pageContext.request.contextPath }/basket/insertBasket.do",
+						data: {
+							productAmount: $(this).parent().find("[name=product_amount]").val(),
+							productNo: $(this).parent().find("[name=product_no]").val(),
+							memberId :memberId
+						},
+						success:function(data) {
+							if(confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하시겠습니까?")) {
+								location.href = "${pageContext.request.contextPath }/basket/selectBasketList.do?memberId="+memberId;
+							} else {
+								location.href = "${pageContext.request.contextPath }";
+							}
+						},
+						error:function(jqxhr, textStatus, errorThrown) {
+			                 console.log("ajax처리실패!");
+			                 console.log(jqxhr);
+			                 console.log(textStatus);
+			                 console.log(errorThrown);
+			        	}
+					});	
+				} else {
+					alert("로그인 후 이용하실 수 있습니다.");
+				}
 				
-				$.ajax({
-					url:"${pageContext.request.contextPath }/basket/insertBasket.do",
-					data: {
-						productAmount: $(this).parent().find("[name=product_amount]").val(),
-						productNo: $(this).parent().find("[name=product_no]").val(),
-						memberId :memberId
-					},
-					success:function(data) {
-						if(confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하시겠습니까?")) {
-							location.href = "${pageContext.request.contextPath }/basket/selectBasketList.do?memberId="+memberId;
-						} else {
-							location.href = "${pageContext.request.contextPath }";
-						}
-					},
-					error:function(jqxhr, textStatus, errorThrown) {
-		                 console.log("ajax처리실패!");
-		                 console.log(jqxhr);
-		                 console.log(textStatus);
-		                 console.log(errorThrown);
-		        	}
-				});			
 			});
 
 			$(".purchase-new").on("click",function(){
+
 				var productNo = $(this).parent().find("[name=product_no]").val();
 				var productAmount = $(this).parent().find("[name=product_amount]").val();
 				var memberId = '${member_id}';
 
+				if(memberId != "") {
 				location.href="${pageContext.request.contextPath}/purchase/buyNow.do?productNo=" + productNo + "&productAmount=" + productAmount+"&memberId="+memberId;
+				} else {
+					alert("로그인 후 이용하실 수 있습니다.");
+				}
 			});
 			
 		},error:function(jqxhr, textStatus, errorThrown) {
@@ -141,10 +149,34 @@ $(function(){
 		        $(this).children(".buy-btn").hide();
 		    });
 			
-			// 장바구니에 담기
+			// 장바구니 담기
 			$(".insertBasket").on("click",function(){
 				var memberId = '${member_id}';
-				console.log(memberId);
+				if(memberId != "") {
+					$.ajax({
+						url:"${pageContext.request.contextPath }/basket/insertBasket.do",
+						data: {
+							productAmount: $(this).parent().find("[name=product_amount]").val(),
+							productNo: $(this).parent().find("[name=product_no]").val(),
+							memberId :memberId
+						},
+						success:function(data) {
+							if(confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하시겠습니까?")) {
+								location.href = "${pageContext.request.contextPath }/basket/selectBasketList.do?memberId="+memberId;
+							} else {
+								location.href = "${pageContext.request.contextPath }";
+							}
+						},
+						error:function(jqxhr, textStatus, errorThrown) {
+			                 console.log("ajax처리실패!");
+			                 console.log(jqxhr);
+			                 console.log(textStatus);
+			                 console.log(errorThrown);
+			        	}
+					});	
+				} else {
+					alert("로그인 후 이용하실 수 있습니다.");
+				}
 				
 				$.ajax({
 					url:"${pageContext.request.contextPath }/basket/insertBasket.do",
@@ -167,14 +199,20 @@ $(function(){
 		                 console.log(errorThrown);
 		        	}
 				});			
-			});
 
+			});
+			
+			// 구매하기
 			$(".purchase").on("click",function(){
 				var productNo = $(this).parent().find("[name=product_no]").val();
 				var productAmount = $(this).parent().find("[name=product_amount]").val();
 				var memberId = '${member_id}';
 
+				if(memberId != "") {
 				location.href="${pageContext.request.contextPath}/purchase/buyNow.do?productNo=" + productNo + "&productAmount=" + productAmount+"&memberId="+memberId;
+				} else {
+					alert("로그인 후 이용하실 수 있습니다.");
+				}
 			});
 			
 		},error:function(jqxhr, textStatus, errorThrown) {

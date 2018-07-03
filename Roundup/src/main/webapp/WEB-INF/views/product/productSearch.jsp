@@ -239,6 +239,24 @@ $(function() {
 	});
 });
 
+
+$(function() {
+	// 최상위 카테고리 클릭 시
+ 	$(".inner").click(function() {
+ 		var inner = document.getElementsByClassName("inner");
+
+ 		// 이미 선택된 카테고리 해제
+ 		for(var i=0; i<inner.length; i++) {
+ 			if(inner[i].parentNode.parentNode.parentNode.className.indexOf('on') != -1) {
+ 				inner[i].parentNode.parentNode.parentNode.className = 'cate0'+(i+1);
+ 			}
+ 		}
+ 		
+ 		// 해당 요소가 선택되었음을 의미하는 on class 추가해줌
+ 		$(this).parents("li").addClass('on');
+	});
+});
+
 </script>
 <style>
 /* div.main-li-container li.CU {
@@ -424,7 +442,7 @@ ul.category-hyelin li label {
 .search__list_category .list_cate .list_depth_02 {display:none;margin-top:49px;padding:8px 0 17px 24px;border-color:transparent transparent #ddd #ddd;*zoom:1;}
 .search__list_category .list_cate > .on .list_depth_02 {display:block;}
 .search__list_category .list_cate .list_depth_02:after {display:block;clear:both;content:'';}
-.search__list_category .list_cate .list_depth_02 > li {float:left;width:24.9%;height:18px;margin-top:10px;}
+.search__list_category .list_cate .list_depth_02 > li {float:left;width:100px;height:18px;margin-top:10px;margin-right: 20px;}
 .search__list_category .list_cate .list_depth_02 > li > a {float:left;margin-right:5px;}
 .search__list_category .list_cate .list_depth_02 a {color:#666;}
 .search__list_category .list_cate .list_depth_02 a:hover,
@@ -434,7 +452,8 @@ ul.category-hyelin li label {
 .search__list_category .list_cate .list_depth_02 .num {position:relative;top:-1px;font-family:tahoma;font-size:10px;color:#999;}
 .search__list_category .list_cate .list_depth_02 > .on > a,
 .search__list_category .list_cate .list_depth_02 > .on .num {color:#ce1710;}
-.search__list_category .list_cate .list_depth_02 > li > .btn_more {overflow:hidden;float:left;width:14px;height:14px;margin-top:2px;background:url(//image.wemakeprice.com/images/2013/view/ico_search_result_more.png) no-repeat;text-indent:-9999px;}
+/* .search__list_category .list_cate .list_depth_02 > li > .btn_more {overflow:hidden;float:left;width:14px;height:14px;margin-top:2px;background:url(//image.wemakeprice.com/images/2013/view/ico_search_result_more.png) no-repeat;text-indent:-9999px;} */
+.btn_more {padding: 0; margin-bottom: 6px; margin-left: 3px;}
 .search__list_category .list_cate .layer_more_cate {overflow:hidden;position:relative;z-index:1;min-width:165px;max-width:210px;max-height:115px;height:0;border:1px solid #ddd;box-shadow:1px 1px 2px rgba(0, 0, 0, .1);background-color:#fff;opacity:0;filter:alpha(opacity=0);}
 .search__list_category .list_cate .layer_more_open {overflow-y:auto;height:auto;opacity:1;filter:alpha(opacity=100);}
 .search__list_category .list_cate .layer_more_cate .list_more_cate {padding:11px 15px 11px;}
@@ -442,6 +461,11 @@ ul.category-hyelin li label {
 .search__list_category .list_cate .layer_more_cate .list_more_cate a {display:block;}
 .search__list_category {position:relative;min-height:49px;border:1px solid #ddd;background:url(//image.wemakeprice.com/images/2014/search/bg_sarch_tab.png) repeat-x;*zoom:1;}
 .search__list_category ul, .search__list_category li { list-style: none; }
+
+.marginLeft30-hyelin {
+	margin-left: 30px;
+}
+
 </style>
 
 
@@ -487,33 +511,35 @@ ul.category-hyelin li label {
 		<div class="search_result_cate">
 				<div class="search__list_category">
 					<ul class="list_cate">
-						<li class="cate01 ">
+
+						<li class="cate01 on">
 							<div class="wrap_link_cate">
 								<p class="link_cate"><span class="inner">간편식사</span></p>
 							</div>
 							<ul class="list_depth_02">
-								<li><a href="">김밥</a>
-									<button type="button" class="btn_more">하위 카테고리 보기</button>
+								<li>
+									<span>김밥</span>
+									<button type="button" class="btn btn-transparent-hyelin btn_more"><img src="${pageContext.request.contextPath}/resources/img/add.png" alt="" class="btnImg-hyelin" title="하위 카테고리 보기" data-toggle="tooltip" data-placement="bottom"/></button>
 									<div class="layer_more_cate">
 										<ul class="list_more_cate">
-											<li class=""><a href="">삼각김밥</a></li>
-											<li class=""><a href="">원형김밥</a></li>
+											<li class="">삼각김밥</li>
+											<li class="">원형김밥</li>
 										</ul>
 									</div>
 								</li>
 
-								<li><a href="">도시락</a>
-									<button type="button" class="btn_more">하위 카테고리 보기</button>
+								<li><span>도시락</span>
+									<button type="button" class="btn btn-transparent-hyelin btn_more"><img src="${pageContext.request.contextPath}/resources/img/add.png" alt="" class="btnImg-hyelin" title="하위 카테고리 보기" data-toggle="tooltip" data-placement="bottom"/></button>
 									<div class="layer_more_cate">
 										<ul class="list_more_cate">
-											<li class=""><a href="">고기</a></li>
-											<li class=""><a href="">치킨</a></li>
+											<li class="">고기</li>
+											<li class="">치킨</li>
 										</ul>
 									</div>
 								</li>
 
-								<li><a href="">샌드위치</a></li>
-								<li><a href="">햄버거</a></li>
+								<li><span>샌드위치</span></li>
+								<li><span>햄버거</span></li>
 							</ul>
 						</li>
 						<li class="cate02">
@@ -521,36 +547,36 @@ ul.category-hyelin li label {
 								<p class="link_cate"><span class="inner">식품</span></p>
 							</div>
 							<ul class="list_depth_02">
-								<li><a href="">컵밥</a></li>
-								<li><a href="">라면</a>
-									<button type="button" class="btn_more">하위 카테고리 보기</button>
+								<li><span>컵밥</span></li>
+								<li><span>라면</span>
+									<button type="button" class="btn btn-transparent-hyelin btn_more"><img src="${pageContext.request.contextPath}/resources/img/add.png" alt="" class="btnImg-hyelin" title="하위 카테고리 보기" data-toggle="tooltip" data-placement="bottom"/></button>
 									<div class="layer_more_cate">
 										<ul class="list_more_cate">
-											<li class="on"><a href="">컵라면</a></li>
-											<li class="on"><a href="">봉지라면</a></li>
+											<li><span>컵라면</span>
+											<li><span>봉지라면</span>
 										</ul>
 									</div>
 								</li>
 
-								<li><a href="">냉동식품</a>
-									<button type="button" class="btn_more">하위 카테고리 보기</button>
+								<li><span>냉동식품</span>
+									<button type="button" class="btn btn-transparent-hyelin btn_more"><img src="${pageContext.request.contextPath}/resources/img/add.png" alt="" class="btnImg-hyelin" title="하위 카테고리 보기" data-toggle="tooltip" data-placement="bottom"/></button>
 									<div class="layer_more_cate">
 										<ul class="list_more_cate">
-											<li class="on"><a href="">치킨</a></li>
-											<li class="on"><a href="">피자</a></li>
-											<li class="on"><a href="">만두</a></li>
-											<li class="on"><a href="">돼지고기</a></li>
+											<li><span>치킨</span>	
+											<li><span>피자</span>	
+											<li><span>만두</span>	
+											<li><span>돼지고기</span>	
 										</ul>
 									</div>
 								</li>
 								
-								<li><a href="">냉장식품</a>
-									<button type="button" class="btn_more">하위 카테고리 보기</button>
+								<li class="marginLeft30-hyelin"><span>냉장식품</span>
+									<button type="button" class="btn btn-transparent-hyelin btn_more"><img src="${pageContext.request.contextPath}/resources/img/add.png" alt="" class="btnImg-hyelin" title="하위 카테고리 보기" data-toggle="tooltip" data-placement="bottom"/></button>
 									<div class="layer_more_cate">
 										<ul class="list_more_cate">
-											<li class="on"><a href="">가공식품</a></li>
-											<li class="on"><a href="">안주</a></li>
-											<li class="on"><a href="">식재료</a></li>
+											<li><span>가공식품</span>	
+											<li><span>안주</span>	
+											<li><span>식재료</span>	
 										</ul>
 									</div>
 								</li>
@@ -561,9 +587,9 @@ ul.category-hyelin li label {
 								<p class="link_cate"><span class="inner">과자류</span></p>
 							</div>
 							<ul class="list_depth_02">
-								<li><a href="">껌/사탕/초코</a></li>
-								<li><a href="">박스과자</a></li>
-								<li><a href="">봉지과자</a></li>
+								<li><span>껌/사탕/초코</span>	
+								<li><span>박스과자</span>	
+								<li><span>봉지과자</span>	
 							</ul>
 						</li>
 						<li class="cate04">
@@ -571,9 +597,9 @@ ul.category-hyelin li label {
 								<p class="link_cate"><span class="inner">아이스크림</span></p>
 							</div>
 							<ul class="list_depth_02">
-								<li><a href="">바</a></li>
-								<li><a href="">콘</a></li>
-								<li><a href="">컵</a></li>
+								<li><span>바</span>	
+								<li><span>콘</span>	
+								<li><span>컵</span>
 							</ul>
 						</li>
 						<li class="cate05">
@@ -581,8 +607,8 @@ ul.category-hyelin li label {
 								<p class="link_cate"><span class="inner">즉석식품</span></p>
 							</div>
 							<ul class="list_depth_02">
-								<li><a href="">튀김</a></li>
-								<li><a href="">빵</a></li>
+								<li><span>튀김</span>
+								<li><span>빵</span>
 							</ul>
 						</li>
 						<li class="cate06">
@@ -590,10 +616,10 @@ ul.category-hyelin li label {
 								<p class="link_cate"><span class="inner">음료</span></p>
 							</div>
 							<ul class="list_depth_02">
-								<li><a href="">유제품</a></li>
-								<li><a href="">캔</a></li>
-								<li><a href="">패트</a></li>
-								<li><a href="">유리</a></li>
+								<li><span>유제품</span>
+								<li><span>캔</span>
+								<li><span>패트</span>
+								<li><span>유리</span>
 							</ul>
 						</li>
 					</ul>
