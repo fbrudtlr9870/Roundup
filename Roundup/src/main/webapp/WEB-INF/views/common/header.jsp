@@ -172,7 +172,7 @@ img#chat-icon{
 
    			 <div id="chatting-room">
             	<input type="hidden" name="member_id" value="${member_id}" />
-            	<div style="text-align:center;">현재 접속중인 회원<span id="connected-member"style="font-weight:bold;"> ? </span> 명</div>
+            	<div style="text-align:center;">현재 접속중인 사용자<span id="connected-member"style="font-weight:bold;"> ? </span> 명</div>
             	<c:if test="${member_id!=null }">
             	<div style="text-align:center;margin-top:10px;">채팅방에 접속되었습니다.</div>  
             	</c:if>
@@ -364,6 +364,9 @@ $(document).ready(function(){
 $(function(){
 	$("#chat-icon").click(function(){
 		$("#chatting-room").show();
+		//스크롤바 설정
+		var offset = $(".chatting-comment:last").offset();
+		$("#chatting-content").animate({scrollTop : offset.top}, 400);
 	});
 });
 
@@ -379,6 +382,35 @@ sock.onclose = onClose;
  
 sock.onopen=function(){
 	sendMessage();
+	$.ajax({
+ 		url:"${pageContext.request.contextPath}/chatting/showChat.do",
+ 		type:"post",
+ 		dataType:"json",
+ 		success:function(data){
+ 			for(var index in data){
+ 				var c = data[index];
+ 				if(index=="connectCount"){
+ 					//$("#connected-member").text(c);
+ 				}
+ 				if(index=="list"){
+			 		var html='<div>';
+ 					for(var li in c){
+ 						html+='<div class="chatting-comment" style="text-align:left;">';
+ 						html+='<strong>['+c[li].member_id+']</strong> : '+c[li].chat_content+'</div>';
+ 					}
+ 					html+='</div>';
+ 		 			$("#chatting-content").html(html);
+ 				}
+ 			}
+ 			
+ 		},
+ 		error:function(jqxhr, testStatus, errorThrown){
+			console.log("ajax처리실패");
+			console.log(jqxhr);
+			console.log(testStatus);
+			console.log(errorThrown);
+		 }
+ 	});
 } 
  
 $(function(){ 
