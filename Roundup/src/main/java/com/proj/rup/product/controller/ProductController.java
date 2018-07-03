@@ -258,7 +258,7 @@ public class ProductController {
 		
 		mav.addObject("brandList",brandList);
 		mav.addObject("categoryList",categoryList);
-		mav.setViewName("product/productEnroll");
+		mav.setViewName("manager/productEnroll");
 		return mav;
 	}
 	

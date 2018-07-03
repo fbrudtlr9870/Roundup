@@ -24,6 +24,7 @@ import com.proj.rup.member.model.service.MemberService;
 import com.proj.rup.member.model.vo.Address;
 import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.vo.MemberAddress;
+import com.proj.rup.member.model.vo.Membership;
 import com.proj.rup.purchase.model.service.PurchaseService;
 import com.proj.rup.purchase.model.service.PurchaseServiceImpl;
 import com.proj.rup.purchase.model.vo.PurchaseComplete;
@@ -344,5 +345,12 @@ public class MemberController {
 		return map;
 	}	
 	
+	@RequestMapping("/member/selectMembership.do")
+	@ResponseBody
+	public Membership selectMembership(@RequestParam(value="memberId") String memberId) {
+		Membership m = memberService.selectMembership(memberId);
+
+		return m;
+	}
 	
 }

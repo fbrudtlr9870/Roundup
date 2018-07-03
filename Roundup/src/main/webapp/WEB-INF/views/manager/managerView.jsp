@@ -8,6 +8,15 @@
    <jsp:param value="마이페이지" name="pageTitle"/>
 </jsp:include>
 <style>
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: .75rem 1.25rem;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+    width: 150px;
+}
 .imsosotired {
    font-size: 20px;
    color: #337ab7;
@@ -91,7 +100,18 @@ table input[id="userId-dh"]  {
    /* -webkit-transition: background-color .3s; */
    transition: background-color .3s;
 }
-
+.table{
+	width:780px;
+}
+.col-sm-3 {
+    max-width: 200px;
+}
+div.mypage{
+	width:980px;
+	margin:0 auto;
+	
+	min-height:780px;
+}
 </style>
 
 <nav class="nav-list">

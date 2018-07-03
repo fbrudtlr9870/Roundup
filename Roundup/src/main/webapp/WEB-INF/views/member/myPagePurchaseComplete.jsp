@@ -74,6 +74,9 @@ div.mypage{
     border: 1px solid rgba(0,0,0,.125);
     width: 150px;
 }
+.col-sm-3 {
+    max-width: 200px;
+}
 .mypage-detail{
 	width:780px;
 }
