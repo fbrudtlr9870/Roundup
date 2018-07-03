@@ -65,12 +65,14 @@ public class MemberController {
 		System.out.println("암호화후 : "+member.getMember_password());
 		
 		//1.
-		/* memberService.insertMember(member);*/
+		 /*memberService.insertMember(member);*/
 
 		int result = 0;
 		
 		if(memberService.insertMember(member) > 0) {
+			// address 테이블에 주소 추가
 			Map<String,Object> map = new HashMap<String, Object>();
+
 			String address = road + "#" + jibun + "#" + detail;
 			
 			map.put("member_id", member.getMember_id());

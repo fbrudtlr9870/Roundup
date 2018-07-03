@@ -2,12 +2,12 @@ package com.proj.rup.product.controller;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,10 +26,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonIOException;
 import com.proj.rup.product.model.service.ProductService;
+import com.proj.rup.product.model.vo.Brand;
+import com.proj.rup.product.model.vo.Category;
 import com.proj.rup.product.model.vo.Product;
+import com.proj.rup.product.model.vo.ProductCategoryLevel;
 import com.proj.rup.product.model.vo.Product_File;
 
 @Controller
@@ -44,11 +45,18 @@ public class ProductController {
 		ModelAndView mav=new ModelAndView();
 		logger.info("검색 키워드 : "+searchKeyword);
 		mav.addObject("searchKeyword", searchKeyword);
+		List<Category> categoryList=productService.selecteAllCategoryList();
+		List<Product> list=productService.productSearch(searchKeyword);
 		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색------------------------------
 		String clientId = "vbEkw23fbdDmfyg_CYg9";//애플리케이션 클라이언트 아이디값";
         String clientSecret = "iTpsbroJuP";//애플리케이션 클라이언트 시크릿값";
         try {
-            String text = URLEncoder.encode(searchKeyword+" 후기", "UTF-8");
+        	String text="";
+        	if(list.isEmpty()) {
+        		text = URLEncoder.encode(searchKeyword, "UTF-8");        		
+        	}else {
+        		text = URLEncoder.encode(list.get(0).getProductName(), "UTF-8");        		
+        	}
             String apiURL = "https://openapi.naver.com/v1/search/blog?query="+ text+"&display=5&start=1"; // json 결과
             //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
             URL url = new URL(apiURL);
@@ -75,12 +83,67 @@ public class ProductController {
             System.out.println(e);
         }
 		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색 끝------------------------------
-        List<Product> list=productService.productSearch(searchKeyword);
+
+        int rowprice=0;
+        int avgprice=0;
+        Product popmenu=null;
+        if(!list.isEmpty()) {
+    		rowprice = productService.rowprice(searchKeyword);   		
+    		avgprice = productService.avgprice(searchKeyword);
+    		popmenu=productService.popmenu(searchKeyword);
+    	}
+        mav.addObject("rowprice", rowprice);
+        mav.addObject("avgprice", avgprice);
+        mav.addObject("categoryList", categoryList);
+        mav.addObject("popmenu", popmenu);
         mav.addObject("searchList", list);
+
 		return mav;
 	}
+	
+	@RequestMapping("/product/productCategorySearch.do")
+	public ModelAndView productCategorySearch(@RequestParam int categoryNo) {
+		ModelAndView mav = new ModelAndView();
+		
+		Map<String,Object> map=new HashMap<String, Object>();
+		List<Category> categoryList=productService.selecteAllCategoryList();
+		List<Integer> categoryArr=new ArrayList<>();
+		
+		for(Category c:categoryList) {
+			if(c.getCategory_level()==1 && c.getCategory_no()==categoryNo) {
+				categoryArr.add(c.getCategory_no());
+				for(Category cc:categoryList) {
+					if(cc.getCategory_level()==2 && cc.getParent_category()==c.getCategory_no()) {
+						categoryArr.add(cc.getCategory_no());
+						for(Category ccc:categoryList) {
+							if(ccc.getCategory_level()==3 && ccc.getParent_category()==cc.getCategory_no()) {
+								categoryArr.add(ccc.getCategory_no());
+							}
+						}
+					}
+				}
+			}else if(c.getCategory_level()==2 && c.getCategory_no()==categoryNo) {
+				categoryArr.add(c.getCategory_no());
+				for(Category cc:categoryList) {
+					if(cc.getCategory_level()==3 && cc.getParent_category()==c.getCategory_no()) {
+						categoryArr.add(cc.getCategory_no());
+					}
+				}
+			}else if(c.getCategory_level()==3 && c.getCategory_no()==categoryNo) {
+				categoryArr.add(c.getCategory_no());
+			}
+		}
+		logger.debug("categoryArr:"+categoryArr);
+		map.put("categoryArr", categoryArr);
+		List<Product> list=productService.categoryLevelOneSearch(map);
+		logger.debug("productCategorySearch:"+list);
+		mav.addObject("searchList",list);
+		 mav.setViewName("product/productSearch");
+		return mav;
+	}
+	
 	@RequestMapping("/product/reSearch.do")
-	public ModelAndView reSearch(@RequestParam String searchKeyword,@RequestParam String[] brand,@RequestParam int categoryselect,@RequestParam int price1,@RequestParam int price2) {
+	public ModelAndView reSearch(@RequestParam(required=false) String searchKeyword,@RequestParam(required=false) String[] brand,@RequestParam(required=false) int categoryselect,@RequestParam(required=false) int price1,@RequestParam(required=false) int price2) {
 		ModelAndView mav=new ModelAndView();
 		System.out.println("검색키워드="+searchKeyword);
 		for(String s:brand) {
@@ -91,98 +154,53 @@ public class ProductController {
 		if(brand.length<2)
 			brand=new String[] {"CU","GS25","7ELEVEN","MINISTOP","EMART24"};
 		Map<String,Object> map=new HashMap<String, Object>();
-		int categoryArr[]= {};
-		if(categoryselect==1) {
-			categoryArr= new int[]{1,7,8,9,10,27,28,29,30};			
-		}else if(categoryselect==2) {
-			 categoryArr= new int[]{2,11,12,13,14,31,32,33,34,35,36,37,38,39};
-		}else if(categoryselect==3) {
-			 categoryArr= new int[]{3,15,16,17};
-		}else if(categoryselect==4) {
-			 categoryArr= new int[]{4,18,19,20};
-		}else if(categoryselect==5) {
-			 categoryArr= new int[]{5,21,22};
-		}else if(categoryselect==6) {
-			 categoryArr= new int[]{6,23,24,25,26};
-		}else if(categoryselect==7) {
-			 categoryArr= new int[]{7,27,28};
-		}else if(categoryselect==8) {
-			 categoryArr= new int[]{8,29,30};
-		}else if(categoryselect==9) {
-			 categoryArr= new int[]{9};
-		}else if(categoryselect==10) {
-			 categoryArr= new int[]{10};
-		}else if(categoryselect==11) {
-			 categoryArr= new int[]{11};
-		}else if(categoryselect==12) {
-			 categoryArr= new int[]{12,31,32};
-		}else if(categoryselect==13) {
-			 categoryArr= new int[]{13,33,34,35,36};
-		}else if(categoryselect==14) {
-			 categoryArr= new int[]{14,37,38,39};
-		}else if(categoryselect==15) {
-			 categoryArr= new int[]{15};
-		}else if(categoryselect==16) {
-			 categoryArr= new int[]{16};
-		}else if(categoryselect==17) {
-			 categoryArr= new int[]{17};
-		}else if(categoryselect==18) {
-			 categoryArr= new int[]{18};
-		}else if(categoryselect==19) {
-			 categoryArr= new int[]{19};
-		}else if(categoryselect==20) {
-			 categoryArr= new int[]{20};
-		}else if(categoryselect==21) {
-			 categoryArr= new int[]{21};
-		}else if(categoryselect==22) {
-			 categoryArr= new int[]{22};
-		}else if(categoryselect==23) {
-			 categoryArr= new int[]{23};
-		}else if(categoryselect==24) {
-			 categoryArr= new int[]{24};
-		}else if(categoryselect==25) {
-			 categoryArr= new int[]{25};
-		}else if(categoryselect==26) {
-			 categoryArr= new int[]{26};
-		}else if(categoryselect==27) {
-			 categoryArr= new int[]{27};
-		}else if(categoryselect==28) {
-			 categoryArr= new int[]{28};
-		}else if(categoryselect==29) {
-			 categoryArr= new int[]{29};
-		}else if(categoryselect==30) {
-			 categoryArr= new int[]{30};
-		}else if(categoryselect==31) {
-			 categoryArr= new int[]{31};
-		}else if(categoryselect==32) {
-			 categoryArr= new int[]{32};
-		}else if(categoryselect==33) {
-			 categoryArr= new int[]{33};
-		}else if(categoryselect==34) {
-			 categoryArr= new int[]{34};
-		}else if(categoryselect==35) {
-			 categoryArr= new int[]{35};
-		}else if(categoryselect==36) {
-			 categoryArr= new int[]{36};
-		}else if(categoryselect==37) {
-			 categoryArr= new int[]{37};
-		}else if(categoryselect==38) {
-			 categoryArr= new int[]{38};
-		}else if(categoryselect==39) {
-			 categoryArr= new int[]{39};
-		}else {
-			categoryArr= new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39};
+		List<Category> categoryList=productService.selecteAllCategoryList();
+		List<Integer> categoryArr=new ArrayList<>();
+		
+		for(Category c:categoryList) {
+			if(c.getCategory_level()==1 && c.getCategory_no()==categoryselect) {
+				categoryArr.add(c.getCategory_no());
+				for(Category cc:categoryList) {
+					if(cc.getCategory_level()==2 && cc.getParent_category()==c.getCategory_no()) {
+						categoryArr.add(cc.getCategory_no());
+						for(Category ccc:categoryList) {
+							if(ccc.getCategory_level()==3 && ccc.getParent_category()==cc.getCategory_no()) {
+								categoryArr.add(ccc.getCategory_no());
+							}
+						}
+					}
+				}
+			}else if(c.getCategory_level()==2 && c.getCategory_no()==categoryselect) {
+				categoryArr.add(c.getCategory_no());
+				for(Category cc:categoryList) {
+					if(cc.getCategory_level()==3 && cc.getParent_category()==c.getCategory_no()) {
+						categoryArr.add(cc.getCategory_no());
+					}
+				}
+			}else if(c.getCategory_level()==3 && c.getCategory_no()==categoryselect) {
+				categoryArr.add(c.getCategory_no());
+			}
 		}
+		System.out.println("categoryArr="+categoryArr);
+		
+		mav.addObject("categoryList", categoryList);
 		map.put("searchKeyword", searchKeyword);
 		map.put("brand", brand);
 		map.put("categoryArr", categoryArr);
 		map.put("price1", price1);
 		map.put("price2", price2);
+		List<Product> plist=productService.productSearch(searchKeyword);
+		List<Product> list=productService.reSearch(map);
 		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색------------------------------
 		String clientId = "vbEkw23fbdDmfyg_CYg9";//애플리케이션 클라이언트 아이디값";
         String clientSecret = "iTpsbroJuP";//애플리케이션 클라이언트 시크릿값";
         try {
-            String text = URLEncoder.encode(searchKeyword+" 후기", "UTF-8");
+        	String text="";
+        	if(list.isEmpty()) {
+        		text = URLEncoder.encode(searchKeyword, "UTF-8");        		
+        	}else {
+        		text = URLEncoder.encode(list.get(0).getProductName(), "UTF-8");        		
+        	}
             String apiURL = "https://openapi.naver.com/v1/search/blog?query="+ text+"&display=5&start=1"; // json 결과
             //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
             URL url = new URL(apiURL);
@@ -209,8 +227,20 @@ public class ProductController {
             System.out.println(e);
         }
 		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색 끝------------------------------
-        List<Product> list=productService.reSearch(map);
+        int rerowprice=0;
+        int reavgprice=0;
+        Product repopmenu=null;
+        if(!list.isEmpty()) {
+    		rerowprice = productService.rerowprice(map);   		
+    		reavgprice = productService.reavgprice(map);
+    		repopmenu=productService.repopmenu(map);
+    	}
+        mav.addObject("rowprice", rerowprice);
+        mav.addObject("avgprice", reavgprice);
+        mav.addObject("popmenu", repopmenu);
+        mav.addObject("searchKeyword", searchKeyword);        
         mav.addObject("searchList", list);
+
         mav.setViewName("product/productSearch");
 		return mav;
 	}
@@ -219,8 +249,14 @@ public class ProductController {
 	@RequestMapping("/product/productEnroll.do")
 	public ModelAndView pruductEnroll() {
 		ModelAndView mav = new ModelAndView();
+		List<Brand> brandList = productService.selectBrandList();
+		List<Category> categoryList = productService.selectCategoryList();
 		
+		logger.debug("brandList@controller"+brandList);
+		logger.debug("categoryList@controller"+categoryList);
 		
+		mav.addObject("brandList",brandList);
+		mav.addObject("categoryList",categoryList);
 		mav.setViewName("product/productEnroll");
 		return mav;
 	}
@@ -235,7 +271,12 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/product/productEnrollEnd.do")
-	public ModelAndView productEnrollEnd(Product p,@RequestParam(value="upFile") MultipartFile upFile,HttpServletRequest request) {
+	public ModelAndView productEnrollEnd(@RequestParam(value="productName") String productName
+										,@RequestParam(value="memberId") String memberId
+										,@RequestParam(value="brandNo") int brandNo
+										,@RequestParam(value="categoryNo") int[] categoryNo
+										,@RequestParam(value="price") int price
+										,@RequestParam(value="upFile") MultipartFile upFile,HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		logger.debug("상품등록요청");
 		logger.debug("upFile : "+upFile.getOriginalFilename());
@@ -251,9 +292,15 @@ public class ProductController {
 			
 			try {
 				upFile.transferTo(new File(saveDirectory+"/"+renamedFileName));
-			} catch (IllegalStateException | IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			int category_No = 0;
+			for(int i=0;i<categoryNo.length;i++) {
+				category_No = categoryNo[i];
+			}
+			
+			Product p = new Product(productName, brandNo, price, memberId,category_No);
 			
 			Product_File pf = new Product_File();
 			pf.setOriginalFilename(originalFileName);
@@ -296,13 +343,63 @@ public class ProductController {
 	@RequestMapping("/product/selectNewProduct.do") 
 	@ResponseBody
 	public Map<String, Object> selectNewProduct(HttpServletResponse response) {
-		List<Product> productList = productService.selectNewProduct();
-	    System.out.println("productList" + productList);
+		List<Product> productNewList = productService.selectNewProduct();
+	    System.out.println("productNewList" + productNewList);
 	    
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("productList", productList);
+		map.put("productNewList", productNewList);
 		
 		return map;
 	}
+	
+	@RequestMapping("/product/selectHotProduct.do") 
+	@ResponseBody
+	public Map<String, Object> selectHotProduct(HttpServletResponse response) {
+		List<Product> productHotList = productService.selectHotProduct();
+	    System.out.println("productList" + productHotList);
+	    
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("productHotList", productHotList);
+		
+		return map;
+	}
+	
+	@RequestMapping("/product/selectChildCategory.do")
+	@ResponseBody
+	public List<Category> selectChildCategory(@RequestParam(value="categoryNo") int categoryNo) {
+		List<Category> categoryList = productService.selectChildCategory(categoryNo);
+		logger.debug("categoryNo@controller:"+categoryList);
+		return categoryList;
+	}
+	
+	@RequestMapping("/product/selectCategory.do")
+	@ResponseBody
+	public List<ProductCategoryLevel> selectCategory(@RequestParam(value="searchKeyword") String searchKeyword) {
+		List<ProductCategoryLevel> list = productService.selectCategory(searchKeyword);
+		
+/*		System.out.println("######################################################################");
+		System.out.println(list);
+*/		
+		for(int i=0; i<list.size(); i++) {
+			if(list.get(i).getCategory_level() == 1) {
+				//List<Category> categoryList = productService.selectCategoryList();
+				
+			} else if(list.get(i).getCategory_level() == 2) {
+				System.out.println("######################################################################");
+				System.out.println(list.get(i).getCategory_name());
+				Category parentCategory = productService.selectParentCategory(list.get(i).getParent_category());
+				System.out.println("######################################################################");
+				System.out.println(parentCategory);
+				System.out.println(parentCategory.getCategory_name());
+				System.out.println("######################################################################");
+				
+			} else {
+				
+			}
+		}
+		
+		return list;
+	}
+	
 
 }

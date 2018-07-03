@@ -11,7 +11,7 @@
 			   #{member_phone},
 			   #{member_email},
 			   default,
-			   default)
+			   default,default,default)
 	</insert>
 	<resultMap type="member" id="memberMap">
 		

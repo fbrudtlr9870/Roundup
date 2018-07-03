@@ -139,7 +139,7 @@ public class NoticeBoardController {
 	}
 	
 	/*Ajax을 이용한 포토업로드, 폼제출 전 서버에만 올려서 사용자에게 올린 사진을 에디터에서 바로 보여줌*/
-	@RequestMapping(value="/freeboard/uploadPhoto.do",method=RequestMethod.POST)
+	/*@RequestMapping(value="/freeboard/uploadPhoto.do",method=RequestMethod.POST)
 	@ResponseBody
 	public String uploadPhoto(HttpServletRequest request){
 		
@@ -189,7 +189,7 @@ public class NoticeBoardController {
 			e.printStackTrace();
 		}
 		return sb.toString();
-	}
+	}*/
 	
 	
 	//게시물 등록

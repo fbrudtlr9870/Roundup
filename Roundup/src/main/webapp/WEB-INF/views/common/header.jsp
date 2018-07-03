@@ -35,6 +35,7 @@ img#chat-icon{
 	cursor:pointer;
 }
 </style>
+
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.js"></script>		
 <!-- 부트스트랩관련 라이브러리 -->
 <!-- navi관련 수정(18.06.15) -->
@@ -42,12 +43,13 @@ img#chat-icon{
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
   <!--  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script> -->
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
+
 <!-- 메타값 -->
 <meta name="_csrf" content="${_csrf.token}"/> 
 <meta name="_csrf_header" content="${_csrf.headerName}"/> 
@@ -58,10 +60,17 @@ img#chat-icon{
 
 </head>	
 
-<sec:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+<!-- 유저롤을 가진 유저  -->
+<sec:authorize access="hasAnyRole('ROLE_USER')">
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
+<!-- 관리자롤을 가진 유저 -->
+<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+	<sec:authentication property="principal.username" var="admin_id"/>
+	<sec:authentication property="principal.member_name" var="admin_name"/>
+</sec:authorize>
+
 
 <body>
 <div id="main-container">
@@ -73,12 +82,14 @@ img#chat-icon{
                     <li class="nav-bar-site-li">
 	                    <c:if test="${member_id!=null}">
 	                    	<a href="${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${member_id}" style="color:black">장바구니</a>
+
 	                    </c:if>
 	                    <c:if test="${member_id==null}">
 	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">장바구니</a>
-	                    </c:if>
-	                    
-	                    	
+
+	                    </c:if>     	
+
+
                     </li>
                     <c:if test="${member_id!=null}">
                     	<li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/member/myPage.do?member_id=${member_id }" style="color:black">마이페이지</a></li>
@@ -86,13 +97,15 @@ img#chat-icon{
                     <c:if test="${member_id==null}">
 	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">마이페이지</a>
 	                    </c:if>
-                    <li class="nav-bar-site-li">고객센터</li>
-                    
-                    <!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! --> 
+             
+					<!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! -->
+					<!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! --> 
                     <!-- 권한에 따른 접근 방법 기술 -->
                		<sec:authorize access="hasRole('ROLE_ADMIN')">
                     <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/manager/managerPage.do">관리자페이지</a></li>  
               		</sec:authorize>
+     
+
                 </ul>
                 <ul class="nav-bar-list">
                         <li class="nav-bar-site-li"><a href="http://www.7-eleven.co.kr" target="blank">세븐일레븐</a></li>
@@ -105,22 +118,22 @@ img#chat-icon{
 
                     <div class="col-lg-6">
                        <form action="${pageContext.request.contextPath }/product/productSearch.do">
+                       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                        <div class="input-group">
                          <input type="text" class="form-control" id="productKey" placeholder="${param.pageSearch }" name="searchKeyword" autocomplete="off">
                          <span class="input-group-btn">
-                           <button type="button" class="btn btn-outline-info" type="submit">Go!!</button>
+                           <button class="btn btn-outline-info" type="submit">Go!!</button>
                          </span><br />       
                           	<ul id="autoComplete"></ul>                     
                        </div>
                        </form>
                      </div>
                 </fieldset>
-                
-				<!-- 로그인 회원가입 -->
+               
               	<!-- 로그인 회원가입 -->
               	<div class="nav-bar-btn">
               		<c:choose>
-              		<c:when test="${empty member_id }">
+              		<c:when test="${empty member_id and empty admin_id}">
 	               <%-- <c:if test="${memberLoggedIn==null}"> --%>
 	               <!--  
 	                  <button type="button" class="btn btn-outline-success" data-toggle="modal" 
@@ -136,7 +149,12 @@ img#chat-icon{
 	             	</c:when>
 	             	<c:otherwise>
 	                <%-- <c:if test="${memberLoggedIn!=null }"> --%>
-				    <a href="#">${member_name }</a>님, 안녕하세요			    
+	                <c:if test="${not empty member_id }">
+				   	 <a href="#">${member_name }</a>님, 안녕하세요			    
+	                </c:if>
+	                <c:if test="${not empty admin_id }">
+	                	<a href="#">${admin_name }</a>님, 안녕하세요
+	                </c:if>
 				  
 				     <button class="btn btn-outline-success" type="button" onclick="document.getElementById('logout-form').submit();" />
  
@@ -156,6 +174,7 @@ img#chat-icon{
             <img src="${pageContext.request.contextPath }/resources/img/chat-icon.png" id="chat-icon"/>
  
             <!-- 채팅 관련 html 시작 -->
+
    			 <div id="chatting-room">
             	<input type="hidden" name="member_id" value="${member_id}" />
             	<div style="text-align:center;">현재 접속중인 회원<span id="connected-member"style="font-weight:bold;">${totalMember }</span> 명</div>
@@ -233,6 +252,7 @@ img#chat-icon{
 		        </button>
 		      </div>
 		      <form action="${pageContext.request.contextPath }/member/memberLogin.do" method="post">
+		      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		      <div class="modal-body">
 		      	<input type="text" class="form-control" name="member_id" id="member_id" placeholder="아이디" required autocomplete="off"/>
 		      	<br />
@@ -421,7 +441,9 @@ function onMessage(evt){
 
 
 <!-- 채팅 관련 스크립트 -->
+
 <script>
+
 /* $(function(){
  	 setInterval(function(){ 
 	 	$.ajax({
@@ -535,7 +557,8 @@ function onMessage(evt){
 	 		 	});	 			
 	 		}
  		}
-    });
- 	
+    });	
+
 }) */
+
 </script>

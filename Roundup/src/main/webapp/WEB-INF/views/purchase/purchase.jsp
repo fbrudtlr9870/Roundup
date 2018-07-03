@@ -7,37 +7,46 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="purchase" name="pageTitle" />
 </jsp:include>
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
+
 <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript"
    src="http://t1.daumcdn.net/cssjs/postcode/1522037570977/180326.js"></script>
 
-<!-- 결제완료 모달 -->
-<%-- <div class="modal fade" id="purchaseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog" role="document">
-  <div class="modal-content">
-	<div class="modal-header">
-    <h5 class="modal-title" id="purchaseModalLabel">결제 완료</h5> 
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <form action="${pageContext.request.contextPath }/member/memberLogin.do" method="post">
-    <div class="modal-body">
-    	결제가 완료되었습니다. <br />
-    	이동하려는 페이지를 선택해주세요.<br /> 
-    </div>
-	 <div class="modal-footer">
-    	<button type="button" class="btn btn-outline-primary">구매내역</button>
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">장바구니</button>
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">메인페이지</button>
-      
-    </div> 
-    </form>
-  </div>
+<!-- 메타값 -->
+<meta name="_csrf" content="${_csrf.token}"/> 
+<meta name="_csrf_header" content="${_csrf.headerName}"/> 
+<sec:authorize access="hasAnyRole('ROLE_USER')">
+	<sec:authentication property="principal.username" var="member_id"/>
+	<sec:authentication property="principal.member_name" var="member_name"/>
+</sec:authorize>
+
+
+
+<style>
+.membership-hyelin {
+	width: 100px;
+	text-align: right;
+	display: inline;
+}
+#membershipText {
+	display: inline;
+	color: blue;
+	font-weight: bold;
+}
+.marginLeft20-hyelin {
+	margin-left: 20px;
+}
+</style>
+
+<div class="step-buy">
+	<br> <img
+		src="${pageContext.request.contextPath }/resources/img/step-img2.PNG"
+		width="980px" height="100px"> <br>
 </div>
-</div> --%>
+
 
 <div class="tbl-container">
 	<table class="table">
@@ -53,8 +62,9 @@
 					<div id="tbl-img-row">
 						<input type="hidden" name="basketNo" id="basketNo" value="${purchase['basket_no'] }"/>
 						<input type="hidden" name="productNo" id="productNo" value="${purchase['product_no'] }"/>
-						<img src="${pageContext.request.contextPath }/resources/img/${purchase['renamed_filename']}" alt="" width="100px" height="100px">
-						<span>[${purchase["brand_name"]}] &nbsp; ${purchase["product_name"]}</span>
+
+						<img src="${pageContext.request.contextPath }/resources/upload/productFile/${purchase['renamed_filename']}" alt="" width="100px" height="100px">
+						<span class="marginLeft20-hyelin">[${purchase["brand_name"]}] &nbsp; ${purchase["product_name"]}</span>
 					</div>
 				</td>
 				<td class="tbl-td">
@@ -77,8 +87,9 @@
 					<div id="tbl-img-row">
 						<input type="hidden" name="basketNo" class="basketNo" value="${i['basket_no'] }"/>
 						<input type="hidden" name="productNo" class="productNo" value="${i['product_no'] }"/>
-						<img src="${pageContext.request.contextPath }/resources/img/${i['renamed_filename']}" alt="" width="100px" height="100px">
-						<span>[${i["brand_name"]}] &nbsp; ${i["product_name"]}</span>
+
+						<img src="${pageContext.request.contextPath }/resources/upload/productFile/${i['renamed_filename']}" alt="" width="100px" height="100px">
+						<span class="marginLeft20-hyelin">[${i["brand_name"]}] &nbsp; ${i["product_name"]}</span>
 					</div>
 				</td>
 				<td class="tbl-td">
@@ -93,6 +104,7 @@
 				</td>
 			</tr>
 			</c:forEach>
+
 		</c:if>
 		
 		<c:if test="${not empty buyNow }">
@@ -101,8 +113,10 @@
 					<div id="tbl-img-row">
 						<input type="hidden" name="buyNow" id="buyNow"/>
 						<input type="hidden" name="productNo" id="productNo" value="${buyNow['productNo'] }"/>
-						<img src="${pageContext.request.contextPath }/resources/img/${buyNow['renamedFileName']}" alt="" width="100px" height="100px">
-						<span>[${buyNow["brandName"]}] &nbsp; ${buyNow["productName"]}</span>
+
+						<img src="${pageContext.request.contextPath }/resources/upload/productFile/${buyNow['renamedFileName']}" alt="" width="100px" height="100px">
+						<span class="marginLeft20-hyelin">[${buyNow["brandName"]}] &nbsp; ${buyNow["productName"]}</span>
+
 					</div>
 				</td>
 				<td class="tbl-td">
@@ -320,7 +334,10 @@ function payRequest() {
 	        buyer_postcode :  $("#sample4_postcode").val()   // 구매자 우편번호
 		       
 		   }, function(rsp) {
+
 			   console.log(rsp);
+
+
 			   if ( rsp.success ) {
 			    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
 			    	jQuery.ajax({
@@ -333,7 +350,11 @@ function payRequest() {
 				    		product_amount : amountList, 
 				    		address : rsp.buyer_addr,
 				    		zip_code : rsp.buyer_postcode,
-				    		basketNo : basketList
+
+				    		basketNo : basketList,
+				    		membership : $("#membership").val(),
+				    		totalPrice : parseInt($("#total2").val())-parseInt($("#membership").val())-2000
+
 			    		},
 			    		success:function(data) {
 			    			console.log(data);
@@ -466,6 +487,98 @@ $(function() {
 	 	
 	});
 });
+
+
+
+// 총 결제 금액
+$(function() {
+	// 총 결제금액 계산
+	var totalClass = document.getElementsByClassName('total');
+
+	var totalId = document.getElementById('total');
+
+	var total = 0;
+	
+	if(totalId == null) {
+		for(var i=0; i<totalClass.length; i++){
+			total += parseInt(totalClass[i].value);
+		}			
+
+	} else {
+		total = parseInt(totalId.value);
+	}	
+	$("#total2").val(total+2000);
+	$("#totalPrice").text(addCommaSearch(parseInt(document.getElementById('total2').value)));
+	
+	// 멤버십 가져오기
+	$.ajax({
+		url:"${pageContext.request.contextPath}/member/selectMembership.do",
+		data: {
+			memberId : "${member_id}"
+		},
+		success:function(data) {			
+			$("#membershipText").text(data.point);
+		},
+		error:function(jqxhr, textStatus, errorThrown) {
+              console.log("ajax처리실패!");
+              console.log(jqxhr);
+              console.log(textStatus);
+              console.log(errorThrown);
+        }
+	});
+	
+	// 적립금 전액 사용 버튼 
+	$("#allUse").click(function() {
+		// 적립금이 결제 금액보다 많은 경우 사용 적립 금액에 결제 금액 값 찍어주기
+		if(parseInt($("#membershipText").text()) > parseInt($("#total2").val())) {
+			$("#membership").val($("#total2").val());
+		}
+		else {
+			// 적립금이 1000원 이상인 경우만 사용 가능
+			if(parseInt($("#membershipText").text()) > 1000) {
+				$("#membership").val(parseInt($("#membershipText").text()));		
+			}
+			else {
+				alert("적립금은 1000원 이상부터 사용 가능합니다.")
+			}
+		}
+		totalCalc($("#membership").val());
+
+	});
+	
+ 	// 총 결제 금액 표시
+	$("#totalPrice").text(addCommaSearch(parseInt(document.getElementById('total2').value)));
+
+ 	// 적립금 직접 입력 시
+	$("#membership").on("keyup", function() {
+		var membership = document.getElementById("membership");
+		var total = parseInt(document.getElementById("total2").value);
+		
+		if(parseInt($("#membershipText").text()) < parseInt(membership.value)) {
+			alert("보유 금액 이상 사용하실 수 없습니다.");
+			membership.value=0;
+			$("#totalPrice").text(addCommaSearch(total));
+		} else if(parseInt(membership.value) > $("#total2").val()) {
+			alert("결제 금액을 초과하였습니다.");
+			membership.value=$("#total2").val();
+			$("#totalPrice").text(0);
+		}
+		
+		$("#totalPrice").text(addCommaSearch($("#totalPrice").text()));
+		if(this.value >= 1000)
+			totalCalc(this.value);
+		else
+			totalCalc(0);
+	});
+});
+
+
+function totalCalc(membership) {
+	var total = parseInt(document.getElementById("total2").value);
+	total -= membership;
+
+	$("#totalPrice").text(addCommaSearch(total));
+}
 
 // 유효성 검사
 function validate() {

@@ -39,5 +39,4 @@
   <a class="nav-item nav-link" href="#">행사</a>
   <a class="nav-item nav-link" href="${pageContext.request.contextPath }/noticeboard/noticeBoardList.do">공지사항</a>
   <a class="nav-item nav-link" href="${pageContext.request.contextPath }/freeboard/freeBoardList.do">게시판</a>
-  <a class="nav-item nav-link disabled" href="#">1:1문의</a>
 </nav>
