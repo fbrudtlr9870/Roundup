@@ -3,9 +3,6 @@ package com.proj.rup.member.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.proj.rup.member.model.service.MemberService;
 import com.proj.rup.member.model.vo.Member;
+import com.proj.rup.member.model.vo.Membership;
 
 @SessionAttributes({"memberLoggedIn"})
 @Controller
@@ -278,6 +276,13 @@ public class MemberController {
 		
 		return map;
 	}	
-	
-	
+		
+	@RequestMapping("/member/selectMembership.do")
+	@ResponseBody
+	public Membership selectMembership(@RequestParam(value="memberId") String memberId) {
+		Membership m = memberService.selectMembership(memberId);
+
+		return m;
+	}
+
 }

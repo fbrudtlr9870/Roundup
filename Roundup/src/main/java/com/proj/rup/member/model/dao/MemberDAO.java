@@ -3,6 +3,7 @@ package com.proj.rup.member.model.dao;
 import java.util.Map;
 
 import com.proj.rup.member.model.vo.Member;
+import com.proj.rup.member.model.vo.Membership;
 
 public interface MemberDAO {
 
@@ -29,6 +30,10 @@ public interface MemberDAO {
 	int insertAddress(Map<String, Object> map);
 
 	Map<String, Object> selectConnectMember(String username);
+
+	Membership selectMembership(String memberId);
+
+	int updateMembership(Map<String, Object> map);
 
 
 

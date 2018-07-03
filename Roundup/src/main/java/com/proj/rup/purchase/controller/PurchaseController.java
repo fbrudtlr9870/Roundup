@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.proj.rup.basket.model.service.BasketService;
 import com.proj.rup.basket.model.service.BasketServiceImpl;
 import com.proj.rup.basket.model.vo.BasketProduct;
+import com.proj.rup.member.model.service.MemberService;
 import com.proj.rup.member.model.vo.Address;
 import com.proj.rup.member.model.vo.MemberAddress;
 import com.proj.rup.product.model.vo.Product;
@@ -35,6 +36,9 @@ public class PurchaseController {
 	
 	@Autowired
 	private BasketService basketService = new BasketServiceImpl();
+
+	@Autowired
+	private MemberService memberService;
 	
 	@RequestMapping("/purchase/purchase.do")
 	public ModelAndView purchase(@RequestParam(value="basketNo") String basketNo) {
@@ -66,7 +70,9 @@ public class PurchaseController {
 							@RequestParam(value="product_amount") String product_amount,
 							@RequestParam(value="address") String address, 
 							@RequestParam(value="zip_code") String zip_code,
-							@RequestParam(value="basketNo") String basketNo) {
+							@RequestParam(value="basketNo") String basketNo,
+							@RequestParam(value="membership") int membership,
+							@RequestParam(value="totalPrice") int totalPrice) {
 		
 		int result = 0;
 		String returnMsg = "";
@@ -122,6 +128,13 @@ public class PurchaseController {
 		}
 		
 		if(result > 0) {
+			// membership 테이블에 값 넣기
+			Map<String, Object> map = new HashMap<>();
+			map.put("member_id", member_id);
+			map.put("membership", membership);
+			map.put("totalPrice", totalPrice);
+			
+			memberService.updateMembership(map);
 			returnMsg = "success";
 		} else {
 			returnMsg = "fail";

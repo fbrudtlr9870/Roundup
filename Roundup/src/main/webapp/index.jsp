@@ -37,7 +37,13 @@ $(function(){
 					html += "<div class='buy-btn'>";
 					html += "<input type='hidden' value='" + data.productNewList[i].productNo +"' name='product_no'>";
 		            html += "<input type='number' class='form-control inline-hyelin' style='width: 70px; margin: 0 auto;' name='product_amount' min='1' value='1'>&nbsp;";
-	                html += "<button type='button' class='btn btn-primary insertBasket_'>장바구니</button> &nbsp;";
+	               /*  html += "<button type='button' class='btn-transparent-hyelin insertBasket_'>";
+	                html += "<img id='img-cart-hyelin' src='${pageContext.request.contextPath}/resources/img/cart.png' alt='' class='btnImg-hyelin' title='장바구니' data-toggle='tooltip' data-placement='bottom'/>";
+	                html += "</button> &nbsp;";
+	                html += "<button type='button' class='btn-transparent-hyelin purchase_'>";
+	                html += "<img src='${pageContext.request.contextPath}/resources/img/card.png' alt='' class='btnImg-hyelin' title='구매하기' data-toggle='tooltip' data-placement='bottom'/>";
+					html += "</button>"; */
+					html += "<button type='button' class='btn btn-primary insertBasket_'>장바구니</button> &nbsp;";
 	                html += "<button type='button' class='btn btn-success purchase_'>구매</button>";
 		            html += "</div>";
 		            html += "<div class='ptext'>" + data.productNewList[i].brandName + "</div>"; 

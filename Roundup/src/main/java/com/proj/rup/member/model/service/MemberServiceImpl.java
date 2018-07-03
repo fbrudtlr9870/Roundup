@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.proj.rup.member.model.dao.MemberDAO;
 import com.proj.rup.member.model.vo.Member;
+import com.proj.rup.member.model.vo.Membership;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -65,5 +66,14 @@ public class MemberServiceImpl implements MemberService {
 	public int insertAddress(Map<String, Object> map) {
 		return memberDAO.insertAddress(map);
 	}
+	
+	@Override
+	public Membership selectMembership(String memberId) {
+		return memberDAO.selectMembership(memberId);
+	}
 
+	@Override
+	public int updateMembership(Map<String, Object> map) {
+		return memberDAO.updateMembership(map);
+	}
 }
