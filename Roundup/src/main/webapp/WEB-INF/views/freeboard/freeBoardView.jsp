@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -52,7 +53,6 @@ div.freeBoardView-comment.read p{
 	border-bottom:1px dotted white;
 	padding-bottom:3px;
 }
-
 div.freeBoardView-comment.write{
 	width:600px;
 	height:150px;
@@ -93,9 +93,7 @@ div.freeBoardView-comment.write button{
 	height:70px;
 	float:left;
 }
-
 /* 게시판 리스트 관련 */
-
 div#freetable_container{
 	width:980px;
 	margin:0 auto;
@@ -104,8 +102,18 @@ div#freetable_container{
 div#freetable_container tr th{
 	text-align: center;
 }
-
+div#freeBoard-comment img{
+	max-width:550px;
+}
 </style>
+
+<!-- 글쓰기 상세보기 아래에 넣음 -->
+<script>
+function fn_insertBoard(){
+	location.href="${pageContext.request.contextPath}/freeboard/insertBoard.do";
+}
+</script>
+
 
 <div id="freeBoardView-container">
 	<div class="freeBoardView-title title">
@@ -121,8 +129,8 @@ div#freetable_container tr th{
 	<div class="freeBoardView-title member">
 		<span>${fboard["member_id"] }</span>
 	</div>
-	<div class="freeBoardView-title member">
-		<p>${fboard["free_comment"]}</p>
+	<div id="freeBoard-comment">
+		${fboard["free_comment"]}
 	</div>
 	<br />
 	
@@ -191,16 +199,16 @@ div#freetable_container tr th{
 	<h2>자유게시판</h2>
 	<table class="table table-striped">
 		<tr>
-			<th class="col-md-1">번호</th>
-			<th class="col-md-3">제목</th>
-			<th class="col-md-1">아이디</th>
-			<th class="col-md-2">날짜</th>
+			<th>번호</th>
+			<th>제목</th>
+			<th>아이디</th>
+			<th>날짜</th>
 		</tr>
 		<c:if test="${blist !=null }">
 			<c:forEach items="${blist }" var="f">
 				<tr>
-					<td class="col-md-1">${f["free_board_no"] }</td>
-					<td class="col-md-3" style="text-align:left;">
+					<td>${f["free_board_no"] }</td>
+					<td  style="text-align:left;">
 						<a href="freeBoardView.do?no=${f['free_board_no']}" style="color:black;">
 						${f["free_board_title"] }
 						<c:if test="${f['bc_count'] !=0 }">
@@ -208,13 +216,17 @@ div#freetable_container tr th{
 						</c:if>
 						</a>
 					</td>
-					<td class="col-md-1">${f["member_id"] }</td>
-					<td class="col-md-2">${f["free_reg_date"] }</td>
+					<td>${f["member_id"] }</td>
+					<td>${f["free_reg_date"] }</td>
 				</tr>
 			</c:forEach>
 		</c:if>
 	</table>
 	<br />
+	
+	<c:if test="${member_id !=null}">
+	<input type="button" class="btn btn-light" value="글쓰기" style="float:right;" onclick="fn_insertBoard();"  />
+	</c:if>
 
 <!-- 페이지바 -->
 <%
@@ -257,13 +269,9 @@ $(function(){
 		
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
-
 		
 		$.ajax({
 			url:"insertComment.do",
-			beforeSend:function(xhr){
-				xhr.setRequestHeader(header, token);
-			},
 			data:{
 				  member_id:member_id,
 				  free_board_no:free_board_no,
@@ -292,7 +300,6 @@ $(function(){
 					}
 				}
 				$(html).insertBefore(".freeBoardView-comment.write");
-
 			},
 			error:function(jqxhr,textStatus, errorThrown){
 				console.log("ajax실패",jqxhr,textStatus, errorThrown);
@@ -302,11 +309,9 @@ $(function(){
 	});	
 	
 	//대댓글 관련 부분 
-
 	$(document).on('click','.comment-btn',function(){
 		var div = $("<div style='border-bottom:1px dotted white;' class='freeBoardView-comment comment'></div>");
 		var html='<button id="insertCommentComment">답글</button>';
-
 		html+='<input type="hidden" name="member_id_cc" value="${member_id }" />';
 		html+='<input type="hidden" name="free_board_no_c" value="${fboard['free_board_no']}" />';
 		html+='<input type="hidden" name="parent_comment_c" value="'+$(this).val()+'" />';
@@ -333,7 +338,6 @@ $(function(){
 	$(document).on('click','.comment-btn-reply',function(){	
 		var div = $("<div style='border-bottom:1px dotted white;' class='freeBoardView-comment comment'></div>");
 		var html='<button id="insertCommentComment-reply">답글</button>';
-
 		html+='<input type="hidden" name="member_id_re" value="${member_id}" />';
 		html+='<input type="hidden" name="free_board_no_re" value="${fboard['free_board_no']}" />';
 		html+='<input type="hidden" name="parent_comment_re" value="'+$(this).val()+'" />';
@@ -356,10 +360,8 @@ $(function(){
 			div.insertAfter($(this).parent().parent()).next().slideDown(800);
 		}		
 	});
-
 	
 	$(document).on('click','#insertCommentComment',function(){
-
 		var comment_content = $("[name=comment_content_c]").val().trim();
 		//댓글 null체크
 		if(comment_content==""){
@@ -384,9 +386,6 @@ $(function(){
 		
 		$.ajax({
 			url:"insertComment.do",
-			beforeSend:function(xhr){
-				xhr.setRequestHeader(header, token);
-			},
 			data:{member_id:member_id,
 				  free_board_no:free_board_no,
 				  parent_comment:parent_comment,
@@ -459,9 +458,6 @@ $(function(){
 		
 		$.ajax({
 			url:"insertComment.do",
-			beforeSend:function(xhr){
-				xhr.setRequestHeader(header, token);
-			},
 			data:{member_id:member_id,
 				  free_board_no:free_board_no,
 				  parent_comment:parent_comment,

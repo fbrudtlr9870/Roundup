@@ -176,11 +176,11 @@
 			<version>4.2.6.RELEASE</version>
 		</dependency>
 		<!-- security taglib 추가  -->
- 		 <dependency>
+		 <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-taglibs</artifactId>
             <version>4.2.6.RELEASE</version>
-        </dependency>	 	
+        </dependency>		
 		
 		
 		<!-- 서버재부팅없이 자바코드 수정이 가능한 라이브러리 springloaded추가 -->
@@ -225,12 +225,6 @@
 	        <version>2.9.5</version>
 	    </dependency>
 
-	    <dependency>
-	    	<groupId>org.codehaus.jackson</groupId>
-	    	<artifactId>jackson-mapper-asl</artifactId>
-	    	<version>1.4.2</version>
-	    </dependency>
-
 		<!-- 메일발송 지원 기능 -->
 		<dependency>
 		    <groupId>org.springframework</groupId>
@@ -243,7 +237,8 @@
 		    <groupId>javax.mail</groupId>
 		    <artifactId>mail</artifactId>
 		    <version>1.4.7</version>
-		</dependency>		     
+		</dependency>
+		     
 		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
       <dependency>
           <groupId>com.google.code.gson</groupId>
@@ -251,22 +246,19 @@
           <version>2.8.4</version>
       </dependency>
       
-      <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
-		<dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-taglibs</artifactId>
-		    <version>4.2.6.RELEASE</version>
-		</dependency>
-		
-		
-		      
-
-		<!-- 웹소켓 -->
+      	<!-- 웹소켓 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-websocket</artifactId>
 			<version>4.2.6.RELEASE</version>
 		</dependency>
+
+		<!-- 캐시 -->
+		 <dependency>
+		 	<groupId>net.sf.ehcache</groupId>
+		 	<artifactId>ehcache</artifactId>
+		 	<version>2.10.3</version>
+		 </dependency>
 
 	</dependencies>
     <build>

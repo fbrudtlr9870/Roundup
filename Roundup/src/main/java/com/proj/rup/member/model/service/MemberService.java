@@ -3,7 +3,6 @@ package com.proj.rup.member.model.service;
 import java.util.Map;
 
 import com.proj.rup.member.model.vo.Member;
-import com.proj.rup.member.model.vo.Membership;
 
 public interface MemberService {
 
@@ -28,10 +27,6 @@ public interface MemberService {
 	int deleteConnect(String member_id);
 
 	int insertAddress(Map<String, Object> map);
-
-	int insertMembership(String member_id);
-
-	Membership selectMembership(String memberId);
 
 
 }

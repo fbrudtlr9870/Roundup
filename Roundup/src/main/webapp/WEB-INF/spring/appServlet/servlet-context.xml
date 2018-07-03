@@ -4,8 +4,11 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.2.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.3.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
@@ -51,10 +54,21 @@
 	
 	<!-- 웹소켓핸들러 -->
 	<websocket:handlers>
-		<websocket:mapping handler="echoHandler" path="/echo.do"/>
+		<websocket:mapping handler="echoHandler" path="/echo"/>
 		<websocket:sockjs/>
 	</websocket:handlers>
 	
 	<beans:bean id="echoHandler" class="com.proj.rup.common.util.EchoHandler"/>
+	
+	
+	<!-- cache스캔 -->
+	<cache:annotation-driven/>
+	
+	<beans:bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager" p:cache-manager-ref="ehcache"/>
+	
+	<beans:bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:config-location="/WEB-INF/spring/ehcache.xml"/>
+	
+	
+	
 	
 </beans:beans>

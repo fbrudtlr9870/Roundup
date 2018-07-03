@@ -37,7 +37,6 @@
 <nav class="nav nav-pills nav-fill">
   <a class="nav-item nav-link active" href="#">카테고리</a>
   <a class="nav-item nav-link" href="#">행사</a>
-  <a class="nav-item nav-link" href="#">공지사항</a>
-  <a class="nav-item nav-link" href="./freeboard/freeBoardList.do">게시판</a>
-  <a class="nav-item nav-link disabled" href="#">1:1문의</a>
+  <a class="nav-item nav-link" href="${pageContext.request.contextPath }/noticeboard/noticeBoardList.do">공지사항</a>
+  <a class="nav-item nav-link" href="${pageContext.request.contextPath }/freeboard/freeBoardList.do">게시판</a>
 </nav>

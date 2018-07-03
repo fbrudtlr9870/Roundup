@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.proj.rup.member.model.dao.MemberDAO;
 import com.proj.rup.member.model.vo.Member;
-import com.proj.rup.member.model.vo.Membership;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -37,6 +36,11 @@ public class MemberServiceImpl implements MemberService {
 
 
 	@Override
+	public int connectMember(Member member) {
+		return memberDAO.connectMember(member);
+	}
+
+	@Override
 	public int selectMember(String member_id) {
 		return memberDAO.selectMember(member_id);
 	}
@@ -60,22 +64,6 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int insertAddress(Map<String, Object> map) {
 		return memberDAO.insertAddress(map);
-	}
-
-	@Override
-	public int connectMember(Member member) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int insertMembership(String member_id) {
-		return memberDAO.insertMembership(member_id);
-	}
-
-	@Override
-	public Membership selectMembership(String memberId) {
-		return memberDAO.selectMembership(memberId);
 	}
 
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="purchase">
 	<select id="selectPCList" resultType="purchaseComplete">
-		select * from purchase_complete pc join product p on pc.product_no = p.product_no left join product_file f on pc.product_no = f.product_no left join brand b on p.brand_no = b.brand_no where pc.member_id = #{member_id}
+		select * from purchase_complete where member_id=#{memberId}
 	</select>
 	
 	<select id="selectPurchaseOne" resultType="basketProduct">
