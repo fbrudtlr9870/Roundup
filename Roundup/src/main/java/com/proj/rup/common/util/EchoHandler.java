@@ -24,11 +24,18 @@ public class EchoHandler extends TextWebSocketHandler {
 
 	@Override
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-		//전체유저가 볼수있도록 보냄
-		for(WebSocketSession sess : sessionList){
-			sess.sendMessage(new TextMessage(session.getPrincipal().getName()+"|"+message.getPayload()));
+		logger.info(message.toString());
+		if(message.getPayloadLength()==0){
+			//전체유저가 볼수있도록 보냄
+			for(WebSocketSession sess : sessionList){
+				sess.sendMessage(new TextMessage("|"+sessionList.size()));
+			}
+		}else {			
+			//전체유저가 볼수있도록 보냄
+			for(WebSocketSession sess : sessionList){
+				sess.sendMessage(new TextMessage(session.getPrincipal().getName()+"|"+message.getPayload()));
+			}
 		}
-		
 	}
 	
 	@Override

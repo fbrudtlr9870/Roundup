@@ -172,7 +172,7 @@ img#chat-icon{
 
    			 <div id="chatting-room">
             	<input type="hidden" name="member_id" value="${member_id}" />
-            	<div style="text-align:center;">현재 접속중인 회원<span id="connected-member"style="font-weight:bold;">${totalMember }</span> 명</div>
+            	<div style="text-align:center;">현재 접속중인 회원<span id="connected-member"style="font-weight:bold;"> ? </span> 명</div>
             	<c:if test="${member_id!=null }">
             	<div style="text-align:center;margin-top:10px;">채팅방에 접속되었습니다.</div>  
             	</c:if>
@@ -377,6 +377,10 @@ var sock=new SockJS("<c:url value="/echo"/>");
 sock.onmessage= onMessage; 
 sock.onclose = onClose; 
  
+sock.onopen=function(){
+	sendMessage();
+} 
+ 
 $(function(){ 
   $("#insertChat").click(function(){ 
     sendMessage(); 
@@ -420,13 +424,18 @@ function onMessage(evt){
   sessionid=strArr[0]; 
   message=strArr[1]; 
    
-  var html='<div class="chatting-comment" style="text-align:left;">'; 
-  html+='<strong>['+sessionid+'] :</strong>'+message; 
-  html+='</div>'; 
-  $("#chatting-content").append(html); 
+  if(sessionid==""){
+	  $("#connected-member").html(" "+message+" ");
+  }else{
   
-  var offset = $(".chatting-comment:last").offset();
-  $("#chatting-content").animate({scrollTop : offset.top}, 400);
+	  var html='<div class="chatting-comment" style="text-align:left;">'; 
+	  html+='<strong>['+sessionid+'] :</strong>'+message; 
+	  html+='</div>'; 
+	  $("#chatting-content").append(html); 
+	  
+	  var offset = $(".chatting-comment:last").offset();
+	  $("#chatting-content").animate({scrollTop : offset.top}, 400);
+  }
     
 } 
  
