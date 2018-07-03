@@ -43,15 +43,15 @@ div#update-container{
 	width:980px;
 	margin:0 auto;
 }
-
+div#userId-container{position:relative; padding:0px;}
 
 div#userId-container span.guide{
 	display:none;
 	font-size:12px;
-	position:relative;
+	position: absolute;
 	top:12px;
 	right:10px;
-	margin-right:1000px;
+	margin-right:300px;
 }
 
 div#userId-container span.ok{color:blue;}
@@ -240,16 +240,16 @@ function sample4_execDaumPostcode() {
 	<h2>회원가입</h2>
 	<hr size="5px;" style="background:rgb(126, 183, 230);">
 		<form action="memberEnrollEnd.do" method="post" onsubmit="return validate();">
-
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			<table class="table" id="tbl_enroll">
 			<tr>
 				<th><label for="member_id_">아이디</label></th>
 				<td>
 					<div id="userId-container">
-					<input type="text" name="member_id" id=member_id_ class="input form-control" placeholder="아이디는 최소4자리이상 12자 미만여야 합니다" required />
-					<span class="guide ok">이 아이디는 사용가능합니다.</span>
-					<span class="guide error">이 아이디는 사용할 수 없습니다.</span>
-					<input type="hidden" id="idDuplicateCheck" value="0" />
+						<input type="text" name="member_id" id=member_id_ class="input form-control" placeholder="아이디는 최소4자리이상 12자 미만여야 합니다" required />
+						<span class="guide ok">이 아이디는 사용가능합니다.</span>
+						<span class="guide error">이 아이디는 사용할 수 없습니다.</span>
+						<input type="hidden" id="idDuplicateCheck" value="0" />
 					</div>
 				</td>
 			</tr>
