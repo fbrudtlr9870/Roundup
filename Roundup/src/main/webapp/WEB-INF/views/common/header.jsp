@@ -99,9 +99,12 @@ img#chat-icon{
 	                    </c:if>
              
 					<!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! -->
-                    <c:if test="${admin_id !=null }">
-                    <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/manager/managerPage.do">관리자페이지</a></li>
-                	</c:if>
+					<!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! --> 
+                    <!-- 권한에 따른 접근 방법 기술 -->
+               		<sec:authorize access="hasRole('ROLE_ADMIN')">
+                    <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/manager/managerPage.do">관리자페이지</a></li>  
+              		</sec:authorize>
+     
 
                 </ul>
                 <ul class="nav-bar-list">

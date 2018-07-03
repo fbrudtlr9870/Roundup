@@ -43,7 +43,6 @@ div#update-container{
 	width:980px;
 	margin:0 auto;
 }
-div#userId-container{position:relative; padding:0px;}
 
 div#userId-container span.guide{
 	display:none;

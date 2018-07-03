@@ -24,11 +24,7 @@ public class MemberDetails extends User {
 		this.member_name= member_name;
 		
 	}
-
-	   
-	
-	 
-	   
+ 
 	  
 	@Override
 	public String toString() {
@@ -99,6 +95,10 @@ public class MemberDetails extends User {
 	public void setMember_name(String member_name) {
 		this.member_name = member_name;
 	}
+	   
+	   
+	   
+	   	   
 
 }
 

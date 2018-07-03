@@ -13,6 +13,7 @@ import com.proj.rup.member.model.vo.MemberDetails;
 
 @Component
 public class SessionDestoryListener implements ApplicationListener<SessionDestroyedEvent> {
+
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
@@ -20,7 +21,6 @@ public class SessionDestoryListener implements ApplicationListener<SessionDestro
 	@Override
 	public void onApplicationEvent(SessionDestroyedEvent event) {
 		
-
 		List<SecurityContext> contexts = event.getSecurityContexts();
         if (!contexts.isEmpty()) {
             for (SecurityContext ctx : contexts) {

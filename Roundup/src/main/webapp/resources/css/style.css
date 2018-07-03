@@ -182,6 +182,7 @@ div.main-li-container{
     margin:0 auto;
     position: relative;
     overflow: hidden;
+    border:1px solid lightgray;
     border-radius: 10px;
 }
 
