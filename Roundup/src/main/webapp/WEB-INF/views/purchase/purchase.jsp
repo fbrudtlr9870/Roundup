@@ -341,7 +341,9 @@ function payRequest() {
 	        buyer_addr :  $("#sample4_roadAddress").val() + '#' + $("#sample4_jibunAddress").val() + '#' + $("#sample4_detailAddress").val(),   // 구매자 주소
 	        buyer_postcode :  $("#sample4_postcode").val()   // 구매자 우편번호
 		   }, function(rsp) {
+
 			   console.log(rsp);
+
 			   if ( rsp.success ) {
 			    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
 			    	jQuery.ajax({

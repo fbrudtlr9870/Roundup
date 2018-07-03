@@ -6,6 +6,7 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="검색결과" name="pageTitle"/>
+   <jsp:param value="${searchKeyword }" name="pageSearch"/>
 </jsp:include>
 
 <script src="${pageContext.request.contextPath }/resources/js/jquery.sumoselect.js"></script>
@@ -426,36 +427,6 @@ ul.category-hyelin li label {
 	list-style: none;
 }
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -942,15 +913,33 @@ ul.category-hyelin li label {
 <br /><br />
 
 
-
 <!-- 검색 결과 리스트 보여주기 -->
 <div id="searchContainer-hyelin">
 	<c:forEach var="p" items="${searchList }" varStatus="vs">
 		<div class="card card-hyelin">
 			<div class="card-body">
+				<%-- <p>판매량 ${p.purchaseAmount }</p> --%>
 				<img src="${pageContext.request.contextPath}/resources/upload/productFile/${p.renamedFileName}" class="prod-img-hyelin">
 				<h5 class="card-title">${p.brandName } ${p.productName }</h5>
-				<p class="card-text card-text-hyelin inline-hyelin"><fmt:formatNumber value="${p.price }" type="currency" currencySymbol=""/>원</p>					
+				<p class="card-text card-text-hyelin inline-hyelin"><fmt:formatNumber value="${p.price }" type="currency" currencySymbol=""/>원
+					<c:if test="${searchList.size()>1 }">
+						<c:if test="${p.price>avgprice }">
+								<img src="${pageContext.request.contextPath}/resources/img/up.png" style="width: 30px; height: 30px;">				
+						</c:if>
+						<c:if test="${p.price<avgprice }">
+								<img src="${pageContext.request.contextPath}/resources/img/down.png" style="width: 30px; height: 30px;">			
+						</c:if>
+						<c:if test="${p.price==avgprice }">
+								<img src="${pageContext.request.contextPath}/resources/img/avg.png" style="width: 30px; height: 30px;">					
+						</c:if>
+						<c:if test="${p.price==rowprice }">
+								<img src="${pageContext.request.contextPath}/resources/img/row.GIF" style="width: 40px; height: 30px;">			
+						</c:if>					
+						<c:if test="${p.productName==popmenu.productName }">
+								<img src="${pageContext.request.contextPath}/resources/img/pop.png" style="width: 50px; height: 40px;">			
+						</c:if>					
+					</c:if>
+				</p>					
 				<input type="number" class="form-control inline-hyelin right-hyelin right10-hyelin" style="width: 70px; margin: 0 auto;" name="product_amount" value="1" min="1">
 				<input type="hidden" name="product_no" value="${p.productNo }"/>
 				<div class="btnDiv-hyelin">
@@ -983,7 +972,7 @@ ul.category-hyelin li label {
 		<input class="form-check-input" type="checkbox" name="brand" value="MINISTOP" id="MINISTOP"><label for="MINISTOP">MINISTOP</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 		<input class="form-check-input" type="checkbox" name="brand" value="EMART24" id="EMART24"><label for="EMART24">EMART24</label> <br />
 		<h4>카테고리</h4>
-		<select name="categoryselect" id="category" class="form-control" style="width: 50%;">
+		<!-- <select name="categoryselect" id="category" class="form-control" style="width: 50%;">
 			<option id="category" name="category" value="0" selected>카테고리</option>
 			<option id="category" name="category" value="1">간편식사</option>
 			<option id="category" name="category" value="7">-김밥</option>
@@ -1024,6 +1013,20 @@ ul.category-hyelin li label {
 			<option id="category" name="category" value="24">-캔</option>
 			<option id="category" name="category" value="25">-페트</option>
 			<option id="category" name="category" value="26">-유리</option>
+		</select> -->
+		<select name="categoryselect" id="category" class="form-control" style="width: 50%;">
+			<option id="category" name="category" value="0" selected>카테고리</option>
+			<c:forEach var="c" items="${categoryList }" varStatus="vs">
+				<c:if test="${c.category_level==1 }">
+					<option id="category" name="category" value="${c.category_no }">${c.category_name }</option>					
+				</c:if>
+				<c:if test="${c.category_level==2 }">
+					<option id="category" name="category" value="${c.category_no }"> - ${c.category_name }</option>					
+				</c:if>
+				<c:if test="${c.category_level==3 }">
+					<option id="category" name="category" value="${c.category_no }"> = = ${c.category_name }</option>					
+				</c:if>
+			</c:forEach>
 		</select>
 		<h4>가격대</h4>
 		<input type="number" name="price1" min="0" step="500" value="0" class="form-control" style="width: 200px; display: inline-block;">
@@ -1053,29 +1056,33 @@ ul.category-hyelin li label {
 				<button type="button" class="btn btn-success">구매</button>
 			</div></li>
 	</c:forEach>
-</div>
+</div> --%>
 <br>
-<br> --%>
-
-
-<c:if test="${not empty searchKeyword }">
-	<div class="blog-container">
-		<div class="blogtext-container">
-			<img src="${pageContext.request.contextPath}/resources/img/blogimg.GIF" alt="" class="blogimg" /> 
-			<input type="text" readonly="readonly" value="  ${searchKeyword } 후기" class="blogtext" />
-		</div>
-		<br />
-		<!--  <h4>네이버 블로그</h4>    -->
-		<p id="blog1"></p>
-		<hr />
-		<p id="blog2"></p>
-		<hr />
-		<p id="blog3"></p>
-		<hr />
-		<p id="blog4"></p>
-		<hr />
-		<p id="blog5"></p>
+<br>
+<div class="blog-container">
+	<div class="blogtext-container">
+		<img src="${pageContext.request.contextPath}/resources/img/blogimg.GIF" alt="" class="blogimg" /> 
+			<c:if test="${searchList.size() > 0}"> 
+				<input type="text" readonly="readonly" value="  ${searchList[0].productName } 후기" class="blogtext" />			
+			</c:if>
+			<c:if test="${searchList.size() == 0 }"> 
+				<input type="text" readonly="readonly" value="  ${searchKeyword } 후기" class="blogtext" />			
+			</c:if>			
 	</div>
-</c:if>
-<br /><br /><br />
+	<br />
+	<!--  <h4>네이버 블로그</h4>    -->
+	<p id="blog1"></p>
+	<hr />
+	<p id="blog2"></p>
+	<hr />
+	<p id="blog3"></p>
+	<hr />
+	<p id="blog4"></p>
+	<hr />
+	<p id="blog5"></p>
+
+</div>
+
+<br /><br />
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

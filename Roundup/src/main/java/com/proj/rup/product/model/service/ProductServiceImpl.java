@@ -103,6 +103,52 @@ public class ProductServiceImpl<ProductVO> implements ProductService {
 		return productDAO.selectChildCategory(categoryNo);
 	}
 
+
+	@Override
+	public List selectHotProduct() {
+		return productDAO.selectHotProduct();
+	}
+	
+	@Override
+	public int rowprice(String searchKeyword) {
+		return productDAO.rowprice(searchKeyword);
+	}
+
+	@Override
+	public int avgprice(String searchKeyword) {
+		return productDAO.avgprice(searchKeyword);
+	}
+
+	@Override
+	public Product popmenu(String searchKeyword) {
+		return productDAO.popmenu(searchKeyword);
+	}
+
+	@Override
+	public Product repopmenu(Map map) {
+		return productDAO.repopmenu(map);
+	}
+
+	@Override
+	public int rerowprice(Map map) {
+		return productDAO.rerowprice(map);
+	}
+
+	@Override
+	public int reavgprice(Map map) {
+		return productDAO.reavgprice(map);
+	}
+
+	@Override
+	public List selecteAllCategoryList() {
+		return productDAO.selecteAllCategoryList();
+	}
+
+	@Override
+	public List categoryLevelOneSearch(Map map) {
+		return productDAO.categoryLevelOneSearch(map);
+	}
+	
 	@Override
 	public List<ProductCategoryLevel> selectCategory(String searchKeyword) {
 		return productDAO.selectCategory(searchKeyword);

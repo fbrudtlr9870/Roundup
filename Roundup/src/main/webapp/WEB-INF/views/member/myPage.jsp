@@ -430,12 +430,10 @@ $(function(){
 					</form>
       			</div>
       			<br /><br />
-      			
-			
-	      	
-	      </div>
+ 	
+	      </div>	      
+	      <!-- 장바구니 -->
 	      <div class="tab-pane fade" id="list-basket" role="tabpanel" aria-labelledby="list-basket-list">
-		      <!-- 장바구니 -->
 				  <div class="step-buy">
 					<br> <img src="${pageContext.request.contextPath }/resources/img/step-img.png" width="780px" height="100px">
 					<br>
@@ -509,9 +507,9 @@ $(function(){
 						<button type="button" class="btn btn-primary" id="purchaseAll" style="float: right; margin: 10px;" onclick="return purchaseAll();">전체상품 주문</button>
 						<button type="button" class="btn btn-success" id="purchaseChk" style="float: right; margin: 10px;" onclick="return purchaseChk();">선택상품 주문</button>
 					</div> 
-	      </div>
-	      <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
+	      </div>	      
 	       <!-- 결재내역페이지 시작-->
+	      <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
 	       <h3>구매내역</h3>
 	       <div class="purchase-complete-container">
 	       		<div class="basket-container">
@@ -586,7 +584,7 @@ $(function(){
 						</div>
 				
 						</div>
-	       </div>
+	      		 </div>
 					
 	       <!-- 결재내역페이지 끝-->
 	      </div>
@@ -596,6 +594,7 @@ $(function(){
 	
 </div>
 <br /><br /><br />
+<!-- 장바구니 스크립트 -->
 <script>
 function fn_checkAll(bool) {
     var chkboxes = document.getElementsByName("basketList");

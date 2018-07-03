@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -105,6 +106,14 @@ div#freeBoard-comment img{
 	max-width:550px;
 }
 </style>
+
+<!-- 글쓰기 상세보기 아래에 넣음 -->
+<script>
+function fn_insertBoard(){
+	location.href="${pageContext.request.contextPath}/freeboard/insertBoard.do";
+}
+</script>
+
 
 <div id="freeBoardView-container">
 	<div class="freeBoardView-title title">
@@ -214,6 +223,10 @@ div#freeBoard-comment img{
 		</c:if>
 	</table>
 	<br />
+	
+	<c:if test="${member_id !=null}">
+	<input type="button" class="btn btn-light" value="글쓰기" style="float:right;" onclick="fn_insertBoard();"  />
+	</c:if>
 
 <!-- 페이지바 -->
 <%
@@ -496,4 +509,3 @@ $(function(){
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-

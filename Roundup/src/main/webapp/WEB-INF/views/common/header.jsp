@@ -97,12 +97,14 @@ img#chat-icon{
                     <c:if test="${member_id==null}">
 	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">마이페이지</a>
 	                    </c:if>
-                    <li class="nav-bar-site-li">고객센터</li>
-
+             
 					<!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! -->
-                    <c:if test="${admin_id !=null }">
-                    <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/manager/managerPage.do">관리자페이지</a></li>
-                	</c:if>
+					<!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! --> 
+                    <!-- 권한에 따른 접근 방법 기술 -->
+               		<sec:authorize access="hasRole('ROLE_ADMIN')">
+                    <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/manager/managerPage.do">관리자페이지</a></li>  
+              		</sec:authorize>
+     
 
                 </ul>
                 <ul class="nav-bar-list">
@@ -118,7 +120,7 @@ img#chat-icon{
                        <form action="${pageContext.request.contextPath }/product/productSearch.do">
                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                        <div class="input-group">
-                         <input type="text" class="form-control" id="productKey" placeholder="Search for..." name="searchKeyword" autocomplete="off">
+                         <input type="text" class="form-control" id="productKey" placeholder="${param.pageSearch }" name="searchKeyword" autocomplete="off">
                          <span class="input-group-btn">
                            <button class="btn btn-outline-info" type="submit">Go!!</button>
                          </span><br />       

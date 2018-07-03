@@ -45,6 +45,31 @@ public interface ProductDAO {
 	List<Category> selectCategoryList();
 
 
+	List selectHotProduct();
+
+	int rowprice(String searchKeyword);
+
+
+	int avgprice(String searchKeyword);
+
+
+	Product popmenu(String searchKeyword);
+
+
+	Product repopmenu(Map<String, Object> map);
+
+
+	int rerowprice(Map map);
+
+
+	int reavgprice(Map map);
+
+	List selecteAllCategoryList();
+
+
+	List categoryLevelOneSearch(Map map);
+
+
 	List<Category> selectChildCategory(int categoryNo);
 
 
@@ -52,6 +77,7 @@ public interface ProductDAO {
 
 
 	Category selectParentCategory(int parent_category);
+
 
 
 
