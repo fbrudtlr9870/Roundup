@@ -61,14 +61,9 @@ img#chat-icon{
 </head>	
 
 <!-- 유저롤을 가진 유저  -->
-<sec:authorize access="hasAnyRole('ROLE_USER')">
+<sec:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
-</sec:authorize>
-<!-- 관리자롤을 가진 유저 -->
-<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
-	<sec:authentication property="principal.username" var="admin_id"/>
-	<sec:authentication property="principal.member_name" var="admin_name"/>
 </sec:authorize>
 
 
@@ -98,7 +93,7 @@ img#chat-icon{
 	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">마이페이지</a>
 	                    </c:if>
              
-					<!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! -->
+				
 					<!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! --> 
                     <!-- 권한에 따른 접근 방법 기술 -->
                		<sec:authorize access="hasRole('ROLE_ADMIN')">

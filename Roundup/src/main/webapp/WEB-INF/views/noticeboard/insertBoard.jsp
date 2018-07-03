@@ -8,7 +8,7 @@
 	<jsp:param value="게시글 작성" name="pageTitle"/>
 </jsp:include>
 <!-- 유저롤을 가진 유저  -->
-<sec:authorize access="hasAnyRole('ROLE_USER')">
+<sec:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
