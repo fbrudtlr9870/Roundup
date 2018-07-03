@@ -18,7 +18,7 @@
 /* 2018.07.02 09:25 master 병합완료  */
 
 /* $(function(){
-	// 상품 리스트 불러오기
+	// 상품 리스트 불러오기 
 	$.ajax({
 		url:"${pageContext.request.contextPath}/product/selectNewProduct.do",
 		dataType:"json",
