@@ -15,8 +15,8 @@
 </sec:authorize>
 <script>
 $(function(){
+   var bloginfo=${bloginfo};
 	if(${bloginfo!='not'}){		
-	   var bloginfo=${bloginfo};
 	   console.log(bloginfo);
 	   var p1=$("#blog1");
 	   p1.html("<a href="+bloginfo.items[0].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[0].title+"</a>");
@@ -650,19 +650,19 @@ ul.category-hyelin li label {
 				<p class="card-text card-text-hyelin inline-hyelin"><fmt:formatNumber value="${p.price }" type="currency" currencySymbol=""/>원
 					<c:if test="${searchList.size()>1 }">
 						<c:if test="${p.price>avgprice }">
-								<img src="${pageContext.request.contextPath}/resources/img/up.png" style="width: 30px; height: 30px;">				
+								<img src="${pageContext.request.contextPath}/resources/img/up.png" style="width: 20px; height: 30px;">				
 						</c:if>
 						<c:if test="${p.price<avgprice }">
-								<img src="${pageContext.request.contextPath}/resources/img/down.png" style="width: 30px; height: 30px;">			
+								<img src="${pageContext.request.contextPath}/resources/img/down.png" style="width: 20px; height: 30px;">			
 						</c:if>
 						<c:if test="${p.price==avgprice }">
-								<img src="${pageContext.request.contextPath}/resources/img/avg.png" style="width: 30px; height: 30px;">					
+								<img src="${pageContext.request.contextPath}/resources/img/avg.png" style="width: 20px; height: 30px;">					
 						</c:if>
 						<c:if test="${p.price==rowprice }">
-								<img src="${pageContext.request.contextPath}/resources/img/row.GIF" style="width: 40px; height: 30px;">			
+								<img src="${pageContext.request.contextPath}/resources/img/row.GIF" style="width: 30px; height: 30px;">			
 						</c:if>					
 						<c:if test="${p.productName==popmenu.productName }">
-								<img src="${pageContext.request.contextPath}/resources/img/pop.png" style="width: 50px; height: 40px;">			
+								<img src="${pageContext.request.contextPath}/resources/img/pop.png" style="width: 40px; height: 40px;">			
 						</c:if>					
 					</c:if>
 				</p>					
@@ -698,48 +698,6 @@ ul.category-hyelin li label {
 		<input class="form-check-input" type="checkbox" name="brand" value="MINISTOP" id="MINISTOP"><label for="MINISTOP">MINISTOP</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 		<input class="form-check-input" type="checkbox" name="brand" value="EMART24" id="EMART24"><label for="EMART24">EMART24</label> <br />
 		<h4>카테고리</h4>
-		<!-- <select name="categoryselect" id="category" class="form-control" style="width: 50%;">
-			<option id="category" name="category" value="0" selected>카테고리</option>
-			<option id="category" name="category" value="1">간편식사</option>
-			<option id="category" name="category" value="7">-김밥</option>
-			<option id="category" name="category" value="27">--삼각김밥</option>
-			<option id="category" name="category" value="28">--원형김밥</option>
-			<option id="category" name="category" value="8">-도시락</option>
-			<option id="category" name="category" value="29">--고기</option>
-			<option id="category" name="category" value="30">--치킨</option>
-			<option id="category" name="category" value="9">-샌드위치</option>
-			<option id="category" name="category" value="10">-햄버거</option>
-			<option id="category" name="category" value="2">식품</option>
-			<option id="category" name="category" value="11">-컵밥/국</option>
-			<option id="category" name="category" value="12">-라면</option>
-			<option id="category" name="category" value="31">--컵라면</option>
-			<option id="category" name="category" value="32">--봉지라면</option>
-			<option id="category" name="category" value="13">-냉동식품</option>
-			<option id="category" name="category" value="33">--치킨</option>
-			<option id="category" name="category" value="34">--피자</option>
-			<option id="category" name="category" value="35">--만두</option>
-			<option id="category" name="category" value="36">--돼지고기</option>
-			<option id="category" name="category" value="14">-냉장식품</option>
-			<option id="category" name="category" value="37">--가공식품</option>
-			<option id="category" name="category" value="38">--안주</option>
-			<option id="category" name="category" value="39">--식재료</option>
-			<option id="category" name="category" value="3">과자류</option>
-			<option id="category" name="category" value="15">-껌/사탕/초코</option>
-			<option id="category" name="category" value="16">-박스과자</option>
-			<option id="category" name="category" value="17">-봉지과자</option>
-			<option id="category" name="category" value="4">아이스크림</option>
-			<option id="category" name="category" value="18">-바</option>
-			<option id="category" name="category" value="19">-콘</option>
-			<option id="category" name="category" value="20">-컵</option>
-			<option id="category" name="category" value="5">즉석식품</option>
-			<option id="category" name="category" value="21">-튀김</option>
-			<option id="category" name="category" value="22">-빵</option>
-			<option id="category" name="category" value="6">음료</option>
-			<option id="category" name="category" value="23">-유제품</option>
-			<option id="category" name="category" value="24">-캔</option>
-			<option id="category" name="category" value="25">-페트</option>
-			<option id="category" name="category" value="26">-유리</option>
-		</select> -->
 		<select name="categoryselect" id="category" class="form-control" style="width: 50%;">
 			<option id="category" name="category" value="0" selected>카테고리</option>
 			<c:forEach var="c" items="${categoryList }" varStatus="vs">
