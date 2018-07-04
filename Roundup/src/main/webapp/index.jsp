@@ -182,29 +182,7 @@ $(function(){
 					});	
 				} else {
 					alert("로그인 후 이용하실 수 있습니다.");
-				}
-				
-				$.ajax({
-					url:"${pageContext.request.contextPath }/basket/insertBasket.do",
-					data: {
-						productAmount: $(this).parent().find("[name=product_amount]").val(),
-						productNo: $(this).parent().find("[name=product_no]").val(),
-						memberId :memberId
-					},
-					success:function(data) {
-						if(confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하시겠습니까?")) {
-							location.href = "${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${member_id}";
-						} else {
-							location.href = "${pageContext.request.contextPath }";
-						}
-					},
-					error:function(jqxhr, textStatus, errorThrown) {
-		                 console.log("ajax처리실패!");
-		                 console.log(jqxhr);
-		                 console.log(textStatus);
-		                 console.log(errorThrown);
-		        	}
-				});			
+				}	
 
 			});
 			

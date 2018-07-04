@@ -77,7 +77,7 @@ public class ProductController {
                 response.append(inputLine);
             }
             br.close();
-            System.out.println("박상현 나쁜자식 겁나 이상하게 코드짜네"+response.toString());
+            System.out.println(response.toString());
             mav.addObject("bloginfo", response);
         } catch (Exception e) {
             System.out.println(e);
