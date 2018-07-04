@@ -1,6 +1,7 @@
 package com.proj.rup.chatting.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,11 @@ public class ChattingServiceImpl implements ChattingService {
 	@Override
 	public int insertChat(Chatting chatting) {
 		return chattingDAO.insertChat(chatting);
+	}
+
+	@Override
+	public int chatUpload(Map<String, String> map) {
+		return chattingDAO.chatUpload(map);
 	}
 
 

@@ -57,7 +57,7 @@ img#chat-icon{
 <!-- 소켓통신 라이브러리 --> 
 <script src="${pageContext.request.contextPath }/resources/js/sockjs.min.js"></script> 
 
-
+<script src="${pageContext.request.contextPath }/resources/smarteditor/js/HuskyEZCreator.js" charset="UTF-8"></script>
 </head>	
 
 <!-- 유저롤을 가진 유저  -->
@@ -169,8 +169,7 @@ img#chat-icon{
 
             <img src="${pageContext.request.contextPath }/resources/img/chat-icon.png" id="chat-icon"/>
 
-
- 
+ 			
             <!-- 채팅 관련 html 시작 -->            
              <div id="chatting-room">
                <input type="hidden" name="member_id" value="${member_id}" />
@@ -188,12 +187,20 @@ img#chat-icon{
                <div id="chatting-content"></div>
                <sec:authorize access="hasRole('ROLE_USER')">
                <div id="member-chat">
+               <form name="successUpload" style="width:120px; float:right;">
+				<input type="text" name="" id="chatUpload" readOnly hidden="true"/>
+				<button style="width:100px;" type="button" class="btn btn-danger" id="sendPhoto">이미지전송</button>
+				</form>
+               	 <!--  <textarea name="insertText" id="insertText" cols="30" rows="10" style="float:left; width:230px; height:100px;"></textarea>-->
                   <input id="insertText" style="float:left; width:230px;"class="form-control form-control-sm" type="text">
                   <button style="float:left; width:50px;" type="button" class="btn btn-primary" id="insertChat">전송</button>
+                  <button style="float:left; width:50px;" type="button" class="btn btn-success" id="insertPhoto">첨부</button>
+                  
                </div>
                </sec:authorize>
                   <sec:authorize access="hasRole('ROLE_ADMIN')">
-               <input type="text" name="" id="admin-notice" /><button id="insertNotice">전송!!</button>
+                 <input id="admin-notice" style="float:left; width:230px;"class="form-control form-control-sm" type="text">
+                 <button style="float:left; width:50px;" type="button" class="btn btn-success" id="insertNotice">전송</button>
                </sec:authorize>
             </div> 
             <!-- 채팅관련 끝 -->
@@ -380,7 +387,7 @@ $(function(){
       $("#chatting-room").show();
        //스크롤바 설정 
        var offset = $(".chatting-comment:last").offset(); 
-       $("#chatting-content").animate({scrollTop : offset.top}, 400); 
+       $("#chatting-content").animate({scrollTop : offset.top}, 10); 
    });
    $("#hide_chatting").click(function(){
       $("#chatting-room").hide();
@@ -390,6 +397,8 @@ $(function(){
 });
 </script>
 
+
+
 <!-- 채팅 관련 스크립트(소켓) --> 
 <script> 
  
@@ -398,7 +407,9 @@ var sock=new SockJS("<c:url value="/echo"/>");
 sock.onmessage= onMessage; 
 sock.onclose = onClose; 
 sock.onopen=function(){ 
+	<sec:authorize access="hasRole('ROLE_USER')">
      sendMessage();
+    </sec:authorize>
      $.ajax({ 
            url:"${pageContext.request.contextPath}/chatting/showChat.do", 
            type:"post", 
@@ -475,8 +486,24 @@ $(function(){
      sendNotice(); 
       $("#admin-notice").val(''); 
   });
-  
+  $("#insertPhoto").click(function(){
+	  var popUrl = "${pageContext.request.contextPath}/resources/smarteditor/sample/photo_uploader/chat_uploader.html";	
+		var popOption = "width=370, height=360,top=700, left=700, resizable=no, scrollbars=no, status=no;";
+			window.open(popUrl,"",popOption);	
+  });
+  $("#sendPhoto").click(function(){
+	 	if($("#chatUpload").val()!=""){
+	 		sendPhoto();
+	 	}else{
+	 		alert("먼저 이미지를 등록하세요!");
+	 	}
+	 	 
+  });
 }); 
+ 
+function sendPhoto(){
+	sock.send($("#chatUpload").val()+"~!@#");
+}
  
 function sendMessage(){ 
   sock.send($("#insertText").val()); 
@@ -495,6 +522,7 @@ function onMessage(evt){
   var sessionid=null; 
   var message=null; 
   var strArr=data.split('|'); 
+  var authorize = '${member_id}';
    
   sessionid=strArr[0]; 
   message=strArr[1]; 
@@ -505,21 +533,24 @@ function onMessage(evt){
         alert("로그인 감지로 로그인을 해제합니다."); 
         location.href="${pageContext.request.contextPath}"; 
   }else if(sessionid=="관리자공지"){
-     console.log(message);
         alert(message);
-       var html='<div class="chatting-comment" style="text-align:left;">';  
-       html+='<strong>'+message+'</strong>';  
-       html+='</div>';  
-       $("#chatting-content").append(html);       
-       var offset = $(".chatting-comment:last").offset(); 
-       $("#chatting-content").animate({scrollTop : offset.top}, 400); 
-  } else{  
+  }else if(sessionid=="img"+authorize){
+	  var id = sessionid.substring(3,sessionid.length);
+	  var html='<div class="chatting-comment" style="text-align:left;">';  
+	  html+='<strong>['+id+'] :</strong>';
+	  html+='<img src="http://localhost:9090/rup/resources/upload/chatting/'+message+'"width="100px" height:120px">';
+	  html+='</div>';  
+      $("#chatting-content").append(html);       
+      var offset = $(".chatting-comment:last").offset(); 
+      $("#chatting-content").animate({scrollTop : offset.top}, 10);
+  }else{  
        var html='<div class="chatting-comment" style="text-align:left;">';  
        html+='<strong>['+sessionid+'] :</strong>'+message;  
        html+='</div>';  
        $("#chatting-content").append(html);       
        var offset = $(".chatting-comment:last").offset(); 
-       $("#chatting-content").animate({scrollTop : offset.top}, 400); 
+       $("#chatting-content").animate({scrollTop : offset.top}, 10);
+
      }   
 } 
  

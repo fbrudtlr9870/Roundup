@@ -268,16 +268,16 @@ td.tbl-td {
 div#chatting-room{
 	border:1px solid black; 
 	position:fixed; 
-	width:300px; 
-	height:500px;
+	width:350px; 
+	height:582px;
 	bottom:0; 
 	right:0;
 	z-index:100;
 	background:white;
 }
 div#chatting-content{
-	width:298px;
-	height:400px;
+	width:348px;
+	height:445px;
 	overflow-y:scroll;
 }
 

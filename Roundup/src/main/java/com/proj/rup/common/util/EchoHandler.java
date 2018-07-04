@@ -2,6 +2,7 @@ package com.proj.rup.common.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
@@ -60,6 +61,15 @@ public class EchoHandler extends TextWebSocketHandler {
                     sess.sendMessage(new TextMessage("관리자공지|"+message.getPayload()));
                  }
                }           
+          }else if(message.getPayload().toString().equals("업로드성공~!@#")){
+        	  String member_id=session.getPrincipal().getName();
+        	  Map<String,String> map = sqlSession.selectOne("chatting.selectImg",member_id);
+        	  System.out.println(map.toString());
+        	  if(map !=null){
+        		  for(WebSocketSession sess : sessionList){       
+                      sess.sendMessage(new TextMessage("img"+session.getPrincipal().getName()+"|"+map.get("RENAMED_FILENAME")));       
+                    }
+        	  }
           }else {
              //db insert            
               Chatting chatting = new Chatting(session.getPrincipal().getName(),message.getPayload().toString());
