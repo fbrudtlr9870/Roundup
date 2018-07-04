@@ -116,7 +116,7 @@ public class ProductController {
 		}
 		System.out.println(categoryselect);
 		System.out.println(price1+"~"+price2+"범위");
-		if(brand.length<2)
+		if(brand[0].equals("all"))
 			brand=new String[] {"CU","GS25","7ELEVEN","MINISTOP","EMART24"};
 		Map<String,Object> map=new HashMap<String, Object>();
 		List<Category> categoryList=productService.selecteAllCategoryList();
