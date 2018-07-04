@@ -240,22 +240,6 @@ $(function() {
 });
 
 
-$(function() {
-	// 최상위 카테고리 클릭 시
- 	$(".inner").click(function() {
- 		var inner = document.getElementsByClassName("inner");
-
- 		// 이미 선택된 카테고리 해제
- 		for(var i=0; i<inner.length; i++) {
- 			if(inner[i].parentNode.parentNode.parentNode.className.indexOf('on') != -1) {
- 				inner[i].parentNode.parentNode.parentNode.className = 'cate0'+(i+1);
- 			}
- 		}
- 		
- 		// 해당 요소가 선택되었음을 의미하는 on class 추가해줌
- 		$(this).parents("li").addClass('on');
-	});
-});
 
 </script>
 <style>
