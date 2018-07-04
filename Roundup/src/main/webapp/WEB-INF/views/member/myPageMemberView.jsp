@@ -295,9 +295,9 @@ $(function(){
 	$("#sample4_detailAddress").val(address[2]); 
 });
 
-function deleteMember(){
+function deleteMember(member_id){
 	if(confirm("탈퇴하시겠습니까?")){	
-		location.href = "${pageContext.request.contextPath}/member/memberDelete.do?member_id="+${member.member_id};
+		location.href = "${pageContext.request.contextPath}/member/memberDelete.do?member_id="+member_id;
 	}else{
 		return;
 	}
@@ -386,7 +386,7 @@ function deleteMember(){
 							</table>
 	      					<div id="btnDiv">
 								<input type="submit" value="수정" class="btn btn-outline-success"/> &nbsp;
-								<input type="button" onclick="deleteMember();" value="탈퇴" class="btn btn-outline-success"/>
+								<input type="button" onclick="deleteMember('${member.member_id}');" value="탈퇴" class="btn btn-outline-success"/>
 							</div>
 					</form>
       			</div>

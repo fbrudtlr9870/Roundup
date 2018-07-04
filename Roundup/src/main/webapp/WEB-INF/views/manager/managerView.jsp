@@ -147,7 +147,7 @@ $(function(){
       <div id="update-container">
       				<h2>회원정보 </h2>
       				
-      			<form action="memberUpdate.do" method="post" onsubmit="return validate();">
+      			<form action="${pageContext.request.contextPath }/member/memberUpdate.do" method="post" onsubmit="return validate();">
       				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	      			<table class="table" id="tbl_enroll">
 							<tr>
@@ -180,8 +180,14 @@ $(function(){
 								<td>
 									<select name="member_gender" id="member_gender_" class="form-control" required>
 										<option value=""disabled selected>성별</option>
-										<option value="M">남자</option>
-										<option value="F">여자</option>
+										<c:if test="${member.member_gender eq 'F' }">										
+											<option value="F" selected>여자</option>
+											<option value="M">남자</option>
+										</c:if>
+										<c:if test="${member.member_gender eq 'M' }">										
+											<option value="F">여자</option>
+											<option value="M" selected>남자</option>
+										</c:if>
 									</select>
 								</td>
 							</tr>

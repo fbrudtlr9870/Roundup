@@ -235,7 +235,11 @@ public class MemberController {
 		
 		ModelAndView mav = new ModelAndView();
 		System.out.println(member);
-			
+		System.out.println("memberGrade : "+member.getMember_grade());
+		String autority = member.getMember_grade().equals("A")?"ROLE_ADMIN":"ROLE_USER";
+		System.out.println("autority : "+autority);
+	
+		member.setAutority(autority);
 		int result = 0;
 		
 		String loc = "/"; 
@@ -287,7 +291,7 @@ public class MemberController {
 		else msg="회원정보삭제실패ㅠ";
 		
 		mav.addObject("msg", msg);
-		mav.addObject("loc", loc);
+		mav.addObject("loc", "/logout");
 		mav.setViewName("common/msg");
 		
 		return mav;
