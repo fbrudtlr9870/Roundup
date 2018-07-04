@@ -100,7 +100,7 @@ public class ProductController {
 	@RequestMapping("/product/reSearch.do")
 	public ModelAndView reSearch(@RequestParam String searchKeyword,@RequestParam String[] brand,@RequestParam int categoryselect,@RequestParam int price1,@RequestParam int price2) {
 		ModelAndView mav=new ModelAndView();
-		System.out.println("검색키워드="+searchKeyword);
+		logger.info("검색키워드="+searchKeyword);
 		for(String s:brand) {
 			System.out.println("브랜드="+s);
 		}
