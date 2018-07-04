@@ -365,10 +365,10 @@ function payRequest() {
 			    			if(data==="success") {
 			    				if(confirm("결제가 완료되었습니다. 결제 내역 페이지로 이동하시겠습니까?")) {
 			    					// 결제내역 페이지 보여주기
-			    					location.href="${pageContext.request.contextPath}"; 
+			    					location.href="${pageContext.request.contextPath}/member/myPagePurchaseComplete.do?member_id=${member_id}"; 
 			    				} else {
 			    					// 장바구니 페이지 보여주기
-			    					location.href="${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${member_id}";
+			    					location.href="${pageContext.request.contextPath }/member/myPageBasket.do?member_id=${member_id}";
 			    				} 
 			    			}
 			    		},
@@ -564,6 +564,9 @@ function addCommaSearch(value) {
 	str = String(value);
     return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
 }
+
+
+
 
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

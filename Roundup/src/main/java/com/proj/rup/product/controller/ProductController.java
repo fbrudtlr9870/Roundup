@@ -77,7 +77,7 @@ public class ProductController {
                 response.append(inputLine);
             }
             br.close();
-            System.out.println(response.toString());
+            System.out.println("박상현 나쁜자식 겁나 이상하게 코드짜네"+response.toString());
             mav.addObject("bloginfo", response);
         } catch (Exception e) {
             System.out.println(e);
@@ -137,6 +137,7 @@ public class ProductController {
 		map.put("categoryArr", categoryArr);
 		List<Product> list=productService.categoryLevelOneSearch(map);
 		logger.debug("productCategorySearch:"+list);
+		mav.addObject("bloginfo", "not");
 		mav.addObject("searchList",list);
 		 mav.setViewName("product/productSearch");
 		return mav;
@@ -257,7 +258,7 @@ public class ProductController {
 		
 		mav.addObject("brandList",brandList);
 		mav.addObject("categoryList",categoryList);
-		mav.setViewName("product/productEnroll");
+		mav.setViewName("manager/productEnroll");
 		return mav;
 	}
 	

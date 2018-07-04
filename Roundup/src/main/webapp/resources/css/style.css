@@ -182,10 +182,13 @@ div.main-li-container{
     margin:0 auto;
     position: relative;
     overflow: hidden;
-    border:1px solid lightgray;
     border-radius: 10px;
 }
-
+.w-100 {
+  
+    /* text-align: center; */
+    margin: 0 auto;
+}
 ul.main-ul{
     list-style-type: none;
 }
@@ -317,4 +320,87 @@ div#addrList-hyelin {
 div#popup_btn-hyelin {
 	margin: 0 auto;
 	width: 120px;
+}
+div#searchContainer-hyelin {
+	width: 980px;
+	margin: 0 auto;
+}
+
+img.prod-img-hyelin {
+	width: 280px;
+	height: 280px;
+}
+
+div.card-hyelin {
+	width: 320px;
+	display: inline-block;
+	position: relative;
+	height: 400px;
+}
+
+p.card-text-hyelin {
+	font-size: 20px;	
+}
+
+div.btnDiv-hyelin {
+	opacity: 0;
+	position: absolute;
+	top: 120px;
+	margin: 0 auto;
+	left: 80px;
+}
+
+div.card-hyelin:hover div.btnDiv-hyelin {
+	opacity: 1;
+	z-index: 20;
+}
+
+div.card-body:hover img.prod-img-hyelin{
+	opacity: 0.5;
+}
+
+div.btnDiv-hyelin img {
+	width: 70px;
+	border-radius: 50px;
+}
+
+label.label-bgWhite-hyelin {
+	background: #fff !important;
+	width: 100px;
+}
+
+select.select-hyelin {
+	width: 120px;
+}
+
+div#detailContainer-hyelin {
+	width: 980px;
+	margin: 0 auto;
+}
+
+img.btnImg-hyelin {
+	cursor: pointer;
+}
+
+.right10-hyelin {
+	margin-right: 10px !important;
+}
+.btn-transparent-hyelin {
+	background: transparent;
+	border-color: transparent;
+}
+.card-title {
+	margin-top: 10px;
+}
+.bold-hyelin {
+	font-weight: bold;
+}
+.fontSize30-hyelin{
+	font-size: 30px;
+}
+.colorGray-hyelin {
+	color: gray;
+}
+.alignCenter-hyelin {
+	text-align: center;
 }

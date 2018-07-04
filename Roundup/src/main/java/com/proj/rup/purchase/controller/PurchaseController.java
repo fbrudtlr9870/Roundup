@@ -17,7 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.proj.rup.basket.model.service.BasketService;
 import com.proj.rup.basket.model.service.BasketServiceImpl;
 import com.proj.rup.basket.model.vo.BasketProduct;
+import com.proj.rup.member.model.service.MemberService;
 import com.proj.rup.member.model.vo.Address;
+import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.vo.MemberAddress;
 import com.proj.rup.product.model.vo.Product;
 import com.proj.rup.purchase.model.service.PurchaseService;
@@ -35,10 +37,17 @@ public class PurchaseController {
 	
 	@Autowired
 	private BasketService basketService = new BasketServiceImpl();
+
+	@Autowired
+	private MemberService memberService;
 	
 	@RequestMapping("/purchase/purchase.do")
-	public ModelAndView purchase(@RequestParam(value="basketNo") String basketNo) {
+	public ModelAndView purchase(@RequestParam(value="basketNo") String basketNo,
+								 @RequestParam(value="memberId") String memberId) {
 		ModelAndView mav = new ModelAndView();
+		
+		Member m = memberService.selectOneMember(memberId);
+		mav.addObject("member",m);
 		
 		if(!basketNo.contains("/")) {
 			BasketProduct purchase = purchaseService.selectPurchaseOne(Integer.parseInt(basketNo));
@@ -66,16 +75,20 @@ public class PurchaseController {
 							@RequestParam(value="product_amount") String product_amount,
 							@RequestParam(value="address") String address, 
 							@RequestParam(value="zip_code") String zip_code,
-							@RequestParam(value="basketNo") String basketNo) {
-		
+							@RequestParam(value="basketNo") String basketNo,
+							@RequestParam(value="membership") int membership,
+							@RequestParam(value="totalPrice") int totalPrice) {
+
+		logger.debug(product_no+","+member_id+","+product_amount+","+address+","+zip_code+","+basketNo);
+
 		int result = 0;
 		String returnMsg = "";
-		
+
 		if(!product_no.contains("/")) {
 			// purchase 테이블에 값 넣기
 			Purchase purchase = new Purchase(0, Integer.parseInt(product_no), member_id, null, Integer.parseInt(product_amount), address, zip_code);
 			result = purchaseService.insertPurchase(purchase);
-			
+			logger.debug("result@purchaseEnd : "+result);
 			// purchase_complete 테이블에 값 넣기
 			PurchaseComplete purchaseComplete = new PurchaseComplete(0, purchase.getPurchase_no(), Integer.parseInt(product_no), member_id, null, Integer.parseInt(product_amount), address, zip_code);
 			purchaseService.insertPurchaseComplete(purchaseComplete);
@@ -121,7 +134,16 @@ public class PurchaseController {
 			}
 		}
 		
+		logger.debug("result@purchaseEnd : "+result);
+		
 		if(result > 0) {
+			// membership 테이블에 값 넣기
+			Map<String, Object> map = new HashMap<>();
+			map.put("member_id", member_id);
+			map.put("membership", membership);
+			map.put("totalPrice", totalPrice);
+			
+			memberService.updateMembership(map);
 			returnMsg = "success";
 		} else {
 			returnMsg = "fail";
@@ -152,14 +174,17 @@ public class PurchaseController {
 	
 	@RequestMapping("/purchase/buyNow.do")
 	public ModelAndView buyNow(@RequestParam(value="productAmount") int productAmount,
-							   @RequestParam(value="productNo") int productNo) {
+							   @RequestParam(value="productNo") int productNo,
+							   @RequestParam(value="memberId") String memberId) {
 		
 		ModelAndView mav = new ModelAndView();
 		
 		Product buyNow = purchaseService.buyNow(productNo);
+		Member m = memberService.selectOneMember(memberId);
 
 		mav.addObject("productAmount", productAmount);
 		mav.addObject("buyNow", buyNow);
+		mav.addObject("member",m);
 		
 		mav.setViewName("/purchase/purchase");
 		

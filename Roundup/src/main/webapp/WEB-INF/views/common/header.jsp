@@ -81,7 +81,7 @@ img#chat-icon{
 
                     <li class="nav-bar-site-li">
 	                    <c:if test="${member_id!=null}">
-	                    	<a href="${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${member_id}" style="color:black">장바구니</a>
+	                    	<a href="${pageContext.request.contextPath }/member/myPageBasket.do?member_id=${member_id}" style="color:black">장바구니</a>
 
 	                    </c:if>
 	                    <c:if test="${member_id==null}">

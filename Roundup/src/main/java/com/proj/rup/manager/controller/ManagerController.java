@@ -14,6 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.proj.rup.manager.model.service.ManagerService;
 import com.proj.rup.manager.model.service.ManagerServiceImpl;
 import com.proj.rup.member.model.vo.Member;
+import com.proj.rup.member.model.vo.MemberAddress;
+import com.proj.rup.purchase.model.service.PurchaseService;
+import com.proj.rup.purchase.model.service.PurchaseServiceImpl;
 
 @Controller
 public class ManagerController {
@@ -22,9 +25,27 @@ public class ManagerController {
 	
 	@Autowired
 	ManagerService managerService = new ManagerServiceImpl();
+	@Autowired
+	private PurchaseService purchaseService = new PurchaseServiceImpl();
 	
 	@RequestMapping("/manager/managerPage.do")
-	public ModelAndView member(@RequestParam(value="cPage", 
+	public ModelAndView member() {
+		if(logger.isDebugEnabled()) logger.debug("관리자페이지 요청");
+		ModelAndView mav = new ModelAndView();
+		int numPerPage = 10;
+		
+		//2. 페이지바처리를 위한 전체컨텐츠수 구하기
+		int totalContents = managerService.selectManagerTotalMember();
+		
+		mav.addObject("totalContents",totalContents);
+		mav.addObject("numPerPage",numPerPage);
+		/*mav.setViewName("/manager/memberManagement");*/
+		return mav;
+		
+	}
+	
+	@RequestMapping("/manager/memberManagement.do")
+	public ModelAndView memberManagement(@RequestParam(value="cPage", 
 											  required=false, 
 											  defaultValue="1") 
 											  int cPage) {
@@ -41,7 +62,7 @@ public class ManagerController {
 		mav.addObject("list", list);
 		mav.addObject("totalContents",totalContents);
 		mav.addObject("numPerPage",numPerPage);
-		
+		mav.setViewName("/manager/memberManagement");
 		return mav;
 		
 	}
@@ -52,11 +73,12 @@ public class ManagerController {
 		System.out.println("member_id@myPage.do:"+member_id);
 		Member m = managerService.selectOneMember(member_id);
 		System.out.println("member@myPage:"+m);
-		
+		MemberAddress ma = purchaseService.selectMemberInfo(member_id);
 		//List<PurchaseComplete> pc = purchaseService.selectPCList(memberId);
 		//logger.debug("purchaseComplete@memberController pc:"+pc);
 		
 		mav.addObject("member",m);
+		mav.addObject("memberAddress",ma);
 		//mav.addObject("purchaseComplete",pc);
 		mav.setViewName("manager/managerView");
 
