@@ -121,29 +121,34 @@ public class ProductController {
 		Map<String,Object> map=new HashMap<String, Object>();
 		List<Category> categoryList=productService.selecteAllCategoryList();
 		List<Integer> categoryArr=new ArrayList<>();
-		
-		for(Category c:categoryList) {
-			if(c.getCategory_level()==1 && c.getCategory_no()==categoryselect) {
-				categoryArr.add(c.getCategory_no());
-				for(Category cc:categoryList) {
-					if(cc.getCategory_level()==2 && cc.getParent_category()==c.getCategory_no()) {
-						categoryArr.add(cc.getCategory_no());
-						for(Category ccc:categoryList) {
-							if(ccc.getCategory_level()==3 && ccc.getParent_category()==cc.getCategory_no()) {
-								categoryArr.add(ccc.getCategory_no());
+		if(categoryselect==0) {
+			for(Category c:categoryList) {
+				categoryArr.add(c.getCategory_no());				
+			}
+		}else {
+			for(Category c:categoryList) {
+				if(c.getCategory_level()==1 && c.getCategory_no()==categoryselect) {
+					categoryArr.add(c.getCategory_no());
+					for(Category cc:categoryList) {
+						if(cc.getCategory_level()==2 && cc.getParent_category()==c.getCategory_no()) {
+							categoryArr.add(cc.getCategory_no());
+							for(Category ccc:categoryList) {
+								if(ccc.getCategory_level()==3 && ccc.getParent_category()==cc.getCategory_no()) {
+									categoryArr.add(ccc.getCategory_no());
+								}
 							}
 						}
 					}
-				}
-			}else if(c.getCategory_level()==2 && c.getCategory_no()==categoryselect) {
-				categoryArr.add(c.getCategory_no());
-				for(Category cc:categoryList) {
-					if(cc.getCategory_level()==3 && cc.getParent_category()==c.getCategory_no()) {
-						categoryArr.add(cc.getCategory_no());
+				}else if(c.getCategory_level()==2 && c.getCategory_no()==categoryselect) {
+					categoryArr.add(c.getCategory_no());
+					for(Category cc:categoryList) {
+						if(cc.getCategory_level()==3 && cc.getParent_category()==c.getCategory_no()) {
+							categoryArr.add(cc.getCategory_no());
+						}
 					}
+				}else if(c.getCategory_level()==3 && c.getCategory_no()==categoryselect) {
+					categoryArr.add(c.getCategory_no());
 				}
-			}else if(c.getCategory_level()==3 && c.getCategory_no()==categoryselect) {
-				categoryArr.add(c.getCategory_no());
 			}
 		}
 		System.out.println("categoryArr="+categoryArr);
@@ -170,7 +175,8 @@ public class ProductController {
         mav.addObject("popmenu", repopmenu);
         mav.addObject("searchKeyword", searchKeyword);        
         mav.addObject("searchList", list);
-
+        System.out.println("바꿀 때는 말하고 바꿉시다.");
+        System.out.println("검색키워드"+searchKeyword+" 브랜드"+brand+" 카테고리 배열 "+categoryArr+"가격1"+price1+" 가격2"+price2);
         mav.setViewName("product/productSearch");
 		return mav;
 	}
