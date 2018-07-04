@@ -242,7 +242,7 @@ public class MemberController {
 		member.setAutority(autority);
 		int result = 0;
 		
-		String loc = "/"; 
+		String loc = "/member/myPageMemberView.do?member_id="+member.getMember_id(); 
 		String msg = "";
 		
 		if(memberService.updateMember(member) > 0) {

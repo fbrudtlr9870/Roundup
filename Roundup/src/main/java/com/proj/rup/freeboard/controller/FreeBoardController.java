@@ -211,7 +211,7 @@ public class FreeBoardController {
 			sb = new StringBuffer();
 			sb.append("&NewLine=true")
 			  .append("&sFileName=").append(originalFileName)
-			  .append("&sFileURL=").append("http://localhost:9091/rup/resources/upload/freeboard/")
+			  .append("&sFileURL=").append("http://localhost:9090/rup/resources/upload/freeboard/")
 			  .append(renamedFileName);
 			
 			//유저의 인증세션 값 가져오기
