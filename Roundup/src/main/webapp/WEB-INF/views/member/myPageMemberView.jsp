@@ -294,6 +294,14 @@ $(function(){
 	$("#sample4_jibunAddress").val(address[1]);
 	$("#sample4_detailAddress").val(address[2]); 
 });
+
+function deleteMember(){
+	if(confirm("탈퇴하시겠습니까?")){	
+		location.href = "${pageContext.request.contextPath}/member/memberDelete.do?member_id="+${member.member_id};
+	}else{
+		return;
+	}
+}
 </script>
 
 
@@ -353,8 +361,14 @@ $(function(){
 								<td>
 									<select name="member_gender" id="member_gender_" class="form-control" required>
 										<option value=""disabled selected>성별</option>
-										<option value="M">남자</option>
-										<option value="F">여자</option>
+										<c:if test="${member.member_gender eq 'M' }">									
+											<option value="M" selected>남자</option>
+											<option value="F">여자</option>
+										</c:if>
+										<c:if test="${member.member_gender eq 'F' }">									
+											<option value="M">남자</option>
+											<option value="F" selected>여자</option>
+										</c:if>
 									</select>
 								</td>
 							</tr>
@@ -372,7 +386,7 @@ $(function(){
 							</table>
 	      					<div id="btnDiv">
 								<input type="submit" value="수정" class="btn btn-outline-success"/> &nbsp;
-								<input type="reset" value="탈퇴" class="btn btn-outline-success"/>
+								<input type="button" onclick="deleteMember();" value="탈퇴" class="btn btn-outline-success"/>
 							</div>
 					</form>
       			</div>

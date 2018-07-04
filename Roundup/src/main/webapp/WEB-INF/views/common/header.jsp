@@ -61,14 +61,9 @@ img#chat-icon{
 </head>	
 
 <!-- 유저롤을 가진 유저  -->
-<sec:authorize access="hasAnyRole('ROLE_USER')">
+<sec:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
-</sec:authorize>
-<!-- 관리자롤을 가진 유저 -->
-<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
-	<sec:authentication property="principal.username" var="admin_id"/>
-	<sec:authentication property="principal.member_name" var="admin_name"/>
 </sec:authorize>
 
 
@@ -98,7 +93,7 @@ img#chat-icon{
 	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">마이페이지</a>
 	                    </c:if>
              
-					<!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! -->
+				
 					<!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! --> 
                     <!-- 권한에 따른 접근 방법 기술 -->
                		<sec:authorize access="hasRole('ROLE_ADMIN')">
@@ -171,13 +166,14 @@ img#chat-icon{
             </div>
             
             <!-- 채팅아이콘 -->
+
             <img src="${pageContext.request.contextPath }/resources/img/chat-icon.png" id="chat-icon"/>
- 
+
             <!-- 채팅 관련 html 시작 -->
 
    			 <div id="chatting-room">
             	<input type="hidden" name="member_id" value="${member_id}" />
-            	<div style="text-align:center;">현재 접속중인 회원<span id="connected-member"style="font-weight:bold;">${totalMember }</span> 명</div>
+            	<div style="text-align:center;">현재 접속중인 사용자<span id="connected-member"style="font-weight:bold;"> ? </span> 명</div>
             	<c:if test="${member_id!=null }">
             	<div style="text-align:center;margin-top:10px;">채팅방에 접속되었습니다.</div>  
             	</c:if>
@@ -369,6 +365,9 @@ $(document).ready(function(){
 $(function(){
 	$("#chat-icon").click(function(){
 		$("#chatting-room").show();
+		//스크롤바 설정
+		var offset = $(".chatting-comment:last").offset();
+		$("#chatting-content").animate({scrollTop : offset.top}, 400);
 	});
 });
 
@@ -382,10 +381,55 @@ var sock=new SockJS("<c:url value="/echo"/>");
 sock.onmessage= onMessage; 
 sock.onclose = onClose; 
  
+sock.onopen=function(){
+	sendMessage();
+	$.ajax({
+ 		url:"${pageContext.request.contextPath}/chatting/showChat.do",
+ 		type:"post",
+ 		dataType:"json",
+ 		success:function(data){
+ 			for(var index in data){
+ 				var c = data[index];
+ 				if(index=="connectCount"){
+ 					//$("#connected-member").text(c);
+ 				}
+ 				if(index=="list"){
+			 		var html='<div>';
+ 					for(var li in c){
+ 						html+='<div class="chatting-comment" style="text-align:left;">';
+ 						html+='<strong>['+c[li].member_id+'] :</strong> '+c[li].chat_content+'</div>';
+ 					}
+ 					html+='</div>';
+ 		 			$("#chatting-content").html(html);
+ 				}
+ 			}
+ 			
+ 		},
+ 		error:function(jqxhr, testStatus, errorThrown){
+			console.log("ajax처리실패");
+			console.log(jqxhr);
+			console.log(testStatus);
+			console.log(errorThrown);
+		 }
+ 	});
+} 
+ 
 $(function(){ 
   $("#insertChat").click(function(){ 
-    sendMessage(); 
-    $("#insertText").val('');
+	var chatText=$("#insertText").val().trim();
+	var member_id =$("[name=member_id]").val().trim();
+	if(chatText==""){
+			alert("내용을 입력하셔야 합니다.");
+			return false;
+		}
+		
+		if(member_id ==""){
+			alert("로그인 후 이용가능합니다.");
+			return false;
+		}else{
+			sendMessage();
+			$("#insertText").val('');
+		}
   }); 
   $("#insertText").keypress(function (e) {
 		var chatText=$("#insertText").val().trim();
@@ -425,13 +469,20 @@ function onMessage(evt){
   sessionid=strArr[0]; 
   message=strArr[1]; 
    
-  var html='<div class="chatting-comment" style="text-align:left;">'; 
-  html+='<strong>['+sessionid+'] :</strong>'+message; 
-  html+='</div>'; 
-  $("#chatting-content").append(html); 
-  
-  var offset = $(".chatting-comment:last").offset();
-  $("#chatting-content").animate({scrollTop : offset.top}, 400);
+  if(sessionid==""){
+	  $("#connected-member").html(" "+message+" ");
+  }else if(sessionid=="로그인감지로 인해 접속이 끊어집니다."){
+	 	alert("로그인 감지로 로그인을 해제합니다.");
+	 	location.href="${pageContext.request.contextPath}";
+  }else{
+	  var html='<div class="chatting-comment" style="text-align:left;">'; 
+	  html+='<strong>['+sessionid+'] :</strong>'+message; 
+	  html+='</div>'; 
+	  $("#chatting-content").append(html); 
+	  
+	  var offset = $(".chatting-comment:last").offset();
+	  $("#chatting-content").animate({scrollTop : offset.top}, 400);
+  }
     
 } 
  

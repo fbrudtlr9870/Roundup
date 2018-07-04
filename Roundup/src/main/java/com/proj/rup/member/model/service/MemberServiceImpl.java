@@ -46,11 +46,7 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.selectMember(member_id);
 	}
 	
-	@Override
-	public int deleteMember(Member member) {
-		return memberDAO.deleteMember(member);
-	}
-
+	
 	@Override
 	public int totalMember() {
 		return memberDAO.totalMember();
@@ -81,6 +77,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int updateMembership(Map<String, Object> map) {
 		return memberDAO.updateMembership(map);
+	}
+
+	@Override
+	public int deleteMember(String member_id) {
+		return memberDAO.deleteMember(member_id);
 	}
 
 }

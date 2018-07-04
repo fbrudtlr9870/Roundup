@@ -19,7 +19,7 @@ public interface MemberDAO {
 
 	int selectMember(String member_id);
 
-	int deleteMember(Member member);
+	
 
 	int totalMember();
 
@@ -37,6 +37,8 @@ public interface MemberDAO {
 	Membership selectMembership(String memberId);
 
 	int updateMembership(Map<String, Object> map);
+
+	int deleteMember(String member_id);
 
 
 

@@ -19,6 +19,14 @@ public class Chatting {
 		this.chat_date = chat_date;
 	}
 
+	
+	
+	public Chatting(String member_id, String chat_content) {
+		super();
+		this.member_id = member_id;
+		this.chat_content = chat_content;
+	}
+
 	@Override
 	public String toString() {
 		return "Chatting ["+chat_no+", member_id=" + member_id + ", chat_content=" + chat_content + ", chat_date=" + chat_date + "]";

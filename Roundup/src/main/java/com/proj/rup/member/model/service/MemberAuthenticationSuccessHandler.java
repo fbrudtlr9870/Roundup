@@ -27,7 +27,7 @@ public class MemberAuthenticationSuccessHandler implements AuthenticationSuccess
 		
 		int result = sqlSession.insert("member.connectMember",member);	
 		System.out.println("auth="+authentication);	
-		
+		System.out.println("session="+request.getSession().getId());
 		response.sendRedirect("/rup");
 
 	}
