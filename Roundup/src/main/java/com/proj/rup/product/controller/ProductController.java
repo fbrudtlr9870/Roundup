@@ -47,43 +47,7 @@ public class ProductController {
 		mav.addObject("searchKeyword", searchKeyword);
 		List<Category> categoryList=productService.selecteAllCategoryList();
 		List<Product> list=productService.productSearch(searchKeyword);
-		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색------------------------------
-		String clientId = "vbEkw23fbdDmfyg_CYg9";//애플리케이션 클라이언트 아이디값";
-        String clientSecret = "iTpsbroJuP";//애플리케이션 클라이언트 시크릿값";
-        try {
-        	String text="";
-        	if(list.isEmpty()) {
-        		text = URLEncoder.encode(searchKeyword, "UTF-8");        		
-        	}else {
-        		text = URLEncoder.encode(list.get(0).getProductName(), "UTF-8");        		
-        	}
-            String apiURL = "https://openapi.naver.com/v1/search/blog?query="+ text+"&display=5&start=1"; // json 결과
-            //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
-            URL url = new URL(apiURL);
-            HttpURLConnection con = (HttpURLConnection)url.openConnection();
-            con.setRequestMethod("GET");
-            con.setRequestProperty("X-Naver-Client-Id", clientId);
-            con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
-            int responseCode = con.getResponseCode();
-            BufferedReader br;
-            if(responseCode==200) { // 정상 호출
-                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            } else {  // 에러 발생
-                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-            }
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-            while ((inputLine = br.readLine()) != null) {
-                response.append(inputLine);
-            }
-            br.close();
-            System.out.println(response.toString());
-            mav.addObject("bloginfo", response);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색 끝------------------------------
-
+		searchNaver(searchKeyword,list,mav);
         int rowprice=0;
         int avgprice=0;
         Product popmenu=null;
@@ -152,34 +116,39 @@ public class ProductController {
 		}
 		System.out.println(categoryselect);
 		System.out.println(price1+"~"+price2+"범위");
-		if(brand.length<2)
+		if(brand[0].equals("all"))
 			brand=new String[] {"CU","GS25","7ELEVEN","MINISTOP","EMART24"};
 		Map<String,Object> map=new HashMap<String, Object>();
 		List<Category> categoryList=productService.selecteAllCategoryList();
 		List<Integer> categoryArr=new ArrayList<>();
-		
-		for(Category c:categoryList) {
-			if(c.getCategory_level()==1 && c.getCategory_no()==categoryselect) {
-				categoryArr.add(c.getCategory_no());
-				for(Category cc:categoryList) {
-					if(cc.getCategory_level()==2 && cc.getParent_category()==c.getCategory_no()) {
-						categoryArr.add(cc.getCategory_no());
-						for(Category ccc:categoryList) {
-							if(ccc.getCategory_level()==3 && ccc.getParent_category()==cc.getCategory_no()) {
-								categoryArr.add(ccc.getCategory_no());
+		if(categoryselect==0) {
+			for(Category c:categoryList) {
+				categoryArr.add(c.getCategory_no());				
+			}
+		}else {
+			for(Category c:categoryList) {
+				if(c.getCategory_level()==1 && c.getCategory_no()==categoryselect) {
+					categoryArr.add(c.getCategory_no());
+					for(Category cc:categoryList) {
+						if(cc.getCategory_level()==2 && cc.getParent_category()==c.getCategory_no()) {
+							categoryArr.add(cc.getCategory_no());
+							for(Category ccc:categoryList) {
+								if(ccc.getCategory_level()==3 && ccc.getParent_category()==cc.getCategory_no()) {
+									categoryArr.add(ccc.getCategory_no());
+								}
 							}
 						}
 					}
-				}
-			}else if(c.getCategory_level()==2 && c.getCategory_no()==categoryselect) {
-				categoryArr.add(c.getCategory_no());
-				for(Category cc:categoryList) {
-					if(cc.getCategory_level()==3 && cc.getParent_category()==c.getCategory_no()) {
-						categoryArr.add(cc.getCategory_no());
+				}else if(c.getCategory_level()==2 && c.getCategory_no()==categoryselect) {
+					categoryArr.add(c.getCategory_no());
+					for(Category cc:categoryList) {
+						if(cc.getCategory_level()==3 && cc.getParent_category()==c.getCategory_no()) {
+							categoryArr.add(cc.getCategory_no());
+						}
 					}
+				}else if(c.getCategory_level()==3 && c.getCategory_no()==categoryselect) {
+					categoryArr.add(c.getCategory_no());
 				}
-			}else if(c.getCategory_level()==3 && c.getCategory_no()==categoryselect) {
-				categoryArr.add(c.getCategory_no());
 			}
 		}
 		System.out.println("categoryArr="+categoryArr);
@@ -192,42 +161,7 @@ public class ProductController {
 		map.put("price2", price2);
 		List<Product> plist=productService.productSearch(searchKeyword);
 		List<Product> list=productService.reSearch(map);
-		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색------------------------------
-		String clientId = "vbEkw23fbdDmfyg_CYg9";//애플리케이션 클라이언트 아이디값";
-        String clientSecret = "iTpsbroJuP";//애플리케이션 클라이언트 시크릿값";
-        try {
-        	String text="";
-        	if(list.isEmpty()) {
-        		text = URLEncoder.encode(searchKeyword, "UTF-8");        		
-        	}else {
-        		text = URLEncoder.encode(list.get(0).getProductName(), "UTF-8");        		
-        	}
-            String apiURL = "https://openapi.naver.com/v1/search/blog?query="+ text+"&display=5&start=1"; // json 결과
-            //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
-            URL url = new URL(apiURL);
-            HttpURLConnection con = (HttpURLConnection)url.openConnection();
-            con.setRequestMethod("GET");
-            con.setRequestProperty("X-Naver-Client-Id", clientId);
-            con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
-            int responseCode = con.getResponseCode();
-            BufferedReader br;
-            if(responseCode==200) { // 정상 호출
-                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            } else {  // 에러 발생
-                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-            }
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-            while ((inputLine = br.readLine()) != null) {
-                response.append(inputLine);
-            }
-            br.close();
-            System.out.println(response.toString());
-            mav.addObject("bloginfo", response);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-		//-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색 끝------------------------------
+		searchNaver(searchKeyword,list,mav);
         int rerowprice=0;
         int reavgprice=0;
         Product repopmenu=null;
@@ -241,7 +175,8 @@ public class ProductController {
         mav.addObject("popmenu", repopmenu);
         mav.addObject("searchKeyword", searchKeyword);        
         mav.addObject("searchList", list);
-
+        System.out.println("바꿀 때는 말하고 바꿉시다.");
+        System.out.println("검색키워드"+searchKeyword+" 브랜드"+brand+" 카테고리 배열 "+categoryArr+"가격1"+price1+" 가격2"+price2);
         mav.setViewName("product/productSearch");
 		return mav;
 	}
@@ -402,5 +337,43 @@ public class ProductController {
 		return list;
 	}
 	
-
+	public void searchNaver(String searchKeyword,List<Product> list,ModelAndView mav) {
+	      //-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색------------------------------
+	            String clientId = "vbEkw23fbdDmfyg_CYg9";//애플리케이션 클라이언트 아이디값";
+	              String clientSecret = "iTpsbroJuP";//애플리케이션 클라이언트 시크릿값";
+	              try {
+	                 String text="";
+	                 if(list.isEmpty()) {
+	                    text = URLEncoder.encode(searchKeyword, "UTF-8");              
+	                 }else {
+	                    text = URLEncoder.encode(list.get(0).getProductName(), "UTF-8");              
+	                 }
+	                  String apiURL = "https://openapi.naver.com/v1/search/blog?query="+ text+"&display=5&start=1"; // json 결과
+	                  //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
+	                  URL url = new URL(apiURL);
+	                  HttpURLConnection con = (HttpURLConnection)url.openConnection();
+	                  con.setRequestMethod("GET");
+	                  con.setRequestProperty("X-Naver-Client-Id", clientId);
+	                  con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
+	                  int responseCode = con.getResponseCode();
+	                  BufferedReader br;
+	                  if(responseCode==200) { // 정상 호출
+	                      br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+	                  } else {  // 에러 발생
+	                      br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+	                  }
+	                  String inputLine;
+	                  StringBuffer response = new StringBuffer();
+	                  while ((inputLine = br.readLine()) != null) {
+	                      response.append(inputLine);
+	                  }
+	                  br.close();
+	                  System.out.println(response.toString());
+	                  mav.addObject("bloginfo", response);
+	              } catch (Exception e) {
+	                  System.out.println(e);
+	              }
+	            //-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색 끝------------------------------
+	   }
 }
+
