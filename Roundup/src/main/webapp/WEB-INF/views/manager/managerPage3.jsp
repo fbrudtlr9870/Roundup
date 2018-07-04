@@ -154,7 +154,6 @@ div.section_div-s table tr td {
 <br>
 <br>
 <h2 class="imsosotired">회원관리</h2>
-
 <br />
 
 <div class="main-li-container">
@@ -192,7 +191,7 @@ div.section_div-s table tr td {
                </c:forEach>
 
             </table>
-		<br />
+
             <!-- 페이지바 -->
             <%
                int totalContents = Integer.parseInt(String.valueOf(request.getAttribute("totalContents")));
@@ -205,7 +204,7 @@ div.section_div-s table tr td {
                }
             %>
             <%=com.proj.rup.common.util.Utils.getPageBar(totalContents, cPage, numPerPage, "managerPage.do")%>
-	<br />
+
          </div>
          
                 
@@ -242,9 +241,9 @@ div.section_div-s table tr td {
    });
 </script>
 
-     
+       <a href="${pageContext.request.contextPath }/product/productEnroll.do"><center>상품등록페이지</center></a>
   </div>
-  <h2 class="imsosotired">  <a href="${pageContext.request.contextPath }/product/productEnroll.do"><center>상품등록페이지</center></a></h2>
+  
 </div>
         </div>
         <br><br>
