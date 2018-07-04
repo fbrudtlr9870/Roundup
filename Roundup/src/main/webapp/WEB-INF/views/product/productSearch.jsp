@@ -220,8 +220,9 @@ $(function(){
 	}); 
 }); */
 
-
+// 최상위 카테고리 클릭 이벤트
 $(function() {
+	$(".cate01").addClass('on');
 	// 최상위 카테고리 클릭 시
  	$(".inner").click(function() {
  		var inner = document.getElementsByClassName("inner");
@@ -239,24 +240,30 @@ $(function() {
 	});
 });
 
-
+// 하위 카테고리 클릭 이벤트
 $(function() {
-	// 최상위 카테고리 클릭 시
- 	$(".inner").click(function() {
- 		var inner = document.getElementsByClassName("inner");
-
- 		// 이미 선택된 카테고리 해제
- 		for(var i=0; i<inner.length; i++) {
- 			if(inner[i].parentNode.parentNode.parentNode.className.indexOf('on') != -1) {
- 				inner[i].parentNode.parentNode.parentNode.className = 'cate0'+(i+1);
- 			}
- 		}
- 		
- 		// 해당 요소가 선택되었음을 의미하는 on class 추가해줌
- 		$(this).parents("li").addClass('on');
-	});
+	// +버튼 누르면 최하위 카테고리 열림
+ 	$(".btn_more").on('click', function() {
+ 		var allDiv = $(".layer_more_cate");
+ 		allDiv.css("opacity", "0")
+		   	   .css("overflow", "hidden"); 
+ 		var layer_more_cate = $(this).siblings("div");
+ 		layer_more_cate.css("opacity", "1")
+ 					   .css("overflow", "visible"); 		
+ 	});
 });
 
+
+
+/* <li><span>라면</span>
+<button type="button" class="btn btn-transparent-hyelin btn_more"><img src="${pageContext.request.contextPath}/resources/img/add.png" alt="" class="btnImg-hyelin" title="하위 카테고리 보기" data-toggle="tooltip" data-placement="bottom"/></button>
+<div class="layer_more_cate">
+	<ul class="list_more_cate">
+		<li><span>컵라면</span>
+		<li><span>봉지라면</span>
+	</ul>
+</div>
+</li> */
 </script>
 <style>
 /* div.main-li-container li.CU {
@@ -371,7 +378,7 @@ ul.category-hyelin li label {
 .search__list_category .list_cate .list_depth_02 > .on .num {color:#ce1710;}
 /* .search__list_category .list_cate .list_depth_02 > li > .btn_more {overflow:hidden;float:left;width:14px;height:14px;margin-top:2px;background:url(//image.wemakeprice.com/images/2013/view/ico_search_result_more.png) no-repeat;text-indent:-9999px;} */
 .btn_more {padding: 0; margin-bottom: 6px; margin-left: 3px;}
-.search__list_category .list_cate .layer_more_cate {overflow:hidden;position:relative;z-index:1;min-width:165px;max-width:210px;max-height:115px;height:0;border:1px solid #ddd;box-shadow:1px 1px 2px rgba(0, 0, 0, .1);background-color:#fff;opacity:0;filter:alpha(opacity=0);}
+.search__list_category .list_cate .layer_more_cate {overflow:hidden;position:relative;z-index:1;min-width:165px;max-width:210px;max-height:115px;border:1px solid #ddd;box-shadow:1px 1px 2px rgba(0, 0, 0, .1);background-color:#fff;opacity:0;filter:alpha(opacity=0);}
 .search__list_category .list_cate .layer_more_open {overflow-y:auto;height:auto;opacity:1;filter:alpha(opacity=100);}
 .search__list_category .list_cate .layer_more_cate .list_more_cate {padding:11px 15px 11px;}
 .search__list_category .list_cate .layer_more_cate .list_more_cate li {margin-top:2px;padding-left:8px;background:url(//image.wemakeprice.com/images/2014/search/ico_dot.png) no-repeat 0 7px;}
@@ -386,7 +393,12 @@ ul.category-hyelin li label {
 .marginRight0-hyelin {
 	margin-right: 0 !important;
 }
-
+.marginRight50-hyelin {
+	margin-right: 50px !important;
+}
+.cate-hyelin :hover {
+	color: blue; 
+}
 </style>
 
 
@@ -427,125 +439,54 @@ ul.category-hyelin li label {
 		<td></td>
 	</tr>
 	<tr>
-		<th scope="row">카테고리</th>
-		<td colspan="6">
-		<div class="search_result_cate">
-				<div class="search__list_category">
-					<ul class="list_cate">
-
-						<li class="cate01 on">
-							<div class="wrap_link_cate">
-								<p class="link_cate"><span class="inner">간편식사</span></p>
-							</div>
-							<ul class="list_depth_02">
-								<li>
-									<span>김밥</span>
-									<button type="button" class="btn btn-transparent-hyelin btn_more"><img src="${pageContext.request.contextPath}/resources/img/add.png" alt="" class="btnImg-hyelin" title="하위 카테고리 보기" data-toggle="tooltip" data-placement="bottom"/></button>
-									<div class="layer_more_cate">
-										<ul class="list_more_cate">
-											<li class="">삼각김밥</li>
-											<li class="">원형김밥</li>
-										</ul>
-									</div>
-								</li>
-
-								<li><span>도시락</span>
-									<button type="button" class="btn btn-transparent-hyelin btn_more"><img src="${pageContext.request.contextPath}/resources/img/add.png" alt="" class="btnImg-hyelin" title="하위 카테고리 보기" data-toggle="tooltip" data-placement="bottom"/></button>
-									<div class="layer_more_cate">
-										<ul class="list_more_cate">
-											<li class="">고기</li>
-											<li class="">치킨</li>
-										</ul>
-									</div>
-								</li>
-
-								<li><span>샌드위치</span></li>
-								<li><span>햄버거</span></li>
-							</ul>
-						</li>
-						<li class="cate02">
-							<div class="wrap_link_cate">
-								<p class="link_cate"><span class="inner">식품</span></p>
-							</div>
-							<ul class="list_depth_02">
-								<li class="marginRight0-hyelin"><span>컵밥</span></li>
-								<li><span>라면</span>
-									<button type="button" class="btn btn-transparent-hyelin btn_more"><img src="${pageContext.request.contextPath}/resources/img/add.png" alt="" class="btnImg-hyelin" title="하위 카테고리 보기" data-toggle="tooltip" data-placement="bottom"/></button>
-									<div class="layer_more_cate">
-										<ul class="list_more_cate">
-											<li><span>컵라면</span>
-											<li><span>봉지라면</span>
-										</ul>
-									</div>
-								</li>
-
-								<li><span>냉동식품</span>
-									<button type="button" class="btn btn-transparent-hyelin btn_more"><img src="${pageContext.request.contextPath}/resources/img/add.png" alt="" class="btnImg-hyelin" title="하위 카테고리 보기" data-toggle="tooltip" data-placement="bottom"/></button>
-									<div class="layer_more_cate">
-										<ul class="list_more_cate">
-											<li><span>치킨</span>	
-											<li><span>피자</span>	
-											<li><span>만두</span>	
-											<li><span>돼지고기</span>	
-										</ul>
-									</div>
-								</li>
-								
-								<li class="marginLeft30-hyelin"><span>냉장식품</span>
-									<button type="button" class="btn btn-transparent-hyelin btn_more"><img src="${pageContext.request.contextPath}/resources/img/add.png" alt="" class="btnImg-hyelin" title="하위 카테고리 보기" data-toggle="tooltip" data-placement="bottom"/></button>
-									<div class="layer_more_cate">
-										<ul class="list_more_cate">
-											<li><span>가공식품</span>	
-											<li><span>안주</span>	
-											<li><span>식재료</span>	
-										</ul>
-									</div>
-								</li>
-							</ul>
-						</li>
-						<li class="cate03">
-							<div class="wrap_link_cate">
-								<p class="link_cate"><span class="inner">과자류</span></p>
-							</div>
-							<ul class="list_depth_02">
-								<li><span>껌/사탕/초코</span>	
-								<li><span>박스과자</span>	
-								<li><span>봉지과자</span>	
-							</ul>
-						</li>
-						<li class="cate04">
-							<div class="wrap_link_cate">
-								<p class="link_cate"><span class="inner">아이스크림</span></p>
-							</div>
-							<ul class="list_depth_02">
-								<li><span>바</span>	
-								<li><span>콘</span>	
-								<li><span>컵</span>
-							</ul>
-						</li>
-						<li class="cate05">
-							<div class="wrap_link_cate">
-								<p class="link_cate"><span class="inner">즉석식품</span></p>
-							</div>
-							<ul class="list_depth_02">
-								<li><span>튀김</span>
-								<li><span>빵</span>
-							</ul>
-						</li>
-						<li class="cate06">
-							<div class="wrap_link_cate">
-								<p class="link_cate"><span class="inner">음료</span></p>
-							</div>
-							<ul class="list_depth_02">
-								<li><span>유제품</span>
-								<li><span>캔</span>
-								<li><span>패트</span>
-								<li><span>유리</span>
-							</ul>
-						</li>
-					</ul>
-				</div>
-			</div> 
+	<th scope="row">카테고리</th>
+      <td colspan="6">
+      <div class="search_result_cate">
+            <div class="search__list_category">
+               <c:forEach var="c" items="${categoryList }" varStatus="vs">
+                  <c:if test="${c.category_level==1 }">
+                     <ul class="list_cate">
+                        <c:if test="${c.category_no eq 1 }">
+                           <li class="cate0${c.category_no }">                  
+                        </c:if>
+                        <c:if test="${vs.index ne 1 }">
+                           <li class="cate0${c.category_no }">                                    
+                        </c:if>
+                        <div class="wrap_link_cate">
+                           <p class="link_cate"><span class="inner">${c.category_name }</span></p>
+                        </div>
+                        
+                        <ul class="list_depth_02">
+                           <c:forEach var="cc" items="${categoryList }" varStatus="vs2">
+                              <c:if test="${cc.parent_category eq c.category_no }">
+                                 <li>
+                                    <span>${cc.category_name }</span>
+                                    <c:set var="count" value="0" />
+                                    <c:forEach var="ccc" items="${categoryList }" varStatus="vs3">
+                                       <c:if test="${ccc.parent_category eq cc.category_no }">   
+                                          <c:set var="count" value="${count + 1}" />
+                                          <c:if test="${count eq 1 }">
+                                             <button type="button" class="btn btn-transparent-hyelin btn_more">
+                                             <img src="${pageContext.request.contextPath}/resources/img/add.png" alt="" class="btnImg-hyelin"/>
+                                             </button>                                    
+                                          </c:if>
+                                          <div class="layer_more_cate">
+                                             <ul class="list_more_cate">
+                                                <li><span>${ccc.category_name }</span></li>
+                                             </ul>
+                                          </div>
+                                       </c:if>
+                                    </c:forEach>
+                                 </li>
+                              </c:if>
+                           </c:forEach>
+                        </ul>    
+                        </li>
+                     </ul>
+                  </c:if>
+            </c:forEach>
+         </div>
+      </div> 
 			
 			
 			<!-- <div id="addSelectCategory">

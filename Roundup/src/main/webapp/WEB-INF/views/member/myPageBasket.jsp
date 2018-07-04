@@ -21,7 +21,6 @@
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
 <style>
-<style>
 
 div#update-container{
 	width: 700px;
@@ -97,6 +96,20 @@ div.mypage{
 	width:780px;
 }
 
+.center-hyelin {
+	text-align: center;
+	margin-top: 15px;
+}
+.border-bottom-hyelin {
+	border-bottom: 1px solid rgba(0,0,0,.1);
+}
+.padding-hyelin{
+	padding-bottom: 20px !important;
+	padding-top: 20px !important;
+}
+.btnBuy {
+	width: 100%;
+}
 </style>
 
 <sec:authorize access="hasAnyRole('ROLE_USER')">
@@ -123,7 +136,7 @@ div.mypage{
 					<br>
 					</div>
 					<div class="basket-container">
-						<table class="table">
+						<table class="table border-bottom-hyelin">
 							<tr>
 								<th><input type="checkbox" id="allCheck" name="allCheck" onchange="fn_checkAll(this.checked);"></th>
 								<th>상품정보</th>
@@ -165,31 +178,34 @@ div.mypage{
 							</c:if>
 							<c:if test="${empty basketList }">
 						          <tr>
-						             <td colspan="6">장바구니에 담긴 상품이 없습니다.</td>
+						             <td colspan="6"><h5 class="center-hyelin">장바구니에 담긴 상품이 없습니다.</h5></td>
 						          </tr>
 							</c:if>
 						</table>
-						<hr>
 						<button type="button" style="font-size:14px;" class="btn btn-danger" id="deleteChkItem" style="float: left;">선택상품 삭제</button>
 						<br>
 						<br>
 						<br>
-						<table class="table">
+						<table class="table border-bottom-hyelin">
 							<tr>
-								<th>총 배송비</th>
+								<th>배송비</th>
 								<th>총 결제금액</th>
 							</tr>
 							<tr>
-								<td class="tbl-td"><fmt:formatNumber value="2000" type="currency" currencySymbol=""/>원</td>
-								<td class="tbl-td">
-									<fmt:formatNumber value="0" type="currency" currencySymbol=""/>원 
-									<!-- <input type="text" name="" id="totalPrice" value="" />원 -->
-								</td>
+								<c:if test="${not empty basketList }">
+								<td class="tbl-td padding-hyelin"><fmt:formatNumber value="2000" type="currency" currencySymbol="" />원</td>
+								<td class="tbl-td padding-hyelin"><span id="totalPrice">2,000</span>원</td>
+								</c:if>
+								<c:if test="${empty basketList }">
+								<td class="tbl-td padding-hyelin"><fmt:formatNumber value="0" type="currency" currencySymbol="" />원</td>
+								<td class="tbl-td padding-hyelin"><fmt:formatNumber value="0" type="currency" currencySymbol="" />원 </td>
+								</c:if>
 							</tr>
 						</table>
-						<hr>
-						<button type="button" class="btn btn-primary" id="purchaseAll" style="float: right; margin: 10px;" onclick="return purchaseAll();">전체상품 주문</button>
-						<button type="button" class="btn btn-success" id="purchaseChk" style="float: right; margin: 10px;" onclick="return purchaseChk();">선택상품 주문</button>
+						<div class="btnBuy">
+							<button type="button" class="btn btn-primary" id="purchaseAll" style="float: right; margin: 10px;" onclick="return purchaseAll();">전체상품 주문</button>
+							<button type="button" class="btn btn-success" id="purchaseChk" style="float: right; margin: 10px;" onclick="return purchaseChk();">선택상품 주문</button>
+						</div>
 					</div> 
 	      </div>
 	    </div>
@@ -342,7 +358,37 @@ $(function() {
 		}
 	}); 
 
+	// 선택 상품의 금액 합 구하기
+	var total = 2000;
+	$("[name=basketList]").click(function() {
+		if($(this).is(":checked")) {
+			total += parseInt($(this).parent().parent().find("#price").val());
+		} else {
+			total -= parseInt($(this).parent().parent().find("#price").val());
+		}
+		$("#totalPrice").text(addCommaSearch(total));
+	}); 
+	
+	// 전체 상품의 금액 합 구하기
+	$("[name=allCheck]").click(function() {
+		if($(this).is(":checked")) {
+			total = 2000;
+			var chkboxes = document.getElementsByName("basketList");
+
+			for(var i=0; i<chkboxes.length; i++) {
+				total += parseInt($(chkboxes[i]).parent().parent().find("#price").val());
+			}
+		} else {
+			total = 2000;
+		}
+		$("#totalPrice").text(addCommaSearch(total));
+	});
 });
+
+function addCommaSearch(value) {
+	str = String(value);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
 
 </script> 
 
