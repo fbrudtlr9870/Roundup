@@ -14,12 +14,13 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript"
    src="http://t1.daumcdn.net/cssjs/postcode/1522037570977/180326.js"></script>
+<!-- 메타값 -->
+<meta name="_csrf" content="${_csrf.token}"/> 
+<meta name="_csrf_header" content="${_csrf.headerName}"/> 
 <sec:authorize access="hasAnyRole('ROLE_USER')">
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
-<meta name="_csrf" content="${_csrf.token}"/>
-<meta name="_csrf_header" content="${_csrf.headerName}"/>
 
 <style>
 .membership-hyelin {
@@ -31,6 +32,9 @@
 	display: inline;
 	color: blue;
 	font-weight: bold;
+}
+.marginLeft20-hyelin {
+	margin-left: 20px;
 }
 </style>
 
@@ -55,7 +59,7 @@
 						<input type="hidden" name="basketNo" id="basketNo" value="${purchase['basket_no'] }"/>
 						<input type="hidden" name="productNo" id="productNo" value="${purchase['product_no'] }"/>
 						<img src="${pageContext.request.contextPath }/resources/upload/productFile/${purchase['renamed_filename']}" alt="" width="100px" height="100px">
-						<span>[${purchase["brand_name"]}] &nbsp; ${purchase["product_name"]}</span>
+						<span class="marginLeft20-hyelin">[${purchase["brand_name"]}] &nbsp; ${purchase["product_name"]}</span>
 					</div>
 				</td>
 				<td class="tbl-td">
@@ -80,7 +84,7 @@
 						<input type="hidden" name="basketNo" class="basketNo" value="${i['basket_no'] }"/>
 						<input type="hidden" name="productNo" class="productNo" value="${i['product_no'] }"/>
 						<img src="${pageContext.request.contextPath }/resources/upload/productFile/${i['renamed_filename']}" alt="" width="100px" height="100px">
-						<span>[${i["brand_name"]}] &nbsp; ${i["product_name"]}</span>
+						<span class="marginLeft20-hyelin">[${i["brand_name"]}] &nbsp; ${i["product_name"]}</span>
 					</div>
 				</td>
 				<td class="tbl-td">
@@ -106,7 +110,7 @@
 						<input type="hidden" name="buyNow" id="buyNow"/>
 						<input type="hidden" name="productNo" id="productNo" value="${buyNow['productNo'] }"/>
 						<img src="${pageContext.request.contextPath }/resources/upload/productFile/${buyNow['renamedFileName']}" alt="" width="100px" height="100px">
-						<span>[${buyNow["brandName"]}] &nbsp; ${buyNow["productName"]}</span>
+						<span class="marginLeft20-hyelin">[${buyNow["brandName"]}] &nbsp; ${buyNow["productName"]}</span>
 					</div>
 				</td>
 				<td class="tbl-td">
@@ -337,9 +341,8 @@ function payRequest() {
 	        buyer_addr :  $("#sample4_roadAddress").val() + '#' + $("#sample4_jibunAddress").val() + '#' + $("#sample4_detailAddress").val(),   // 구매자 주소
 	        buyer_postcode :  $("#sample4_postcode").val()   // 구매자 우편번호
 		   }, function(rsp) {
+
 			   console.log(rsp);
-			   var token = $("meta[name='_csrf']").attr("content");
-	           var header = $("meta[name='_csrf_header']").attr("content");
 
 			   if ( rsp.success ) {
 			    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
@@ -357,18 +360,15 @@ function payRequest() {
 				    		membership : $("#membership").val(),
 				    		totalPrice : parseInt($("#total2").val())-parseInt($("#membership").val())-2000
 			    		},
-			    		beforeSend: function(xhr) {
-		                     xhr.setRequestHeader(header, token);
-		                },
 			    		success:function(data) {
 			    			console.log(data);
 			    			if(data==="success") {
 			    				if(confirm("결제가 완료되었습니다. 결제 내역 페이지로 이동하시겠습니까?")) {
 			    					// 결제내역 페이지 보여주기
-			    					location.href="${pageContext.request.contextPath}"; 
+			    					location.href="${pageContext.request.contextPath}/member/myPagePurchaseComplete.do?member_id=${member_id}"; 
 			    				} else {
 			    					// 장바구니 페이지 보여주기
-			    					location.href="${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${member_id}";
+			    					location.href="${pageContext.request.contextPath }/member/myPageBasket.do?member_id=${member_id}";
 			    				} 
 			    			}
 			    		},
@@ -564,6 +564,9 @@ function addCommaSearch(value) {
 	str = String(value);
     return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
 }
+
+
+
 
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

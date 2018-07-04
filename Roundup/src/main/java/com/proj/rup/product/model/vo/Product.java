@@ -19,7 +19,9 @@ public class Product {
 	private String categoryName; //카테고리 네임
 	private int parentCategory; //부모 카테고리에 해당되는 번호
 	private int categoryLevel; //카테고리 레벨
+	private int count;
 	private int purchaseAmount;//판매량
+
 	public Product() {}
 	
 
@@ -38,7 +40,7 @@ public class Product {
 
 	public Product(int productNo, String productName, int brandNo, String brandName, int price, Date regDate,
 			String memberId, int productFileNo, String originalFileName, String renamedFileName, Date fileRegDate,
-			int proCategoryNo, int categoryNo, String categoryName, int parentCategory, int categoryLevel,int purchaseAmount) {
+			int proCategoryNo, int categoryNo, String categoryName, int parentCategory, int categoryLevel,int count,int purchaseAmount) {
 		this.productNo = productNo;
 		this.productName = productName;
 		this.brandNo = brandNo;
@@ -56,7 +58,35 @@ public class Product {
 		this.parentCategory = parentCategory;
 		this.categoryLevel = categoryLevel;
 		this.purchaseAmount=purchaseAmount;
+		this.count = count;
 	}
+	
+	
+	public Product(int productNo, String productName, int brandNo, String brandName, int price, Date regDate,
+			String memberId, int productFileNo, String originalFileName, String renamedFileName, Date fileRegDate,
+			int proCategoryNo, int categoryNo, String categoryName, int parentCategory, int categoryLevel, int count) {
+		super();
+		this.productNo = productNo;
+		this.productName = productName;
+		this.brandNo = brandNo;
+		this.brandName = brandName;
+		this.price = price;
+		this.regDate = regDate;
+		this.memberId = memberId;
+		this.productFileNo = productFileNo;
+		this.originalFileName = originalFileName;
+		this.renamedFileName = renamedFileName;
+		this.fileRegDate = fileRegDate;
+		this.proCategoryNo = proCategoryNo;
+		this.categoryNo = categoryNo;
+		this.categoryName = categoryName;
+		this.parentCategory = parentCategory;
+		this.categoryLevel = categoryLevel;
+		this.count = count;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "Product [productNo=" + productNo + ", productName=" + productName + ", brandNo=" + brandNo
@@ -174,4 +204,17 @@ public class Product {
 	public void setCategoryLevel(int categoryLevel) {
 		this.categoryLevel = categoryLevel;
 	}
+
+
+
+	public int getCount() {
+		return count;
+	}
+
+
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+	
 }

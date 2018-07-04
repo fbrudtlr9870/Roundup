@@ -13,89 +13,10 @@
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
+
 <script>
 
-/* 2018.07.02 09:25 master 병합완료  */
-
-/* $(function(){
-	// 상품 리스트 불러오기
-	$.ajax({
-		url:"${pageContext.request.contextPath}/product/selectNewProduct.do",
-		dataType:"json",
-		success:function(data) {
-			var html = "<ul class='list-group inline-hyelin'>";
-			
-			for(var i in data.productList) {
-	            html += "<li class='main-li'>";
-	            html += "<img src='${pageContext.request.contextPath}/resources/upload/productFile/" + data.productList[i].renamedFileName + "'>";
-	            html += "<div class='buy-btn'>";
-	            html += "<input type='hidden' value='" + data.productList[i].productNo +"' name='product_no'>";
-	            html += "<input type='number' class='form-control inline-hyelin' style='width: 70px; margin: 0 auto;' name='product_amount' min='1' value='1'>&nbsp;";
-                html += "<button type='button' class='btn btn-primary insertBasket'>장바구니</button> &nbsp;";
-                html += "<button type='button' class='btn btn-success purchase'>구매</button>";
-	            html += "</div>";
-	            html += "<div class='ptext'>" + data.productList[i].brandName + "</div>"; 
-	            html += "<div class='ptext'>" + data.productList[i].productName + "</div>";
-                html += "<div class='pprice'>" + data.productList[i].price + "</div>";
-                html += "</li>";
-	         }
-			html += "</ul>";
-			
-			$("#NewProductList").html(html);
-			
-			$(".main-li").hover(function(){
-		        $(this).css("border","1px solid black");
-		        $(this).children(".buy-btn").show();
-		    },function(){
-		        $(this).css("border","1px solid lightgray");
-		        $(this).children(".buy-btn").hide();
-		    });
-			
-			// 장바구니에 담기
-			$(".insertBasket").on("click",function(){
-				var memberId = '${member_id}';
-				console.log(memberId);
-				
-				$.ajax({
-					url:"${pageContext.request.contextPath }/basket/insertBasket.do",
-					data: {
-						productAmount: $(this).parent().find("[name=product_amount]").val(),
-						productNo: $(this).parent().find("[name=product_no]").val(),
-						memberId :memberId
-					},
-					success:function(data) {
-						if(confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하시겠습니까?")) {
-							location.href = "${pageContext.request.contextPath }/basket/selectBasketList.do?memberId="+memberId;
-						} else {
-							location.href = "${pageContext.request.contextPath }";
-						}
-					},
-					error:function(jqxhr, textStatus, errorThrown) {
-		                 console.log("ajax처리실패!");
-		                 console.log(jqxhr);
-		                 console.log(textStatus);
-		                 console.log(errorThrown);
-		        	}
-				});			
-			});
-
-			$(".purchase").on("click",function(){
-				var productNo = $(this).parent().find("[name=product_no]").val();
-				var productAmount = $(this).parent().find("[name=product_amount]").val();
-				var memberId = '${member_id}';
-
-				location.href="${pageContext.request.contextPath}/purchase/buyNow.do?productNo=" + productNo + "&productAmount=" + productAmount+"&memberId="+memberId;
-			});  
-		},
-		error:function(jqxhr, textStatus, errorThrown) {
-                 console.log("ajax처리실패!");
-                 console.log(jqxhr);
-                 console.log(textStatus);
-                 console.log(errorThrown);
-        }
-	});
-	
-}); */
+/* 2018.07.04 09:19 master병합완료  */
 
 //신상품불러오기
 $(function(){
@@ -106,26 +27,32 @@ $(function(){
 			console.log(data);
 			var html="";
 			
-			for(var i in data.productList){
-				if(data.productList[i].renamedFileName!=null){	
+			for(var i in data.productNewList){
+				if(data.productNewList[i].renamedFileName!=null){	
 					if(i==0){
-						html+="<div class='carousel-item active new-product'><img class='d-block w-100' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productList[0].renamedFileName+"' height='150px' alt='First slide'>";
+						html+="<div class='carousel-item active new-product'><img class='d-block w-100' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productNewList[0].renamedFileName+"' height='150px' width='auto' alt='First slide'>";
 					}else{					
-						html += "<div class='carousel-item new-product'><img class='d-block w-100' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productList[i].renamedFileName+"' height='150px' alt='Second slide'>";
+						html += "<div class='carousel-item new-product'><img class='d-block w-100' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productNewList[i].renamedFileName+"' height='150px' width='auto' alt='Second slide'>";
 					}
 					html += "<div class='buy-btn'>";
-					html += "<input type='hidden' value='" + data.productList[i].productNo +"' name='product_no'>";
+					html += "<input type='hidden' value='" + data.productNewList[i].productNo +"' name='product_no'>";
 		            html += "<input type='number' class='form-control inline-hyelin' style='width: 70px; margin: 0 auto;' name='product_amount' min='1' value='1'>&nbsp;";
-	                html += "<button type='button' class='btn btn-primary insertBasket'>장바구니</button> &nbsp;";
-	                html += "<button type='button' class='btn btn-success purchase'>구매</button>";
+	               /*  html += "<button type='button' class='btn-transparent-hyelin insertBasket_'>";
+	                html += "<img id='img-cart-hyelin' src='${pageContext.request.contextPath}/resources/img/cart.png' alt='' class='btnImg-hyelin' title='장바구니' data-toggle='tooltip' data-placement='bottom'/>";
+	                html += "</button> &nbsp;";
+	                html += "<button type='button' class='btn-transparent-hyelin purchase_'>";
+	                html += "<img src='${pageContext.request.contextPath}/resources/img/card.png' alt='' class='btnImg-hyelin' title='구매하기' data-toggle='tooltip' data-placement='bottom'/>";
+					html += "</button>"; */
+					html += "<button type='button' class='btn btn-primary insertBasket-new'>장바구니</button> &nbsp;";
+	                html += "<button type='button' class='btn btn-success purchase-new'>구매</button>";
 		            html += "</div>";
-		            html += "<div class='ptext'>" + data.productList[i].brandName + "</div>"; 
-		            html += "<div class='ptext'>" + data.productList[i].productName + "</div>";
-	                html += "<div class='pprice'>" + data.productList[i].price + "</div></div>";
+		            html += "<div class='ptext'>" + data.productNewList[i].brandName + "</div>"; 
+		            html += "<div class='ptext'>" + data.productNewList[i].productName + "</div>";
+	                html += "<div class='pprice'>" + data.productNewList[i].price + "</div></div>";
 				}
 			}
 			
-			$(".slide-new-master").html(html);
+			$(".new-option").html(html);
 
 			$(".new-product").hover(function(){
 		       
@@ -135,10 +62,127 @@ $(function(){
 		        $(this).children(".buy-btn").hide();
 		    });
 			
+
 			// 장바구니에 담기
+			$(".insertBasket-new").on("click",function(){
+				var memberId = '${member_id}';
+				if(memberId != "") {
+					$.ajax({
+						url:"${pageContext.request.contextPath }/basket/insertBasket.do",
+						data: {
+							productAmount: $(this).parent().find("[name=product_amount]").val(),
+							productNo: $(this).parent().find("[name=product_no]").val(),
+							memberId :memberId
+						},
+						success:function(data) {
+							if(confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하시겠습니까?")) {
+								location.href = "${pageContext.request.contextPath }/basket/selectBasketList.do?memberId="+memberId;
+							} else {
+								location.href = "${pageContext.request.contextPath }";
+							}
+						},
+						error:function(jqxhr, textStatus, errorThrown) {
+			                 console.log("ajax처리실패!");
+			                 console.log(jqxhr);
+			                 console.log(textStatus);
+			                 console.log(errorThrown);
+			        	}
+					});	
+				} else {
+					alert("로그인 후 이용하실 수 있습니다.");
+				}
+				
+			});
+
+			$(".purchase-new").on("click",function(){
+
+				var productNo = $(this).parent().find("[name=product_no]").val();
+				var productAmount = $(this).parent().find("[name=product_amount]").val();
+				var memberId = '${member_id}';
+
+				if(memberId != "") {
+				location.href="${pageContext.request.contextPath}/purchase/buyNow.do?productNo=" + productNo + "&productAmount=" + productAmount+"&memberId="+memberId;
+				} else {
+					alert("로그인 후 이용하실 수 있습니다.");
+				}
+			});
+			
+		},error:function(jqxhr, textStatus, errorThrown) {
+            console.log("ajax처리실패!");
+            console.log(jqxhr);
+            console.log(textStatus);
+            console.log(errorThrown);
+   		}
+	});
+}); 
+
+/* ------------------------------------------------- */
+//인기상품불러오기
+$(function(){
+	$.ajax({
+		url:"${pageContext.request.contextPath}/product/selectHotProduct.do",
+		dataType:"json",
+		success:function(data){
+			console.log(data);
+			var html="";
+			
+			for(var i in data.productHotList){
+				if(data.productHotList[i].renamedFileName!=null){	
+					if(i==0){
+						html+="<div class='carousel-item active hot-product'><img class='d-block w-100' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productHotList[0].renamedFileName+"' height='150px' alt='First slide'>";
+					}else{					
+						html += "<div class='carousel-item hot-product'><img class='d-block w-100' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productHotList[i].renamedFileName+"' height='150px' alt='Second slide'>";
+					}
+					html += "<div class='buy-btn'>";
+					html += "<input type='hidden' value='" + data.productHotList[i].productNo +"' name='product_no'>";
+		            html += "<input type='number' class='form-control inline-hyelin' style='width: 70px; margin: 0 auto;' name='product_amount' min='1' value='1'>&nbsp;";
+	                html += "<button type='button' class='btn btn-primary insertBasket'>장바구니</button> &nbsp;";
+	                html += "<button type='button' class='btn btn-success purchase'>구매</button>";
+		            html += "</div>";
+		            html += "<div class='ptext'>" + data.productHotList[i].brandName + "</div>"; 
+		            html += "<div class='ptext'>" + data.productHotList[i].productName + "</div>";
+	                html += "<div class='pprice'>" + data.productHotList[i].price + "</div></div>";
+				}
+			}
+			
+			$(".hot-option").html(html);
+
+			$(".hot-product").hover(function(){
+		       
+		        $(this).children(".buy-btn").show();
+		    },function(){
+		       
+		        $(this).children(".buy-btn").hide();
+		    });
+			
+			// 장바구니 담기
 			$(".insertBasket").on("click",function(){
 				var memberId = '${member_id}';
-				console.log(memberId);
+				if(memberId != "") {
+					$.ajax({
+						url:"${pageContext.request.contextPath }/basket/insertBasket.do",
+						data: {
+							productAmount: $(this).parent().find("[name=product_amount]").val(),
+							productNo: $(this).parent().find("[name=product_no]").val(),
+							memberId :memberId
+						},
+						success:function(data) {
+							if(confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하시겠습니까?")) {
+								location.href = "${pageContext.request.contextPath }/basket/selectBasketList.do?memberId="+memberId;
+							} else {
+								location.href = "${pageContext.request.contextPath }";
+							}
+						},
+						error:function(jqxhr, textStatus, errorThrown) {
+			                 console.log("ajax처리실패!");
+			                 console.log(jqxhr);
+			                 console.log(textStatus);
+			                 console.log(errorThrown);
+			        	}
+					});	
+				} else {
+					alert("로그인 후 이용하실 수 있습니다.");
+				}
 				
 				$.ajax({
 					url:"${pageContext.request.contextPath }/basket/insertBasket.do",
@@ -149,7 +193,7 @@ $(function(){
 					},
 					success:function(data) {
 						if(confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하시겠습니까?")) {
-							location.href = "${pageContext.request.contextPath }/basket/selectBasketList.do?memberId="+memberId;
+							location.href = "${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${member_id}";
 						} else {
 							location.href = "${pageContext.request.contextPath }";
 						}
@@ -161,14 +205,20 @@ $(function(){
 		                 console.log(errorThrown);
 		        	}
 				});			
-			});
 
+			});
+			
+			// 구매하기
 			$(".purchase").on("click",function(){
 				var productNo = $(this).parent().find("[name=product_no]").val();
 				var productAmount = $(this).parent().find("[name=product_amount]").val();
 				var memberId = '${member_id}';
 
+				if(memberId != "") {
 				location.href="${pageContext.request.contextPath}/purchase/buyNow.do?productNo=" + productNo + "&productAmount=" + productAmount+"&memberId="+memberId;
+				} else {
+					alert("로그인 후 이용하실 수 있습니다.");
+				}
 			});
 			
 		},error:function(jqxhr, textStatus, errorThrown) {
@@ -179,19 +229,19 @@ $(function(){
    		}
 	});
 }); 
-</script>
+u</script>
  
     <div class="main-img-wrapper">
             <div class="main-img">
                <div class="main-category">
                     <ul class="list-group">
-                        <li class="list-group-item"><a href="select1.html">간편식사</a></li>
-                        <li class="list-group-item">즉석조리</li>
-                        <li class="list-group-item">과자류</li>
-                        <li class="list-group-item">아이스크림</li>
-                        <li class="list-group-item">식품</li>
-                        <li class="list-group-item">음료</li>
-                        <li class="list-group-item">생활용품</li>
+                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=1">간편식사</a></li>
+                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=2">즉석조리</a></li>
+                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=3">과자류</a></li>
+                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=4">아이스크림</a></li>
+                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=5">식품</a></li>
+                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=6">음료</a></li>
+                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=7">생활용품</a></li>
                     </ul>
                     
                 </div> 
@@ -227,11 +277,11 @@ $(function(){
         <!-- card layout 여기에 이것저것 정보입력예정-->
    			 <div class="card-columns">
 					  <!-- 신상품 -->
-					  <div class="card border-primary mb-3" style="max-width: 18rem;">
+					  <div class="card border-primary mb-3 new-product-container" style="max-width: 18rem;">
 						  <div class="card-body text-primary">
 						    <h5 class="card-title">New 신상품</h5>
 						  	<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-							  <div class="carousel-inner slide-new-master"> 
+							  <div class="carousel-inner slide-new-master new-option"> 
 							   
 							  </div>
 							</div>
@@ -241,11 +291,11 @@ $(function(){
 					  
 					   <!-- ----------------------- -->
 					  <!-- 인기상품 -->
-					   <div class="card border-primary mb-3" style="max-width: 18rem;">
+					   <div class="card border-primary mb-3 hot-product-container" style="max-width: 18rem;">
 						  <div class="card-body text-primary">
-						    <h5 class="card-title">New 신상품</h5>
+						    <h5 class="card-title">Hot 인기상품</h5>
 						  	<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-							  <div class="carousel-inner slide-new-master"> 
+							  <div class="carousel-inner slide-new-master hot-option"> 
 							   
 							  </div>
 							</div>

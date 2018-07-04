@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.proj.rup.product.model.dao.ProductDAO;
-import com.proj.rup.product.model.vo.Brand;
+import com.proj.rup.product.model.vo.Category;
 import com.proj.rup.product.model.vo.Product;
+import com.proj.rup.product.model.vo.ProductCategoryLevel;
 import com.proj.rup.product.model.vo.Product_File;
 @Service
 public class ProductServiceImpl<ProductVO> implements ProductService {
@@ -93,8 +94,8 @@ public class ProductServiceImpl<ProductVO> implements ProductService {
 	}
 
 	@Override
-	public List seleceCategoryList() {
-		return productDAO.seleceCategoryList();
+	public List selectCategoryList() {
+		return productDAO.selectCategoryList();
 	}
 
 	@Override
@@ -102,6 +103,12 @@ public class ProductServiceImpl<ProductVO> implements ProductService {
 		return productDAO.selectChildCategory(categoryNo);
 	}
 
+
+	@Override
+	public List selectHotProduct() {
+		return productDAO.selectHotProduct();
+	}
+	
 	@Override
 	public int rowprice(String searchKeyword) {
 		return productDAO.rowprice(searchKeyword);
@@ -135,6 +142,21 @@ public class ProductServiceImpl<ProductVO> implements ProductService {
 	@Override
 	public List selecteAllCategoryList() {
 		return productDAO.selecteAllCategoryList();
+	}
+
+	@Override
+	public List categoryLevelOneSearch(Map map) {
+		return productDAO.categoryLevelOneSearch(map);
+	}
+	
+	@Override
+	public List<ProductCategoryLevel> selectCategory(String searchKeyword) {
+		return productDAO.selectCategory(searchKeyword);
+	}
+
+	@Override
+	public Category selectParentCategory(int parent_category) {
+		return productDAO.selectParentCategory(parent_category);
 	}
 
 

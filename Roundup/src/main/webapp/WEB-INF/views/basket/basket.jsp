@@ -255,20 +255,19 @@ $(function() {
 	}); 
 	
 	// 전체 상품의 금액 합 구하기
-   $("[name=allCheck]").click(function() {
-      if($(this).is(":checked")) {
-         total = 2000;
-         var chkboxes = document.getElementsByName("basketList");
+	$("[name=allCheck]").click(function() {
+		if($(this).is(":checked")) {
+			total = 2000;
+			var chkboxes = document.getElementsByName("basketList");
 
-         for(var i=0; i<chkboxes.length; i++) {
-            total += parseInt($(chkboxes[i]).parent().parent().find("#price").val());
-         }
-      } else {
-         total = 2000;
-      }
-      $("#totalPrice").text(addCommaSearch(total));
-   });
-	
+			for(var i=0; i<chkboxes.length; i++) {
+				total += parseInt($(chkboxes[i]).parent().parent().find("#price").val());
+			}
+		} else {
+			total = 2000;
+		}
+		$("#totalPrice").text(addCommaSearch(total));
+	});
 });
 
 function addCommaSearch(value) {

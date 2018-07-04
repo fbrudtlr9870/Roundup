@@ -29,11 +29,10 @@ public interface MemberService {
 
 	int insertAddress(Map<String, Object> map);
 
-	int insertMembership(String member_id);
+	int updateAddress(Map<String, Object> map);
 
 	Membership selectMembership(String memberId);
 
 	int updateMembership(Map<String, Object> map);
-
 
 }

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.proj.rup.member.model.vo.Member;
-import com.proj.rup.member.model.vo.MemberDetails;
 import com.proj.rup.member.model.vo.Membership;
 
 @Repository
@@ -38,6 +37,10 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 	
 	@Override
+	public int connectMember(Member member) {
+		return sqlSession.insert("member.connectMember",member);
+	}
+	@Override
 	public int selectMember(String member_id) {
 		return sqlSession.selectOne("member.selectMember",member_id);
 	}
@@ -65,8 +68,8 @@ public class MemberDAOImpl implements MemberDAO {
 		return map;
 	}
 	@Override
-	public int insertMembership(String member_id) {
-		return sqlSession.insert("member.insertMembership", member_id);
+	public int updateAddress(Map<String, Object> map) {
+		return sqlSession.update("member.updateAddress",map);
 	}
 	@Override
 	public Membership selectMembership(String memberId) {

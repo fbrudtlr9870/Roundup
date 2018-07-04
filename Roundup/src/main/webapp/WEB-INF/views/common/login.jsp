@@ -25,7 +25,7 @@
 </head>	
 <style>
 div#container{
-    width:300px;
+    width:400px;
     margin:0 auto;
     margin-top: 200px;
 }
@@ -35,6 +35,38 @@ div#container h1{
 div#btn-container{
     margin:0 auto;
     text-align: center;
+}
+
+div#btn-container button{
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.borderBottom-hyelin {
+	border: 0;
+	border-radius: 0;
+	border-bottom: 1px solid gray; 
+}
+
+.width90-hyelin {
+	width: 90%;
+}
+
+.boder-transparent-hyelin {
+	border: 0;
+}
+
+.borderBottom-hyelin img {
+	width: 20px;
+	margin-left: 10px;
+}
+
+#login_btn {
+	width: 100%;
+}
+
+.marginTop0-hyelin {
+	margin-top: 0;
 }
 </style>
 <script>
@@ -94,25 +126,33 @@ $(function(){
 });
 </script>
 <body>
-    
+
     <div id="container">
        <form id="loginFrm" action="${pageContext.request.contextPath }/member/memberLogin" method="post">
       		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             <h1>편의점마스터</h1>
-            <br>
-            <input class="form-control" type="text" placeholder="아이디" name="member_id">
-            <br>
-            <input class="form-control" type="password" placeholder="비밀번호" name="member_password">
-            <br>
-            <input type="button" value="로그인" id="login_btn">
+            <br><br />
+            <div class="borderBottom-hyelin">
+	            <img src="${pageContext.request.contextPath}/resources/img/user.png" alt=""/>
+	            <input class="form-control boder-transparent-hyelin inline-hyelin width90-hyelin" type="text" placeholder="아이디" name="member_id">
+            </div>
+            <br />
+            <div class="borderBottom-hyelin">
+	            <img src="${pageContext.request.contextPath}/resources/img/lock.png" alt=""/>
+	            <input class="form-control boder-transparent-hyelin inline-hyelin width90-hyelin" type="password" placeholder="비밀번호" name="member_password">
+            </div>
+            
+            <br><br>
+            <input type="button" class="btn btn-primary" value="로그인" id="login_btn">
             <br><br>
         </form>
-        <hr>
+        <hr class="marginTop0-hyelin">
         <div id="btn-container">
-                <button type="button" class="btn btn-success">회원가입</button>
-                <button type="button" class="btn btn-info">아이디찾기</button>
-                <button type="button" class="btn btn-info">비밀번호찾기</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
+                <button type="button" class="btn btn-outline-secondary">아이디찾기</button>
+                <button type="button" class="btn btn-outline-secondary">비밀번호찾기</button>
         </div>
-    </div>     
+    </div>
 </body>
+
 </html>

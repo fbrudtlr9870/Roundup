@@ -37,7 +37,7 @@ public class PurchaseController {
 	
 	@Autowired
 	private BasketService basketService = new BasketServiceImpl();
-	
+
 	@Autowired
 	private MemberService memberService;
 	
@@ -78,7 +78,9 @@ public class PurchaseController {
 							@RequestParam(value="basketNo") String basketNo,
 							@RequestParam(value="membership") int membership,
 							@RequestParam(value="totalPrice") int totalPrice) {
+
 		logger.debug(product_no+","+member_id+","+product_amount+","+address+","+zip_code+","+basketNo);
+
 		int result = 0;
 		String returnMsg = "";
 

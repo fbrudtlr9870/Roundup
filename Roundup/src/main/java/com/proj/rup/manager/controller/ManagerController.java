@@ -24,7 +24,23 @@ public class ManagerController {
 	ManagerService managerService = new ManagerServiceImpl();
 	
 	@RequestMapping("/manager/managerPage.do")
-	public ModelAndView member(@RequestParam(value="cPage", 
+	public ModelAndView member() {
+		if(logger.isDebugEnabled()) logger.debug("관리자페이지 요청");
+		ModelAndView mav = new ModelAndView();
+		int numPerPage = 10;
+		
+		//2. 페이지바처리를 위한 전체컨텐츠수 구하기
+		int totalContents = managerService.selectManagerTotalMember();
+		
+		mav.addObject("totalContents",totalContents);
+		mav.addObject("numPerPage",numPerPage);
+		/*mav.setViewName("/manager/memberManagement");*/
+		return mav;
+		
+	}
+	
+	@RequestMapping("/manager/memberManagement.do")
+	public ModelAndView memberManagement(@RequestParam(value="cPage", 
 											  required=false, 
 											  defaultValue="1") 
 											  int cPage) {
@@ -41,7 +57,7 @@ public class ManagerController {
 		mav.addObject("list", list);
 		mav.addObject("totalContents",totalContents);
 		mav.addObject("numPerPage",numPerPage);
-		
+		mav.setViewName("/manager/memberManagement");
 		return mav;
 		
 	}

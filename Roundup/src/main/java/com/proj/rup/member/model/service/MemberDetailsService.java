@@ -36,7 +36,8 @@ public class MemberDetailsService implements UserDetailsService {
 		logger.info(member.toString());
 		
 		if(member ==null)throw new UsernameNotFoundException(username);
-			
+		
+		
 		
 		List<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
 		auth.add(new SimpleGrantedAuthority(member.get("AUTHORITY").toString()));
