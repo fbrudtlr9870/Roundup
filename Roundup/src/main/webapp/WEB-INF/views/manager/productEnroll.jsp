@@ -25,6 +25,11 @@
 	<sec:authentication property="principal.username" var="admin_id"/>
 	<sec:authentication property="principal.member_name" var="admin_name"/>
 </sec:authorize>
+
+
+<!-- 180704 수요일 css 살짝 수정 - dh1ee -->
+
+
 <style>
 div.mypage{
 	width:980px;

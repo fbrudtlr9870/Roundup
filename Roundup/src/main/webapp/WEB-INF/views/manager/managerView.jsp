@@ -7,6 +7,11 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="마이페이지" name="pageTitle"/>
 </jsp:include>
+
+
+<!-- 180704 수요일 css 살짝 수정 - dh1ee -->
+
+
 <style>
 .list-group-item {
     position: relative;

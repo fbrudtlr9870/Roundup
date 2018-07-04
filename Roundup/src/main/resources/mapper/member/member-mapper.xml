@@ -24,6 +24,8 @@
 	SELECT COUNT(*) FROM MEMBER WHERE MEMBER_ID = #{member_id}
 	</select>
 	
+	<!-- 180704 수요일 관리자 페이지 등급 변경 수정 - dh1ee -->
+	
 	<update id="updateMember">
 	UPDATE MEMBER SET member_name=#{member_name},member_email=#{member_email},member_gender=#{member_gender},member_phone=#{member_phone},member_grade=#{member_grade} where member_id = #{member_id}
 	</update>
