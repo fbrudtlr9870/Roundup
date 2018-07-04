@@ -113,7 +113,17 @@ div.mypage{
 	min-height:780px;
 }
 </style>
-
+<script>
+$(function(){
+	var memberAddress = "${memberAddress.address}";
+	var address = memberAddress.split("#");
+	console.log(memberAddress);
+	console.log(address);
+	$("#sample4_roadAddress").val(address[0]);
+	$("#sample4_jibunAddress").val(address[1]);
+	$("#sample4_detailAddress").val(address[2]); 
+});
+</script>
 <nav class="nav-list">
      <div class="nav-list-wrapper">
            <ul class="nav nav-tabs nav-justified">
@@ -134,14 +144,80 @@ div.mypage{
 
 
       <br>
-      <form action="${pageContext.request.contextPath}/member/memberUpdate.do " method="post" name="memberUpdateFrm" class="formform">
+      <div id="update-container">
+      				<h2>회원정보 </h2>
+      				
+      			<form action="memberUpdate.do" method="post" onsubmit="return validate();">
+      				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+	      			<table class="table" id="tbl_enroll">
+							<tr>
+								<th><label for="member_id_">아이디</label></th>
+								<td>
+									<div id="userId-container">
+									<input type="text" name="member_id" id=member_id_ class="input form-control" value="${member.member_id }" readonly required />
+									
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th><label for="member_name_">이름</label></th>
+								<td><input type="text" name="member_name" id="member_name_" class="form-control" value="${member.member_name }" required autocomplete="off" /></td>
+							</tr>
+							<tr>
+								<th><label for="member_email_">이메일</label></th>
+								<td><input type="email" name="member_email" id="member_email_" class="form-control" value="${member.member_email} " autocomplete="off" /></td>
+							</tr>
+							<tr>
+								<th><label for="member_phone_">전화번호</label></th>
+								<td><input type="text" name="member_phone" id="member_phone_" class="form-control" value="${member.member_phone}" placeholder="-를 제외하고 입력하세요" required autocomplete="off"/></td>
+							</tr>
+							<tr>
+								<th><label for="member_birthday_">생일</label></th>
+								<td><input type="date" name="member_birthday" id="member_birthday_" value="${member.member_birthday }" class="form-control"  /></td>
+							</tr>
+							<tr>
+								<th><label for="member_gender_">성별</label></th>
+								<td>
+									<select name="member_gender" id="member_gender_" class="form-control" required>
+										<option value=""disabled selected>성별</option>
+										<option value="M">남자</option>
+										<option value="F">여자</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<th><label for="sample4_postcode">주소</label></th>
+								<td>
+									<input type="text" name="sample4_postcode" class="form-control inline-hyelin" id="sample4_postcode" value="${memberAddress.zip_code }" style="width: 120px; display:inline;" required> 
+					                <input type="button" class="btn btn-light" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="width: 120px;"><br>
+					                <input type="text" class="form-control" name="sample4_roadAddress" id="sample4_roadAddress" placeholder="도로명 주소" value=""> 
+					                <input type="text" class="form-control" name="sample4_jibunAddress" id="sample4_jibunAddress" placeholder="지번 주소"  >
+					                <input type="text" class="form-control" name="sample4_detailAddress" id="sample4_detailAddress" placeholder="상세 주소" >
+					                <span id="guide" style="color: #999"></span>
+				                </td>
+							</tr>
+							<tr>
+				               <th>회원등급</th>
+				               <td><input type="radio" name="member_grade" id="member_grade_1" value="A" ${member.member_grade=='A'?'checked':'' }  >
+				         <label for="member_grade_1">A</label> 
+				         <input type="radio" name="member_grade" id="member_grade_2" value="G" ${member.member_grade=='G'?'checked':'' }   >
+				         <label for="member_grade_2">G</label> </td>
+				            </tr>
+							</table>
+	      					<div id="btnDiv">
+								<input type="submit" value="수정" class="btn btn-outline-success"/> &nbsp;
+								<input type="reset" value="탈퇴" class="btn btn-outline-success"/>
+							</div>
+					</form>
+      			</div>
+     <%--  <form action="${pageContext.request.contextPath}/member/memberUpdate.do " method="post" name="memberUpdateFrm" class="formform">
          <table id="enroll-dh">
             <tr>
                <th>아이디</th>
                <td><input type="text" name="userId" id="userId-dh"
                   value="${member.member_id }" readonly /></td>
             </tr>
-            <%--    <tr>
+               <tr>
             <th>패스워드</th>
             <td>
                <input type="password" name="password" id="password_" value="<%=m.getPassword()%>" required/>
@@ -152,7 +228,7 @@ div.mypage{
             <td>            
                <input type="password" id="password_chk" required onblur="fn_pwdCheck();"/>
             </td>
-         </tr> --%>
+         </tr>
 
             <tr>
                <th>이름</th>
@@ -196,7 +272,7 @@ div.mypage{
       <input type="reset" value="취소" class="btn btn-outline-success">
       
       <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-</form>
+</form> --%>
    </section>
 </div>
 
