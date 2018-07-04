@@ -207,7 +207,7 @@ $(function(){
    		}
 	});
 }); 
-u</script>
+</script>
  
     <div class="main-img-wrapper">
             <div class="main-img">

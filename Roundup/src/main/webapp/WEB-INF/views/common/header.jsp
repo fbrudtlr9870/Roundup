@@ -169,24 +169,35 @@ img#chat-icon{
 
             <img src="${pageContext.request.contextPath }/resources/img/chat-icon.png" id="chat-icon"/>
 
-            <!-- 채팅 관련 html 시작 -->
 
-   			 <div id="chatting-room">
-            	<input type="hidden" name="member_id" value="${member_id}" />
-            	<div style="text-align:center;">현재 접속중인 사용자<span id="connected-member"style="font-weight:bold;"> ? </span> 명</div>
-            	<c:if test="${member_id!=null }">
-            	<div style="text-align:center;margin-top:10px;">채팅방에 접속되었습니다.</div>  
-            	</c:if>
-            	<c:if test="${member_id==null }">
-            	<div style="text-align:center;margin-top:10px;">로그인 후 사용가능합니다.</div>  
-            	</c:if> 	 	
-            	<div id="chatting-content"></div>
-            	<div id="member-chat">
-            		<input id="insertText" style="float:left; width:230px;"class="form-control form-control-sm" type="text">
-            		<button style="float:left; width:50px;" type="button" class="btn btn-primary" id="insertChat">전송</button>
-            	</div>
+ 
+            <!-- 채팅 관련 html 시작 -->            
+             <div id="chatting-room">
+               <input type="hidden" name="member_id" value="${member_id}" />
+                <div style="text-align:center;">현재 접속중인 사용자<span id="connected-member"style="font-weight:bold;"> ? </span> 명 
+                   <button type="button" class="close" aria-label="Close" id="hide_chatting">
+                    <span aria-hidden="true">&times;</span>
+               </button>
+                </div> 
+               <c:if test="${member_id!=null }">
+               <div style="text-align:center;margin-top:10px;">채팅방에 접속되었습니다.</div>  
+               </c:if>
+               <c:if test="${member_id==null }">
+               <div style="text-align:center;margin-top:10px;">로그인 후 사용가능합니다.</div>  
+               </c:if>        
+               <div id="chatting-content"></div>
+               <sec:authorize access="hasRole('ROLE_USER')">
+               <div id="member-chat">
+                  <input id="insertText" style="float:left; width:230px;"class="form-control form-control-sm" type="text">
+                  <button style="float:left; width:50px;" type="button" class="btn btn-primary" id="insertChat">전송</button>
+               </div>
+               </sec:authorize>
+                  <sec:authorize access="hasRole('ROLE_ADMIN')">
+               <input type="text" name="" id="admin-notice" /><button id="insertNotice">전송!!</button>
+               </sec:authorize>
             </div> 
             <!-- 채팅관련 끝 -->
+
         </nav>
         
         <!-- 여기있었으 -->
@@ -360,17 +371,23 @@ $(document).ready(function(){
 </script>
 
 
+
+
+<!-- 채팅 관련 스크립트(소켓) --> 
 <script>
-
 $(function(){
-	$("#chat-icon").click(function(){
-		$("#chatting-room").show();
-		//스크롤바 설정
-		var offset = $(".chatting-comment:last").offset();
-		$("#chatting-content").animate({scrollTop : offset.top}, 400);
-	});
+   $("#chat-icon").click(function(){
+      $("#chatting-room").show();
+       //스크롤바 설정 
+       var offset = $(".chatting-comment:last").offset(); 
+       $("#chatting-content").animate({scrollTop : offset.top}, 400); 
+   });
+   $("#hide_chatting").click(function(){
+      $("#chatting-room").hide();
+      $("#chat-icon").show();
+   });
+   
 });
-
 </script>
 
 <!-- 채팅 관련 스크립트(소켓) --> 
@@ -380,81 +397,94 @@ var sock=new SockJS("<c:url value="/echo"/>");
  
 sock.onmessage= onMessage; 
 sock.onclose = onClose; 
- 
-sock.onopen=function(){
-	sendMessage();
-	$.ajax({
- 		url:"${pageContext.request.contextPath}/chatting/showChat.do",
- 		type:"post",
- 		dataType:"json",
- 		success:function(data){
- 			for(var index in data){
- 				var c = data[index];
- 				if(index=="connectCount"){
- 					//$("#connected-member").text(c);
- 				}
- 				if(index=="list"){
-			 		var html='<div>';
- 					for(var li in c){
- 						html+='<div class="chatting-comment" style="text-align:left;">';
- 						html+='<strong>['+c[li].member_id+'] :</strong> '+c[li].chat_content+'</div>';
- 					}
- 					html+='</div>';
- 		 			$("#chatting-content").html(html);
- 				}
- 			}
- 			
- 		},
- 		error:function(jqxhr, testStatus, errorThrown){
-			console.log("ajax처리실패");
-			console.log(jqxhr);
-			console.log(testStatus);
-			console.log(errorThrown);
-		 }
- 	});
-} 
- 
+sock.onopen=function(){ 
+     sendMessage();
+     $.ajax({ 
+           url:"${pageContext.request.contextPath}/chatting/showChat.do", 
+           type:"post", 
+           dataType:"json", 
+           success:function(data){ 
+             for(var index in data){ 
+               var c = data[index]; 
+               if(index=="connectCount"){ 
+                 //$("#connected-member").text(c); 
+               } 
+               if(index=="list"){ 
+                 var html='<div>'; 
+                 for(var li in c){ 
+                   html+='<div class="chatting-comment" style="text-align:left;">'; 
+                   html+='<strong>['+c[li].member_id+'] :</strong> '+c[li].chat_content+'</div>'; 
+                 } 
+                 html+='</div>'; 
+                  $("#chatting-content").html(html); 
+               } 
+             } 
+              
+           }, 
+           error:function(jqxhr, testStatus, errorThrown){ 
+            console.log("ajax처리실패"); 
+            console.log(jqxhr); 
+            console.log(testStatus); 
+            console.log(errorThrown); 
+           } 
+         }); 
+}  
 $(function(){ 
   $("#insertChat").click(function(){ 
-	var chatText=$("#insertText").val().trim();
-	var member_id =$("[name=member_id]").val().trim();
-	if(chatText==""){
-			alert("내용을 입력하셔야 합니다.");
-			return false;
-		}
-		
-		if(member_id ==""){
-			alert("로그인 후 이용가능합니다.");
-			return false;
-		}else{
-			sendMessage();
-			$("#insertText").val('');
-		}
+     var chatText=$("#insertText").val().trim(); 
+     var member_id =$("[name=member_id]").val().trim(); 
+     if(chatText==""){ 
+         alert("내용을 입력하셔야 합니다."); 
+         return false; 
+       } 
+        
+       if(member_id ==""){ 
+         alert("로그인 후 이용가능합니다."); 
+         return false; 
+       }else{ 
+         sendMessage(); 
+         $("#insertText").val(''); 
+       } 
   }); 
   $("#insertText").keypress(function (e) {
-		var chatText=$("#insertText").val().trim();
-		var member_id =$("[name=member_id]").val().trim();
-		
-		if(e.which == 13){
-	 		if(chatText==""){
-	 			alert("내용을 입력하셔야 합니다.");
-	 			return false;
-	 		}
-	 		
-	 		if(member_id ==""){
-	 			alert("로그인 후 이용가능합니다.");
-	 			return false;
-	 		}else{
-	 			sendMessage();
-	 			$("#insertText").val('');
-	 		}
-		}
+      var chatText=$("#insertText").val().trim();
+      var member_id =$("[name=member_id]").val().trim();
+      
+      if(e.which == 13){
+          if(chatText==""){
+             alert("내용을 입력하셔야 합니다.");
+             return false;
+          }
+          
+          if(member_id ==""){
+             alert("로그인 후 이용가능합니다.");
+             return false;
+          }else{
+             sendMessage();
+             $("#insertText").val('');
+          }
+      }
   });
+  $("#insertNotice").click(function(){
+     var adminNotice=$("#admin-notice").val().trim(); 
+     var member_id =$("[name=member_id]").val().trim();
+     if(adminNotice==""){ 
+         alert("내용을 입력하셔야 합니다."); 
+         return false; 
+     }
+     sendNotice(); 
+      $("#admin-notice").val(''); 
+  });
+  
 }); 
  
 function sendMessage(){ 
   sock.send($("#insertText").val()); 
 } 
+
+function sendNotice(){
+   sock.send("[공지사항] : "+$("#admin-notice").val());
+}
  
 function onClose(){ 
   $("#chatting-content").append("연결이 끊켰습니당."); 
@@ -469,25 +499,31 @@ function onMessage(evt){
   sessionid=strArr[0]; 
   message=strArr[1]; 
    
-  if(sessionid==""){
-	  $("#connected-member").html(" "+message+" ");
-  }else if(sessionid=="로그인감지로 인해 접속이 끊어집니다."){
-	 	alert("로그인 감지로 로그인을 해제합니다.");
-	 	location.href="${pageContext.request.contextPath}";
-  }else{
-	  var html='<div class="chatting-comment" style="text-align:left;">'; 
-	  html+='<strong>['+sessionid+'] :</strong>'+message; 
-	  html+='</div>'; 
-	  $("#chatting-content").append(html); 
-	  
-	  var offset = $(".chatting-comment:last").offset();
-	  $("#chatting-content").animate({scrollTop : offset.top}, 400);
-  }
-    
+  if(sessionid==""){ 
+       $("#connected-member").html(" "+message+" "); 
+  }else if(sessionid=="로그인감지로 인해 접속이 끊어집니다."){ 
+        alert("로그인 감지로 로그인을 해제합니다."); 
+        location.href="${pageContext.request.contextPath}"; 
+  }else if(sessionid=="관리자공지"){
+     console.log(message);
+        alert(message);
+       var html='<div class="chatting-comment" style="text-align:left;">';  
+       html+='<strong>'+message+'</strong>';  
+       html+='</div>';  
+       $("#chatting-content").append(html);       
+       var offset = $(".chatting-comment:last").offset(); 
+       $("#chatting-content").animate({scrollTop : offset.top}, 400); 
+  } else{  
+       var html='<div class="chatting-comment" style="text-align:left;">';  
+       html+='<strong>['+sessionid+'] :</strong>'+message;  
+       html+='</div>';  
+       $("#chatting-content").append(html);       
+       var offset = $(".chatting-comment:last").offset(); 
+       $("#chatting-content").animate({scrollTop : offset.top}, 400); 
+     }   
 } 
  
 </script> 
-
 
 
 
