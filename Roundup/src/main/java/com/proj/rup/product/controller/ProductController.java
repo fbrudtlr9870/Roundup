@@ -100,11 +100,10 @@ public class ProductController {
 		logger.debug("categoryArr:"+categoryArr);
 		map.put("categoryArr", categoryArr);
 		List<Product> list=productService.categoryLevelOneSearch(map);
-		
 		logger.debug("productCategorySearch:"+list);
 		mav.addObject("bloginfo", "not");
 		mav.addObject("searchList",list);
-		mav.addObject("categoryList", categoryList);
+		mav.addObject("categoryList",categoryList);
 		 mav.setViewName("product/productSearch");
 		return mav;
 	}
@@ -378,4 +377,3 @@ public class ProductController {
 	            //-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색 끝------------------------------
 	   }
 }
-
