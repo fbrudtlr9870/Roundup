@@ -16,7 +16,7 @@
 
 <script>
 
-/* master push 2018.07.05 09:39  */
+/* master push 2018.07.05 12:45  */
 
 //신상품불러오기
 $(function(){
@@ -214,10 +214,10 @@ u</script>
                <div class="main-category">
                     <ul class="list-group">
                         <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=1">간편식사</a></li>
-                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=2">즉석조리</a></li>
+                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=2">식품</a></li>
                         <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=3">과자류</a></li>
                         <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=4">아이스크림</a></li>
-                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=5">식품</a></li>
+                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=5">즉석식품</a></li>
                         <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=6">음료</a></li>
                         <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=7">생활용품</a></li>
                     </ul>

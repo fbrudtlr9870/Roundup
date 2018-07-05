@@ -47,7 +47,6 @@ div#update-container{
 div#userId-container span.guide{
 	display:none;
 	font-size:12px;
-	position: absolute;
 	top:12px;
 	right:10px;
 	margin-right:300px;
@@ -291,8 +290,8 @@ function sample4_execDaumPostcode() {
 				<td>
 					<input type="text" name="sample4_postcode" class="form-control inline-hyelin" id="sample4_postcode" placeholder="우편번호" style="width: 120px; display:inline;" required> 
 	                <input type="button" class="btn btn-light" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="width: 120px;"><br>
-	                <input type="text" class="form-control" name="sample4_roadAddress" id="sample4_roadAddress" placeholder="도로명 주소" required > 
-	                <input type="text" class="form-control" name="sample4_jibunAddress" id="sample4_jibunAddress" placeholder="지번 주소" required >
+	                <input type="text" class="form-control" name="sample4_roadAddress" id="sample4_roadAddress" placeholder="도로명 주소"  > 
+	                <input type="text" class="form-control" name="sample4_jibunAddress" id="sample4_jibunAddress" placeholder="지번 주소"  >
 	                <input type="text" class="form-control" name="sample4_detailAddress" id="sample4_detailAddress" placeholder="상세 주소" required>
 	                <span id="guide" style="color: #999"></span>
                 </td>
