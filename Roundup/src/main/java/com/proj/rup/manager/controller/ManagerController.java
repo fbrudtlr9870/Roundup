@@ -74,7 +74,7 @@ public class ManagerController {
 		List<PurchaseComplete> pc = purchaseService.selectAPCList();
 		mav.addObject("completeList",pc);
 		mav.setViewName("manager/managerPurchaseComplete");
-
+ 
 		return mav;
 	}
 	
