@@ -38,4 +38,8 @@
 		]]>
 </select>
 
+<insert id="insertPhoto">
+	insert into chatting values(chat_no_seq.nextval,#{MEMBER_ID},#{FILE_URL},sysdate)
+</insert>
+
 </mapper>

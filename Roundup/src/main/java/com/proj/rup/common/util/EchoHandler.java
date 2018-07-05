@@ -67,7 +67,10 @@ public class EchoHandler extends TextWebSocketHandler {
           }else if(message.getPayload().toString().equals("업로드성공~!@#")){
         	  String member_id=session.getPrincipal().getName();
         	  Map<String,String> map = sqlSession.selectOne("chatting.selectImg",member_id);
+        	  String file_url = "<img src='http://localhost:9090/rup/resources/upload/chatting/"+map.get("RENAMED_FILENAME")+"' width='"+"100px"+"' height='"+"120px'>";
+        	  map.put("FILE_URL", file_url);
         	  System.out.println(map.toString());
+        	  sqlSession.insert("chatting.insertPhoto",map);
         	  if(map !=null){
         		  for(WebSocketSession sess : sessionList){       
                       sess.sendMessage(new TextMessage("img"+session.getPrincipal().getName()+"|"+map.get("RENAMED_FILENAME")));       
