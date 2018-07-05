@@ -35,8 +35,8 @@
 </style>
 </head>
 <nav class="nav nav-pills nav-fill">
-  <a class="nav-item nav-link active" href="#">카테고리</a>
-  <a class="nav-item nav-link" href="#">행사</a>
-  <a class="nav-item nav-link" href="${pageContext.request.contextPath }/noticeboard/noticeBoardList.do">공지사항</a>
-  <a class="nav-item nav-link" href="${pageContext.request.contextPath }/freeboard/freeBoardList.do">게시판</a>
+  <a class="nav-item nav-link ${param.active1}" href="${pageContext.request.contextPath }">카테고리</a>
+  <a class="nav-item nav-link ${param.active2}" href="#">행사</a>
+  <a class="nav-item nav-link ${param.active3}" href="${pageContext.request.contextPath }/noticeboard/noticeBoardList.do">공지사항</a>
+  <a class="nav-item nav-link ${param.active4}" href="${pageContext.request.contextPath }/freeboard/freeBoardList.do">게시판</a>
 </nav>
