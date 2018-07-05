@@ -159,6 +159,26 @@ public class ProductServiceImpl<ProductVO> implements ProductService {
 		return productDAO.selectParentCategory(parent_category);
 	}
 
+	@Override
+	public List productSearch(String[] keyword) {
+		return productDAO.productSearch(keyword);
+	}
+
+	@Override
+	public int rowprice(Map map) {
+		return productDAO.rowprice(map);
+	}
+
+	@Override
+	public int avgprice(Map map) {
+		return productDAO.avgprice(map);
+	}
+
+	@Override
+	public Product popmenu(Map map) {
+		return productDAO.popmenu(map);
+	}
+
 
 
 }

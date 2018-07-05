@@ -67,6 +67,18 @@ public interface ProductService<ProductVO> {
 
 	Category selectParentCategory(int parent_category);
 
+
+	List<Product> productSearch(String[] keyword);
+
+
+	int rowprice(Map<String, Object> map);
+
+
+	int avgprice(Map<String, Object> map);
+
+
+	Product popmenu(Map<String, Object> map);
+
 }
 
 
