@@ -14,6 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.proj.rup.manager.model.service.ManagerService;
 import com.proj.rup.manager.model.service.ManagerServiceImpl;
 import com.proj.rup.member.model.vo.Member;
+import com.proj.rup.member.model.vo.MemberAddress;
+import com.proj.rup.purchase.model.service.PurchaseService;
+import com.proj.rup.purchase.model.service.PurchaseServiceImpl;
 
 @Controller
 public class ManagerController {
@@ -22,6 +25,8 @@ public class ManagerController {
 	
 	@Autowired
 	ManagerService managerService = new ManagerServiceImpl();
+	@Autowired
+	private PurchaseService purchaseService = new PurchaseServiceImpl();
 	
 	@RequestMapping("/manager/managerPage.do")
 	public ModelAndView member() {
@@ -68,11 +73,12 @@ public class ManagerController {
 		System.out.println("member_id@myPage.do:"+member_id);
 		Member m = managerService.selectOneMember(member_id);
 		System.out.println("member@myPage:"+m);
-		
+		MemberAddress ma = purchaseService.selectMemberInfo(member_id);
 		//List<PurchaseComplete> pc = purchaseService.selectPCList(memberId);
 		//logger.debug("purchaseComplete@memberController pc:"+pc);
 		
 		mav.addObject("member",m);
+		mav.addObject("memberAddress",ma);
 		//mav.addObject("purchaseComplete",pc);
 		mav.setViewName("manager/managerView");
 

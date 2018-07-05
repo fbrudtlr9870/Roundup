@@ -31,10 +31,6 @@ public class MemberDAOImpl implements MemberDAO {
 		return sqlSession.update("member.updateMember",member);
 	}
 	
-	@Override
-	public int deleteMember(Member member) {
-		return sqlSession.delete("member.deleteMember",member);
-	}
 	
 	@Override
 	public int connectMember(Member member) {
@@ -79,4 +75,11 @@ public class MemberDAOImpl implements MemberDAO {
 	public int updateMembership(Map<String, Object> map) {
 		return sqlSession.update("member.updateMembership", map);
 	}
+
+	@Override
+	public int deleteMember(String member_id) {
+		return sqlSession.delete("member.deleteMember",member_id);
+	}
+
+
 }

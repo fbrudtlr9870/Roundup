@@ -25,7 +25,7 @@
 	</select>
 	
 	<update id="updateMember">
-	UPDATE MEMBER SET member_name=#{member_name},member_email=#{member_email},member_gender=#{member_gender},member_phone=#{member_phone} where member_id = #{member_id}
+	UPDATE MEMBER SET member_name=#{member_name},member_email=#{member_email},member_gender=#{member_gender},member_phone=#{member_phone},member_grade=#{member_grade},authority=#{autority} where member_id = #{member_id}
 	</update>
 	
 	<!-- 로그인 회원 토탈 관련 시작 -->
