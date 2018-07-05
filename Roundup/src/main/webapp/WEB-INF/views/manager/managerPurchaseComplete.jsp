@@ -113,6 +113,7 @@ div.mypage{
 	    <div class="list-group" id="list-tab" role="tablist">
 	      <a class="list-group-item list-group-item-action active" id="list-home-list"  href="${pageContext.request.contextPath }/manager/managerPage.do" role="tab" aria-controls="home">Home</a>
 	      <a class="list-group-item list-group-item-action" id="list-profile-list"  href="${pageContext.request.contextPath }/manager/memberManagement.do" role="tab" aria-controls="profile">회원관리</a>
+	      <a class="list-group-item list-group-item-action" id="list-deletedMember-list"  href="${pageContext.request.contextPath }/manager/deletedMember.do" role="tab" aria-controls="deletedMember">탈퇴회원목록</a>
 	      <a class="list-group-item list-group-item-action" id="list-basket-list"  href="${pageContext.request.contextPath }/product/productEnroll.do" role="tab" aria-controls="baskeet">상품등록</a>
 	      <a class="list-group-item list-group-item-action" id="list-allProduct-list"  href="${pageContext.request.contextPath }/product/allProductList.do" role="tab" aria-controls="allproduct">전체상품</a>
 	      <a class="list-group-item list-group-item-action" id="list-deletedProduct-list"  href="#" role="tab" aria-controls="settings">삭제된상품</a>

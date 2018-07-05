@@ -79,6 +79,9 @@ public interface ProductDAO {
 	Category selectParentCategory(int parent_category);
 
 
+	List selectProductList();
+
+
 
 
 

@@ -15,6 +15,9 @@ import com.proj.rup.manager.model.service.ManagerService;
 import com.proj.rup.manager.model.service.ManagerServiceImpl;
 import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.vo.MemberAddress;
+import com.proj.rup.product.model.vo.Product;
+import com.proj.rup.product.model.service.ProductService;
+import com.proj.rup.product.model.service.ProductServiceImpl;
 import com.proj.rup.purchase.model.service.PurchaseService;
 import com.proj.rup.purchase.model.service.PurchaseServiceImpl;
 import com.proj.rup.purchase.model.vo.PurchaseComplete;
@@ -24,6 +27,8 @@ public class ManagerController {
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
+	@Autowired
+	ProductService productService = new ProductServiceImpl();
 	@Autowired
 	ManagerService managerService = new ManagerServiceImpl();
 	@Autowired
@@ -41,29 +46,6 @@ public class ManagerController {
 		mav.addObject("totalContents",totalContents);
 		mav.addObject("numPerPage",numPerPage);
 		/*mav.setViewName("/manager/memberManagement");*/
-		return mav;
-		
-	}
-	
-	@RequestMapping("/manager/memberManagement.do")
-	public ModelAndView memberManagement(@RequestParam(value="cPage", 
-											  required=false, 
-											  defaultValue="1") 
-											  int cPage) {
-		if(logger.isDebugEnabled()) logger.debug("회원관리페이지 요청");
-		ModelAndView mav = new ModelAndView();
-		int numPerPage = 10;
-		
-		//1. 현재페이지 컨텐츠 구하기
-		List<Map<String,String>> list = managerService.selectListMember(cPage, numPerPage);
-		
-		//2. 페이지바처리를 위한 전체컨텐츠수 구하기
-		int totalContents = managerService.selectManagerTotalMember();
-		
-		mav.addObject("list", list);
-		mav.addObject("totalContents",totalContents);
-		mav.addObject("numPerPage",numPerPage);
-		mav.setViewName("/manager/memberManagement");
 		return mav;
 		
 	}
@@ -95,4 +77,62 @@ public class ManagerController {
 
 		return mav;
 	}
+	
+	@RequestMapping("/product/allProductList.do")
+	public ModelAndView allProductList() {
+		ModelAndView mav = new ModelAndView();
+		List<Product> p = productService.selectProductList();
+		mav.addObject("productList",p);
+		mav.setViewName("/product/allProductList");
+
+		return mav;
+	}
+	
+	@RequestMapping("/manager/memberManagement.do")
+	public ModelAndView memberManagement(@RequestParam(value="cPage", 
+											  required=false, 
+											  defaultValue="1") 
+											  int cPage) {
+		if(logger.isDebugEnabled()) logger.debug("회원관리페이지 요청");
+		ModelAndView mav = new ModelAndView();
+		int numPerPage = 10;
+		
+		//1. 현재페이지 컨텐츠 구하기
+		List<Map<String,String>> list = managerService.selectListMember(cPage, numPerPage);
+		
+		//2. 페이지바처리를 위한 전체컨텐츠수 구하기
+		int totalContents = managerService.selectManagerTotalMember();
+		
+		mav.addObject("list", list);
+		mav.addObject("totalContents",totalContents);
+		mav.addObject("numPerPage",numPerPage);
+		mav.setViewName("/manager/memberManagement");
+		return mav;
+		
+	}
+	
+	
+	@RequestMapping("/manager/deletedMember.do")
+	public ModelAndView deletedMember(@RequestParam(value="cPage", 
+											  required=false, 
+											  defaultValue="1") 
+											  int cPage) {
+		if(logger.isDebugEnabled()) logger.debug("회원관리페이지 요청");
+		ModelAndView mav = new ModelAndView();
+		int numPerPage = 10;
+		
+		//1. 현재페이지 컨텐츠 구하기
+		List<Map<String,String>> list = managerService.selectDeletedListMember(cPage, numPerPage);
+		
+		//2. 페이지바처리를 위한 전체컨텐츠수 구하기
+		int totalContents = managerService.selectManagerTotalMember();
+		
+		mav.addObject("list", list);
+		mav.addObject("totalContents",totalContents);
+		mav.addObject("numPerPage",numPerPage);
+		mav.setViewName("/manager/deletedMember");
+		return mav;
+		
+	}
+	
 }

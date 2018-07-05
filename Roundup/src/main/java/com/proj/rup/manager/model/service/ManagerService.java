@@ -13,6 +13,11 @@ public interface ManagerService {
 
 	Member selectOneMember(String member_id);
 
+	List<Map<String, String>> selectDeletedListMember(int cPage, int numPerPage);
+
+	int selectManagerTotalDeletedMember();
+
+
 
 
 }

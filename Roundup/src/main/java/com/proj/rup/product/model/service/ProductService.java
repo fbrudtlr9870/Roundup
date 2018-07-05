@@ -67,6 +67,9 @@ public interface ProductService<ProductVO> {
 
 	Category selectParentCategory(int parent_category);
 
+
+	List<Product> selectProductList();
+
 }
 
 

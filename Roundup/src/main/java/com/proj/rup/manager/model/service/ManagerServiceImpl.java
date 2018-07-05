@@ -32,4 +32,17 @@ public class ManagerServiceImpl implements ManagerService {
 		return managerDAO.selectOneMember(member_id);
 	}
 
+	@Override
+	public List<Map<String, String>> selectDeletedListMember(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return managerDAO.selectListDeletedMember(cPage,numPerPage);
+	}
+
+	@Override
+	public int selectManagerTotalDeletedMember() {
+		// TODO Auto-generated method stub
+		return managerDAO.selectManagerTotalDeletedMember();
+	}
+
+
 }

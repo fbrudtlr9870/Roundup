@@ -13,6 +13,14 @@
       SELECT * FROM MEMBER WHERE MEMBER_ID = #{member_id}
       </select>
       
+      <select id="selectListDeletedMember" resultType="member">
+          select * from del_member order by member_deletedate
+      </select>
+      
+      <select id="selectManagerTotalDeletedMember" resultType="_int">
+      select count(*) from del_member  
+      </select>
+      
 
 
 </mapper>

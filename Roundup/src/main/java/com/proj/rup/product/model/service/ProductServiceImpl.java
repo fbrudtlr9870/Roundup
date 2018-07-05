@@ -159,6 +159,11 @@ public class ProductServiceImpl<ProductVO> implements ProductService {
 		return productDAO.selectParentCategory(parent_category);
 	}
 
+	@Override
+	public List selectProductList() {
+		return productDAO.selectProductList();
+	}
+
 
 
 }
