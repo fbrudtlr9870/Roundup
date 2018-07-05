@@ -622,7 +622,7 @@ ul.category-hyelin li label {
 	</c:forEach>
 </div>
 
-<a href="${pageContext.request.contextPath}/product/mailTest.do">이메일테스트페이지</a>
+<%-- <a href="${pageContext.request.contextPath}/product/mailTest.do">이메일테스트페이지</a> --%>
 
 <br>
 <br>
