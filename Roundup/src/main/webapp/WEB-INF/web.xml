@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 	
 	<!-- #2. welcome-file 추가 -->
 	<welcome-file-list>
@@ -28,11 +28,12 @@
 			<param-value>/WEB-INF/spring/appServlet/*-context.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
+		<async-supported>true</async-supported>
 	</servlet>
 		
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
-		<url-pattern>*.do</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
 	<!-- #4. post방식 인코딩 설정 UTF-8 필터 -->
@@ -81,5 +82,11 @@
   	</filter-mapping>
 
 
+	<!-- 세션종료시 접속중인 사용자정보(DB) 삭제 위한 리스너 -->
+	<listener>
+		<listener-class>com.proj.rup.member.model.service.SessionDestoryListener</listener-class>
+	</listener>
+	
+	
 
 </web-app>

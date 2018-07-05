@@ -1,6 +1,7 @@
 package com.proj.rup.freeboard.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,41 @@ public class freeBoardServiceImpl implements freeBoardService {
 	@Override
 	public int insertComment(FreeBoardComment fbc) {
 		return freeBoardDAO.insertComment(fbc);
+	}
+
+	@Override
+	public List<String> selectLevelKinds() {
+		return freeBoardDAO.selectLevelKinds();
+	}
+
+	@Override
+	public List<Map<String, String>> selectContent() {
+		return freeBoardDAO.selectContent();
+	}
+
+	@Override
+	public int insertBoard(FreeBoard board) {
+		return freeBoardDAO.insertBoard(board);
+	}
+
+	@Override
+	public int uploadPhoto(Map<String, String> map) {
+		return freeBoardDAO.uploadPhoto(map);
+	}
+
+	@Override
+	public List<Map<String, Object>> uploadList(String memberId) {
+		return freeBoardDAO.uploadList(memberId);
+	}
+
+	@Override
+	public int insertFile(FreeBoardFile fbf) {
+		return freeBoardDAO.insertFile(fbf);
+	}
+
+	@Override
+	public int deleteuploadPhoto(String username) {
+		return freeBoardDAO.deleteuploadPhoto(username);
 	}
 
 }

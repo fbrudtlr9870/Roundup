@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.proj.rup.member.model.vo.Member;
+import com.proj.rup.member.model.vo.Membership;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {
@@ -30,10 +31,6 @@ public class MemberDAOImpl implements MemberDAO {
 		return sqlSession.update("member.updateMember",member);
 	}
 	
-	@Override
-	public int deleteMember(Member member) {
-		return sqlSession.delete("member.deleteMember",member);
-	}
 	
 	@Override
 	public int connectMember(Member member) {
@@ -66,5 +63,23 @@ public class MemberDAOImpl implements MemberDAO {
 		System.out.println("map@DAOImpl="+map);
 		return map;
 	}
-	
+	@Override
+	public int updateAddress(Map<String, Object> map) {
+		return sqlSession.update("member.updateAddress",map);
+	}
+	@Override
+	public Membership selectMembership(String memberId) {
+		return sqlSession.selectOne("member.selectMembership", memberId);
+	}
+	@Override
+	public int updateMembership(Map<String, Object> map) {
+		return sqlSession.update("member.updateMembership", map);
+	}
+
+	@Override
+	public int deleteMember(String member_id) {
+		return sqlSession.delete("member.deleteMember",member_id);
+	}
+
+
 }

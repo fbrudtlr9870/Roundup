@@ -1,12 +1,19 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<!-- 유저롤을 가진 유저  -->
+<sec:authorize access="hasAnyRole('ROLE_USER')">
+	<sec:authentication property="principal.username" var="member_id"/>
+	<sec:authentication property="principal.member_name" var="member_name"/>
+</sec:authorize>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="게시물-상세보기" name="pageTitle"/>
 </jsp:include>
+
 <style>
 div#freeBoardView-container{
 	width:640px;
@@ -46,7 +53,6 @@ div.freeBoardView-comment.read p{
 	border-bottom:1px dotted white;
 	padding-bottom:3px;
 }
-
 div.freeBoardView-comment.write{
 	width:600px;
 	height:150px;
@@ -87,9 +93,7 @@ div.freeBoardView-comment.write button{
 	height:70px;
 	float:left;
 }
-
 /* 게시판 리스트 관련 */
-
 div#freetable_container{
 	width:980px;
 	margin:0 auto;
@@ -98,8 +102,18 @@ div#freetable_container{
 div#freetable_container tr th{
 	text-align: center;
 }
-
+div#freeBoard-comment img{
+	max-width:550px;
+}
 </style>
+
+<!-- 글쓰기 상세보기 아래에 넣음 -->
+<script>
+function fn_insertBoard(){
+	location.href="${pageContext.request.contextPath}/freeboard/insertBoard.do";
+}
+</script>
+
 
 <div id="freeBoardView-container">
 	<div class="freeBoardView-title title">
@@ -115,8 +129,8 @@ div#freetable_container tr th{
 	<div class="freeBoardView-title member">
 		<span>${fboard["member_id"] }</span>
 	</div>
-	<div class="freeBoardView-title member">
-		<p>${fboard["free_comment"]}</p>
+	<div id="freeBoard-comment">
+		${fboard["free_comment"]}
 	</div>
 	<br />
 	
@@ -169,7 +183,7 @@ div#freetable_container tr th{
 			</c:forEach>
 			<div class="freeBoardView-comment write">
 				<textarea name="pcomment_content" cols="30" rows="10"></textarea>
-				<input type="hidden" name="member_id_t" value="${memberLoggedIn['member_id'] }" />
+				<input type="hidden" name="member_id_t" value="${member_id }" />
 				<input type="hidden" name="free_board_no" value="${fboard['free_board_no'] }" />
 				<input type="hidden" name="parent_comment" value="0" />
 				<input type="hidden" name="comment_level" value="1" />
@@ -185,16 +199,16 @@ div#freetable_container tr th{
 	<h2>자유게시판</h2>
 	<table class="table table-striped">
 		<tr>
-			<th class="col-md-1">번호</th>
-			<th class="col-md-3">제목</th>
-			<th class="col-md-1">아이디</th>
-			<th class="col-md-2">날짜</th>
+			<th>번호</th>
+			<th>제목</th>
+			<th>아이디</th>
+			<th>날짜</th>
 		</tr>
 		<c:if test="${blist !=null }">
 			<c:forEach items="${blist }" var="f">
 				<tr>
-					<td class="col-md-1">${f["free_board_no"] }</td>
-					<td class="col-md-3" style="text-align:left;">
+					<td>${f["free_board_no"] }</td>
+					<td  style="text-align:left;">
 						<a href="freeBoardView.do?no=${f['free_board_no']}" style="color:black;">
 						${f["free_board_title"] }
 						<c:if test="${f['bc_count'] !=0 }">
@@ -202,13 +216,17 @@ div#freetable_container tr th{
 						</c:if>
 						</a>
 					</td>
-					<td class="col-md-1">${f["member_id"] }</td>
-					<td class="col-md-2">${f["free_reg_date"] }</td>
+					<td>${f["member_id"] }</td>
+					<td>${f["free_reg_date"] }</td>
 				</tr>
 			</c:forEach>
 		</c:if>
 	</table>
 	<br />
+	
+	<c:if test="${member_id !=null}">
+	<input type="button" class="btn btn-light" value="글쓰기" style="float:right;" onclick="fn_insertBoard();"  />
+	</c:if>
 
 <!-- 페이지바 -->
 <%
@@ -239,7 +257,7 @@ $(function(){
 			alert("댓글을 입력하셔야 합니다.");
 		}
 		
-		<c:if test="${empty memberLoggedIn}">
+		<c:if test="${empty member_id}">
 		alert("로그인 후 이용가능 합니다.");
 		</c:if>
 		
@@ -249,8 +267,11 @@ $(function(){
 		var comment_level = $("[name=comment_level]").val().trim();
 		var parent_id=null;
 		
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		
 		$.ajax({
-			url:"/*",
+			url:"insertComment.do",
 			data:{
 				  member_id:member_id,
 				  free_board_no:free_board_no,
@@ -279,7 +300,6 @@ $(function(){
 					}
 				}
 				$(html).insertBefore(".freeBoardView-comment.write");
-
 			},
 			error:function(jqxhr,textStatus, errorThrown){
 				console.log("ajax실패",jqxhr,textStatus, errorThrown);
@@ -289,12 +309,10 @@ $(function(){
 	});	
 	
 	//대댓글 관련 부분 
-
 	$(document).on('click','.comment-btn',function(){
 		var div = $("<div style='border-bottom:1px dotted white;' class='freeBoardView-comment comment'></div>");
 		var html='<button id="insertCommentComment">답글</button>';
-
-		html+='<input type="hidden" name="member_id_cc" value="${memberLoggedIn['member_id'] }" />';
+		html+='<input type="hidden" name="member_id_cc" value="${member_id }" />';
 		html+='<input type="hidden" name="free_board_no_c" value="${fboard['free_board_no']}" />';
 		html+='<input type="hidden" name="parent_comment_c" value="'+$(this).val()+'" />';
 		html+='<input type="hidden" name="comment_level_c" value="2" />';
@@ -320,8 +338,7 @@ $(function(){
 	$(document).on('click','.comment-btn-reply',function(){	
 		var div = $("<div style='border-bottom:1px dotted white;' class='freeBoardView-comment comment'></div>");
 		var html='<button id="insertCommentComment-reply">답글</button>';
-
-		html+='<input type="hidden" name="member_id_re" value="${memberLoggedIn['member_id'] }" />';
+		html+='<input type="hidden" name="member_id_re" value="${member_id}" />';
 		html+='<input type="hidden" name="free_board_no_re" value="${fboard['free_board_no']}" />';
 		html+='<input type="hidden" name="parent_comment_re" value="'+$(this).val()+'" />';
 		html+='<input type="hidden" name="comment_level_re" value="2" />';
@@ -343,10 +360,8 @@ $(function(){
 			div.insertAfter($(this).parent().parent()).next().slideDown(800);
 		}		
 	});
-
 	
 	$(document).on('click','#insertCommentComment',function(){
-
 		var comment_content = $("[name=comment_content_c]").val().trim();
 		//댓글 null체크
 		if(comment_content==""){
@@ -355,7 +370,7 @@ $(function(){
 			return false;
 		}
 		
-		<c:if test="${empty memberLoggedIn}">
+		<c:if test="${empty member_id}">
 		alert("로그인 후 이용가능 합니다.");
 		</c:if>
 		
@@ -365,6 +380,9 @@ $(function(){
 		var comment_level = $("[name=comment_level_c]").val().trim();
 		var parent_id =null;//$("[name=parentId_c]").val();
 		console.log(member_id+','+free_board_no+','+parent_comment+','+comment_level+','+parent_id);
+		
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
 		
 		$.ajax({
 			url:"insertComment.do",
@@ -424,7 +442,7 @@ $(function(){
 			return false;
 		}
 		
-		<c:if test="${empty memberLoggedIn}">
+		<c:if test="${empty member_id}">
 			alert("로그인 후 이용가능 합니다.");
 		</c:if>
 		
@@ -434,6 +452,9 @@ $(function(){
 		var comment_level = $("[name=comment_level_re]").val().trim();
 		var parent_id =$("[name=parentId_re]").val();
 		console.log(member_id+','+free_board_no+','+parent_comment+','+comment_level+','+parent_id);
+		
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
 		
 		$.ajax({
 			url:"insertComment.do",

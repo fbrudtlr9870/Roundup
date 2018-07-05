@@ -25,12 +25,7 @@
 	</select>
 	
 	<update id="updateMember">
-	UPDATE MEMBER SET MEMBER_NAME=#{member_name},
-					  MEMBER_EMAIL=#{member_email},
-					  MEMBER_GENDER=#{member_gender},
-					  MEMBER_PHONE=#{member_phone},
-					  MEMBER_GRADE=#{member_grade}
-	WHERE MEMBER_ID = #{member_id}
+	UPDATE MEMBER SET member_name=#{member_name},member_email=#{member_email},member_gender=#{member_gender},member_phone=#{member_phone},member_grade=#{member_grade},authority=#{autority} where member_id = #{member_id}
 	</update>
 	
 	<!-- 로그인 회원 토탈 관련 시작 -->
@@ -39,7 +34,7 @@
 	</select>
 	
 	<insert id="connectMember">
-		insert into connect_member values(#{member_id},#{member_name},sysdate)
+		insert into connect_member values(#{username},#{member_name},sysdate)
 	</insert>
 	
 	<select id="selectMember" resultType="_int">
@@ -47,7 +42,7 @@
 	</select>
 		
 	<delete id="deleteConnect">
-		delete from connect_member where member_id=#{member_id}
+		delete from connect_member where member_id=#{username}
 	</delete>
 	
 	<select id="selectConnectMember" resultType="map">
@@ -65,4 +60,16 @@
 	<insert id="insertAddress">
 		insert into address values(seq_address_no.nextval, #{member_id}, #{address}, #{zip_code}, 1)
 	</insert>
+	
+	<update id="updateAddress">
+		update address set zip_code=#{zip_code},address=#{address} where member_id = #{member_id}
+	</update>
+
+	<select id="selectMembership" resultType="membership">
+		select * from membership where member_id=#{memberId}
+	</select>
+	
+	<update id="updateMembership" statementType="CALLABLE">
+		{call proc_membership(#{member_id}, #{membership}, #{totalPrice})}
+	</update>
 </mapper>

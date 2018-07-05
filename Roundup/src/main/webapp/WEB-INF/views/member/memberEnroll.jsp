@@ -43,11 +43,10 @@ div#update-container{
 	width:980px;
 	margin:0 auto;
 }
-div#userId-container{position:relative; padding:0px;}
+
 div#userId-container span.guide{
 	display:none;
 	font-size:12px;
-	position: absolute;
 	top:12px;
 	right:10px;
 	margin-right:300px;
@@ -72,6 +71,23 @@ div#btnDiv {
 	text-align: center;
 }
 
+<<<<<<< HEAD
+function validate(str){
+	var member_id = $("#member_id_").val().trim();
+	var member_password = $("#member_password_").val().trim();
+	var member_name = $("#member_name_").val().trim();
+	var member_birthday = $("#member_birthday_").val().trim();
+	var member_phone = $("#member_phone_").val().trim();
+	var regExp = /^[가-힣]{2,8}$/;
+	var regExp0 = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
+	var regExp1 = /^[a-z]{4,8}$/; 
+	
+	if(!regExp1.test(member_id)){
+		alert("아이디를 영어로만  4글자 이상 8글자 이하로 적으세요.");
+		$("#member_id_").val("");
+		$("#member_id_").focus();
+		return false;
+=======
 </style>
 <script>
 $(function(){
@@ -130,14 +146,13 @@ function validate(str){
 	var member_phone = $("#member_phone_").val().trim();
 	var regExp = /^[가-힣]{2,8}$/;
 	var regExp0 = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
-	var regExp1 = /^[a-z]{4,8}$/; 
+
 	
-	if(!regExp1.test(member_id)){
-		alert("아이디를 영어로만  4글자 이상 8글자 이하로 적으세요.");
-		$("#member_id_").val("");
+	if(member_id.length<4 || member_id.length>=12){
+		alert("아이디는 최소4자리이상 12자 미만여야 합니다");
+		/* member_id.focus(); */
 		$("#member_id_").focus();
 		return false;
-	}
 	
 	/* if(member_id.length<4 || member_id.length>=12){
 		alert("아이디는 최소4자리이상 12자 미만여야 합니다");
@@ -165,7 +180,30 @@ function validate(str){
 		return false;
 	}
 	
+=======
+	
+	if(member_password.length<4 || member_password.length>8){
+		alert("비밀번호는 최소4자리이상이거나 8자리 미만여야 합니다.");
+		/* member_password.focus(); */
+		$("#member_password_").focus();
+		return false;		
+	}
+	
+	/* if(member_name.val().trim().length>8){
+		alert("이름을 8글자 미만로 적어주세요");
+		return false;
+	} */
+	
+	if(!regExp.test(member_name)){
+		alert("이름을 2글자 이상 8글자 이하로 적으세요.");
+		$("#member_name_").val("");
+		$("#member_name_").focus();
+		return false;
+	}
+	
+>>>>>>> branch 'master' of https://github.com/fbrudtlr9870/Roundup.git
 
+<<<<<<< HEAD
 	if (member_name.indexOf(" ") >= 0) {
         alert("이름에 공백을 사용할 수 없습니다.");
         document.member_name_.focus()
@@ -173,11 +211,29 @@ function validate(str){
         return false;
     }
 	
+=======
+	if (member_name.val().indexOf(" ") >= 0) {
+        alert("이름에 공백을 사용할 수 없습니다.")
+        document.member_name_.focus()
+        document.member_name_.select()
+        return false;
+    }
+	
+>>>>>>> branch 'master' of https://github.com/fbrudtlr9870/Roundup.git
 
+<<<<<<< HEAD
 	if(!regExp0.test($("#member_phone_").val())){
 		alert("잘못된 혁식입니다 형식에 맞게 -을 포함한 숫자를 입력하세요");
 		return false;
 	}
+=======
+	if(!regExp0.test(member_phone)){
+		alert("번호를 형식에 맞게 적으세요");
+		$("#member_phone_").val("");
+		$("#member_phone_").focus();
+		return false;
+	}
+>>>>>>> branch 'master' of https://github.com/fbrudtlr9870/Roundup.git
 
 	return true;
 }
@@ -304,10 +360,11 @@ function sample4_execDaumPostcode() {
 			</table>	
 			<hr />
 			
+			
 			<div id="btnDiv">
 				<input type="submit" value="가입" class="btn btn-outline-success"/> &nbsp;
 				<input type="reset" value="취소" class="btn btn-outline-success"/>
-
+			</div>
 		<br><br> 
 		</form>
 	</div>

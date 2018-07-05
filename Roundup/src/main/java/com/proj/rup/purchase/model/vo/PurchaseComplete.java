@@ -11,6 +11,11 @@ public class PurchaseComplete {
 	private int product_amount;
 	private String address;
 	private String zip_code;
+	private String product_name;
+	private int price;
+	private String renamed_filename;
+	private String brand_name;
+	
 	
 	public PurchaseComplete() {
 		super();
@@ -27,6 +32,24 @@ public class PurchaseComplete {
 		this.product_amount = product_amount;
 		this.address = address;
 		this.zip_code = zip_code;
+	}
+
+	public PurchaseComplete(int product_com_no, int purchase_no, int product_no, String member_id, Date purchase_date,
+			int product_amount, String address, String zip_code, String product_name, int price,
+			String renamed_filename, String brand_name) {
+		super();
+		this.product_com_no = product_com_no;
+		this.purchase_no = purchase_no;
+		this.product_no = product_no;
+		this.member_id = member_id;
+		this.purchase_date = purchase_date;
+		this.product_amount = product_amount;
+		this.address = address;
+		this.zip_code = zip_code;
+		this.product_name = product_name;
+		this.price = price;
+		this.renamed_filename = renamed_filename;
+		this.brand_name = brand_name;
 	}
 
 	public int getProduct_com_no() {
@@ -92,12 +115,49 @@ public class PurchaseComplete {
 	public void setZip_code(String zip_code) {
 		this.zip_code = zip_code;
 	}
+	
+
+	
+	public String getProduct_name() {
+		return product_name;
+	}
+
+	public void setProduct_name(String product_name) {
+		this.product_name = product_name;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public String getRenamed_filename() {
+		return renamed_filename;
+	}
+
+	public void setRenamed_filename(String renamed_filename) {
+		this.renamed_filename = renamed_filename;
+	}
+
+	public String getBrand_name() {
+		return brand_name;
+	}
+
+	public void setBrand_name(String brand_name) {
+		this.brand_name = brand_name;
+	}
 
 	@Override
 	public String toString() {
 		return "PurchaseComplete [product_com_no=" + product_com_no + ", purchase_no=" + purchase_no + ", product_no="
-				+ product_no + ", member_id=" + member_id + ", purchase_date="
-				+ purchase_date + ", product_amount=" + product_amount + ", address=" + address + ", zip_code="
-				+ zip_code + "]";
+				+ product_no + ", member_id=" + member_id + ", purchase_date=" + purchase_date + ", product_amount="
+				+ product_amount + ", address=" + address + ", zip_code=" + zip_code + ", product_name=" + product_name
+				+ ", price=" + price + ", renamed_filename=" + renamed_filename + ", brand_name=" + brand_name + "]";
 	}
+
+
+	
 }

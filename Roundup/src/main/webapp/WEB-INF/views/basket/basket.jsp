@@ -1,16 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-   <jsp:param value="장바구니" name="pageTitle"/>
+	<jsp:param value="장바구니" name="pageTitle" />
 </jsp:include>
+<sec:authorize access="hasAnyRole('ROLE_USER')">
+	<sec:authentication property="principal.username" var="member_id" />
+	<sec:authentication property="principal.member_name" var="member_name" />
+</sec:authorize>
 
+<style>
+.center-hyelin {
+	text-align: center;
+	margin-top: 20px;
+}
+</style>
 <div class="step-buy">
-	<br> <img src="${pageContext.request.contextPath }/resources/img/step-img.png" width="980px" height="100px">
-	<br>
+	<br> <img
+		src="${pageContext.request.contextPath }/resources/img/step-img.png"
+		width="980px" height="100px"> <br>
 </div>
 <div class="tbl-container">
 	<table class="table">
@@ -30,58 +43,58 @@
 					</td>
 					<td class="tbl-td">
 						<div id="tbl-img-row">
-							<img src="${pageContext.request.contextPath }/resources/img/${i['renamed_filename']}" alt="" width="100px" height="100px">
+							<img src="${pageContext.request.contextPath }/resources/upload/productFile/${i['renamed_filename']}" alt="" width="100px" height="100px"> 
 							<span>[${i["brand_name"]}] &nbsp; ${i["product_name"]}</span>
 						</div>
 					</td>
 					<td class="tbl-td">
-						<fmt:formatNumber value="${i['price']}" type="currency" currencySymbol=""/>원
+						<fmt:formatNumber value="${i['price']}" type="currency" currencySymbol="" />원
 					</td>
 					<td class="tbl-td">
 						<input type="number" class="form-control inline-hyelin" style="width: 70px; margin: 0 auto;" name="product_amount" value="${i['product_amount']}" min="1">
 						<button type="button" class="btn btn-light updateBasket">수정</button>
 					</td>
 					<td class="tbl-td">
-						<input type="hidden" value="${i['product_amount']*i['price']}" name="price" id="price"/>
-						<fmt:formatNumber value="${i['product_amount']*i['price']}" type="currency" currencySymbol=""/>원
-					</td>
-					<td class="tbl-td">
-						<input type="hidden" value="${i['basket_no'] }" name="basket_no"/>
-						<button type="button" class="btn btn-success" onclick="window.location.href='${pageContext.request.contextPath }/purchase/purchase.do?basketNo=${i['basket_no'] }'">구매</button> &nbsp;
+						<input type="hidden" value="${i['product_amount']*i['price']}" name="price" id="price" />
+						<fmt:formatNumber value="${i['product_amount']*i['price']}" type="currency" currencySymbol="" />원</td>
+					<td class="tbl-td"><input type="hidden" value="${i['basket_no'] }" name="basket_no" />  
+						<button type="button" class="btn btn-success" onclick="window.location.href='${pageContext.request.contextPath }/purchase/purchase.do?basketNo=${i['basket_no'] }&memberId=${member_id}'">구매</button>
+						&nbsp;
 						<button type="button" class="btn btn-danger deleteBasket">삭제</button>
 					</td>
 				</tr>
 			</c:forEach>
 		</c:if>
 		<c:if test="${empty basketList }">
-	          <tr>
-	             <td colspan="6">장바구니에 담긴 상품이 없습니다.</td>
-	          </tr>
+			<tr>
+				<td colspan="6"><h5 class="center-hyelin">장바구니에 담긴 상품이 없습니다.</h5></td>
+			</tr>
 		</c:if>
 	</table>
 	<hr>
 	<button type="button" class="btn btn-danger" id="deleteChkItem" style="float: left;">선택상품 삭제</button>
-	<br>
-	<br>
-	<br>
+	<br> <br> <br>
 	<table class="table">
 		<tr>
-			<th>총 배송비</th>
+			<th>배송비</th>
 			<th>총 결제금액</th>
 		</tr>
 		<tr>
-			<td class="tbl-td"><fmt:formatNumber value="2000" type="currency" currencySymbol=""/>원</td>
-			<td class="tbl-td">
-				<fmt:formatNumber value="0" type="currency" currencySymbol=""/>원 
-				<!-- <input type="text" name="" id="totalPrice" value="" />원 -->
-			</td>
+			<c:if test="${not empty basketList }">
+			<td class="tbl-td"><fmt:formatNumber value="2000" type="currency" currencySymbol="" />원</td>
+			<td class="tbl-td"><span id="totalPrice">2,000</span>원</td>
+			</c:if>
+			<c:if test="${empty basketList }">
+			<td class="tbl-td"><fmt:formatNumber value="0" type="currency" currencySymbol="" />원</td>
+			<td class="tbl-td"><fmt:formatNumber value="0" type="currency" currencySymbol="" />원 </td>
+			</c:if>
 		</tr>
 	</table>
 	<hr>
 	<button type="button" class="btn btn-primary" id="purchaseAll" style="float: right; margin: 10px;" onclick="return purchaseAll();">전체상품 주문</button>
 	<button type="button" class="btn btn-success" id="purchaseChk" style="float: right; margin: 10px;" onclick="return purchaseChk();">선택상품 주문</button>
-</div>      
-   
+</div>
+
 <script>
 function fn_checkAll(bool) {
     var chkboxes = document.getElementsByName("basketList");
@@ -116,24 +129,30 @@ function fn_toggle(bool) {
 function purchaseAll() {
 	var chkboxes = document.getElementsByName("basketList");
 	var basketNo = "";
+	var memberId = '${member_id}';
 	
 	for(var i=0; i<chkboxes.length; i++) {
 		basketNo += $(chkboxes[i]).parent().parent().find("[name=basket_no]").val();     
 		basketNo += "/";
     }
 	
-	location.href="${pageContext.request.contextPath}/purchase/purchase.do?basketNo="+basketNo;
+	if(basketNo != "")
+		location.href="${pageContext.request.contextPath}/purchase/purchase.do?basketNo="+basketNo+"&memberId="+memberId;
+	else 
+		alert("장바구니에 담긴 상품이 없습니다.");
 }
 
 function purchaseChk() {
 	var basketNo = "";
+	var memberId = '${member_id}';
+	
 	$("[name=basketList]:checked").filter(function() {
 		basketNo += $(this).parent().parent().find("[name=basket_no]").val();
 		basketNo += "/";
     });
 	
 	if(basketNo !== "") {
-		location.href="${pageContext.request.contextPath}/purchase/purchase.do?basketNo="+basketNo;
+		location.href="${pageContext.request.contextPath}/purchase/purchase.do?basketNo="+basketNo+"&memberId="+memberId;
 	}
 	else {
 		alert("선택된 상품이 없습니다.");
@@ -154,7 +173,7 @@ $(function() {
 	    		},
 				success:function(data) {
 					console.log(data);
-					location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
+					location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${member_id}";
 				},
 				error:function(jqxhr, textStatus, errorThrown) {
 	                  console.log("ajax처리실패!");
@@ -180,7 +199,7 @@ $(function() {
     		},
 			success:function(data) {
 				console.log(data);
-				location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
+				location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${member_id}";
 			},
 			error:function(jqxhr, textStatus, errorThrown) {
                   console.log("ajax처리실패!");
@@ -210,7 +229,7 @@ $(function() {
 		    		},
 					success:function(data) {
 						console.log(data);
-						location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}";
+						location.href="${pageContext.request.contextPath}/basket/selectBasketList.do?memberId=${member_id}";
 					},
 					error:function(jqxhr, textStatus, errorThrown) {
 		                  console.log("ajax처리실패!");
@@ -222,8 +241,38 @@ $(function() {
 			}
 		}
 	}); 
+	
+	
+	// 선택 상품의 금액 합 구하기
+	var total = 2000;
+	$("[name=basketList]").click(function() {
+		if($(this).is(":checked")) {
+			total += parseInt($(this).parent().parent().find("#price").val());
+		} else {
+			total -= parseInt($(this).parent().parent().find("#price").val());
+		}
+		$("#totalPrice").text(addCommaSearch(total));
+	}); 
+	
+	// 전체 상품의 금액 합 구하기
+	$("[name=allCheck]").click(function() {
+		if($(this).is(":checked")) {
+			total = 2000;
+			var chkboxes = document.getElementsByName("basketList");
 
+			for(var i=0; i<chkboxes.length; i++) {
+				total += parseInt($(chkboxes[i]).parent().parent().find("#price").val());
+			}
+		} else {
+			total = 2000;
+		}
+		$("#totalPrice").text(addCommaSearch(total));
+	});
 });
 
+function addCommaSearch(value) {
+	str = String(value);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
 </script>
-<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />

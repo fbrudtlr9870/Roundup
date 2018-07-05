@@ -22,7 +22,20 @@
     text-align: center;
     margin: 0;
 }
+div#chatting-room{
+	display:none;
+}
+img#chat-icon{
+	width:100px;
+	height:100px;
+	position:fixed; 
+	bottom:0; 
+	right:0;
+	z-index:10;
+	cursor:pointer;
+}
 </style>
+
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.js"></script>		
 <!-- 부트스트랩관련 라이브러리 -->
 <!-- navi관련 수정(18.06.15) -->
@@ -30,18 +43,29 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
   <!--  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script> -->
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
+
+<!-- 메타값 -->
+<meta name="_csrf" content="${_csrf.token}"/> 
+<meta name="_csrf_header" content="${_csrf.headerName}"/> 
+
+<!-- 소켓통신 라이브러리 --> 
+<script src="${pageContext.request.contextPath }/resources/js/sockjs.min.js"></script> 
+
+
 </head>	
 
+<!-- 유저롤을 가진 유저  -->
 <sec:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
+
 
 <body>
 <div id="main-container">
@@ -51,56 +75,54 @@
                 <ul class="nav-bar-site">
 
                     <li class="nav-bar-site-li">
-	                    <c:if test="${memberLoggedIn!=null}">
-	                    	<a href="${pageContext.request.contextPath }/basket/selectBasketList.do?memberId=${memberLoggedIn.member_id}" style="color:black">장바구니</a>
+	                    <c:if test="${member_id!=null}">
+	                    	<a href="${pageContext.request.contextPath }/member/myPageBasket.do?member_id=${member_id}" style="color:black">장바구니</a>
+
 	                    </c:if>
-	                    <c:if test="${memberLoggedIn==null}">
+	                    <c:if test="${member_id==null}">
 	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">장바구니</a>
-	                    </c:if>
-	                    
-	                    	
+
+	                    </c:if>     	
+
+
                     </li>
-                    <c:if test="${memberLoggedIn!=null}">
-                    	<li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/member/myPage.do?member_id=${memberLoggedIn.member_id }" style="color:black">마이페이지</a></li>
+                    <c:if test="${member_id!=null}">
+                    	<li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/member/myPage.do?member_id=${member_id }" style="color:black">마이페이지</a></li>
                     </c:if>
-                    <c:if test="${memberLoggedIn==null}">
+                    <c:if test="${member_id==null}">
 	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">마이페이지</a>
 	                    </c:if>
-                    <li class="nav-bar-site-li">고객센터</li>
-                    
-                    <!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! -->
-                     <c:if test="${memberLoggedIn!=null && ((memberLoggedIn.member_grade=='A')) }">  
-                       
+             
+				
+					<!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! --> 
+                    <!-- 권한에 따른 접근 방법 기술 -->
+               		<sec:authorize access="hasRole('ROLE_ADMIN')">
                     <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/manager/managerPage.do">관리자페이지</a></li>  
-                        </c:if>  
+              		</sec:authorize>
+     
+
                 </ul>
-                <ul class="nav-bar-list">
-                        <li class="nav-bar-site-li"><a href="http://www.7-eleven.co.kr" target="blank">세븐일레븐</a></li>
-                        <li class="nav-bar-site-li"><a href="http://gs25.gsretail.com/gscvs/ko/main"target="blank">GS25</a></li>
-                        <li class="nav-bar-site-li"><a href="http://cu.bgfretail.com/index.do"target="blank">CU</a></li>
-                        <li class="nav-bar-site-li"><a href="https://www.ministop.co.kr"target="blank">미니스톱</a></li>
-                        <li class="nav-bar-site-li"><a href="https://www.emart24.co.kr/index.asp"target="blank">이마트24</a></li>
-                </ul>
+               
                 <fieldset class="nav-search">
 
                     <div class="col-lg-6">
                        <form action="${pageContext.request.contextPath }/product/productSearch.do">
+                       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                        <div class="input-group">
-                         <input type="text" class="form-control" id="productKey" placeholder="Search for..." name="searchKeyword" autocomplete="off">
+                         <input type="text" class="form-control" id="productKey" placeholder="${param.pageSearch }" name="searchKeyword" autocomplete="off">
                          <span class="input-group-btn">
-                           <button type="button" class="btn btn-outline-info" type="submit">Go!!</button>
+                           <button class="btn btn-outline-info" type="submit">Go!!</button>
                          </span><br />       
                           	<ul id="autoComplete"></ul>                     
                        </div>
                        </form>
                      </div>
                 </fieldset>
-                
-				<!-- 로그인 회원가입 -->
+               
               	<!-- 로그인 회원가입 -->
               	<div class="nav-bar-btn">
               		<c:choose>
-              		<c:when test="${empty member_id }">
+              		<c:when test="${empty member_id and empty admin_id}">
 	               <%-- <c:if test="${memberLoggedIn==null}"> --%>
 	               <!--  
 	                  <button type="button" class="btn btn-outline-success" data-toggle="modal" 
@@ -116,7 +138,12 @@
 	             	</c:when>
 	             	<c:otherwise>
 	                <%-- <c:if test="${memberLoggedIn!=null }"> --%>
-				    <a href="#">${member_name }</a>님, 안녕하세요			    
+	                <c:if test="${not empty member_id }">
+				   	 <a href="#">${member_name }</a>님, 안녕하세요			    
+	                </c:if>
+	                <c:if test="${not empty admin_id }">
+	                	<a href="#">${admin_name }</a>님, 안녕하세요
+	                </c:if>
 				  
 				     <button class="btn btn-outline-success" type="button" onclick="document.getElementById('logout-form').submit();" />
  
@@ -132,25 +159,36 @@
                 </div>
             </div>
             
+             <!-- 채팅아이콘 -->
+            <img src="${pageContext.request.contextPath }/resources/img/chat-icon.png" id="chat-icon"/>
  
-            <!-- 채팅 관련 html 시작 -->
-   			 <div id="chatting-room">
-
-            	<input type="hidden" name="member_id" value="${memberLoggedIn['member_id']}" />
-            	<div style="text-align:center;">현재 접속중인 회원<span id="connected-member"style="font-weight:bold;">${totalMember }</span> 명</div>
-            	<c:if test="${memberLoggedIn!=null }">
-            	<div style="text-align:center;margin-top:10px;">채팅방에 접속되었습니다.</div>  
-            	</c:if>
-            	<c:if test="${memberLoggedIn==null }">
-            	<div style="text-align:center;margin-top:10px;">로그인 후 사용가능합니다.</div>  
-            	</c:if> 	 	
-            	<div id="chatting-content"></div>
-            	<div id="member-chat">
-            		<input id="insertText" style="float:left; width:230px;"class="form-control form-control-sm" type="text">
-            		<button style="float:left; width:50px;" type="button" class="btn btn-primary" id="insertChat">전송</button>
-            	</div>
+            <!-- 채팅 관련 html 시작 -->            
+             <div id="chatting-room">
+               <input type="hidden" name="member_id" value="${member_id}" />
+                <div style="text-align:center;">현재 접속중인 사용자<span id="connected-member"style="font-weight:bold;"> ? </span> 명 
+                   <button type="button" class="close" aria-label="Close" id="hide_chatting">
+                    <span aria-hidden="true">&times;</span>
+               </button>
+                </div> 
+               <c:if test="${member_id!=null }">
+               <div style="text-align:center;margin-top:10px;">채팅방에 접속되었습니다.</div>  
+               </c:if>
+               <c:if test="${member_id==null }">
+               <div style="text-align:center;margin-top:10px;">로그인 후 사용가능합니다.</div>  
+               </c:if>        
+               <div id="chatting-content"></div>
+               <sec:authorize access="hasRole('ROLE_USER')">
+               <div id="member-chat">
+                  <input id="insertText" style="float:left; width:230px;"class="form-control form-control-sm" type="text">
+                  <button style="float:left; width:50px;" type="button" class="btn btn-primary" id="insertChat">전송</button>
+               </div>
+               </sec:authorize>
+                  <sec:authorize access="hasRole('ROLE_ADMIN')">
+               <input type="text" name="" id="admin-notice" /><button id="insertNotice">전송!!</button>
+               </sec:authorize>
             </div> 
             <!-- 채팅관련 끝 -->
+
         </nav>
         
         <!-- 여기있었으 -->
@@ -212,6 +250,7 @@
 		        </button>
 		      </div>
 		      <form action="${pageContext.request.contextPath }/member/memberLogin.do" method="post">
+		      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		      <div class="modal-body">
 		      	<input type="text" class="form-control" name="member_id" id="member_id" placeholder="아이디" required autocomplete="off"/>
 		      	<br />
@@ -322,10 +361,169 @@ $(document).ready(function(){
 });
 </script>
 
-<!-- 채팅 관련 스크립트 -->
+
 <script>
 $(function(){
- 	/* setInterval(function(){  */
+   $("#chat-icon").click(function(){
+      $("#chatting-room").show();
+       //스크롤바 설정 
+       var offset = $(".chatting-comment:last").offset(); 
+       $("#chatting-content").animate({scrollTop : offset.top}, 400); 
+   });
+   $("#hide_chatting").click(function(){
+      $("#chatting-room").hide();
+      $("#chat-icon").show();
+   });
+   
+});
+</script>
+
+<!-- 채팅 관련 스크립트(소켓) --> 
+<script> 
+ 
+var sock=new SockJS("<c:url value="/echo"/>"); 
+ 
+sock.onmessage= onMessage; 
+sock.onclose = onClose; 
+sock.onopen=function(){ 
+     sendMessage();
+     $.ajax({ 
+           url:"${pageContext.request.contextPath}/chatting/showChat.do", 
+           type:"post", 
+           dataType:"json", 
+           success:function(data){ 
+             for(var index in data){ 
+               var c = data[index]; 
+               if(index=="connectCount"){ 
+                 //$("#connected-member").text(c); 
+               } 
+               if(index=="list"){ 
+                 var html='<div>'; 
+                 for(var li in c){ 
+                   html+='<div class="chatting-comment" style="text-align:left;">'; 
+                   html+='<strong>['+c[li].member_id+'] :</strong> '+c[li].chat_content+'</div>'; 
+                 } 
+                 html+='</div>'; 
+                  $("#chatting-content").html(html); 
+               } 
+             } 
+              
+           }, 
+           error:function(jqxhr, testStatus, errorThrown){ 
+            console.log("ajax처리실패"); 
+            console.log(jqxhr); 
+            console.log(testStatus); 
+            console.log(errorThrown); 
+           } 
+         }); 
+}  
+$(function(){ 
+  $("#insertChat").click(function(){ 
+     var chatText=$("#insertText").val().trim(); 
+     var member_id =$("[name=member_id]").val().trim(); 
+     if(chatText==""){ 
+         alert("내용을 입력하셔야 합니다."); 
+         return false; 
+       } 
+        
+       if(member_id ==""){ 
+         alert("로그인 후 이용가능합니다."); 
+         return false; 
+       }else{ 
+         sendMessage(); 
+         $("#insertText").val(''); 
+       } 
+  }); 
+  $("#insertText").keypress(function (e) {
+      var chatText=$("#insertText").val().trim();
+      var member_id =$("[name=member_id]").val().trim();
+      
+      if(e.which == 13){
+          if(chatText==""){
+             alert("내용을 입력하셔야 합니다.");
+             return false;
+          }
+          
+          if(member_id ==""){
+             alert("로그인 후 이용가능합니다.");
+             return false;
+          }else{
+             sendMessage();
+             $("#insertText").val('');
+          }
+      }
+  });
+  $("#insertNotice").click(function(){
+     var adminNotice=$("#admin-notice").val().trim(); 
+     var member_id =$("[name=member_id]").val().trim();
+     if(adminNotice==""){ 
+         alert("내용을 입력하셔야 합니다."); 
+         return false; 
+     }
+     sendNotice(); 
+      $("#admin-notice").val(''); 
+  });
+  
+}); 
+ 
+function sendMessage(){ 
+  sock.send($("#insertText").val()); 
+} 
+
+function sendNotice(){
+   sock.send("[공지사항] : "+$("#admin-notice").val());
+}
+ 
+function onClose(){ 
+  $("#chatting-content").append("연결이 끊켰습니당."); 
+} 
+ 
+function onMessage(evt){ 
+  var data=evt.data; 
+  var sessionid=null; 
+  var message=null; 
+  var strArr=data.split('|'); 
+   
+  sessionid=strArr[0]; 
+  message=strArr[1]; 
+   
+  if(sessionid==""){ 
+       $("#connected-member").html(" "+message+" "); 
+  }else if(sessionid=="로그인감지로 인해 접속이 끊어집니다."){ 
+        alert("로그인 감지로 로그인을 해제합니다."); 
+        location.href="${pageContext.request.contextPath}"; 
+  }else if(sessionid=="관리자공지"){
+     console.log(message);
+        alert(message);
+       var html='<div class="chatting-comment" style="text-align:left;">';  
+       html+='<strong>'+message+'</strong>';  
+       html+='</div>';  
+       $("#chatting-content").append(html);       
+       var offset = $(".chatting-comment:last").offset(); 
+       $("#chatting-content").animate({scrollTop : offset.top}, 400); 
+  } else{  
+       var html='<div class="chatting-comment" style="text-align:left;">';  
+       html+='<strong>['+sessionid+'] :</strong>'+message;  
+       html+='</div>';  
+       $("#chatting-content").append(html);       
+       var offset = $(".chatting-comment:last").offset(); 
+       $("#chatting-content").animate({scrollTop : offset.top}, 400); 
+     }   
+} 
+ 
+</script> 
+
+
+
+
+
+
+<!-- 채팅 관련 스크립트 -->
+
+<script>
+
+/* $(function(){
+ 	 setInterval(function(){ 
 	 	$.ajax({
 	 		url:"${pageContext.request.contextPath}/chatting/showChat.do",
 	 		type:"post",
@@ -358,7 +556,7 @@ $(function(){
 	 	});
 
 
- 	/* },500) */
+ 	 },500) 
 
  	
 	
@@ -437,7 +635,8 @@ $(function(){
 	 		 	});	 			
 	 		}
  		}
-    });
- 	
-})
+    });	
+
+}) */
+
 </script>
