@@ -10,25 +10,25 @@
 </jsp:include>
 
 <sec:authorize access="hasAnyRole('ROLE_USER')">
-	<sec:authentication property="principal.username" var="member_id"/>
-	<sec:authentication property="principal.member_name" var="member_name"/>
+   <sec:authentication property="principal.username" var="member_id"/>
+   <sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
 <script>
 $(function(){
     var bloginfo=${bloginfo};
-	if(${bloginfo!='not'}){		
-	   console.log(bloginfo);
-	   var p1=$("#blog1");
-	   p1.html("<a href="+bloginfo.items[0].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[0].title+"</a>");
-	   var p2=$("#blog2");
-	   p2.html("<a href="+bloginfo.items[1].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[1].title+"</a>");
-	   var p3=$("#blog3");
-	   p3.html("<a href="+bloginfo.items[2].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[2].title+"</a>");
-	   var p4=$("#blog4");
-	   p4.html("<a href="+bloginfo.items[3].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[3].title+"</a>");
-	   var p5=$("#blog5");
-	   p5.html("<a href="+bloginfo.items[4].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[4].title+"</a>");
-	}
+   if(${bloginfo!='not'}){      
+      console.log(bloginfo);
+      var p1=$("#blog1");
+      p1.html("<a href="+bloginfo.items[0].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[0].title+"</a>");
+      var p2=$("#blog2");
+      p2.html("<a href="+bloginfo.items[1].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[1].title+"</a>");
+      var p3=$("#blog3");
+      p3.html("<a href="+bloginfo.items[2].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[2].title+"</a>");
+      var p4=$("#blog4");
+      p4.html("<a href="+bloginfo.items[3].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[3].title+"</a>");
+      var p5=$("#blog5");
+      p5.html("<a href="+bloginfo.items[4].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[4].title+"</a>");
+   }
 });
 function search(){
    $(".search-div").show();
@@ -37,63 +37,64 @@ function searchClose(){
    $(".search-div").hide();
 }
 $(".main-li").mouseenter(function(){
-	$(this).children(".buy-btn").css("display","block");
-	$(this).css("opacity","1.0");
+   $(this).children(".buy-btn").css("display","block");
+   $(this).css("opacity","1.0");
 });
 $(".main-li").mouseleave(function(){
-	$(this).children(".buy-btn").css("display","none");
-	$(this).css("opacity","0.85");
+   $(this).children(".buy-btn").css("display","none");
+   $(this).css("opacity","0.85");
 });
 $(function () {
-	  $('[data-toggle="tooltip"]').tooltip();
+     $('[data-toggle="tooltip"]').tooltip();
 });
 $(function () {
-	$(".insertBasket").on("click",function(){
-		var memberId = '${member_id}';
+	   $(".insertBasket").on("click",function(){
+	      var memberId = '${member_id}';
 
-		if(memberId != "") {
-			$.ajax({
-				url:"${pageContext.request.contextPath }/basket/insertBasket.do",
-				data: {
-					productAmount: $(this).parent().parent().find("[name=product_amount]").val(),
-					productNo: $(this).parent().parent().find("[name=product_no]").val(),
-					memberId :memberId
-				},
-				success:function(data) {
-					if(confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하시겠습니까?")) {
-						location.href = "${pageContext.request.contextPath }/basket/selectBasketList.do?memberId="+memberId;
-					} else {
-						location.href = "${pageContext.request.contextPath }";
-					}
-				},
-				error:function(jqxhr, textStatus, errorThrown) {
-	                 console.log("ajax처리실패!");
-	                 console.log(jqxhr);
-	                 console.log(textStatus);
-	                 console.log(errorThrown);
-	        	}
-			});
-		} else {
-			alert("로그인 후 이용하실 수 있습니다.");
-		}
-	});
-	
-	// 구매하기
-	$(".purchase").on("click",function(){
-		var productNo = $(this).parent().parent().find("[name=product_no]").val();
-		var productAmount = $(this).parent().parent().find("[name=product_amount]").val();
-		var memberId = '${member_id}';
+	      if(memberId != "") {
+	         $.ajax({
+	            url:"${pageContext.request.contextPath }/basket/insertBasket.do",
+	            data: {
+	               productAmount: $(this).parent().parent().find("[name=product_amount]").val(),
+	               productNo: $(this).parent().parent().find("[name=product_no]").val(),
+	               memberId :memberId
+	            },
+	            success:function(data) {
+	               if(confirm("장바구니에 상품이 담겼습니다. 장바구니로 이동하시겠습니까?")) {
+	                  location.href = "${pageContext.request.contextPath }/basket/selectBasketList.do?memberId="+memberId;
+	               } else {
+	                  location.href = "${pageContext.request.contextPath }";
+	               }
+	            },
+	            error:function(jqxhr, textStatus, errorThrown) {
+	                    console.log("ajax처리실패!");
+	                    console.log(jqxhr);
+	                    console.log(textStatus);
+	                    console.log(errorThrown);
+	              }
+	         });
+	      } else {
+	         alert("로그인 후 이용하실 수 있습니다.");
+	      }
+	   });
+	   
+	   // 구매하기
+	   $(".purchase").on("click",function(){
+	      var productNo = $(this).parent().parent().find("[name=product_no]").val();
+	      var productAmount = $(this).parent().parent().find("[name=product_amount]").val();
+	      var memberId = '${member_id}';
 
-		if(memberId != "") {
-			location.href="${pageContext.request.contextPath}/purchase/buyNow.do?productNo=" + productNo + "&productAmount=" + productAmount+"&memberId="+memberId;
-		} else {
-			alert("로그인 후 이용하실 수 있습니다.");
-		}
-	});
+	      if(memberId != "") {
+	         location.href="${pageContext.request.contextPath}/purchase/buyNow.do?productNo=" + productNo + "&productAmount=" + productAmount+"&memberId="+memberId;
+	      } else {
+	         alert("로그인 후 이용하실 수 있습니다.");
+	      }
+	   });
 });
+
 // 검색 바에 검색 키워드 보여주기
 $(function () {
-	$("#productKey").val("${searchKeyword }");
+   $("#productKey").val("${searchKeyword }");
 });
 function fn_checkAll(bool) {
     var chkboxes = document.getElementsByName("brand");
@@ -123,125 +124,124 @@ function fn_toggle(bool) {
 }
 // 카테고리 다중 셀렉트
 $(function(){
-	$(".category-level").on("change",function(){
-		var val = $(this).find('option:selected').val();
-		var nextE = $(this).next();
-		var nextEclass = $(this).attr("class");
-		console.log(nextE);
-		console.log(val);
-		console.log(nextEclass);
-		
-		var nextEclasses = nextEclass.split(" ");
-		console.log(nextEclasses[2]);
-		
-		$.ajax({
-			url:"${pageContext.request.contextPath}/product/selectChildCategory.do",
-			data:{categoryNo:val},
-			success:function(data){
-				var html = "";
-				console.log(data);
-				html += "<option value='' selected disabled>Select</option>";
-				for(var i in data){
-					console.log(data[i].category_name);
-					html += "<option value='"+data[i].category_no+"'>"+data[i].category_name+"</option>";
-				}
-				
-				nextE.html(html);
-			},error:function(jqxhr, textStatus, errorThrown) {
+   $(".category-level").on("change",function(){
+      var val = $(this).find('option:selected').val();
+      var nextE = $(this).next();
+      var nextEclass = $(this).attr("class");
+      console.log(nextE);
+      console.log(val);
+      console.log(nextEclass);
+      
+      var nextEclasses = nextEclass.split(" ");
+      console.log(nextEclasses[2]);
+      
+      $.ajax({
+         url:"${pageContext.request.contextPath}/product/selectChildCategory.do",
+         data:{categoryNo:val},
+         success:function(data){
+            var html = "";
+            console.log(data);
+            html += "<option value='' selected disabled>Select</option>";
+            for(var i in data){
+               console.log(data[i].category_name);
+               html += "<option value='"+data[i].category_no+"'>"+data[i].category_name+"</option>";
+            }
+            
+            nextE.html(html);
+         },error:function(jqxhr, textStatus, errorThrown) {
                 console.log("ajax처리실패!");
                 console.log(jqxhr);
                 console.log(textStatus);
                 console.log(errorThrown);
-          	}
-		}); 
-	});
+             }
+      }); 
+   });
 });
 $(function(){
-	$(".thirdli").hover(function(){
-		console.log("tlqkf");
-		$(this).css("background","lightgray");
-	},function(){
-		$(this).css("background","white");
-	});
+   $(".thirdli").hover(function(){
+      $(this).css("background","lightgray");
+   },function(){
+      $(this).css("background","white");
+   });
 })
 // 검색결과에 따른 카테고리 표시
 /* $(function(){
-	var searchKeyword = "${searchKeyword}";
-	var level1 = "";
-	var level2 = "";
-	var level3 = "";
-	
-	$.ajax({
-		url:"${pageContext.request.contextPath}/product/selectCategory.do",
-		data:{searchKeyword: searchKeyword},
-		success:function(data){
-			var html = "";
-			console.log(data);
-			html += "<option value='' selected disabled>Select</option>";
-			for(var i in data){
-				console.log(data[i].category_name);
-				html += "<option value='"+data[i].category_no+"'>"+data[i].category_name+"</option>";
-			}
-			
-			nextE.html(html);
-		},error:function(jqxhr, textStatus, errorThrown) {
+   var searchKeyword = "${searchKeyword}";
+   var level1 = "";
+   var level2 = "";
+   var level3 = "";
+   
+   $.ajax({
+      url:"${pageContext.request.contextPath}/product/selectCategory.do",
+      data:{searchKeyword: searchKeyword},
+      success:function(data){
+         var html = "";
+         console.log(data);
+         html += "<option value='' selected disabled>Select</option>";
+         for(var i in data){
+            console.log(data[i].category_name);
+            html += "<option value='"+data[i].category_no+"'>"+data[i].category_name+"</option>";
+         }
+         
+         nextE.html(html);
+      },error:function(jqxhr, textStatus, errorThrown) {
             console.log("ajax처리실패!");
             console.log(jqxhr);
             console.log(textStatus);
             console.log(errorThrown);
-      	}
-	}); 
-	
-	/* $(".category-level").on("change",function(){
-		var val = $(this).find('option:selected').val();
-		var nextE = $(this).next();
-		var nextEclass = $(this).attr("class");
-		console.log(nextE);
-		console.log(val);
-		console.log(nextEclass);
-		
-		var nextEclasses = nextEclass.split(" ");
-		console.log(nextEclasses[2]);
-		
-		$.ajax({
-			url:"${pageContext.request.contextPath}/product/selectChildCategory.do",
-			data:{categoryNo:val},
-			success:function(data){
-				var html = "";
-				console.log(data);
-				html += "<option value='' selected disabled>Select</option>";
-				for(var i in data){
-					console.log(data[i].category_name);
-					html += "<option value='"+data[i].category_no+"'>"+data[i].category_name+"</option>";
-				}
-				
-				nextE.html(html);
-			},error:function(jqxhr, textStatus, errorThrown) {
+         }
+   }); 
+   
+   /* $(".category-level").on("change",function(){
+      var val = $(this).find('option:selected').val();
+      var nextE = $(this).next();
+      var nextEclass = $(this).attr("class");
+      console.log(nextE);
+      console.log(val);
+      console.log(nextEclass);
+      
+      var nextEclasses = nextEclass.split(" ");
+      console.log(nextEclasses[2]);
+      
+      $.ajax({
+         url:"${pageContext.request.contextPath}/product/selectChildCategory.do",
+         data:{categoryNo:val},
+         success:function(data){
+            var html = "";
+            console.log(data);
+            html += "<option value='' selected disabled>Select</option>";
+            for(var i in data){
+               console.log(data[i].category_name);
+               html += "<option value='"+data[i].category_no+"'>"+data[i].category_name+"</option>";
+            }
+            
+            nextE.html(html);
+         },error:function(jqxhr, textStatus, errorThrown) {
                 console.log("ajax처리실패!");
                 console.log(jqxhr);
                 console.log(textStatus);
                 console.log(errorThrown);
-          	}
-		}); 
-	}); 
+             }
+      }); 
+   }); 
 }); */
 $(function() {
-	// 최상위 카테고리 클릭 시
- 	$(".inner").click(function() {
- 		var inner = document.getElementsByClassName("inner");
- 		var selectcategory=$("#selectcategory");
- 		var no=$(this).parent().siblings("input").val();
- 		for(var i=0; i<inner.length; i++) {
- 			if(inner[i].parentNode.parentNode.parentNode.className.indexOf('on') != -1) {
- 				var classname = 'cate0'+(i+1);
-				selectcategory.html(inner[i].innerText+","+no);
- 				inner[i].parentNode.parentNode.parentNode.className = classname;
- 			}
- 		}
- 		
- 		// 해당 요소가 선택되었음을 의미하는 on class 추가해줌
- 		$(this).parents("li").addClass('on');
-	});
+   // 최상위 카테고리 클릭 시
+    $(".inner").click(function() {
+       var inner = document.getElementsByClassName("inner");
+       var selectcategory=$("#selectcategory");
+       var no=$(this).parent().siblings("input").val();
+       for(var i=0; i<inner.length; i++) {
+          if(inner[i].parentNode.parentNode.parentNode.className.indexOf('on') != -1) {
+             var classname = 'cate0'+(i+1);
+            selectcategory.html(inner[i].innerText+","+no);
+             inner[i].parentNode.parentNode.parentNode.className = classname;
+          }
+       }
+       
+       // 해당 요소가 선택되었음을 의미하는 on class 추가해줌
+       $(this).parents("li").addClass('on');
+   });
 });
 $(function() {
 	$(".cate01").addClass('on');
@@ -264,112 +264,107 @@ $(function() {
 });
 //하위 카테고리 클릭 이벤트
 $(function() {
-	// +버튼 누르면 최하위 카테고리 열림
- 	$(".btn_more").on('click', function() {
- 		var allDiv = $(".layer_more_cate");
- 		allDiv.css("opacity", "0")
-		   	   .css("overflow", "hidden"); 
- 		var layer_more_cate = $(this).siblings("div");
- 		layer_more_cate.css("opacity", "1")
- 					   .css("overflow", "visible"); 		
- 	});
- 	var selectcategory=$("#selectcategory");
- 	$(".thirdli").on("click",function(event){
- 		console.log($(this).find("li").text());
- 		selectcategory.html(">>"+$(this).find("li").text()+","+$(this).find("input").val());
- 		event.stopPropagation();
+   // +버튼 누르면 최하위 카테고리 열림
+    $(".btn_more").on('click', function() {
+       var allDiv = $(".layer_more_cate");
+       allDiv.css("opacity", "0")
+               .css("overflow", "hidden"); 
+       var layer_more_cate = $(this).siblings("div");
+       layer_more_cate.css("opacity", "1")
+                   .css("overflow", "visible");       
+    });
+    var selectcategory=$("#selectcategory");
+    $(".thirdli").on("click",function(event){
+       console.log($(this).find("li").text());
+       selectcategory.html(">>"+$(this).find("li").text()+","+$(this).find("input").val());
+       event.stopPropagation();
         //ie8이하 브라우져
         event.cancelBubble = true;
         //preventDefault(); - w3school
         $(".layer_more_cate").css("opacity", "0")
-	   	   .css("overflow", "hidden"); 
- 	});
- 	
- 	$(".secondli").on("click",function(){
- 		console.log($(this).children("span").text());
- 		selectcategory.html(">"+$(this).children("span").text()+","+$(this).find("input").val());
- 	});
- 	
+            .css("overflow", "hidden"); 
+    });
+    
+    $(".secondli").on("click",function(){
+       console.log($(this).children("span").text());
+       selectcategory.html(">"+$(this).children("span").text()+","+$(this).find("input").val());
+    });
+    
 });
 //리서치.do
 $(function(){
-	$("#research").on("click",function(){
-		var searchKeyword=$("#productKey").val();
-		var ck=document.getElementsByName("brand");
-		var brand=new Array();
-		var caNo=$("#selectcategory").text();
-		if(caNo=="") caNo="0,0";
-		var categoryselect=caNo.split(",");
-		for(var i in ck){
-			if(ck[i].checked==true){
-				brand.push(ck[i].value);
-			}
-		}
-		if(brand.length>1){
-			brand.shift();
-		}else if(brand.length==0){
-			brand.push("all");
-		}
-		//console.log(brand);
-		
-		var price1=document.getElementById("price1").value;
-		var price2=document.getElementById("price2").value;
-		
-		console.log("키워드"+searchKeyword+"브랜드"+brand+"고른카테고리번호"+categoryselect[1]+"가격"+price1+"~"+price2);
-		location.href="${pageContext.request.contextPath}/product/reSearch.do?searchKeyword="+searchKeyword+"&brand="+brand+"&categoryselect="+categoryselect[1]+"&price1="+price1+"&price2="+price2;
-	});
+   $("#research").on("click",function(){
+      var searchKeyword=$("#productKey").val();
+      var ck=document.getElementsByName("brand");
+      var brand=new Array();
+      var caNo=$("#selectcategory").text();
+      if(caNo=="") caNo="0,0";
+      var categoryselect=caNo.split(",");
+      for(var i in ck){
+         if(ck[i].checked==true){
+            brand.push(ck[i].value);
+         }
+      }
+      //console.log(brand);
+      if(brand[0]==null) brand.push("all");
+      var price1=document.getElementById("price1").value;
+      var price2=document.getElementById("price2").value;
+      
+      console.log("키워드"+searchKeyword+"브랜드"+brand+"고른카테고리번호"+categoryselect[1]+"가격"+price1+"~"+price2);
+      location.href="${pageContext.request.contextPath}/product/reSearch.do?searchKeyword="+searchKeyword+"&brand="+brand+"&categoryselect="+categoryselect[1]+"&price1="+price1+"&price2="+price2;
+   });
 });
 </script>
 <style>
 /* div.main-li-container li.CU {
-	background: rgb(195, 148, 212);
-	opacity: 0.85;
+   background: rgb(195, 148, 212);
+   opacity: 0.85;
 }
 div.main-li-container li.7ELEVEN {
-	background: rgb(27, 147, 42);
-	opacity: 0.85;
+   background: rgb(27, 147, 42);
+   opacity: 0.85;
 }
 div.main-li-container li.GS25 {
-	background: rgb(203, 238, 243);
-	opacity: 0.85;
+   background: rgb(203, 238, 243);
+   opacity: 0.85;
 }
 div.main-li-container li.MINISTOP {
-	background: rgb(255, 190, 204);
-	opacity: 0.85;
+   background: rgb(255, 190, 204);
+   opacity: 0.85;
 }
 div.main-li-container li.EMART24 {
-	background: rgb(255, 223, 104);
-	opacity: 0.85;
+   background: rgb(255, 223, 104);
+   opacity: 0.85;
 }
  */
 /* 상세 검색 */
 .listStyleNone-hyelin {
-	list-style: none;
+   list-style: none;
 }
 ul.category-hyelin li {
-	display: inline;
+   display: inline;
 } 
 .listTitle-hyelin {
-	font-size: 18px;
-	font-weight: bold;
-	padding-right: 50px;
-	width: 250px;
+   font-size: 18px;
+   font-weight: bold;
+   padding-right: 50px;
+   width: 250px;
 }
 ul.category-hyelin li label {
-	width: 120px;
+   width: 120px;
 } 
 .searchMore-hyelin {
-	width: 980px;
-	margin: 0 auto;
+   width: 980px;
+   margin: 0 auto;
 }
 .paddingLeft10-hyelin {
-	padding-left: 10px;
+   padding-left: 10px;
 }
 .title-hyelin{
-	display: inline;
+   display: inline;
 }
 [name=price1], [name=price2] {
-	text-align: right;
+   text-align: right;
 }
 /* 검색페이지 - 카테고리 및 가격대 검색 */
 .search_result_cate {margin-bottom:13px; width: 620px;}
@@ -432,120 +427,119 @@ ul.category-hyelin li label {
 .search__list_category {position:relative;min-height:49px;border:1px solid #ddd;background:url(//image.wemakeprice.com/images/2014/search/bg_sarch_tab.png) repeat-x;*zoom:1;}
 .search__list_category ul, .search__list_category li { list-style: none; }
 .marginLeft30-hyelin {
-	margin-left: 30px;
+   margin-left: 30px;
 }
 .marginRight0-hyelin {
-	margin-right: 0 !important;
+   margin-right: 0 !important;
 }
 </style>
 
 
 
 <c:if test="${not empty searchKeyword }">
-	<p class="alignCenter-hyelin"><span class="bold-hyelin fontSize30-hyelin">'${searchKeyword }'</span>&nbsp; <span class="fontSize30-hyelin colorGray-hyelin">검색결과</span></p>
+   <p class="alignCenter-hyelin"><span class="bold-hyelin fontSize30-hyelin">'${searchKeyword }'</span>&nbsp; <span class="fontSize30-hyelin colorGray-hyelin">검색결과</span></p>
 </c:if>
 <c:if test="${empty searchKeyword }">
-	<p class="alignCenter-hyelin"><span class="bold-hyelin fontSize30-hyelin">전체</span>&nbsp; <span class="fontSize30-hyelin colorGray-hyelin">검색결과</span></p>
+   <p class="alignCenter-hyelin"><span class="bold-hyelin fontSize30-hyelin">전체</span>&nbsp; <span class="fontSize30-hyelin colorGray-hyelin">검색결과</span></p>
 </c:if>
 
 <table class="table searchMore-hyelin">
-	<tr>
-		<th scope="row">
-			브랜드 &nbsp;
-			<input type="checkbox" id="allCheck" name="allCheck" onchange="fn_checkAll(this.checked);" >
-			<input class="form-check-input" type="hidden" name="brand" class="brand" value="all">
-		</th>
-		<td>
-			<input type="checkbox" name="brand" id="CU" onclick="fn_toggle(this.checked)" class="brand" value="CU"/>
-			<label for="CU">CU</label>
-		</td>
-		<td>
-			<input type="checkbox" name="brand" id="GS25" onclick="fn_toggle(this.checked)" class="brand" value="GS25"/>
-			<label for="GS25">GS25</label>
-		</td>
-		<td>
-			<input type="checkbox" name="brand" id="7ELEVEN" onclick="fn_toggle(this.checked)" class="brand" value="7ELEVEN"/>
-			<label for="7ELEVEN">7ELEVEN</label>
-		</td>
-		<td>
-			<input type="checkbox" name="brand" id="MINISTOP" onclick="fn_toggle(this.checked)" class="brand" value="MINISTOP"/>
-			<label for="MINISTOP">MINISTOP</label>
-		</td>
-		<td>
-			<input type="checkbox" name="brand" id="EMART24" onclick="fn_toggle(this.checked)" class="brand" value="EMART24"/>
-			<label for="EMART24">EMART24</label>
-		</td>
-		<td></td>
-	</tr>
-	<tr>
-		<th scope="row">카테고리</th>
-		<td colspan="6">
-			<div class="search_result_cate">
-					<div class="search__list_category">
-						<c:forEach var="c" items="${categoryList }" varStatus="vs">
-							<c:if test="${c.category_level==1 }">
-								<ul class="list_cate">
-									<c:if test="${c.category_no eq 1 }">
-										<li class="cate0${c.category_no } on">						
-									</c:if>
-									<c:if test="${vs.index ne 1 }">
-										<li class="cate0${c.category_no }">												
-									</c:if>
-									<div class="wrap_link_cate">
-										<input type="hidden" name="" value="${c.category_no }"/>
-										<p class="link_cate"><span class="inner" value="${c.category_name }">${c.category_name }</span></p>
-									</div>
-									
-									<ul class="list_depth_02">
-										<c:forEach var="cc" items="${categoryList }" varStatus="vs2">
-											<c:if test="${cc.parent_category eq c.category_no }">
-												<li class="secondli" >
-													<span>${cc.category_name }</span>
-													<input type="hidden" name="" value="${cc.category_no }"/>
-													<c:set var="count" value="0" />
-													<c:forEach var="ccc" items="${categoryList }" varStatus="vs3">
-														<c:if test="${ccc.parent_category eq cc.category_no }">	
-															<c:set var="count" value="${count + 1}" />
-															<c:if test="${count eq 1 }">
-																<button type="button" class="btn btn-transparent-hyelin btn_more">
-																<img src="${pageContext.request.contextPath}/resources/img/add.png" alt="" class="btnImg-hyelin" title="하위 카테고리 보기" data-toggle="tooltip" data-placement="bottom" />
-																</button>												
-															<div class="layer_more_cate">
-																<c:forEach var="cccc" items="${categoryList }" varStatus="vs4">
-																	<c:if test="${cccc.parent_category eq cc.category_no }">
-																		<ul class="list_more_cate thirdli">
-																			<input type="hidden" name="" value="${cccc.category_no }"/>
-																			<li>${cccc.category_name }</li>
-																		</ul>
-																	</c:if>
-																</c:forEach>
-															</div>
-															</c:if>
-														</c:if>
-													</c:forEach>
-												</li>
-											</c:if>
-										</c:forEach>
-									</ul> 	
-									</li>
-								</ul>
-							</c:if>
-					</c:forEach>
-				</div>
-			</div> 
-			<div id="selectcategory"></div>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row">가격대</th>
-		<td colspan="5">
-			<input type="number" id="price1" name="price1" min="0" step="500" value="0" class="form-control price1" style="width: 150px; display: inline-block;">원 &nbsp; ~ &nbsp;
-			<input type="number" id="price2" name="price2" min="0" step="500" value="0" class="form-control price2" style="width: 150px; display: inline-block;">원
-		</td>
-		<td>
-			<button type="button" class="btn btn-info" id="research"> <img src="${pageContext.request.contextPath }/resources/img/search.png" alt="" /> 검색 </button>
-		</td>
-	</tr>
+   <tr>
+      <th scope="row">
+         브랜드 &nbsp;
+         <input type="checkbox" id="allCheck" name="allCheck" onchange="fn_checkAll(this.checked);" >
+      </th>
+      <td>
+         <input type="checkbox" name="brand" id="CU" onclick="fn_toggle(this.checked)" class="brand" value="CU"/>
+         <label for="CU">CU</label>
+      </td>
+      <td>
+         <input type="checkbox" name="brand" id="GS25" onclick="fn_toggle(this.checked)" class="brand" value="GS25"/>
+         <label for="GS25">GS25</label>
+      </td>
+      <td>
+         <input type="checkbox" name="brand" id="7ELEVEN" onclick="fn_toggle(this.checked)" class="brand" value="7ELEVEN"/>
+         <label for="7ELEVEN">7ELEVEN</label>
+      </td>
+      <td>
+         <input type="checkbox" name="brand" id="MINISTOP" onclick="fn_toggle(this.checked)" class="brand" value="MINISTOP"/>
+         <label for="MINISTOP">MINISTOP</label>
+      </td>
+      <td>
+         <input type="checkbox" name="brand" id="EMART24" onclick="fn_toggle(this.checked)" class="brand" value="EMART24"/>
+         <label for="EMART24">EMART24</label>
+      </td>
+      <td></td>
+   </tr>
+   <tr>
+      <th scope="row">카테고리</th>
+      <td colspan="6">
+         <div class="search_result_cate">
+               <div class="search__list_category">
+                  <c:forEach var="c" items="${categoryList }" varStatus="vs">
+                     <c:if test="${c.category_level==1 }">
+                        <ul class="list_cate">
+                           <c:if test="${c.category_no eq 1 }">
+                              <li class="cate0${c.category_no } on">                  
+                           </c:if>
+                           <c:if test="${vs.index ne 1 }">
+                              <li class="cate0${c.category_no }">                                    
+                           </c:if>
+                           <div class="wrap_link_cate">
+                              <input type="hidden" name="" value="${c.category_no }"/>
+                              <p class="link_cate"><span class="inner" value="${c.category_name }">${c.category_name }</span></p>
+                           </div>
+                           
+                           <ul class="list_depth_02">
+                              <c:forEach var="cc" items="${categoryList }" varStatus="vs2">
+                                 <c:if test="${cc.parent_category eq c.category_no }">
+                                    <li class="secondli" >
+                                       <span>${cc.category_name }</span>
+                                       <input type="hidden" name="" value="${cc.category_no }"/>
+                                       <c:set var="count" value="0" />
+                                       <c:forEach var="ccc" items="${categoryList }" varStatus="vs3">
+                                          <c:if test="${ccc.parent_category eq cc.category_no }">   
+                                             <c:set var="count" value="${count + 1}" />
+                                             <c:if test="${count eq 1 }">
+                                                <button type="button" class="btn btn-transparent-hyelin btn_more">
+                                                <img src="${pageContext.request.contextPath}/resources/img/add.png" alt="" class="btnImg-hyelin" title="하위 카테고리 보기" data-toggle="tooltip" data-placement="bottom" />
+                                                </button>                                    
+                                             <div class="layer_more_cate">
+                                                <c:forEach var="cccc" items="${categoryList }" varStatus="vs4">
+                                                   <c:if test="${cccc.parent_category eq cc.category_no }">
+                                                      <ul class="list_more_cate thirdli">
+                                                         <input type="hidden" name="" value="${cccc.category_no }"/>
+                                                         <li>${cccc.category_name }</li>
+                                                      </ul>
+                                                   </c:if>
+                                                </c:forEach>
+                                             </div>
+                                             </c:if>
+                                          </c:if>
+                                       </c:forEach>
+                                    </li>
+                                 </c:if>
+                              </c:forEach>
+                           </ul>    
+                           </li>
+                        </ul>
+                     </c:if>
+               </c:forEach>
+            </div>
+         </div> 
+         <div id="selectcategory"></div>
+      </td>
+   </tr>
+   <tr>
+      <th scope="row">가격대</th>
+      <td colspan="5">
+         <input type="number" id="price1" name="price1" min="0" step="500" value="0" class="form-control price1" style="width: 150px; display: inline-block;">원 &nbsp; ~ &nbsp;
+         <input type="number" id="price2" name="price2" min="0" step="500" value="0" class="form-control price2" style="width: 150px; display: inline-block;">원
+      </td>
+      <td>
+         <button type="button" class="btn btn-info" id="research"> <img src="${pageContext.request.contextPath }/resources/img/search.png" alt="" /> 검색 </button>
+      </td>
+   </tr>
 </table>
 <hr class="searchMore-hyelin"/>
 <br /><br />
@@ -553,90 +547,90 @@ ul.category-hyelin li label {
 
 <!-- 검색 결과 리스트 보여주기 -->
 <div id="searchContainer-hyelin">
-	<c:forEach var="p" items="${searchList }" varStatus="vs">
-		<div class="card card-hyelin">
-			<div class="card-body">
-				<%-- <p>판매량 ${p.purchaseAmount }</p> --%>
-				<img src="${pageContext.request.contextPath}/resources/upload/productFile/${p.renamedFileName}" class="prod-img-hyelin">
-				<h5 class="card-title">${p.brandName } ${p.productName }</h5>
-				<p class="card-text card-text-hyelin inline-hyelin"><fmt:formatNumber value="${p.price }" type="currency" currencySymbol=""/>원
-					<c:if test="${searchList.size()>1 }">
-						<c:if test="${p.price>avgprice }">
-								<img src="${pageContext.request.contextPath}/resources/img/up.png" style="width: 20px; height: 30px;">				
-						</c:if>
-						<c:if test="${p.price<avgprice }">
-								<img src="${pageContext.request.contextPath}/resources/img/down.png" style="width: 20px; height: 30px;">			
-						</c:if>
-						<c:if test="${p.price==avgprice }">
-								<img src="${pageContext.request.contextPath}/resources/img/avg.png" style="width: 20px; height: 30px;">					
-						</c:if>
-						<c:if test="${p.price==rowprice }">
-								<img src="${pageContext.request.contextPath}/resources/img/row.GIF" style="width: 30px; height: 30px;">			
-						</c:if>					
-						<c:if test="${p.productName==popmenu.productName }">
-								<img src="${pageContext.request.contextPath}/resources/img/pop.png" style="width: 40px; height: 40px;">			
-						</c:if>					
-					</c:if>
-				</p>					
-				<input type="number" class="form-control inline-hyelin right-hyelin right10-hyelin" style="width: 70px; margin: 0 auto;" name="product_amount" value="1" min="1">
-				<input type="hidden" name="product_no" value="${p.productNo }"/>
-				<div class="btnDiv-hyelin">
-					<button class="btn-transparent-hyelin insertBasket">
-						<img id="img-cart-hyelin" src="${pageContext.request.contextPath}/resources/img/cart.png" alt="" class="btnImg-hyelin" title="장바구니" data-toggle="tooltip" data-placement="bottom"/>
-					</button>
-					<button class="btn-transparent-hyelin purchase">
-						<img src="${pageContext.request.contextPath}/resources/img/card.png" alt="" class="btnImg-hyelin" title="구매하기" data-toggle="tooltip" data-placement="bottom"/>
-					</button>
-				</div>
-			</div>
-		</div>
-	</c:forEach>
+   <c:forEach var="p" items="${searchList }" varStatus="vs">
+      <div class="card card-hyelin">
+         <div class="card-body">
+            <%-- <p>판매량 ${p.purchaseAmount }</p> --%>
+            <img src="${pageContext.request.contextPath}/resources/upload/productFile/${p.renamedFileName}" class="prod-img-hyelin">
+            <h5 class="card-title">${p.brandName } ${p.productName }</h5>
+            <p class="card-text card-text-hyelin inline-hyelin"><fmt:formatNumber value="${p.price }" type="currency" currencySymbol=""/>원
+               <c:if test="${searchList.size()>1 }">
+                  <c:if test="${p.price>avgprice }">
+                        <img src="${pageContext.request.contextPath}/resources/img/up.png" style="width: 20px; height: 30px;">            
+                  </c:if>
+                  <c:if test="${p.price<avgprice }">
+                        <img src="${pageContext.request.contextPath}/resources/img/down.png" style="width: 20px; height: 30px;">         
+                  </c:if>
+                  <c:if test="${p.price==avgprice }">
+                        <img src="${pageContext.request.contextPath}/resources/img/avg.png" style="width: 20px; height: 30px;">               
+                  </c:if>
+                  <c:if test="${p.price==rowprice }">
+                        <img src="${pageContext.request.contextPath}/resources/img/row.GIF" style="width: 30px; height: 30px;">         
+                  </c:if>               
+                  <c:if test="${p.productName==popmenu.productName }">
+                        <img src="${pageContext.request.contextPath}/resources/img/pop.png" style="width: 40px; height: 40px;">         
+                  </c:if>               
+               </c:if>
+            </p>               
+            <input type="number" class="form-control inline-hyelin right-hyelin right10-hyelin" style="width: 70px; margin: 0 auto;" name="product_amount" value="1" min="1">
+            <input type="hidden" name="product_no" value="${p.productNo }"/>
+            <div class="btnDiv-hyelin">
+               <button class="btn-transparent-hyelin insertBasket">
+                  <img id="img-cart-hyelin" src="${pageContext.request.contextPath}/resources/img/cart.png" alt="" class="btnImg-hyelin" title="장바구니" data-toggle="tooltip" data-placement="bottom"/>
+               </button>
+               <button class="btn-transparent-hyelin purchase">
+                  <img src="${pageContext.request.contextPath}/resources/img/card.png" alt="" class="btnImg-hyelin" title="구매하기" data-toggle="tooltip" data-placement="bottom"/>
+               </button>
+            </div>
+         </div>
+      </div>
+   </c:forEach>
 </div>
 
 <%-- <a href="${pageContext.request.contextPath}/product/mailTest.do">이메일테스트페이지 실험중이라 누르지말아주세요 ㅠ 내일 제출할 땐 이거 지우고 제출</a> --%>
 <%-- <div class="searchbtn">
-	<button class="btn btn-success" onclick="search();">상세검색</button>
+   <button class="btn btn-success" onclick="search();">상세검색</button>
 </div>
 <br />
 <div class="main-li-container">
-	<c:forEach var="p" items="${searchList }" varStatus="vs">
-		<li class="main-li ${p.brandName }"><img
-			src="${pageContext.request.contextPath}/resources/upload/productFile/${p.renamedFileName}"><br />
-			<div class="product-text">
-				<div class="ptext brandName" id="brandName">${p.brandName }</div>
-				<div class="ptext productName">${p.productName }</div>
-				<div class="pprice">${p.price }원</div>
-			</div>
-			<div class="buy-btn">
-				<button type="button" class="btn btn-primary">장바구니</button>
-				&nbsp;
-				<button type="button" class="btn btn-success">구매</button>
-			</div></li>
-	</c:forEach>
+   <c:forEach var="p" items="${searchList }" varStatus="vs">
+      <li class="main-li ${p.brandName }"><img
+         src="${pageContext.request.contextPath}/resources/upload/productFile/${p.renamedFileName}"><br />
+         <div class="product-text">
+            <div class="ptext brandName" id="brandName">${p.brandName }</div>
+            <div class="ptext productName">${p.productName }</div>
+            <div class="pprice">${p.price }원</div>
+         </div>
+         <div class="buy-btn">
+            <button type="button" class="btn btn-primary">장바구니</button>
+            &nbsp;
+            <button type="button" class="btn btn-success">구매</button>
+         </div></li>
+   </c:forEach>
 </div> --%>
 <br>
 <br>
 <div class="blog-container">
-	<div class="blogtext-container">
-		<img src="${pageContext.request.contextPath}/resources/img/blogimg.GIF" alt="" class="blogimg" /> 
-			<c:if test="${searchList.size() > 0}"> 
-				<input type="text" readonly="readonly" value="  ${searchList[0].productName } 후기" class="blogtext" />			
-			</c:if>
-			<c:if test="${searchList.size() == 0 }"> 
-				<input type="text" readonly="readonly" value="  ${searchKeyword } 후기" class="blogtext" />			
-			</c:if>			
-	</div>
-	<br />
-	<!--  <h4>네이버 블로그</h4>    -->
-	<p id="blog1"></p>
-	<hr />
-	<p id="blog2"></p>
-	<hr />
-	<p id="blog3"></p>
-	<hr />
-	<p id="blog4"></p>
-	<hr />
-	<p id="blog5"></p>
+   <div class="blogtext-container">
+      <img src="${pageContext.request.contextPath}/resources/img/blogimg.GIF" alt="" class="blogimg" /> 
+         <c:if test="${searchList.size() > 0}"> 
+            <input type="text" readonly="readonly" value="  ${searchList[0].productName } 후기" class="blogtext" />         
+         </c:if>
+         <c:if test="${searchList.size() == 0 }"> 
+            <input type="text" readonly="readonly" value="  ${searchKeyword } 후기" class="blogtext" />         
+         </c:if>         
+   </div>
+   <br />
+   <!--  <h4>네이버 블로그</h4>    -->
+   <p id="blog1"></p>
+   <hr />
+   <p id="blog2"></p>
+   <hr />
+   <p id="blog3"></p>
+   <hr />
+   <p id="blog4"></p>
+   <hr />
+   <p id="blog5"></p>
 
 </div>
 
