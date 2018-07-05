@@ -208,49 +208,7 @@ $(function(){
 	});
 }); 
 </script>
- 	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">
-		    <img src="/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-		    RoundUP
-		  </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item dropdown">
-		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		          Category
-		        </a>
-				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-					<a class="dropdown-item" href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=1">간편식사</a>
-                    <a class="dropdown-item" href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=2">식품</a>
-                    <a class="dropdown-item" href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=3">과자류</a>
-                    <a class="dropdown-item" href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=4">아이스크림</a>
-                    <a class="dropdown-item" href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=5">즉석식품</a>
-                    <a class="dropdown-item" href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=6">음료</a>
-                    <a class="dropdown-item" href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=7">생활용품</a>
-		        </div>
-		    </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Notice</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">FreeBoard</a>
-            </li>
-          </ul>
-          <form class="form-inline mt-2 mt-md-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
-          
-          <button type="button" class="btn btn-outline-success login-btn-master"
-	               		 onclick="location.href='${pageContext.request.contextPath}/member/loginPage.do'">로그인</button>
-        </div>
-      </nav>
+ 	
        <div id="myCarousel" class="carousel slide main-slide carousel-master" data-ride="carousel">
         <ol class="carousel-indicators">
           <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
