@@ -34,6 +34,16 @@ img#chat-icon{
 	z-index:10;
 	cursor:pointer;
 }
+.nav-master{
+    background-color: #01365a!important;
+}
+.login-dropdown-master{
+	list-style:none;
+}
+.nav-master>a {
+    font-size: 18px;
+    color: #f5f2f2!important;
+}
 </style>
 
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.js"></script>		
@@ -69,7 +79,8 @@ img#chat-icon{
 
 <body>
 <div id="main-container">
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+<!-- navigation bar start-->
+<nav class="navbar navbar-expand-md navbar-dark fixed-top nav-master">
         <a class="navbar-brand" href="#">
 		    <img src="/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
 		    RoundUP
@@ -96,22 +107,85 @@ img#chat-icon{
                     <a class="dropdown-item" href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=7">생활용품</a>
 		        </div>
 		    </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Notice</a>
+		     <li class="nav-item">
+              <a class="nav-item nav-link" href="${pageContext.request.contextPath }/noticeboard/noticeBoardList.do">Event</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">FreeBoard</a>
+              <a class="nav-item nav-link" href="${pageContext.request.contextPath }/noticeboard/noticeBoardList.do">Notice</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-item nav-link" href="${pageContext.request.contextPath }/freeboard/freeBoardList.do">FreeBoard</a>
             </li>
           </ul>
-          <form class="form-inline mt-2 mt-md-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          <form class="form-inline mt-2 mt-md-0" action="${pageContext.request.contextPath }/product/productSearch.do">
+            <input type="text" class="form-control focus-hyelin border0-hyelin" id="productKey" placeholder="${param.pageSearch }" name="searchKeyword" autocomplete="off">
+            <button type="submit" class="btn btn-transparent-hyelin border0-hyelin focus-hyelin"> <img src="${pageContext.request.contextPath }/resources/img/search2.png" alt="" /></button>
           </form>
           
-          <button type="button" class="btn btn-outline-success login-btn-master"
-	               		 onclick="location.href='${pageContext.request.contextPath}/member/loginPage.do'">로그인</button>
-        </div>
+ 
+		<c:choose>
+			<c:when test="${empty member_id and empty admin_id}">
+					<button type="button" class="btn btn-outline-light"
+						onclick="location.href='${pageContext.request.contextPath}/member/loginPage.do'">Sign UP</button>
+			</c:when>
+			<c:otherwise>
+					<li class="nav-item dropdown login-dropdown-master">
+				        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				          ${member_name }님
+				        </a>
+				        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+				          <a class="dropdown-item" href="${pageContext.request.contextPath }/member/myPage.do?member_id=${member_id }" style="color:black">
+                   			<img src="${pageContext.request.contextPath }/resources/img/mypage.png" alt="" />  My Page
+                   		  </a>
+				          <a class="dropdown-item" href="${pageContext.request.contextPath }/member/myPageBasket.do?member_id=${member_id}" style="color:black">
+                    		<img src="${pageContext.request.contextPath }/resources/img/basket.png" alt="" />  Basket
+                    	  </a>
+                    	  <hr />
+                    	  <button type="button" class="btn btn-link" onclick="document.getElementById('logout-form').submit();">Log Out</button>
+				         
+				      
+				      </li>			    
+              
+					<!-- <button class="btn btn-outline-light" type="button"
+						onclick="document.getElementById('logout-form').submit();">
+						로그아웃</button> -->
+					<form id="logout-form" action="<c:url value="/logout"/>"
+						method="post">
+						<input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" />
+					</form>
+			</c:otherwise>
+		</c:choose>
+	</div>
       </nav>
+<!-- navigation bar end-->
+      
+       <div id="myCarousel" class="carousel slide main-slide carousel-master" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+          <li data-target="#myCarousel" data-slide-to="1"></li>
+          <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner carousel-inner-master">
+          <div class="carousel-item active carousel-item-master">
+            <img class="first-slide main-event-img-master" src="${pageContext.request.contextPath }/resources/img/resource_img1.jpg" alt="First slide">
+          </div>
+          <div class="carousel-item carousel-item-master">
+            <img class="second-slide main-event-img-master" src="${pageContext.request.contextPath }/resources/img/resource_img2.jpg" alt="First slide">
+          </div>
+          <div class="carousel-item carousel-item-master">
+            <img class="third-slide main-event-img-master" src="${pageContext.request.contextPath }/resources/img/resource_img3.jpg" alt="First slide">
+          </div>
+        </div>
+        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
         <%-- <nav class="nav-bar">
             <div class="nav-bar-wrapper">
                 <a href="${pageContext.request.contextPath }" class="nav-bar-logo">편의점마스터</a>
