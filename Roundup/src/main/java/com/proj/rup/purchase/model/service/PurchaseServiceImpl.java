@@ -62,4 +62,14 @@ public class PurchaseServiceImpl implements PurchaseService {
 		return purchaseDAO.updateProductPurchase(map);
 	}
 
+	@Override
+	public int deletePurchase(String imp_uid) {
+		return purchaseDAO.deletePurchase(imp_uid);
+	}
+
+	@Override
+	public int deletePurchaseComplete(String imp_uid) {
+		return purchaseDAO.deletePurchaseComplete(imp_uid);
+	}
+
 }

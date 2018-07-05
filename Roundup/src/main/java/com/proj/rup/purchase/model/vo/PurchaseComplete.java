@@ -15,14 +15,14 @@ public class PurchaseComplete {
 	private int price;
 	private String renamed_filename;
 	private String brand_name;
-	
+	private String imp_uid;
 	
 	public PurchaseComplete() {
 		super();
 	}
 
 	public PurchaseComplete(int product_com_no, int purchase_no, int product_no, String member_id,
-			Date purchase_date, int product_amount, String address, String zip_code) {
+			Date purchase_date, int product_amount, String address, String zip_code, String imp_uid) {
 		super();
 		this.product_com_no = product_com_no;
 		this.purchase_no = purchase_no;
@@ -32,6 +32,7 @@ public class PurchaseComplete {
 		this.product_amount = product_amount;
 		this.address = address;
 		this.zip_code = zip_code;
+		this.imp_uid = imp_uid;
 	}
 
 	public PurchaseComplete(int product_com_no, int purchase_no, int product_no, String member_id, Date purchase_date,
@@ -50,6 +51,14 @@ public class PurchaseComplete {
 		this.price = price;
 		this.renamed_filename = renamed_filename;
 		this.brand_name = brand_name;
+	}
+
+	public String getImp_uid() {
+		return imp_uid;
+	}
+
+	public void setImp_uid(String imp_uid) {
+		this.imp_uid = imp_uid;
 	}
 
 	public int getProduct_com_no() {

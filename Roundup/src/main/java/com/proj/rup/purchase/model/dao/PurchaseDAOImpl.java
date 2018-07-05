@@ -60,4 +60,14 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 		return sqlSession.update("purchase.updateProductPurchase", map);
 	}
 
+	@Override
+	public int deletePurchase(String imp_uid) {
+		return sqlSession.delete("purchase.deletePurchase", imp_uid);
+	}
+
+	@Override
+	public int deletePurchaseComplete(String imp_uid) {
+		return sqlSession.delete("purchase.deletePurchaseComplete", imp_uid);
+	}
+
 }

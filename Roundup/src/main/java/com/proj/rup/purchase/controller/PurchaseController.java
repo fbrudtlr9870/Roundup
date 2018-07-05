@@ -1,5 +1,6 @@
 package com.proj.rup.purchase.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,10 +24,16 @@ import com.proj.rup.member.model.vo.Address;
 import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.vo.MemberAddress;
 import com.proj.rup.product.model.vo.Product;
+import com.proj.rup.purchase.iamport.IamportClient;
 import com.proj.rup.purchase.model.service.PurchaseService;
 import com.proj.rup.purchase.model.service.PurchaseServiceImpl;
 import com.proj.rup.purchase.model.vo.Purchase;
 import com.proj.rup.purchase.model.vo.PurchaseComplete;
+import com.siot.IamportRestClient.request.CancelData;
+import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.response.Payment;
+
+import retrofit2.Response;
 
 @Controller
 public class PurchaseController {
@@ -77,20 +85,20 @@ public class PurchaseController {
 							@RequestParam(value="zip_code") String zip_code,
 							@RequestParam(value="basketNo") String basketNo,
 							@RequestParam(value="membership") int membership,
-							@RequestParam(value="totalPrice") int totalPrice) {
+							@RequestParam(value="totalPrice") int totalPrice,
+							@RequestParam(value="imp_uid") String imp_uid) {
 
 		logger.debug(product_no+","+member_id+","+product_amount+","+address+","+zip_code+","+basketNo);
-
 		int result = 0;
 		String returnMsg = "";
 
 		if(!product_no.contains("/")) {
 			// purchase 테이블에 값 넣기
-			Purchase purchase = new Purchase(0, Integer.parseInt(product_no), member_id, null, Integer.parseInt(product_amount), address, zip_code);
+			Purchase purchase = new Purchase(0, Integer.parseInt(product_no), member_id, null, Integer.parseInt(product_amount), address, zip_code, imp_uid);
 			result = purchaseService.insertPurchase(purchase);
 			logger.debug("result@purchaseEnd : "+result);
 			// purchase_complete 테이블에 값 넣기
-			PurchaseComplete purchaseComplete = new PurchaseComplete(0, purchase.getPurchase_no(), Integer.parseInt(product_no), member_id, null, Integer.parseInt(product_amount), address, zip_code);
+			PurchaseComplete purchaseComplete = new PurchaseComplete(0, purchase.getPurchase_no(), Integer.parseInt(product_no), member_id, null, Integer.parseInt(product_amount), address, zip_code, imp_uid);
 			purchaseService.insertPurchaseComplete(purchaseComplete);
 			
 			// product_purchase 테이블에 값 넣기 / 프로시저 실행하기
@@ -110,11 +118,11 @@ public class PurchaseController {
 			int count = 0;
 			
 			for(int i=0; i<productNoList.length; i++) {
-				Purchase purchase = new Purchase(0, Integer.parseInt(productNoList[i]), member_id, null, Integer.parseInt(amountList[i]), address, zip_code);
+				Purchase purchase = new Purchase(0, Integer.parseInt(productNoList[i]), member_id, null, Integer.parseInt(amountList[i]), address, zip_code, imp_uid);
 				
 				if(purchaseService.insertPurchase(purchase) > 0) {
 					// purchase_complete 테이블에 값 넣기
-					PurchaseComplete purchaseComplete = new PurchaseComplete(0, purchase.getPurchase_no(), Integer.parseInt(productNoList[i]), member_id, null, Integer.parseInt(amountList[i]), address, zip_code);
+					PurchaseComplete purchaseComplete = new PurchaseComplete(0, purchase.getPurchase_no(), Integer.parseInt(productNoList[i]), member_id, null, Integer.parseInt(amountList[i]), address, zip_code, imp_uid);
 					purchaseService.insertPurchaseComplete(purchaseComplete);
 					
 					// product_purchase 테이블에 값 넣기 / 프로시저 실행하기
@@ -191,4 +199,20 @@ public class PurchaseController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/purchase/purchaseCancel.do", method = RequestMethod.POST)
+	@ResponseBody
+	public String purchaseCancel(@RequestParam(value="imp_uid") String imp_uid) {
+		IamportClient ic = new IamportClient("5698549912038284", "m95q6GPCjLsPaoOhBUBu8rUtTGdKzL9WVfm1WbDfW657uTp6O0AXrvrlbE6LpfHku3mqfZFb6LjAEIHt");
+		String returnmsg = "";
+		
+		if(ic.cancelPaymentByImpUid(new CancelData(imp_uid, true)) != null) {
+			returnmsg = "success";
+			purchaseService.deletePurchaseComplete(imp_uid);
+			purchaseService.deletePurchase(imp_uid);
+		} else {
+			returnmsg = "fail";
+		}
+		
+		return returnmsg;
+	}
 }

@@ -90,7 +90,8 @@ $(function () {
 	         alert("로그인 후 이용하실 수 있습니다.");
 	      }
 	   });
-	});
+});
+
 // 검색 바에 검색 키워드 보여주기
 $(function () {
    $("#productKey").val("${searchKeyword }");
@@ -243,22 +244,23 @@ $(function() {
    });
 });
 $(function() {
-   // 최상위 카테고리 클릭 시
-    $(".inner").click(function() {
-       var inner = document.getElementsByClassName("inner");
-       var selectcategory=$("#selectcategory");
-       var no=$(this).parent().siblings("input").val();
-       // 이미 선택된 카테고리 해제
-       for(var i=0; i<inner.length; i++) {
-          if(inner[i].parentNode.parentNode.parentNode.className.indexOf('on') != -1) {
-             inner[i].parentNode.parentNode.parentNode.className = 'cate0'+(i+1);
-             selectcategory.html(inner[i].innerText+","+no);
-          }
-       }
-       
-       // 해당 요소가 선택되었음을 의미하는 on class 추가해줌
-       $(this).parents("li").addClass('on');
-   });
+	$(".cate01").addClass('on');
+	// 최상위 카테고리 클릭 시
+ 	$(".inner").click(function() {
+ 		var inner = document.getElementsByClassName("inner");
+ 		var selectcategory=$("#selectcategory");
+ 		var no=$(this).parent().siblings("input").val();
+ 		// 이미 선택된 카테고리 해제
+ 		for(var i=0; i<inner.length; i++) {
+ 			if(inner[i].parentNode.parentNode.parentNode.className.indexOf('on') != -1) {
+ 				inner[i].parentNode.parentNode.parentNode.className = 'cate0'+(i+1);
+ 				selectcategory.html(inner[i].innerText+","+no);
+ 			}
+ 		}
+ 		
+ 		// 해당 요소가 선택되었음을 의미하는 on class 추가해줌
+ 		$(this).parents("li").addClass('on');
+	});
 });
 //하위 카테고리 클릭 이벤트
 $(function() {

@@ -10,13 +10,14 @@ public class Purchase {
 	private int product_amount;
 	private String address;
 	private String zip_code;
+	private String imp_uid;
 	
 	public Purchase() {
 		super();
 	}
 
-	public Purchase(int purchase_no, int product_no, String member_id, Date purchase_date,
-			int product_amount, String address, String zip_code) {
+	public Purchase(int purchase_no, int product_no, String member_id, Date purchase_date, int product_amount,
+			String address, String zip_code, String imp_uid) {
 		super();
 		this.purchase_no = purchase_no;
 		this.product_no = product_no;
@@ -25,6 +26,15 @@ public class Purchase {
 		this.product_amount = product_amount;
 		this.address = address;
 		this.zip_code = zip_code;
+		this.imp_uid = imp_uid;
+	}
+
+	public String getImp_uid() {
+		return imp_uid;
+	}
+
+	public void setImp_uid(String imp_uid) {
+		this.imp_uid = imp_uid;
 	}
 
 	public int getPurchase_no() {
@@ -86,8 +96,8 @@ public class Purchase {
 	@Override
 	public String toString() {
 		return "Purchase [purchase_no=" + purchase_no + ", product_no=" + product_no + ", member_id=" + member_id
-				+ ", purchase_date=" + purchase_date + ", product_amount="
-				+ product_amount + ", address=" + address + ", zip_code=" + zip_code + "]";
+				+ ", purchase_date=" + purchase_date + ", product_amount=" + product_amount + ", address=" + address
+				+ ", zip_code=" + zip_code + ", imp_uid=" + imp_uid + "]";
 	}
 
 }

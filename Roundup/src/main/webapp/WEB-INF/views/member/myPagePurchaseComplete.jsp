@@ -102,6 +102,34 @@ div.mypage{
 
 </style>
 
+<script>
+function purchaseCancel(imp_uid) {
+	jQuery.ajax({
+	     url: "${pageContext.request.contextPath}/purchase/purchaseCancel.do",
+	     type: 'POST',
+	     data: {
+	    	 imp_uid : imp_uid
+	     },
+	     success:function(data) {
+	        console.log(data);
+	        if(data==="success") {
+	        	alert("주문 취소에 성공하였습니다.");
+            } else {
+            	alert("주문 취소에 실패하였습니다.");
+            }
+            location.href="${pageContext.request.contextPath}/member/myPagePurchaseComplete.do?member_id=${member_id}"; 
+	        
+	     },
+	     error:function(jqxhr, textStatus, errorThrown) {
+	             console.log("ajax처리실패!");
+	             console.log(jqxhr);
+	             console.log(textStatus);
+	             console.log(errorThrown);
+	       } 
+	  });
+	
+}
+</script>
 <sec:authorize access="hasAnyRole('ROLE_USER')">
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
@@ -135,6 +163,7 @@ div.mypage{
 								<th>결재금액</th>
 								<th>결재일</th>
 								<th>배송지조회</th>
+								<th>주문취소</th>
 							</tr>
 							<c:if test="${not empty completeList }">
 								<c:forEach var="i" items="${completeList }" varStatus="vs">
@@ -157,6 +186,9 @@ div.mypage{
 										</td>
 										<td class="tbl-td">
 											<button type="button" class="btn btn-outline-primary" id="searchMap" onclick="searchMap();">조회</button>
+										</td>
+										<td class="tbl-td">
+											<button type="button" class="btn btn-outline-danger" id="" onclick="purchaseCancel('${i.imp_uid }');">취소</button>
 										</td>
 									</tr>
 								</c:forEach>
