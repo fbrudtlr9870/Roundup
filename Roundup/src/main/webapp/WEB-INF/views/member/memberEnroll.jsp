@@ -146,13 +146,14 @@ function validate(str){
 	var member_phone = $("#member_phone_").val().trim();
 	var regExp = /^[가-힣]{2,8}$/;
 	var regExp0 = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
-
+	var regExp1 = /^[a-z]{4,8}$/;
 	
-	if(member_id.length<4 || member_id.length>=12){
-		alert("아이디는 최소4자리이상 12자 미만여야 합니다");
-		/* member_id.focus(); */
+	if(!regExp1.test(member_id)){
+		alert("아이디를 영어로만  4글자 이상 8글자 이하로 적으세요.");
+		$("#member_id_").val("");
 		$("#member_id_").focus();
 		return false;
+	}
 	
 	/* if(member_id.length<4 || member_id.length>=12){
 		alert("아이디는 최소4자리이상 12자 미만여야 합니다");
@@ -180,8 +181,6 @@ function validate(str){
 		return false;
 	}
 	
-=======
-	
 	if(member_password.length<4 || member_password.length>8){
 		alert("비밀번호는 최소4자리이상이거나 8자리 미만여야 합니다.");
 		/* member_password.focus(); */
@@ -200,40 +199,12 @@ function validate(str){
 		$("#member_name_").focus();
 		return false;
 	}
-	
->>>>>>> branch 'master' of https://github.com/fbrudtlr9870/Roundup.git
 
-<<<<<<< HEAD
-	if (member_name.indexOf(" ") >= 0) {
-        alert("이름에 공백을 사용할 수 없습니다.");
-        document.member_name_.focus()
-        document.member_name_.select()
-        return false;
-    }
-	
-=======
-	if (member_name.val().indexOf(" ") >= 0) {
-        alert("이름에 공백을 사용할 수 없습니다.")
-        document.member_name_.focus()
-        document.member_name_.select()
-        return false;
-    }
-	
->>>>>>> branch 'master' of https://github.com/fbrudtlr9870/Roundup.git
-
-<<<<<<< HEAD
+    
 	if(!regExp0.test($("#member_phone_").val())){
 		alert("잘못된 혁식입니다 형식에 맞게 -을 포함한 숫자를 입력하세요");
 		return false;
 	}
-=======
-	if(!regExp0.test(member_phone)){
-		alert("번호를 형식에 맞게 적으세요");
-		$("#member_phone_").val("");
-		$("#member_phone_").focus();
-		return false;
-	}
->>>>>>> branch 'master' of https://github.com/fbrudtlr9870/Roundup.git
 
 	return true;
 }

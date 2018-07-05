@@ -139,15 +139,10 @@ img#chat-icon{
 	             	<c:otherwise>
 	                <%-- <c:if test="${memberLoggedIn!=null }"> --%>
 	                <c:if test="${not empty member_id }">
-				   	 <a href="#">${member_name }</a>님, 안녕하세요			    
+				   	 <a>${member_name }</a>님, 안녕하세요			    
 	                </c:if>
-	                <c:if test="${not empty admin_id }">
-	                	<a href="#">${admin_name }</a>님, 안녕하세요
-	                </c:if>
-				  
-				     <button class="btn btn-outline-success" type="button" onclick="document.getElementById('logout-form').submit();" />
- 
-			    		로그아웃
+				     <button class="btn btn-outline-success" type="button" onclick="document.getElementById('logout-form').submit();">
+ 						로그아웃
 			    	</button>
 			    	<form id="logout-form" action="<c:url value="/logout"/>" method="post">
 				        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
