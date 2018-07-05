@@ -33,8 +33,10 @@
 							login-processing-url="/member/memberLogin"
 							username-parameter="member_id"
 							password-parameter="member_password"
-							authentication-success-handler-ref="memberAuthenticationSuccessHandler"/>
-		
+							authentication-success-handler-ref="memberAuthenticationSuccessHandler"
+							authentication-failure-forward-url="/member/loginPage.do?error=true"/>
+						 	
+							
 		<security:logout logout-url="/logout" invalidate-session="true"
 						logout-success-url="/"/>
 		

@@ -169,20 +169,7 @@ public class MemberController {
 	      return "redirect:/";
 	   } 
 */
-
-	@RequestMapping("member/checkIdDuplicate.do")
-	@ResponseBody
-	public Map<String,Object> checkIdDuplicate(@RequestParam("member_id") String member_id){
-		logger.debug("@ResponseBody-javaObj ajax : "+member_id);
-		Map<String,Object> map = new HashMap<String, Object>();
-		//업무로직
-		int count = memberService.checkIdDuplicate(member_id);
-		boolean isUsable = count==0?true:false;
-		
-		map.put("isUsable", isUsable);
-		
-		return map;
-	}			
+	
 
 	@RequestMapping("/member/myPage.do")
 	public ModelAndView memberMypage(@RequestParam(value="member_id") String member_id) {
@@ -248,7 +235,11 @@ public class MemberController {
 		
 		ModelAndView mav = new ModelAndView();
 		System.out.println(member);
-			
+		System.out.println("memberGrade : "+member.getMember_grade());
+		String autority = member.getMember_grade().equals("A")?"ROLE_ADMIN":"ROLE_USER";
+		System.out.println("autority : "+autority);
+	
+		member.setAutority(autority);
 		int result = 0;
 		
 		String loc = "/"; 
@@ -281,20 +272,18 @@ public class MemberController {
 	}
 
 	@RequestMapping("/member/memberDelete.do")
-	public ModelAndView memberDelete(Member member, SessionStatus sessionStatus) {
+	public ModelAndView memberDelete(String member_id, SessionStatus sessionStatus) {
 		if(logger.isDebugEnabled())
 			logger.debug("회원정보 삭제 페이지");
 		
 		ModelAndView mav = new ModelAndView();
-		System.out.println(member);
 			
-		int result = memberService.deleteMember(member);
+		int result = memberService.deleteMember(member_id);
 		
 		String loc = "/"; 
 		String msg = "";
 		if(result>0){ 
 			msg="회원정보삭제성공!";
-			mav.addObject("memberLoggedIn", member);
 			
 			if(!sessionStatus.isComplete())
 				sessionStatus.setComplete();
@@ -302,7 +291,7 @@ public class MemberController {
 		else msg="회원정보삭제실패ㅠ";
 		
 		mav.addObject("msg", msg);
-		mav.addObject("loc", loc);
+		mav.addObject("loc", "/logout");
 		mav.setViewName("common/msg");
 		
 		return mav;
@@ -312,7 +301,32 @@ public class MemberController {
 	public String login(){
 		return "common/login";
 	}
-	
+			
+		
+	@RequestMapping("/member/selectMembership.do")
+	@ResponseBody
+	public Membership selectMembership(@RequestParam(value="memberId") String memberId) {
+		Membership m = memberService.selectMembership(memberId);
+
+		return m;
+	}
+
+		
+	@RequestMapping("member/checkIdDuplicate.do")
+	@ResponseBody
+	public Map<String,Object> checkIdDuplicate(@RequestParam("member_id") String member_id){
+		logger.debug("@ResponseBody-javaObj ajax : "+member_id);
+		Map<String,Object> map = new HashMap<String, Object>();
+		//업무로직
+		int count = memberService.checkIdDuplicate(member_id);
+		boolean isUsable = count==0?true:false;
+		
+		map.put("isUsable", isUsable);
+		
+		return map;
+	}			
+
+
 	@RequestMapping("/member/checkConnectMember.do")
 	@ResponseBody
 	public Map<String,Object> checkConnectMember(@RequestParam("member_id") String member_id){
@@ -344,13 +358,6 @@ public class MemberController {
 		
 		return map;
 	}	
-		
-	@RequestMapping("/member/selectMembership.do")
-	@ResponseBody
-	public Membership selectMembership(@RequestParam(value="memberId") String memberId) {
-		Membership m = memberService.selectMembership(memberId);
-
-		return m;
-	}
-
+	
+	
 }

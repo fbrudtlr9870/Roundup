@@ -28,4 +28,6 @@ public interface PurchaseDAO {
 
 	int updateProductPurchase(Map<String, Integer> map);
 
+	List<PurchaseComplete> selectAPCList();
+
 }

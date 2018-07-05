@@ -169,9 +169,9 @@ function fn_insertBoard(){
 	</table>
 	<br />
 	
-	<c:if test="${member_id !=null}">
+	<sec:authorize access="hasRole('ROLE_ADMIN')">
 	<input type="button" class="btn btn-light" value="글쓰기" style="float:right;" onclick="fn_insertBoard();"  />
-	</c:if>
+	</sec:authorize>
 
 <!-- 페이지바 -->
 <%

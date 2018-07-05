@@ -15,7 +15,6 @@ public class MemberDetails extends User {
 	
 	   private String member_name;
 	
-	
 	   public MemberDetails(String username, String password, boolean enabled, boolean accountNonExpired,
 			boolean credentialsNonExpired, boolean accountNonLocked,
 			Collection<? extends GrantedAuthority> authorities,String member_name) {
@@ -95,10 +94,10 @@ public class MemberDetails extends User {
 	public void setMember_name(String member_name) {
 		this.member_name = member_name;
 	}
-	   
+
+  
 	   
 	   
 	   	   
 
 }
-

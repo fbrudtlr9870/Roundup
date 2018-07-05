@@ -20,7 +20,7 @@ public interface MemberService {
 
 	int selectMember(String member_id);
 
-	int deleteMember(Member member);
+	
 
 	int totalMember();
 
@@ -34,5 +34,7 @@ public interface MemberService {
 	Membership selectMembership(String memberId);
 
 	int updateMembership(Map<String, Object> map);
+
+	int deleteMember(String member_id);
 
 }

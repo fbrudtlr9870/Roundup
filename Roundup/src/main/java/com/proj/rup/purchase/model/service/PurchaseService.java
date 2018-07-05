@@ -28,4 +28,6 @@ public interface PurchaseService {
 
 	int updateProductPurchase(Map<String, Integer> map);
 
+	List<PurchaseComplete> selectAPCList();
+
 }

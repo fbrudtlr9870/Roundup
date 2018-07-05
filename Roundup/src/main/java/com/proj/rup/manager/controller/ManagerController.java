@@ -17,6 +17,7 @@ import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.vo.MemberAddress;
 import com.proj.rup.purchase.model.service.PurchaseService;
 import com.proj.rup.purchase.model.service.PurchaseServiceImpl;
+import com.proj.rup.purchase.model.vo.PurchaseComplete;
 
 @Controller
 public class ManagerController {
@@ -81,6 +82,16 @@ public class ManagerController {
 		mav.addObject("memberAddress",ma);
 		//mav.addObject("purchaseComplete",pc);
 		mav.setViewName("manager/managerView");
+
+		return mav;
+	}
+	
+	@RequestMapping("/manager/managerPurchaseComplete.do")
+	public ModelAndView managerPurchaseComplete() {
+		ModelAndView mav = new ModelAndView();
+		List<PurchaseComplete> pc = purchaseService.selectAPCList();
+		mav.addObject("completeList",pc);
+		mav.setViewName("manager/managerPurchaseComplete");
 
 		return mav;
 	}

@@ -15,8 +15,8 @@
 </sec:authorize>
 <script>
 $(function(){
+    var bloginfo=${bloginfo};
 	if(${bloginfo!='not'}){		
-	   var bloginfo=${bloginfo};
 	   console.log(bloginfo);
 	   var p1=$("#blog1");
 	   p1.html("<a href="+bloginfo.items[0].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[0].title+"</a>");
@@ -44,15 +44,12 @@ $(".main-li").mouseleave(function(){
 	$(this).children(".buy-btn").css("display","none");
 	$(this).css("opacity","0.85");
 });
-
 $(function () {
 	  $('[data-toggle="tooltip"]').tooltip();
 });
-
 $(function () {
 	$(".insertBasket").on("click",function(){
 		var memberId = '${member_id}';
-
 		$.ajax({
 			url:"${pageContext.request.contextPath }/basket/insertBasket.do",
 			data: {
@@ -81,27 +78,21 @@ $(function () {
 		var productNo = $(this).parent().parent().find("[name=product_no]").val();
 		var productAmount = $(this).parent().parent().find("[name=product_amount]").val();
 		var memberId = '${member_id}';
-
 		location.href="${pageContext.request.contextPath}/purchase/buyNow.do?productNo=" + productNo + "&productAmount=" + productAmount+"&memberId="+memberId;
 	});
 });
-
 // 검색 바에 검색 키워드 보여주기
 $(function () {
 	$("#productKey").val("${searchKeyword }");
 });
-
-
 function fn_checkAll(bool) {
-    var chkboxes = document.getElementsByName("convenience");
-
+    var chkboxes = document.getElementsByName("brand");
     for(var i=0; i<chkboxes.length; i++) {
         chkboxes[i].checked = bool;
     }
 }
-
 function fn_toggle(bool) {
-    var chkboxes = document.getElementsByName("convenience");
+    var chkboxes = document.getElementsByName("brand");
     var chkall = document.getElementById("allCheck");
      
     // 클래스명 부여
@@ -111,7 +102,6 @@ function fn_toggle(bool) {
         // parent_td.className = 'off';
         chkall.checked = false;
     }
-
     var count = 0;
     for(var i=0; i<chkboxes.length; i++) {
         if(chkboxes[i].checked == true)
@@ -121,7 +111,6 @@ function fn_toggle(bool) {
     if(count==chkboxes.length) chkall.checked = true;
     // else chkall.checked = false;
 }
-
 // 카테고리 다중 셀렉트
 $(function(){
 	$(".category-level").on("change",function(){
@@ -157,7 +146,14 @@ $(function(){
 		}); 
 	});
 });
-
+$(function(){
+	$(".thirdli").hover(function(){
+		console.log("tlqkf");
+		$(this).css("background","lightgray");
+	},function(){
+		$(this).css("background","white");
+	});
+})
 // 검색결과에 따른 카테고리 표시
 /* $(function(){
 	var searchKeyword = "${searchKeyword}";
@@ -219,17 +215,16 @@ $(function(){
 		}); 
 	}); 
 }); */
-
-
 $(function() {
 	// 최상위 카테고리 클릭 시
  	$(".inner").click(function() {
  		var inner = document.getElementsByClassName("inner");
-
+ 		var selectcategory=$("#selectcategory");
+ 		var no=$(this).parent().siblings("input").val();
  		for(var i=0; i<inner.length; i++) {
  			if(inner[i].parentNode.parentNode.parentNode.className.indexOf('on') != -1) {
  				var classname = 'cate0'+(i+1);
- 				console.log(classname);
+				selectcategory.html(inner[i].innerText+","+no);
  				inner[i].parentNode.parentNode.parentNode.className = classname;
  			}
  		}
@@ -238,17 +233,17 @@ $(function() {
  		$(this).parents("li").addClass('on');
 	});
 });
-
-
 $(function() {
 	// 최상위 카테고리 클릭 시
  	$(".inner").click(function() {
  		var inner = document.getElementsByClassName("inner");
-
+ 		var selectcategory=$("#selectcategory");
+ 		var no=$(this).parent().siblings("input").val();
  		// 이미 선택된 카테고리 해제
  		for(var i=0; i<inner.length; i++) {
  			if(inner[i].parentNode.parentNode.parentNode.className.indexOf('on') != -1) {
  				inner[i].parentNode.parentNode.parentNode.className = 'cate0'+(i+1);
+ 				selectcategory.html(inner[i].innerText+","+no);
  			}
  		}
  		
@@ -256,41 +251,90 @@ $(function() {
  		$(this).parents("li").addClass('on');
 	});
 });
-
+//하위 카테고리 클릭 이벤트
+$(function() {
+	// +버튼 누르면 최하위 카테고리 열림
+ 	$(".btn_more").on('click', function() {
+ 		var allDiv = $(".layer_more_cate");
+ 		allDiv.css("opacity", "0")
+		   	   .css("overflow", "hidden"); 
+ 		var layer_more_cate = $(this).siblings("div");
+ 		layer_more_cate.css("opacity", "1")
+ 					   .css("overflow", "visible"); 		
+ 	});
+ 	var selectcategory=$("#selectcategory");
+ 	$(".thirdli").on("click",function(event){
+ 		console.log($(this).find("li").text());
+ 		selectcategory.html(">>"+$(this).find("li").text()+","+$(this).find("input").val());
+ 		event.stopPropagation();
+        //ie8이하 브라우져
+        event.cancelBubble = true;
+        //preventDefault(); - w3school
+        $(".layer_more_cate").css("opacity", "0")
+	   	   .css("overflow", "hidden"); 
+ 	});
+ 	
+ 	$(".secondli").on("click",function(){
+ 		console.log($(this).children("span").text());
+ 		selectcategory.html(">"+$(this).children("span").text()+","+$(this).find("input").val());
+ 	});
+ 	
+});
+//리서치.do
+$(function(){
+	$("#research").on("click",function(){
+		var searchKeyword=$("#productKey").val();
+		var ck=document.getElementsByName("brand");
+		var brand=new Array();
+		var caNo=$("#selectcategory").text();
+		if(caNo=="") caNo="0,0";
+		var categoryselect=caNo.split(",");
+		for(var i in ck){
+			if(ck[i].checked==true){
+				brand.push(ck[i].value);
+			}
+		}
+		if(brand.length>1){
+			brand.shift();
+		}else if(brand.length==0){
+			brand.push("all");
+		}
+		//console.log(brand);
+		
+		var price1=document.getElementById("price1").value;
+		var price2=document.getElementById("price2").value;
+		
+		console.log("키워드"+searchKeyword+"브랜드"+brand+"고른카테고리번호"+categoryselect[1]+"가격"+price1+"~"+price2);
+		location.href="${pageContext.request.contextPath}/product/reSearch.do?searchKeyword="+searchKeyword+"&brand="+brand+"&categoryselect="+categoryselect[1]+"&price1="+price1+"&price2="+price2;
+	});
+});
 </script>
 <style>
 /* div.main-li-container li.CU {
 	background: rgb(195, 148, 212);
 	opacity: 0.85;
 }
-
 div.main-li-container li.7ELEVEN {
 	background: rgb(27, 147, 42);
 	opacity: 0.85;
 }
-
 div.main-li-container li.GS25 {
 	background: rgb(203, 238, 243);
 	opacity: 0.85;
 }
-
 div.main-li-container li.MINISTOP {
 	background: rgb(255, 190, 204);
 	opacity: 0.85;
 }
-
 div.main-li-container li.EMART24 {
 	background: rgb(255, 223, 104);
 	opacity: 0.85;
 }
  */
-
-
 /* 상세 검색 */
 .listStyleNone-hyelin {
 	list-style: none;
 }
-
 ul.category-hyelin li {
 	display: inline;
 } 
@@ -300,7 +344,6 @@ ul.category-hyelin li {
 	padding-right: 50px;
 	width: 250px;
 }
-
 ul.category-hyelin li label {
 	width: 120px;
 } 
@@ -319,7 +362,6 @@ ul.category-hyelin li label {
 }
 /* 검색페이지 - 카테고리 및 가격대 검색 */
 .search_result_cate {margin-bottom:13px; width: 620px;}
-
 /* 검색페이지 - 카테고리 */
 .search__list_category:after {display:block;clear:both;content:'';}
 .search__list_category .list_cate {float:left;min-height:49px;padding-left: 0;}
@@ -373,20 +415,17 @@ ul.category-hyelin li label {
 .btn_more {padding: 0; margin-bottom: 6px; margin-left: 3px;}
 .search__list_category .list_cate .layer_more_cate {overflow:hidden;position:relative;z-index:1;min-width:165px;max-width:210px;max-height:115px;height:0;border:1px solid #ddd;box-shadow:1px 1px 2px rgba(0, 0, 0, .1);background-color:#fff;opacity:0;filter:alpha(opacity=0);}
 .search__list_category .list_cate .layer_more_open {overflow-y:auto;height:auto;opacity:1;filter:alpha(opacity=100);}
-.search__list_category .list_cate .layer_more_cate .list_more_cate {padding:11px 15px 11px;}
+.search__list_category .list_cate .layer_more_cate .list_more_cate {padding:11px 15px 11px; background:white; z-index:10;}
 .search__list_category .list_cate .layer_more_cate .list_more_cate li {margin-top:2px;padding-left:8px;background:url(//image.wemakeprice.com/images/2014/search/ico_dot.png) no-repeat 0 7px;}
 .search__list_category .list_cate .layer_more_cate .list_more_cate a {display:block;}
 .search__list_category {position:relative;min-height:49px;border:1px solid #ddd;background:url(//image.wemakeprice.com/images/2014/search/bg_sarch_tab.png) repeat-x;*zoom:1;}
 .search__list_category ul, .search__list_category li { list-style: none; }
-
 .marginLeft30-hyelin {
 	margin-left: 30px;
 }
-
 .marginRight0-hyelin {
 	margin-right: 0 !important;
 }
-
 </style>
 
 
@@ -402,26 +441,27 @@ ul.category-hyelin li label {
 	<tr>
 		<th scope="row">
 			브랜드 &nbsp;
-			<input type="checkbox" id="allCheck" name="allCheck" onchange="fn_checkAll(this.checked);">
+			<input type="checkbox" id="allCheck" name="allCheck" onchange="fn_checkAll(this.checked);" >
+			<input class="form-check-input" type="hidden" name="brand" class="brand" value="all">
 		</th>
 		<td>
-			<input type="checkbox" name="convenience" id="CU" onclick="fn_toggle(this.checked)"/>
+			<input type="checkbox" name="brand" id="CU" onclick="fn_toggle(this.checked)" class="brand" value="CU"/>
 			<label for="CU">CU</label>
 		</td>
 		<td>
-			<input type="checkbox" name="convenience" id="GS25" onclick="fn_toggle(this.checked)"/>
+			<input type="checkbox" name="brand" id="GS25" onclick="fn_toggle(this.checked)" class="brand" value="GS25"/>
 			<label for="GS25">GS25</label>
 		</td>
 		<td>
-			<input type="checkbox" name="convenience" id="7ELEVEN" onclick="fn_toggle(this.checked)"/>
+			<input type="checkbox" name="brand" id="7ELEVEN" onclick="fn_toggle(this.checked)" class="brand" value="7ELEVEN"/>
 			<label for="7ELEVEN">7ELEVEN</label>
 		</td>
 		<td>
-			<input type="checkbox" name="convenience" id="MINISTOP" onclick="fn_toggle(this.checked)"/>
+			<input type="checkbox" name="brand" id="MINISTOP" onclick="fn_toggle(this.checked)" class="brand" value="MINISTOP"/>
 			<label for="MINISTOP">MINISTOP</label>
 		</td>
 		<td>
-			<input type="checkbox" name="convenience" id="EMART24" onclick="fn_toggle(this.checked)"/>
+			<input type="checkbox" name="brand" id="EMART24" onclick="fn_toggle(this.checked)" class="brand" value="EMART24"/>
 			<label for="EMART24">EMART24</label>
 		</td>
 		<td></td>
@@ -429,209 +469,70 @@ ul.category-hyelin li label {
 	<tr>
 		<th scope="row">카테고리</th>
 		<td colspan="6">
-		<div class="search_result_cate">
-				<div class="search__list_category">
-					<ul class="list_cate">
-
-						<li class="cate01 on">
-							<div class="wrap_link_cate">
-								<p class="link_cate"><span class="inner">간편식사</span></p>
-							</div>
-							<ul class="list_depth_02">
-								<li>
-									<span>김밥</span>
-									<button type="button" class="btn btn-transparent-hyelin btn_more"><img src="${pageContext.request.contextPath}/resources/img/add.png" alt="" class="btnImg-hyelin" title="하위 카테고리 보기" data-toggle="tooltip" data-placement="bottom"/></button>
-									<div class="layer_more_cate">
-										<ul class="list_more_cate">
-											<li class="">삼각김밥</li>
-											<li class="">원형김밥</li>
-										</ul>
+			<div class="search_result_cate">
+					<div class="search__list_category">
+						<c:forEach var="c" items="${categoryList }" varStatus="vs">
+							<c:if test="${c.category_level==1 }">
+								<ul class="list_cate">
+									<c:if test="${c.category_no eq 1 }">
+										<li class="cate0${c.category_no } on">						
+									</c:if>
+									<c:if test="${vs.index ne 1 }">
+										<li class="cate0${c.category_no }">												
+									</c:if>
+									<div class="wrap_link_cate">
+										<input type="hidden" name="" value="${c.category_no }"/>
+										<p class="link_cate"><span class="inner" value="${c.category_name }">${c.category_name }</span></p>
 									</div>
-								</li>
-
-								<li><span>도시락</span>
-									<button type="button" class="btn btn-transparent-hyelin btn_more"><img src="${pageContext.request.contextPath}/resources/img/add.png" alt="" class="btnImg-hyelin" title="하위 카테고리 보기" data-toggle="tooltip" data-placement="bottom"/></button>
-									<div class="layer_more_cate">
-										<ul class="list_more_cate">
-											<li class="">고기</li>
-											<li class="">치킨</li>
-										</ul>
-									</div>
-								</li>
-
-								<li><span>샌드위치</span></li>
-								<li><span>햄버거</span></li>
-							</ul>
-						</li>
-						<li class="cate02">
-							<div class="wrap_link_cate">
-								<p class="link_cate"><span class="inner">식품</span></p>
-							</div>
-							<ul class="list_depth_02">
-								<li class="marginRight0-hyelin"><span>컵밥</span></li>
-								<li><span>라면</span>
-									<button type="button" class="btn btn-transparent-hyelin btn_more"><img src="${pageContext.request.contextPath}/resources/img/add.png" alt="" class="btnImg-hyelin" title="하위 카테고리 보기" data-toggle="tooltip" data-placement="bottom"/></button>
-									<div class="layer_more_cate">
-										<ul class="list_more_cate">
-											<li><span>컵라면</span>
-											<li><span>봉지라면</span>
-										</ul>
-									</div>
-								</li>
-
-								<li><span>냉동식품</span>
-									<button type="button" class="btn btn-transparent-hyelin btn_more"><img src="${pageContext.request.contextPath}/resources/img/add.png" alt="" class="btnImg-hyelin" title="하위 카테고리 보기" data-toggle="tooltip" data-placement="bottom"/></button>
-									<div class="layer_more_cate">
-										<ul class="list_more_cate">
-											<li><span>치킨</span>	
-											<li><span>피자</span>	
-											<li><span>만두</span>	
-											<li><span>돼지고기</span>	
-										</ul>
-									</div>
-								</li>
-								
-								<li class="marginLeft30-hyelin"><span>냉장식품</span>
-									<button type="button" class="btn btn-transparent-hyelin btn_more"><img src="${pageContext.request.contextPath}/resources/img/add.png" alt="" class="btnImg-hyelin" title="하위 카테고리 보기" data-toggle="tooltip" data-placement="bottom"/></button>
-									<div class="layer_more_cate">
-										<ul class="list_more_cate">
-											<li><span>가공식품</span>	
-											<li><span>안주</span>	
-											<li><span>식재료</span>	
-										</ul>
-									</div>
-								</li>
-							</ul>
-						</li>
-						<li class="cate03">
-							<div class="wrap_link_cate">
-								<p class="link_cate"><span class="inner">과자류</span></p>
-							</div>
-							<ul class="list_depth_02">
-								<li><span>껌/사탕/초코</span>	
-								<li><span>박스과자</span>	
-								<li><span>봉지과자</span>	
-							</ul>
-						</li>
-						<li class="cate04">
-							<div class="wrap_link_cate">
-								<p class="link_cate"><span class="inner">아이스크림</span></p>
-							</div>
-							<ul class="list_depth_02">
-								<li><span>바</span>	
-								<li><span>콘</span>	
-								<li><span>컵</span>
-							</ul>
-						</li>
-						<li class="cate05">
-							<div class="wrap_link_cate">
-								<p class="link_cate"><span class="inner">즉석식품</span></p>
-							</div>
-							<ul class="list_depth_02">
-								<li><span>튀김</span>
-								<li><span>빵</span>
-							</ul>
-						</li>
-						<li class="cate06">
-							<div class="wrap_link_cate">
-								<p class="link_cate"><span class="inner">음료</span></p>
-							</div>
-							<ul class="list_depth_02">
-								<li><span>유제품</span>
-								<li><span>캔</span>
-								<li><span>패트</span>
-								<li><span>유리</span>
-							</ul>
-						</li>
-					</ul>
+									
+									<ul class="list_depth_02">
+										<c:forEach var="cc" items="${categoryList }" varStatus="vs2">
+											<c:if test="${cc.parent_category eq c.category_no }">
+												<li class="secondli" >
+													<span>${cc.category_name }</span>
+													<input type="hidden" name="" value="${cc.category_no }"/>
+													<c:set var="count" value="0" />
+													<c:forEach var="ccc" items="${categoryList }" varStatus="vs3">
+														<c:if test="${ccc.parent_category eq cc.category_no }">	
+															<c:set var="count" value="${count + 1}" />
+															<c:if test="${count eq 1 }">
+																<button type="button" class="btn btn-transparent-hyelin btn_more">
+																<img src="${pageContext.request.contextPath}/resources/img/add.png" alt="" class="btnImg-hyelin" title="하위 카테고리 보기" data-toggle="tooltip" data-placement="bottom" />
+																</button>												
+															<div class="layer_more_cate">
+																<c:forEach var="cccc" items="${categoryList }" varStatus="vs4">
+																	<c:if test="${cccc.parent_category eq cc.category_no }">
+																		<ul class="list_more_cate thirdli">
+																			<input type="hidden" name="" value="${cccc.category_no }"/>
+																			<li>${cccc.category_name }</li>
+																		</ul>
+																	</c:if>
+																</c:forEach>
+															</div>
+															</c:if>
+														</c:if>
+													</c:forEach>
+												</li>
+											</c:if>
+										</c:forEach>
+									</ul> 	
+									</li>
+								</ul>
+							</c:if>
+					</c:forEach>
 				</div>
 			</div> 
-			
-			
-			<!-- <div id="addSelectCategory">
-
-			</div>
-			<div class="input-group mb-3">
-		  		<select class="custom-select category-level level-1" name="categoryNo" id="category1" >onchange="doChange(this,'category2');"
-					<option value="1">간편식사</option>
-					<option value="2">식품</option>
-					<option value="3">과자류</option>
-					<option value="4">아이스크림</option>
-					<option value="5">즉석식품</option>
-					<option value="6">음료</option>
-				</select>
-				<select class="custom-select category-level level-2" name="categoryNo" id="category2">
-				  	<option value="7">김밥</option>
-				    <option value="8">도시락</option>
-				    <option value="9">샌드위치</option>
-				    <option value="10">햄버거</option>
-				    <option value="11">컵밥/국</option>
-				    <option value="12">라면</option>
-				    <option value="13">냉동식품</option>
-				    <option value="14">냉장식품</option>
-				    <option value="15">껌/사탕/초코</option>
-				    <option value="16">박스과자</option>
-				    <option value="17">봉지과자</option>
-				    <option value="18">바</option>
-				    <option value="19">콘</option>
-				    <option value="20">컵</option>
-				    <option value="21">튀김</option>
-				    <option value="22">빵</option>
-				    <option value="23">유제품</option>
-				    <option value="24">캔</option>
-				    <option value="25">페트</option>
-				    <option value="26">유리</option>
-				</select>
-	  			<select class="custom-select category-level level-3" name="categoryNo" id="category3">
-	  				<option value="27">삼각김밥</option>
-				    <option value="28">원형김밥</option>
-				    <option value="29">고기</option>
-				    <option value="30">치킨</option>
-				    <option value="31">컵라면</option>
-				    <option value="32">봉지라면</option>
-				    <option value="33">치킨</option>
-				    <option value="34">피자</option>
-				    <option value="35">만두</option>
-				    <option value="36">돼지고기</option>
-				    <option value="37">가공식품</option>
-				    <option value="38">안주</option>
-				    <option value="39">식재료</option>
-	  			</select>
-		    </div>
+			<div id="selectcategory"></div>
 		</td>
-		<td>
-			<input type="checkbox" name="간편식사" id="간편식사" />
-			<label for="간편식사">간편식사</label>
-		</td>
-		<td>
-			<input type="checkbox" name="식품" id="식품" />
-			<label for="식품">식품</label>
-		</td>
-		<td>
-			<input type="checkbox" name="과자류" id="과자류" />
-			<label for="과자류">과자류</label>
-		</td>
-		<td>
-			<input type="checkbox" name="아이스크림" id="아이스크림" />
-			<label for="아이스크림">아이스크림</label>
-		</td>
-		<td>
-			<input type="checkbox" name="즉석식품" id="즉석식품" />
-			<label for="즉석식품">즉석식품</label>
-		</td>
-		<td>
-			<input type="checkbox" name="음료" id="음료" />
-			<label for="음료">음료</label>
-		</td> -->
 	</tr>
 	<tr>
 		<th scope="row">가격대</th>
 		<td colspan="5">
-			<input type="number" name="price1" min="0" step="500" value="0" class="form-control" style="width: 150px; display: inline-block;">원 &nbsp; ~ &nbsp;
-			<input type="number" name="price2" min="0" step="500" value="0" class="form-control" style="width: 150px; display: inline-block;">원
+			<input type="number" id="price1" name="price1" min="0" step="500" value="0" class="form-control price1" style="width: 150px; display: inline-block;">원 &nbsp; ~ &nbsp;
+			<input type="number" id="price2" name="price2" min="0" step="500" value="0" class="form-control price2" style="width: 150px; display: inline-block;">원
 		</td>
 		<td>
-			<button type="button" class="btn btn-info"> <img src="${pageContext.request.contextPath }/resources/img/search.png" alt="" /> 검색 </button>
+			<button type="button" class="btn btn-info" id="research"> <img src="${pageContext.request.contextPath }/resources/img/search.png" alt="" /> 검색 </button>
 		</td>
 	</tr>
 </table>
@@ -650,19 +551,19 @@ ul.category-hyelin li label {
 				<p class="card-text card-text-hyelin inline-hyelin"><fmt:formatNumber value="${p.price }" type="currency" currencySymbol=""/>원
 					<c:if test="${searchList.size()>1 }">
 						<c:if test="${p.price>avgprice }">
-								<img src="${pageContext.request.contextPath}/resources/img/up.png" style="width: 30px; height: 30px;">				
+								<img src="${pageContext.request.contextPath}/resources/img/up.png" style="width: 20px; height: 30px;">				
 						</c:if>
 						<c:if test="${p.price<avgprice }">
-								<img src="${pageContext.request.contextPath}/resources/img/down.png" style="width: 30px; height: 30px;">			
+								<img src="${pageContext.request.contextPath}/resources/img/down.png" style="width: 20px; height: 30px;">			
 						</c:if>
 						<c:if test="${p.price==avgprice }">
-								<img src="${pageContext.request.contextPath}/resources/img/avg.png" style="width: 30px; height: 30px;">					
+								<img src="${pageContext.request.contextPath}/resources/img/avg.png" style="width: 20px; height: 30px;">					
 						</c:if>
 						<c:if test="${p.price==rowprice }">
-								<img src="${pageContext.request.contextPath}/resources/img/row.GIF" style="width: 40px; height: 30px;">			
+								<img src="${pageContext.request.contextPath}/resources/img/row.GIF" style="width: 30px; height: 30px;">			
 						</c:if>					
 						<c:if test="${p.productName==popmenu.productName }">
-								<img src="${pageContext.request.contextPath}/resources/img/pop.png" style="width: 50px; height: 40px;">			
+								<img src="${pageContext.request.contextPath}/resources/img/pop.png" style="width: 40px; height: 40px;">			
 						</c:if>					
 					</c:if>
 				</p>					
@@ -681,92 +582,11 @@ ul.category-hyelin li label {
 	</c:forEach>
 </div>
 
-<a href="${pageContext.request.contextPath}/product/mailTest.do">이메일테스트페이지</a>
+<%-- <a href="${pageContext.request.contextPath}/product/mailTest.do">이메일테스트페이지 실험중이라 누르지말아주세요 ㅠ 내일 제출할 땐 이거 지우고 제출</a> --%>
 <%-- <div class="searchbtn">
 	<button class="btn btn-success" onclick="search();">상세검색</button>
 </div>
 <br />
-<div class="search-div">
-	<form action="${pageContext.request.contextPath}/product/reSearch.do">
-		<br />
-		<h4>브랜드</h4>
-		<input type="hidden" name="searchKeyword" value="${searchKeyword }" />
-		<input class="form-check-input" type="hidden" name="brand" value="all">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<input class="form-check-input" type="checkbox" name="brand" value="CU" id="CU"><label for="CU">CU</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-		<input class="form-check-input" type="checkbox" name="brand" value="GS25" id="GS25"><label for="GS25">GS25</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-		<input class="form-check-input" type="checkbox" name="brand" value="7ELEVEN" id="7ELEVEN"><label for="7ELEVEN">7ELEVEN</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-		<input class="form-check-input" type="checkbox" name="brand" value="MINISTOP" id="MINISTOP"><label for="MINISTOP">MINISTOP</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-		<input class="form-check-input" type="checkbox" name="brand" value="EMART24" id="EMART24"><label for="EMART24">EMART24</label> <br />
-		<h4>카테고리</h4>
-		<!-- <select name="categoryselect" id="category" class="form-control" style="width: 50%;">
-			<option id="category" name="category" value="0" selected>카테고리</option>
-			<option id="category" name="category" value="1">간편식사</option>
-			<option id="category" name="category" value="7">-김밥</option>
-			<option id="category" name="category" value="27">--삼각김밥</option>
-			<option id="category" name="category" value="28">--원형김밥</option>
-			<option id="category" name="category" value="8">-도시락</option>
-			<option id="category" name="category" value="29">--고기</option>
-			<option id="category" name="category" value="30">--치킨</option>
-			<option id="category" name="category" value="9">-샌드위치</option>
-			<option id="category" name="category" value="10">-햄버거</option>
-			<option id="category" name="category" value="2">식품</option>
-			<option id="category" name="category" value="11">-컵밥/국</option>
-			<option id="category" name="category" value="12">-라면</option>
-			<option id="category" name="category" value="31">--컵라면</option>
-			<option id="category" name="category" value="32">--봉지라면</option>
-			<option id="category" name="category" value="13">-냉동식품</option>
-			<option id="category" name="category" value="33">--치킨</option>
-			<option id="category" name="category" value="34">--피자</option>
-			<option id="category" name="category" value="35">--만두</option>
-			<option id="category" name="category" value="36">--돼지고기</option>
-			<option id="category" name="category" value="14">-냉장식품</option>
-			<option id="category" name="category" value="37">--가공식품</option>
-			<option id="category" name="category" value="38">--안주</option>
-			<option id="category" name="category" value="39">--식재료</option>
-			<option id="category" name="category" value="3">과자류</option>
-			<option id="category" name="category" value="15">-껌/사탕/초코</option>
-			<option id="category" name="category" value="16">-박스과자</option>
-			<option id="category" name="category" value="17">-봉지과자</option>
-			<option id="category" name="category" value="4">아이스크림</option>
-			<option id="category" name="category" value="18">-바</option>
-			<option id="category" name="category" value="19">-콘</option>
-			<option id="category" name="category" value="20">-컵</option>
-			<option id="category" name="category" value="5">즉석식품</option>
-			<option id="category" name="category" value="21">-튀김</option>
-			<option id="category" name="category" value="22">-빵</option>
-			<option id="category" name="category" value="6">음료</option>
-			<option id="category" name="category" value="23">-유제품</option>
-			<option id="category" name="category" value="24">-캔</option>
-			<option id="category" name="category" value="25">-페트</option>
-			<option id="category" name="category" value="26">-유리</option>
-		</select> -->
-		<select name="categoryselect" id="category" class="form-control" style="width: 50%;">
-			<option id="category" name="category" value="0" selected>카테고리</option>
-			<c:forEach var="c" items="${categoryList }" varStatus="vs">
-				<c:if test="${c.category_level==1 }">
-					<option id="category" name="category" value="${c.category_no }">${c.category_name }</option>					
-				</c:if>
-				<c:if test="${c.category_level==2 }">
-					<option id="category" name="category" value="${c.category_no }"> - ${c.category_name }</option>					
-				</c:if>
-				<c:if test="${c.category_level==3 }">
-					<option id="category" name="category" value="${c.category_no }"> = = ${c.category_name }</option>					
-				</c:if>
-			</c:forEach>
-		</select>
-		<h4>가격대</h4>
-		<input type="number" name="price1" min="0" step="500" value="0" class="form-control" style="width: 200px; display: inline-block;">
-		~ <input type="number" name="price2" min="0" step="500" value="0" class="form-control" style="width: 200px; display: inline-block;">
-		<br>
-		<br> <input type="submit" class="btn btn-success" value="검색">
-		<input type="button" class="btn btn-success" value="닫기" onclick="searchClose();" /> <br />
-		<br />
-	</form>
-</div>
-<br>
-<br>
-
-
 <div class="main-li-container">
 	<c:forEach var="p" items="${searchList }" varStatus="vs">
 		<li class="main-li ${p.brandName }"><img

@@ -62,4 +62,9 @@ public class PurchaseServiceImpl implements PurchaseService {
 		return purchaseDAO.updateProductPurchase(map);
 	}
 
+	@Override
+	public List<PurchaseComplete> selectAPCList() {
+		return purchaseDAO.selectAPCList();
+	}
+
 }

@@ -61,14 +61,9 @@ img#chat-icon{
 </head>	
 
 <!-- 유저롤을 가진 유저  -->
-<sec:authorize access="hasAnyRole('ROLE_USER')">
+<sec:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
-</sec:authorize>
-<!-- 관리자롤을 가진 유저 -->
-<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
-	<sec:authentication property="principal.username" var="admin_id"/>
-	<sec:authentication property="principal.member_name" var="admin_name"/>
 </sec:authorize>
 
 
@@ -88,35 +83,26 @@ img#chat-icon{
 	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">장바구니</a>
 
 	                    </c:if>     	
-					
+
 
                     </li>
-                    <%-- <c:if test="${member_id!=null}"> --%>
+                    <c:if test="${member_id!=null}">
                     	<li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/member/myPage.do?member_id=${member_id }" style="color:black">마이페이지</a></li>
-                    <%-- </c:if> --%>
-                   <%--  <c:if test="${member_id==null}">
+                    </c:if>
+                    <c:if test="${member_id==null}">
 	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">마이페이지</a>
-	                    </c:if> --%>
-                    <li class="nav-bar-site-li">고객센터</li>
-                    
-                    <!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! -->
-                     <c:if test="${member_id!=null}">  
-                    
+	                    </c:if>
+             
+				
+					<!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! --> 
+                    <!-- 권한에 따른 접근 방법 기술 -->
+               		<sec:authorize access="hasRole('ROLE_ADMIN')">
                     <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/manager/managerPage.do">관리자페이지</a></li>  
-                        </c:if>  
-
-                    <c:if test="${admin_id !=null }">
-                    <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/manager/managerPage.do">관리자페이지</a></li>
-                	</c:if>
+              		</sec:authorize>
+     
 
                 </ul>
-                <ul class="nav-bar-list">
-                        <li class="nav-bar-site-li"><a href="http://www.7-eleven.co.kr" target="blank">세븐일레븐</a></li>
-                        <li class="nav-bar-site-li"><a href="http://gs25.gsretail.com/gscvs/ko/main"target="blank">GS25</a></li>
-                        <li class="nav-bar-site-li"><a href="http://cu.bgfretail.com/index.do"target="blank">CU</a></li>
-                        <li class="nav-bar-site-li"><a href="https://www.ministop.co.kr"target="blank">미니스톱</a></li>
-                        <li class="nav-bar-site-li"><a href="https://www.emart24.co.kr/index.asp"target="blank">이마트24</a></li>
-                </ul>
+               
                 <fieldset class="nav-search">
 
                     <div class="col-lg-6">
@@ -173,27 +159,36 @@ img#chat-icon{
                 </div>
             </div>
             
-            <!-- 채팅아이콘 -->
+             <!-- 채팅아이콘 -->
             <img src="${pageContext.request.contextPath }/resources/img/chat-icon.png" id="chat-icon"/>
  
-            <!-- 채팅 관련 html 시작 -->
-
-   			 <div id="chatting-room">
-            	<input type="hidden" name="member_id" value="${member_id}" />
-            	<div style="text-align:center;">현재 접속중인 회원<span id="connected-member"style="font-weight:bold;">${totalMember }</span> 명</div>
-            	<c:if test="${member_id!=null }">
-            	<div style="text-align:center;margin-top:10px;">채팅방에 접속되었습니다.</div>  
-            	</c:if>
-            	<c:if test="${member_id==null }">
-            	<div style="text-align:center;margin-top:10px;">로그인 후 사용가능합니다.</div>  
-            	</c:if> 	 	
-            	<div id="chatting-content"></div>
-            	<div id="member-chat">
-            		<input id="insertText" style="float:left; width:230px;"class="form-control form-control-sm" type="text">
-            		<button style="float:left; width:50px;" type="button" class="btn btn-primary" id="insertChat">전송</button>
-            	</div>
+            <!-- 채팅 관련 html 시작 -->            
+             <div id="chatting-room">
+               <input type="hidden" name="member_id" value="${member_id}" />
+                <div style="text-align:center;">현재 접속중인 사용자<span id="connected-member"style="font-weight:bold;"> ? </span> 명 
+                   <button type="button" class="close" aria-label="Close" id="hide_chatting">
+                    <span aria-hidden="true">&times;</span>
+               </button>
+                </div> 
+               <c:if test="${member_id!=null }">
+               <div style="text-align:center;margin-top:10px;">채팅방에 접속되었습니다.</div>  
+               </c:if>
+               <c:if test="${member_id==null }">
+               <div style="text-align:center;margin-top:10px;">로그인 후 사용가능합니다.</div>  
+               </c:if>        
+               <div id="chatting-content"></div>
+               <sec:authorize access="hasRole('ROLE_USER')">
+               <div id="member-chat">
+                  <input id="insertText" style="float:left; width:230px;"class="form-control form-control-sm" type="text">
+                  <button style="float:left; width:50px;" type="button" class="btn btn-primary" id="insertChat">전송</button>
+               </div>
+               </sec:authorize>
+                  <sec:authorize access="hasRole('ROLE_ADMIN')">
+               <input type="text" name="" id="admin-notice" /><button id="insertNotice">전송!!</button>
+               </sec:authorize>
             </div> 
             <!-- 채팅관련 끝 -->
+
         </nav>
         
         <!-- 여기있었으 -->
@@ -368,13 +363,19 @@ $(document).ready(function(){
 
 
 <script>
-
 $(function(){
-	$("#chat-icon").click(function(){
-		$("#chatting-room").show();
-	});
+   $("#chat-icon").click(function(){
+      $("#chatting-room").show();
+       //스크롤바 설정 
+       var offset = $(".chatting-comment:last").offset(); 
+       $("#chatting-content").animate({scrollTop : offset.top}, 400); 
+   });
+   $("#hide_chatting").click(function(){
+      $("#chatting-room").hide();
+      $("#chat-icon").show();
+   });
+   
 });
-
 </script>
 
 <!-- 채팅 관련 스크립트(소켓) --> 
@@ -384,36 +385,94 @@ var sock=new SockJS("<c:url value="/echo"/>");
  
 sock.onmessage= onMessage; 
 sock.onclose = onClose; 
- 
+sock.onopen=function(){ 
+     sendMessage();
+     $.ajax({ 
+           url:"${pageContext.request.contextPath}/chatting/showChat.do", 
+           type:"post", 
+           dataType:"json", 
+           success:function(data){ 
+             for(var index in data){ 
+               var c = data[index]; 
+               if(index=="connectCount"){ 
+                 //$("#connected-member").text(c); 
+               } 
+               if(index=="list"){ 
+                 var html='<div>'; 
+                 for(var li in c){ 
+                   html+='<div class="chatting-comment" style="text-align:left;">'; 
+                   html+='<strong>['+c[li].member_id+'] :</strong> '+c[li].chat_content+'</div>'; 
+                 } 
+                 html+='</div>'; 
+                  $("#chatting-content").html(html); 
+               } 
+             } 
+              
+           }, 
+           error:function(jqxhr, testStatus, errorThrown){ 
+            console.log("ajax처리실패"); 
+            console.log(jqxhr); 
+            console.log(testStatus); 
+            console.log(errorThrown); 
+           } 
+         }); 
+}  
 $(function(){ 
   $("#insertChat").click(function(){ 
-    sendMessage(); 
-    $("#insertText").val('');
+     var chatText=$("#insertText").val().trim(); 
+     var member_id =$("[name=member_id]").val().trim(); 
+     if(chatText==""){ 
+         alert("내용을 입력하셔야 합니다."); 
+         return false; 
+       } 
+        
+       if(member_id ==""){ 
+         alert("로그인 후 이용가능합니다."); 
+         return false; 
+       }else{ 
+         sendMessage(); 
+         $("#insertText").val(''); 
+       } 
   }); 
   $("#insertText").keypress(function (e) {
-		var chatText=$("#insertText").val().trim();
-		var member_id =$("[name=member_id]").val().trim();
-		
-		if(e.which == 13){
-	 		if(chatText==""){
-	 			alert("내용을 입력하셔야 합니다.");
-	 			return false;
-	 		}
-	 		
-	 		if(member_id ==""){
-	 			alert("로그인 후 이용가능합니다.");
-	 			return false;
-	 		}else{
-	 			sendMessage();
-	 			$("#insertText").val('');
-	 		}
-		}
+      var chatText=$("#insertText").val().trim();
+      var member_id =$("[name=member_id]").val().trim();
+      
+      if(e.which == 13){
+          if(chatText==""){
+             alert("내용을 입력하셔야 합니다.");
+             return false;
+          }
+          
+          if(member_id ==""){
+             alert("로그인 후 이용가능합니다.");
+             return false;
+          }else{
+             sendMessage();
+             $("#insertText").val('');
+          }
+      }
   });
+  $("#insertNotice").click(function(){
+     var adminNotice=$("#admin-notice").val().trim(); 
+     var member_id =$("[name=member_id]").val().trim();
+     if(adminNotice==""){ 
+         alert("내용을 입력하셔야 합니다."); 
+         return false; 
+     }
+     sendNotice(); 
+      $("#admin-notice").val(''); 
+  });
+  
 }); 
  
 function sendMessage(){ 
   sock.send($("#insertText").val()); 
 } 
+
+function sendNotice(){
+   sock.send("[공지사항] : "+$("#admin-notice").val());
+}
  
 function onClose(){ 
   $("#chatting-content").append("연결이 끊켰습니당."); 
@@ -428,17 +487,33 @@ function onMessage(evt){
   sessionid=strArr[0]; 
   message=strArr[1]; 
    
-  var html='<div class="chatting-comment" style="text-align:left;">'; 
-  html+='<strong>['+sessionid+'] :</strong>'+message; 
-  html+='</div>'; 
-  $("#chatting-content").append(html); 
-  
-  var offset = $(".chatting-comment:last").offset();
-  $("#chatting-content").animate({scrollTop : offset.top}, 400);
-    
+  if(sessionid==""){ 
+       $("#connected-member").html(" "+message+" "); 
+  }else if(sessionid=="로그인감지로 인해 접속이 끊어집니다."){ 
+        alert("로그인 감지로 로그인을 해제합니다."); 
+        location.href="${pageContext.request.contextPath}"; 
+  }else if(sessionid=="관리자공지"){
+     console.log(message);
+        alert(message);
+       var html='<div class="chatting-comment" style="text-align:left;">';  
+       html+='<strong>'+message+'</strong>';  
+       html+='</div>';  
+       $("#chatting-content").append(html);       
+       var offset = $(".chatting-comment:last").offset(); 
+       $("#chatting-content").animate({scrollTop : offset.top}, 400); 
+  } else{  
+       var html='<div class="chatting-comment" style="text-align:left;">';  
+       html+='<strong>['+sessionid+'] :</strong>'+message;  
+       html+='</div>';  
+       $("#chatting-content").append(html);       
+       var offset = $(".chatting-comment:last").offset(); 
+       $("#chatting-content").animate({scrollTop : offset.top}, 400); 
+     }   
 } 
  
 </script> 
+
+
 
 
 

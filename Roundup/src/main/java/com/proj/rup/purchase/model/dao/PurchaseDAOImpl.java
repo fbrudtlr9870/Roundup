@@ -60,4 +60,9 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 		return sqlSession.update("purchase.updateProductPurchase", map);
 	}
 
+	@Override
+	public List<PurchaseComplete> selectAPCList() {
+		return sqlSession.selectList("purchase.selectAPCList");
+	}
+
 }

@@ -147,6 +147,9 @@ $(function(){
             <br><br>
         </form>
         <hr class="marginTop0-hyelin">
+        <c:if test="${param.error==true }">
+        	<span style="color:red;">아이디 혹은 비밀번호가 틀립니다. <br />다시 확인 해 주세요</span>
+        </c:if>
         <div id="btn-container">
                 <button type="button" class="btn btn-outline-secondary" onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
                 <button type="button" class="btn btn-outline-secondary">아이디찾기</button>

@@ -24,20 +24,8 @@ public class Product {
 
 	public Product() {}
 	
-
 	
-	public Product(String productName, int brandNo, int price, String memberId,int categoryNo) {
-		super();
-		this.productName = productName;
-		this.brandNo = brandNo;
-		this.price = price;
-		this.memberId = memberId;
-		this.categoryNo = categoryNo;
-	}
-
-
-
-
+	
 	public Product(int productNo, String productName, int brandNo, String brandName, int price, Date regDate,
 			String memberId, int productFileNo, String originalFileName, String renamedFileName, Date fileRegDate,
 			int proCategoryNo, int categoryNo, String categoryName, int parentCategory, int categoryLevel,int count,int purchaseAmount) {
@@ -83,6 +71,16 @@ public class Product {
 		this.parentCategory = parentCategory;
 		this.categoryLevel = categoryLevel;
 		this.count = count;
+	}
+
+
+
+	public Product(String productName2, int brandNo2, int price2, String memberId2, int category_No) {
+		this.productName=productName2;
+		this.brandNo=brandNo2;
+		this.price=price2;
+		this.memberId=memberId2;
+		this.categoryNo=category_No;
 	}
 
 
