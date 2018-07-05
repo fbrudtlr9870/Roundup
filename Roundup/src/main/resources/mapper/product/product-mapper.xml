@@ -1,3 +1,294 @@
+<<<<<<< HEAD
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="product">
+	<select id="productSearch" resultMap="search">
+
+	select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level,nvl(pp.purchase_amount,0) as purchase_amount
+
+	from product p,product_file pf,brand b,category c,product_category pc ,product_purchase pp
+	where p.product_no=pc.product_no 
+	and p.brand_no=b.brand_no 
+	and p.product_no=pf.product_no 
+	and pc.category_no=c.category_no 
+
+	and p.product_no=pp.product_no(+)
+	and p.product_name like upper('%'||#{searchKeyword}||'%') 
+
+	order by nvl(pp.purchase_amount,0) desc,p.price
+
+	</select>
+	<resultMap type="product" id="search" >
+		<result column="product_no" property="productNo"/>
+		<result column="product_name" property="productName"/>
+		<result column="brand_no" property="brandNo"/>
+		<result column="brand_name" property="brandName"/>
+		<result column="price" property="price"/>
+		<result column="reg_date" property="regDate"/>
+		<result column="member_id" property="memberId"/>
+		<result column="product_file_no" property="productFileNo"/>
+		<result column="original_filename" property="originalFileName"/>
+		<result column="renamed_filename" property="renamedFileName"/>
+		<result column="file_reg_date" property="fileRegDate"/>
+		<result column="pro_category_no" property="proCategoryNo"/>
+		<result column="category_no" property="categoryNo"/>
+		<result column="category_name" property="categoryName"/>
+		<result column="parent_category" property="parentCategory"/>
+		<result column="category_level" property="categoryLevel"/>
+
+		<result column="cnt" property="cnt"/>
+
+		<result column="purchase_amount" property="purchaseAmount"/>		
+	</resultMap>
+	<select id="reSearch" resultMap="search">
+
+	select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level,nvl(pp.purchase_amount,0) as purchase_amount
+
+	from product p,product_file pf,brand b,category c,product_category pc ,product_purchase pp
+	where p.product_no=pc.product_no 
+	and p.brand_no=b.brand_no 
+	and p.product_no=pf.product_no 
+	and pc.category_no=c.category_no 
+
+	and p.product_no=pp.product_no(+)
+
+	and p.product_name like upper('%'||#{searchKeyword}||'%') 
+		<if test="brand!=null">
+			and b.brand_name in
+			<foreach collection="brand" item="item" open="(" close=")" separator=",">
+			#{item}
+			</foreach>
+		</if>
+		<if test="categoryArr != null">
+			and pc.category_no in
+			<foreach collection="categoryArr" item="item" open="(" close=")" separator=",">
+			#{item}
+			</foreach>
+		</if>
+		<if test="price2 != price1">
+		and 
+			<if test="price2 > price1 ">
+				(p.price <![CDATA[>=]]> #{price1} and p.price <![CDATA[<=]]> #{price2} )
+			</if>
+			<if test="price2 lt price1 ">
+				(p.price <![CDATA[<=]]> #{price1} and p.price <![CDATA[>=]]> #{price2} )
+			</if>			
+		</if>
+
+	order by nvl(pp.purchase_amount,0) desc,p.price
+
+	</select>
+	
+	<insert id="insertProduct">
+	insert into product values(seq_product_no.nextval,#{productName},#{brandNo},#{price},default,#{memberId})
+		<selectKey keyProperty="productNo" resultType="_int" order="AFTER">
+			select seq_product_no.currval from dual
+		</selectKey>
+	</insert>
+	
+	<insert id="insertProductFile">
+	insert into product_file values(seq_prodfile_no.nextval,#{productNo},#{originalFileName},#{renamedFileName},default)
+	</insert>
+	
+	<select id="selectCategoryLevel" resultType="_int">
+	select category_level from category where category_no=#{categoryNo}
+	</select>
+	
+	<insert id="insertProductCategory">
+	insert into product_category values(seq_prodcategory_no.nextval,#{productNo},#{categoryNo},#{categoryLevel})
+	</insert>
+	
+	<select id="selectNewProduct" resultMap="search">
+	select * from product p left join product_file f on p.product_no = f.product_no left join brand b on p.brand_no = b.brand_no order by reg_date DESC
+	</select>
+	
+	<select id="selectHotProduct" resultMap="search">
+	<![CDATA[select E.* from(select * from (select product_no,count(*) as count from purchase_complete group by product_no) A join product P on A.product_no=P.product_no left join brand b on P.brand_no = b.brand_no left join product_file PF on PF.product_no = P.product_no order by count DESC) E where ROWNUM<=10]]>
+	</select>
+
+	
+	<select id="selectBrandList" resultType="brand">
+	select * from brand
+	</select>
+	
+	<select id="selectCategoryList" resultType="category">
+	select * from category where category_level=1
+	</select>
+	
+	<select id="selectChildCategory" resultType="category">
+	select * from category where parent_category=#{categoryNo}
+	</select>
+	
+
+	<select id="rowprice" resultType="_int">
+	select least(price) from (select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level,nvl(pp.purchase_amount,0) as purchase_amount
+	from product p,product_file pf,brand b,category c,product_category pc ,product_purchase pp
+	where p.product_no=pc.product_no 
+	and p.brand_no=b.brand_no 
+	and p.product_no=pf.product_no 
+	and pc.category_no=c.category_no 
+	and p.product_no=pp.product_no(+)
+	and p.product_name like upper('%'||#{searchKeyword}||'%') 
+	order by p.price) where product_name like upper('%'||#{searchKeyword}||'%') and rownum=1
+	</select>
+	
+	<select id="avgprice" resultType="_int">
+	select round(avg(price)) as "average" from (select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level,nvl(pp.purchase_amount,0) as purchase_amount
+	from product p,product_file pf,brand b,category c,product_category pc ,product_purchase pp
+	where p.product_no=pc.product_no 
+	and p.brand_no=b.brand_no 
+	and p.product_no=pf.product_no 
+	and pc.category_no=c.category_no 
+	and p.product_no=pp.product_no(+)
+	and p.product_name like upper('%'||#{searchKeyword}||'%') 
+	order by p.price) where product_name like upper('%'||#{searchKeyword}||'%')
+	</select>
+	
+	<select id="popmenu" resultMap="search">
+	select * from (select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level,nvl(pp.purchase_amount,0) as purchase_amount
+	from product p,product_file pf,brand b,category c,product_category pc ,product_purchase pp
+	where p.product_no=pc.product_no 
+	and p.brand_no=b.brand_no 
+	and p.product_no=pf.product_no 
+	and pc.category_no=c.category_no 
+	and p.product_no=pp.product_no(+)
+	and p.product_name like upper('%'||#{searchKeyword}||'%') 
+	order by nvl(pp.purchase_amount,0) desc,p.price) where rownum=1
+	</select>
+	
+	<select id="rerowprice" resultType="_int">
+	select least(price) from (select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level,nvl(pp.purchase_amount,0) as purchase_amount
+	from product p,product_file pf,brand b,category c,product_category pc ,product_purchase pp
+	where p.product_no=pc.product_no 
+	and p.brand_no=b.brand_no 
+	and p.product_no=pf.product_no 
+	and pc.category_no=c.category_no 
+	and p.product_no=pp.product_no(+)
+	and p.product_name like upper('%'||#{searchKeyword}||'%') 
+		<if test="brand!=null">
+			and b.brand_name in
+			<foreach collection="brand" item="item" open="(" close=")" separator=",">
+			#{item}
+			</foreach>
+		</if>
+		<if test="categoryArr != null">
+			and pc.category_no in
+			<foreach collection="categoryArr" item="item" open="(" close=")" separator=",">
+			#{item}
+			</foreach>
+		</if>
+		<if test="price2 != price1">
+		and 
+			<if test="price2 > price1 ">
+				(p.price <![CDATA[>=]]> #{price1} and p.price <![CDATA[<=]]> #{price2} )
+			</if>
+			<if test="price2 lt price1 ">
+				(p.price <![CDATA[<=]]> #{price1} and p.price <![CDATA[>=]]> #{price2} )
+			</if>			
+		</if>
+	order by p.price) where product_name like upper('%'||#{searchKeyword}||'%') and rownum=1
+	</select>
+	
+	<select id="reavgprice" resultType="_int">
+	select round(avg(price)) as "average" from (select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level,nvl(pp.purchase_amount,0) as purchase_amount
+	from product p,product_file pf,brand b,category c,product_category pc ,product_purchase pp
+	where p.product_no=pc.product_no 
+	and p.brand_no=b.brand_no 
+	and p.product_no=pf.product_no 
+	and pc.category_no=c.category_no 
+	and p.product_no=pp.product_no(+)
+	and p.product_name like upper('%'||#{searchKeyword}||'%') 
+		<if test="brand!=null">
+			and b.brand_name in
+			<foreach collection="brand" item="item" open="(" close=")" separator=",">
+			#{item}
+			</foreach>
+		</if>
+		<if test="categoryArr != null">
+			and pc.category_no in
+			<foreach collection="categoryArr" item="item" open="(" close=")" separator=",">
+			#{item}
+			</foreach>
+		</if>
+		<if test="price2 != price1">
+		and 
+			<if test="price2 > price1 ">
+				(p.price <![CDATA[>=]]> #{price1} and p.price <![CDATA[<=]]> #{price2} )
+			</if>
+			<if test="price2 lt price1 ">
+				(p.price <![CDATA[<=]]> #{price1} and p.price <![CDATA[>=]]> #{price2} )
+			</if>			
+		</if>
+	order by p.price) where product_name like upper('%'||#{searchKeyword}||'%')
+	</select>
+	
+	<select id="repopmenu" resultMap="search">
+	select * from (select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level,nvl(pp.purchase_amount,0) as purchase_amount
+	from product p,product_file pf,brand b,category c,product_category pc ,product_purchase pp
+	where p.product_no=pc.product_no 
+	and p.brand_no=b.brand_no 
+	and p.product_no=pf.product_no 
+	and pc.category_no=c.category_no 
+	and p.product_no=pp.product_no(+)
+	and p.product_name like upper('%'||#{searchKeyword}||'%') 
+		<if test="brand!=null">
+			and b.brand_name in
+			<foreach collection="brand" item="item" open="(" close=")" separator=",">
+			#{item}
+			</foreach>
+		</if>
+		<if test="categoryArr != null">
+			and pc.category_no in
+			<foreach collection="categoryArr" item="item" open="(" close=")" separator=",">
+			#{item}
+			</foreach>
+		</if>
+		<if test="price2 != price1">
+		and 
+			<if test="price2 > price1 ">
+				(p.price <![CDATA[>=]]> #{price1} and p.price <![CDATA[<=]]> #{price2} )
+			</if>
+			<if test="price2 lt price1 ">
+				(p.price <![CDATA[<=]]> #{price1} and p.price <![CDATA[>=]]> #{price2} )
+			</if>			
+		</if>
+	order by nvl(pp.purchase_amount,0) desc,p.price) where rownum=1
+	</select>
+	
+	<select id="selecteAllCategoryList" resultMap="categorylist">
+	select * from category
+	start with parent_category is null
+	connect by prior category_no = parent_category
+	</select>
+	
+	<select id="categoryLevelOneSearch" resultMap="search">
+	select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level,nvl(pp.purchase_amount,0) as purchase_amount
+	from product p,product_file pf,brand b,category c,product_category pc ,product_purchase pp
+	where p.product_no=pc.product_no 
+	and p.brand_no=b.brand_no 
+	and p.product_no=pf.product_no 
+	and pc.category_no=c.category_no 
+	and p.product_no=pp.product_no(+) 
+    <if test="categoryArr != null">    
+    and pc.category_no in
+    	<foreach collection="categoryArr" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+    </if>
+	</select>
+	
+	<resultMap type="category" id="categorylist" ></resultMap>
+
+	<select id="selectCategory" resultType="productCategoryLevel">
+	select pc.category_no, pc.category_level, p.product_no, p.product_name, c.category_name, c.parent_category from product_category pc join product p on pc.product_no = p.product_no join category c on pc.category_no = c.category_no where product_name like upper('%'||#{searchKeyword}||'%')
+	</select>
+	
+	<select id="selectParentCategory" resultType="category">
+	select * from category where category_no=#{parent_category}
+	</select>
+
+</mapper>
+=======
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="product">
@@ -273,3 +564,4 @@
 	</select>
 
 </mapper>
+>>>>>>> branch 'sexyguy' of https://github.com/fbrudtlr9870/Roundup.git

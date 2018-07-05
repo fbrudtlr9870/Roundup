@@ -21,7 +21,9 @@
 <sec:authorize access="hasAnyRole('ROLE_USER')">
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
+
 </sec:authorize>
+
 
 
 
@@ -89,6 +91,7 @@
 						<input type="hidden" name="productNo" class="productNo" value="${i['product_no'] }"/>
 
 						<img src="${pageContext.request.contextPath }/resources/upload/productFile/${i['renamed_filename']}" alt="" width="100px" height="100px">
+
 						<span class="marginLeft20-hyelin">[${i["brand_name"]}] &nbsp; ${i["product_name"]}</span>
 					</div>
 				</td>
@@ -364,6 +367,7 @@ function payRequest() {
 			    					// 결제내역 페이지 보여주기
 			    					location.href="${pageContext.request.contextPath}/member/myPagePurchaseComplete.do?member_id=${member_id}"; 
 			    				} else {
+
 			    					// 장바구니 페이지 보여주기
 			    					location.href="${pageContext.request.contextPath }/member/myPageBasket.do?member_id=${member_id}";
 
@@ -491,6 +495,7 @@ $(function() {
 
 
 
+
 // 총 결제 금액
 $(function() {
 	// 총 결제금액 계산
@@ -579,6 +584,7 @@ function totalCalc(membership) {
 	total -= membership;
 
 	$("#totalPrice").text(addCommaSearch(total));
+
 }
 
 // 유효성 검사

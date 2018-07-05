@@ -303,7 +303,7 @@ function sample4_execDaumPostcode() {
 			<div id="btnDiv">
 				<input type="submit" value="가입" class="btn btn-outline-success"/> &nbsp;
 				<input type="reset" value="취소" class="btn btn-outline-success"/>
-
+			</div>
 		<br><br> 
 		</form>
 	</div>

@@ -19,6 +19,14 @@ public class Chatting {
 		this.chat_date = chat_date;
 	}
 
+<<<<<<< HEAD
+	public Chatting(String member_id, String chat_content) { 
+		    super(); 
+		    this.member_id = member_id; 
+		    this.chat_content = chat_content; 
+	} 
+	
+=======
 	
 	
 	public Chatting(String member_id, String chat_content) {
@@ -27,6 +35,7 @@ public class Chatting {
 		this.chat_content = chat_content;
 	}
 
+>>>>>>> branch 'sexyguy' of https://github.com/fbrudtlr9870/Roundup.git
 	@Override
 	public String toString() {
 		return "Chatting ["+chat_no+", member_id=" + member_id + ", chat_content=" + chat_content + ", chat_date=" + chat_date + "]";
