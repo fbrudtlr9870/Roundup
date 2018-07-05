@@ -90,16 +90,6 @@ public class Product {
 
 
 
-	public Product(String productName2, int brandNo2, int price2, String memberId2, int category_No) {
-		this.productName=productName2;
-		this.brandNo=brandNo2;
-		this.price=price2;
-		this.memberId=memberId2;
-		this.categoryNo=category_No;
-	}
-
-
-
 	@Override
 	public String toString() {
 		return "Product [productNo=" + productNo + ", productName=" + productName + ", brandNo=" + brandNo

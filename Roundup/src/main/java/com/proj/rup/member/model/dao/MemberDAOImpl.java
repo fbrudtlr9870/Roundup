@@ -67,9 +67,7 @@ public class MemberDAOImpl implements MemberDAO {
 	public int updateAddress(Map<String, Object> map) {
 		return sqlSession.update("member.updateAddress",map);
 	}
-<<<<<<< HEAD
 
-=======
 	@Override
 	public Membership selectMembership(String memberId) {
 		return sqlSession.selectOne("member.selectMembership", memberId);
@@ -79,7 +77,6 @@ public class MemberDAOImpl implements MemberDAO {
 		return sqlSession.update("member.updateMembership", map);
 	}
 
->>>>>>> branch 'sexyguy' of https://github.com/fbrudtlr9870/Roundup.git
 	@Override
 	public int deleteMember(String member_id) {
 		return sqlSession.delete("member.deleteMember",member_id);

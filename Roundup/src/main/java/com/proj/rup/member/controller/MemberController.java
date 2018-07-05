@@ -80,19 +80,11 @@ public class MemberController {
 		 /*memberService.insertMember(member);*/
 
 		int result = 0;
-<<<<<<< HEAD
 		
 		if(memberService.insertMember(member) > 0) {
 			// address 테이블에 주소 추가
 			Map<String,Object> map = new HashMap<String, Object>();
 
-=======
-		
-		if(memberService.insertMember(member) > 0) {
-			// address 테이블에 주소 추가
-			Map<String,Object> map = new HashMap<String, Object>();
-
->>>>>>> branch 'sexyguy' of https://github.com/fbrudtlr9870/Roundup.git
 			String address = road + "#" + jibun + "#" + detail;
 			
 			map.put("member_id", member.getMember_id());
