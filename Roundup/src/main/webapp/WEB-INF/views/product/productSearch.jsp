@@ -149,7 +149,6 @@ $(function(){
 });
 $(function(){
 	$(".thirdli").hover(function(){
-		console.log("tlqkf");
 		$(this).css("background","lightgray");
 	},function(){
 		$(this).css("background","white");
@@ -295,13 +294,8 @@ $(function(){
 				brand.push(ck[i].value);
 			}
 		}
-		if(brand.length>1){
-			brand.shift();
-		}else if(brand.length==0){
-			brand.push("all");
-		}
 		//console.log(brand);
-		
+		if(brand[0]==null) brand.push("all");
 		var price1=document.getElementById("price1").value;
 		var price2=document.getElementById("price2").value;
 		
@@ -443,7 +437,6 @@ ul.category-hyelin li label {
 		<th scope="row">
 			브랜드 &nbsp;
 			<input type="checkbox" id="allCheck" name="allCheck" onchange="fn_checkAll(this.checked);" >
-			<input class="form-check-input" type="hidden" name="brand" class="brand" value="all">
 		</th>
 		<td>
 			<input type="checkbox" name="brand" id="CU" onclick="fn_toggle(this.checked)" class="brand" value="CU"/>
