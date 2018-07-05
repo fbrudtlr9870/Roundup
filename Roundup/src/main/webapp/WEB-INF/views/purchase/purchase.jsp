@@ -200,7 +200,7 @@
                  <input type="text" class="form-control inline-hyelin addr" id="sample4_postcode" placeholder="우편번호" style="width: 120px;" required readonly> 
                  <input type="button" class="btn btn-light" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" size="35px"><br>
                  <input type="text" class="form-control addr" id="sample4_roadAddress" placeholder="도로명 주소" required readonly> 
-                 <input type="text" class="form-control addr" id="sample4_jibunAddress" placeholder="지번 주소" required readonly>
+                 <input type="text" class="form-control addr" id="sample4_jibunAddress" placeholder="지번 주소">
                  <input type="text" class="form-control addr" id="sample4_detailAddress" placeholder="상세 주소" required/>
                  <span id="guide" style="color: #999"></span>
               </td>
@@ -223,8 +223,6 @@
       <button type="button" class="btn btn-success" style="float: right; margin: 10px;" onclick="return payRequest();">구매하기</button>
    </form>
 </div>
-
-
 <script>
 
 // 우편번호 검색 api
@@ -283,7 +281,7 @@ function sample4_execDaumPostcode() {
       }).open();
   }
   
-// 결제 api
+//결제 api
 function payRequest() {
    if(validate()) {
       // 수량 목록
@@ -312,6 +310,7 @@ function payRequest() {
          productList = productId.value;
       }
       
+      // 장바구니 목록
       var basketId = document.getElementById('basketNo');
       var basketClass = document.getElementsByClassName('basketNo');
       var buyNow = document.getElementById('buyNow');
@@ -327,79 +326,122 @@ function payRequest() {
       } else {
          basketList = "";
       }
-
+	
+      // 총 결제금액
+      var purchasePrice = parseInt($("#total2").val())-parseInt($("#membership").val());
+      
       var IMP = window.IMP; // 생략가능
       IMP.init('imp34778853');
-      IMP.request_pay({
-         pg : 'inicis', // 결제방식
-           pay_method : 'card',   // 결제 수단
-           merchant_uid : 'merchant_' + new Date().getTime(),
-           name : '주문명: 결제 테스트',   // order 테이블에 들어갈 주문명 혹은 주문 번호
-           amount : '100',   // 결제 금액
-           buyer_email : '',   // 구매자 email
-           buyer_name : "${member_name}",   // 구매자 이름
-           buyer_addr :  $("#sample4_roadAddress").val() + '#' + $("#sample4_jibunAddress").val() + '#' + $("#sample4_detailAddress").val(),   // 구매자 주소
-           buyer_postcode :  $("#sample4_postcode").val()   // 구매자 우편번호
-         }, function(rsp) {
+      
+      if (purchasePrice-2000>0){
+    	  IMP.request_pay({
+    	         pg : 'inicis', // 결제방식
+    	           pay_method : 'card',   // 결제 수단
+    	           merchant_uid : 'merchant_' + new Date().getTime(),
+    	           name : '주문명: 결제 테스트',   // order 테이블에 들어갈 주문명 혹은 주문 번호
+    	           amount : '100',   // 결제 금액
+    	           buyer_email : '',   // 구매자 email
+    	           buyer_name : "${member_name}",   // 구매자 이름
+    	           buyer_addr :  $("#sample4_roadAddress").val() + '#' + $("#sample4_jibunAddress").val() + '#' + $("#sample4_detailAddress").val(),   // 구매자 주소
+    	           buyer_postcode :  $("#sample4_postcode").val()   // 구매자 우편번호
+    	         }, function(rsp) {
 
-            console.log(rsp);
+    	            console.log(rsp);
 
-            if ( rsp.success ) {
-                //[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
-                jQuery.ajax({
-                   url: "${pageContext.request.contextPath}/purchase/purchaseEnd.do", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
-                   type: 'POST',
-                   data: {
-                      imp_uid : rsp.imp_uid,
-                      product_no : productList,
-                      member_id : "${member_id}",
-                      product_amount : amountList, 
-                      address : rsp.buyer_addr,
-                      zip_code : rsp.buyer_postcode,
-                      basketNo : basketList,
-                      membership : $("#membership").val(),
-                      totalPrice : parseInt($("#total2").val())-parseInt($("#membership").val())-2000
-                   },
-                   success:function(data) {
-                      console.log(data);
-                      if(data==="success") {
-                         if(confirm("결제가 완료되었습니다. 결제 내역 페이지로 이동하시겠습니까?")) {
-                            // 결제내역 페이지 보여주기
-                            location.href="${pageContext.request.contextPath}/member/myPagePurchaseComplete.do?member_id=${member_id}"; 
-                         } else {
-                            // 장바구니 페이지 보여주기
-                            location.href="${pageContext.request.contextPath }/member/myPageBasket.do?member_id=${member_id}";
-                         } 
-                      }
-                   },
-                   error:function(jqxhr, textStatus, errorThrown) {
-                           console.log("ajax처리실패!");
-                           console.log(jqxhr);
-                           console.log(textStatus);
-                           console.log(errorThrown);
-                     } 
-                }).done(function(data) {
-                   //[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
-                   console.log(data);
-                   if ( everythings_fine ) {
-                      console.log(msg);
-                      var msg = '결제가 완료되었습니다.';
+    	            if ( rsp.success ) {
+    	                //[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
+    	                var imp_uid = rsp.imp_uid;
+    	                console.log("imp_uid"+imp_uid);
+    	                
+    	                jQuery.ajax({
+    	                   url: "${pageContext.request.contextPath}/purchase/purchaseEnd.do", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
+    	                   type: 'POST',
+    	                   data: {
+    	                      imp_uid : imp_uid,
+    	                      product_no : productList,
+    	                      member_id : "${member_id}",
+    	                      product_amount : amountList, 
+    	                      address : rsp.buyer_addr,
+    	                      zip_code : rsp.buyer_postcode,
+    	                      basketNo : basketList,
+    	                      membership : $("#membership").val(),
+    	                      totalPrice : parseInt($("#total2").val())-parseInt($("#membership").val())-2000
+    	                   },
+    	                   success:function(data) {
+    	                      console.log(data);
+    	                      if(data==="success") {
+    	                         if(confirm("결제가 완료되었습니다. 결제 내역 페이지로 이동하시겠습니까?")) {
+    	                            // 결제내역 페이지 보여주기
+    	                            location.href="${pageContext.request.contextPath}/member/myPagePurchaseComplete.do?member_id=${member_id}"; 
+    	                         } else {
+    	                            // 장바구니 페이지 보여주기
+    	                            location.href="${pageContext.request.contextPath }/member/myPageBasket.do?member_id=${member_id}";
+    	                         } 
+    	                      }
+    	                   },
+    	                   error:function(jqxhr, textStatus, errorThrown) {
+    	                           console.log("ajax처리실패!");
+    	                           console.log(jqxhr);
+    	                           console.log(textStatus);
+    	                           console.log(errorThrown);
+    	                     } 
+    	                }).done(function(data) {
+    	                   //[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
+    	                   console.log(data);
+    	                   if ( everythings_fine ) {
+    	                      console.log(msg);
+    	                      var msg = '결제가 완료되었습니다.';
 
-                      alert(msg);
-                   } else {
-                      //[3] 아직 제대로 결제가 되지 않았습니다.
-                      //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
-                   }
-                });
-             } else {
-                 var msg = '결제에 실패하였습니다.';
-                 msg += '에러내용 : ' + rsp.error_msg;
-   
-                 alert(msg);
-             }
-      });
-   }
+    	                      alert(msg);
+    	                   } else {
+    	                      //[3] 아직 제대로 결제가 되지 않았습니다.
+    	                      //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
+    	                   }
+    	                });
+ 	             } else {
+ 	                 var msg = '결제에 실패하였습니다.';
+ 	                 msg += '에러내용 : ' + rsp.error_msg;
+ 	   
+ 	                 alert(msg);
+ 	             }
+ 	     	 });
+     	 } else {
+     		jQuery.ajax({
+                 url: "${pageContext.request.contextPath}/purchase/purchaseEnd.do", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
+                 type: 'POST',
+                 data: {
+                    product_no : productList,
+                    member_id : "${member_id}",
+                    product_amount : amountList, 
+                    address : $("#sample4_roadAddress").val() + '#' + $("#sample4_jibunAddress").val() + '#' + $("#sample4_detailAddress").val(),
+                    zip_code : $("#sample4_postcode").val(),
+                    basketNo : basketList,
+                    membership : $("#membership").val(),
+                    totalPrice : purchasePrice-2000
+                 },
+                 success:function(data) {
+                    console.log(data);
+                    if(data==="success") {
+                       if(confirm("결제가 완료되었습니다. 결제 내역 페이지로 이동하시겠습니까?")) {
+                          // 결제내역 페이지 보여주기
+                          location.href="${pageContext.request.contextPath}/member/myPagePurchaseComplete.do?member_id=${member_id}"; 
+                       } else {
+                          // 장바구니 페이지 보여주기
+                          location.href="${pageContext.request.contextPath }/member/myPageBasket.do?member_id=${member_id}";
+                       } 
+                    }
+                 },
+                 error:function(jqxhr, textStatus, errorThrown) {
+                         console.log("ajax처리실패!");
+                         console.log(jqxhr);
+                         console.log(textStatus);
+                         console.log(errorThrown);
+                 } 
+     		});
+     	 }
+      }
 }
+
 
 //배송지 정보 버튼 
 $(function() {
@@ -564,6 +606,5 @@ function addCommaSearch(value) {
    str = String(value);
     return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
 }
-
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

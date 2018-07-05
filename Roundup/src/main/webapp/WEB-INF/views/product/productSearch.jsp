@@ -244,6 +244,7 @@ $(function() {
 	});
 });
 $(function() {
+	$(".cate01").addClass('on');
 	// 최상위 카테고리 클릭 시
  	$(".inner").click(function() {
  		var inner = document.getElementsByClassName("inner");

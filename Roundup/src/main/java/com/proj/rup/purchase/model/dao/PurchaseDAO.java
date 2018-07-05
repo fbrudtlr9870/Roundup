@@ -28,4 +28,8 @@ public interface PurchaseDAO {
 
 	int updateProductPurchase(Map<String, Integer> map);
 
+	int deletePurchase(String imp_uid);
+
+	int deletePurchaseComplete(String imp_uid);
+
 }
