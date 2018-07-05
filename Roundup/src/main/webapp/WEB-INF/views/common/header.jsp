@@ -179,13 +179,17 @@ img#chat-icon{
                <div id="chatting-content"></div>
 
                <div id="member-chat">
+               <sec:authorize access="hasRole('ROLE_USER')">
                     <form name="successUpload" style="width:120px; float:right;"> 
-			        <input type="text" name="" id="chatUpload" readOnly hidden="true"/> 
+			        <input type="text" name="" id="chatUpload" readOnly hidden="true"/> 			        
 			        <button style="width:100px;" type="button" class="btn btn-danger" id="sendPhoto">이미지전송</button> 
 			        </form> 
+			   </sec:authorize>
                   <input id="insertText" style="float:left; width:230px;"class="form-control form-control-sm" type="text">
                   <button style="float:left; width:50px;" type="button" class="btn btn-primary" id="insertChat">전송</button>
-                  <button style="float:left; width:50px;" type="button" class="btn btn-success" id="insertPhoto">첨부</button> 
+                  <sec:authorize access="hasRole('ROLE_USER')">
+                  <button style="float:left; width:50px;" type="button" class="btn btn-success" id="insertPhoto">첨부</button>
+                  </sec:authorize> 
                </div>
 
                <sec:authorize access="hasRole('ROLE_ADMIN')">
@@ -473,7 +477,7 @@ $(function(){
   });
   $("#insertPhoto").click(function(){ 
 	    var popUrl = "${pageContext.request.contextPath}/resources/smarteditor/sample/photo_uploader/chat_uploader.html";   
-	    var popOption = "width=370, height=360,top=700, left=700, resizable=no, scrollbars=no, status=no;"; 
+	    var popOption = "width=460, height=360,top=700, left=800, resizable=no, scrollbars=no, status=no;"; 
 	      window.open(popUrl,"",popOption);   
 	  }); 
 	  $("#sendPhoto").click(function(){ 

@@ -7,6 +7,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="자유게시판" name="pageTitle"/>
 </jsp:include>
+<jsp:include page="/WEB-INF/views/common/nav.jsp"></jsp:include>
 <!-- 유저롤을 가진 유저  -->
 <sec:authorize access="hasAnyRole('ROLE_USER')">
 	<sec:authentication property="principal.username" var="member_id"/>
