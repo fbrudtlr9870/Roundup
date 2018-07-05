@@ -78,26 +78,30 @@ img#chat-icon{
             <div class="nav-bar-wrapper">
                 <a href="${pageContext.request.contextPath }" class="nav-bar-logo">편의점마스터</a>
                 <ul class="nav-bar-site">
+                    <c:if test="${member_id!=null}">
+                    	<li class="nav-bar-site-li">
+                    		<a href="${pageContext.request.contextPath }/member/myPage.do?member_id=${member_id }" style="color:black">
+                    			<img src="${pageContext.request.contextPath }/resources/img/mypage.png" alt="" />마이페이지
+                    		</a>
+                    	</li>
+                    </c:if>
+					<c:if test="${member_id==null}">
+						<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");'
+							style="color: black">마이페이지</a>
+					</c:if>
 
                     <li class="nav-bar-site-li">
 	                    <c:if test="${member_id!=null}">
-	                    	<a href="${pageContext.request.contextPath }/member/myPageBasket.do?member_id=${member_id}" style="color:black">장바구니</a>
+	                    	<a href="${pageContext.request.contextPath }/member/myPageBasket.do?member_id=${member_id}" style="color:black">
+	                    		<img src="${pageContext.request.contextPath }/resources/img/basket.png" alt="" />장바구니
+	                    	</a>
 
 	                    </c:if>
 	                    <c:if test="${member_id==null}">
 	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">장바구니</a>
-
 	                    </c:if>     	
-
-
                     </li>
-                    <c:if test="${member_id!=null}">
-                    	<li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/member/myPage.do?member_id=${member_id }" style="color:black">마이페이지</a></li>
-                    </c:if>
-                    <c:if test="${member_id==null}">
-	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">마이페이지</a>
-	                    </c:if>
-             
+
 					<!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! -->
 					<!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! --> 
                     <!-- 권한에 따른 접근 방법 기술 -->
@@ -107,22 +111,21 @@ img#chat-icon{
      
 
                 </ul>
-                <ul class="nav-bar-list">
+<!--                 <ul class="nav-bar-list">
                         <li class="nav-bar-site-li"><a href="http://www.7-eleven.co.kr" target="blank">세븐일레븐</a></li>
                         <li class="nav-bar-site-li"><a href="http://gs25.gsretail.com/gscvs/ko/main"target="blank">GS25</a></li>
                         <li class="nav-bar-site-li"><a href="http://cu.bgfretail.com/index.do"target="blank">CU</a></li>
                         <li class="nav-bar-site-li"><a href="https://www.ministop.co.kr"target="blank">미니스톱</a></li>
                         <li class="nav-bar-site-li"><a href="https://www.emart24.co.kr/index.asp"target="blank">이마트24</a></li>
-                </ul>
+                </ul>  -->      
                 <fieldset class="nav-search">
-
                     <div class="col-lg-6">
                        <form action="${pageContext.request.contextPath }/product/productSearch.do">
                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                       <div class="input-group">
-                         <input type="text" class="form-control" id="productKey" placeholder="${param.pageSearch }" name="searchKeyword" autocomplete="off">
+                       <div class="input-group border-hyelin width450-hyelin">
+                         <input type="text" class="form-control focus-hyelin border0-hyelin" id="productKey" placeholder="${param.pageSearch }" name="searchKeyword" autocomplete="off">
                          <span class="input-group-btn">
-                           <button class="btn btn-outline-info" type="submit">Go!!</button>
+                           <button type="submit" class="btn btn-transparent-hyelin border0-hyelin focus-hyelin"> <img src="${pageContext.request.contextPath }/resources/img/search2.png" alt="" /></button>
                          </span><br />       
                           	<ul id="autoComplete"></ul>                     
                        </div>

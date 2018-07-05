@@ -117,7 +117,7 @@ fieldset.nav-search{
     position: absolute;
     top: 65px;
     left:230px;
-    width:900px;
+    width:500px;
 }
 
 ul.nav-bar-list{
@@ -403,4 +403,16 @@ img.btnImg-hyelin {
 }
 .alignCenter-hyelin {
 	text-align: center;
+}
+.focus-hyelin:focus {
+	box-shadow: none;
+}
+.border-hyelin {
+	border: 1px solid #ced4da;
+}
+.border0-hyelin {
+	border : 0;
+}
+.width450-hyelin {
+	width: 450px;
 }
