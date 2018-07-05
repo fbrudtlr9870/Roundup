@@ -22,7 +22,6 @@
 </sec:authorize>
 <style>
 <style>
-
 div#update-container{
 	width: 700px;
     /* margin: 0 auto; */
@@ -31,7 +30,6 @@ div#basket-container{
 	width: 780px;
     /* margin: 0 auto; */
 }
-
 div#userId-container span.guide{
 	display:none;
 	font-size:12px;
@@ -40,10 +38,8 @@ div#userId-container span.guide{
 	right:10px;
 	margin-right:1000px;
 }
-
 div#userId-container span.ok{color:blue;}
 div#userId-container span.error{color:orange;}
-
 table#tbl_enroll {
 	width: 980px
 	margin: 0 auto;
@@ -84,11 +80,9 @@ div.mypage{
 .number-hyelin {
 	display:inline;
 }
-
 .table{
 	width:780px;
 }
-
 .col-sm-3 {
     max-width: 200px;
 }
@@ -141,19 +135,16 @@ div.mypage{
 </style>
 
 <script>
-
 /* 주소검색api */
 function sample4_execDaumPostcode() {
     new daum.Postcode(
      {
         oncomplete : function(data) {
            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
            // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
            var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
            var extraRoadAddr = ''; // 도로명 조합형 주소 변수
-
            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
            if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
@@ -172,12 +163,10 @@ function sample4_execDaumPostcode() {
            if (fullRoadAddr !== '') {
               fullRoadAddr += extraRoadAddr;
            }
-
            // 우편번호와 주소 정보를 해당 필드에 넣는다.
            document.getElementById('sample4_postcode').value = data.zonecode; //5자리 새우편번호 사용
            document.getElementById('sample4_roadAddress').value = fullRoadAddr;
            document.getElementById('sample4_jibunAddress').value = data.jibunAddress;
-
            // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
            if (data.autoRoadAddress) {
               //예상되는 도로명 주소에 조합형 주소를 추가한다.
@@ -185,21 +174,16 @@ function sample4_execDaumPostcode() {
                     + extraRoadAddr;
               document.getElementById('guide').innerHTML = '(예상 도로명 주소 : '
                     + expRoadAddr + ')';
-
            } else if (data.autoJibunAddress) {
               var expJibunAddr = data.autoJibunAddress;
               document.getElementById('guide').innerHTML = '(예상 지번 주소 : '
                     + expJibunAddr + ')';
-
            } else {
               document.getElementById('guide').innerHTML = '';
            }
         }
      }).open();
  }
-
-
-
 $(function(){
 	$("#password_chk").blur(function(){
 		var p1 = $("#member_password_").val();
@@ -253,7 +237,6 @@ function validate(str){
 	var member_name = $("#member_name_");
 	var member_birthday = $("#member_birthday_");
 	var member_phone = $("#member_phone_")
-
 	
 	if(member_id.val().trim().length<4 || member_id.val().trim().length>=12){
 		alert("아이디는 최소4자리이상 12자 미만여야 합니다");
@@ -272,8 +255,6 @@ function validate(str){
 		return false;
 	}
 	
-
-
 	
 	if (member_name.val().indexOf(" ") >= 0) {
         alert("이름에 공백을 사용할 수 없습니다.")
@@ -284,7 +265,6 @@ function validate(str){
 	
 	return true;
 }
-
 $(function(){
 	var memberAddress = "${memberAddress.address}";
 	var address = memberAddress.split("#");
@@ -294,7 +274,6 @@ $(function(){
 	$("#sample4_jibunAddress").val(address[1]);
 	$("#sample4_detailAddress").val(address[2]); 
 });
-
 function deleteMember(member_id){
 	if(confirm("탈퇴하시겠습니까?")){	
 		location.href = "${pageContext.request.contextPath}/member/memberDelete.do?member_id="+member_id;
@@ -384,6 +363,7 @@ function deleteMember(member_id){
 				                </td>
 							</tr>
 							</table>
+							<input type="hidden" name="member_grade" value="${member.member_grade }" />
 	      					<div id="btnDiv">
 								<input type="submit" value="수정" class="btn btn-outline-success"/> &nbsp;
 								<input type="button" onclick="deleteMember('${member.member_id}');" value="탈퇴" class="btn btn-outline-success"/>
@@ -403,7 +383,6 @@ function deleteMember(member_id){
 </div>
 <br /><br /><br />
 <script>
-
 </script>
 
 
