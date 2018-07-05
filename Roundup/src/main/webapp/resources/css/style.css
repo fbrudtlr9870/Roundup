@@ -404,3 +404,11 @@ img.btnImg-hyelin {
 .alignCenter-hyelin {
 	text-align: center;
 }
+.carousel-master{
+	margin: auto;
+    text-align: center;
+    width: 980px;
+}
+.login-btn-master{
+	margin-left:30px;
+}

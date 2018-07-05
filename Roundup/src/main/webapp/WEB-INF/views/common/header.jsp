@@ -234,33 +234,6 @@ img#chat-icon{
      
  </nav>
         
-        <!-- 로그인 Modal 시작 -->
-		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title" id="exampleModalLabel">로그인</h5>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		      </div>
-		      <form action="${pageContext.request.contextPath }/member/memberLogin.do" method="post">
-		      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-		      <div class="modal-body">
-		      	<input type="text" class="form-control" name="member_id" id="member_id" placeholder="아이디" required autocomplete="off"/>
-		      	<br />
-		      	<input type="password" class="form-control" name="member_password" id="member_password" placeholder="비밀번호" required/>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="submit" class="btn btn-outline-primary">로그인</button>
-		        <button type="button" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
-		      </div>
-		      
-		      </form>
-		    </div>
-		  </div>
-		</div>
-		<!-- 로그인 Modal 끝 -->
 
 	<section>
 <script>
