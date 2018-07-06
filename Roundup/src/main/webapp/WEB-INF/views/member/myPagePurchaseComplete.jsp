@@ -21,7 +21,6 @@
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
 <style>
-<style>
 
 div#update-container{
 	width: 700px;
@@ -99,35 +98,42 @@ div.mypage{
 .chart-master{
 	width:780px;
 }
-
+.center-hyelin {
+   text-align: center;
+   margin-top: 15px;
+}
+#tbl-img-row img {
+	width: 70px;
+}
 </style>
 
 <script>
 function purchaseCancel(imp_uid) {
-	jQuery.ajax({
-	     url: "${pageContext.request.contextPath}/purchase/purchaseCancel.do",
-	     type: 'POST',
-	     data: {
-	    	 imp_uid : imp_uid
-	     },
-	     success:function(data) {
-	        console.log(data);
-	        if(data==="success") {
-	        	alert("주문 취소에 성공하였습니다.");
-            } else {
-            	alert("주문 취소에 실패하였습니다.");
-            }
-            location.href="${pageContext.request.contextPath}/member/myPagePurchaseComplete.do?member_id=${member_id}"; 
-	        
-	     },
-	     error:function(jqxhr, textStatus, errorThrown) {
-	             console.log("ajax처리실패!");
-	             console.log(jqxhr);
-	             console.log(textStatus);
-	             console.log(errorThrown);
-	       } 
-	  });
-	
+	if(confirm("주문을 취소하시겠습니까?")) {	
+		jQuery.ajax({
+		     url: "${pageContext.request.contextPath}/purchase/purchaseCancel.do",
+		     type: 'POST',
+		     data: {
+		    	 imp_uid : imp_uid
+		     },
+		     success:function(data) {
+		        console.log(data);
+		        if(data==="success") {
+		        	alert("주문 취소에 성공하였습니다.");
+	            } else {
+	            	alert("주문 취소에 실패하였습니다.");
+	            }
+	            location.href="${pageContext.request.contextPath}/member/myPagePurchaseComplete.do?member_id=${member_id}"; 
+		        
+		     },
+		     error:function(jqxhr, textStatus, errorThrown) {
+		             console.log("ajax처리실패!");
+		             console.log(jqxhr);
+		             console.log(textStatus);
+		             console.log(errorThrown);
+		       } 
+		  });		 
+	}
 }
 </script>
 <sec:authorize access="hasAnyRole('ROLE_USER')">
@@ -160,10 +166,10 @@ function purchaseCancel(imp_uid) {
 							<tr>
 								<th>상품정보</th>
 								<th>수량</th>
-								<th>결재금액</th>
-								<th>결재일</th>
+								<th>결제금액</th>
+								<th>결제일</th>
 								<th>배송지조회</th>
-								<th>주문취소</th>
+								<th>주문상태</th>
 							</tr>
 							<c:if test="${not empty completeList }">
 								<c:forEach var="i" items="${completeList }" varStatus="vs">
@@ -175,11 +181,10 @@ function purchaseCancel(imp_uid) {
 											</div>
 										</td>
 										<td class="tbl-td">
-											<input type="number" class="form-control number-hyelin" style="width: 70px; margin: 0 auto;" name="product_amount" value="${i['product_amount']}" min="1">
+											${i['product_amount']}
 										</td>
 										<td class="tbl-td">
-											<input type="hidden" value="${i['product_amount']*i['price']}" name="price" id="price"/>
-											<fmt:formatNumber value="${i['product_amount']*i['price']}" type="currency" currencySymbol=""/>원
+											<fmt:formatNumber value="${i.total_price}" type="currency" currencySymbol=""/>원
 										</td>
 										<td class="tbl-td">
 											<span>${i['purchase_date'] }</span>
@@ -188,14 +193,22 @@ function purchaseCancel(imp_uid) {
 											<button type="button" class="btn btn-outline-primary" id="searchMap" onclick="searchMap();">조회</button>
 										</td>
 										<td class="tbl-td">
-											<button type="button" class="btn btn-outline-danger" id="" onclick="purchaseCancel('${i.imp_uid }');">취소</button>
+											<c:if test="${i.difftime < 3600}">
+												<button type="button" class="btn btn-outline-success" id="" onclick="purchaseCancel('${i.imp_uid }');">취소</button>
+											</c:if>
+											<c:if test="${i.difftime > 3600}">
+												<button type="button" class="btn btn-outline-danger" id="" onclick="window.alert('취소할 수 없습니다.');">완료</button>
+											</c:if>
+											<c:if test="${i.difftime == 3600}">
+												<button type="button" class="btn btn-outline-danger" id="" onclick="window.alert('취소할 수 없습니다.');">완료</button>
+											</c:if>
 										</td>
 									</tr>
 								</c:forEach>
 							</c:if>
 							<c:if test="${empty completeList }">
 						          <tr>
-						             <td colspan="6">구매내역이 없습니다.</td>
+						             <td colspan="6"><h5 class="center-hyelin">구매내역이 없습니다.</h5></td>
 						          </tr>
 							</c:if>
 						</table>

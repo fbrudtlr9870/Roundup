@@ -365,7 +365,7 @@ function payRequest() {
     	                      zip_code : rsp.buyer_postcode,
     	                      basketNo : basketList,
     	                      membership : $("#membership").val(),
-    	                      totalPrice : parseInt($("#total2").val())-parseInt($("#membership").val())-2000
+    	                      total_price : parseInt($("#total2").val())-parseInt($("#membership").val())
     	                   },
     	                   success:function(data) {
     	                      console.log(data);
@@ -417,7 +417,7 @@ function payRequest() {
                     zip_code : $("#sample4_postcode").val(),
                     basketNo : basketList,
                     membership : $("#membership").val(),
-                    totalPrice : purchasePrice-2000
+                    total_price : purchasePrice
                  },
                  success:function(data) {
                     console.log(data);

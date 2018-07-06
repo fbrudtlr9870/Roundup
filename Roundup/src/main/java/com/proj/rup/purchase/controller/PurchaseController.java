@@ -1,6 +1,5 @@
 package com.proj.rup.purchase.controller;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,16 +23,12 @@ import com.proj.rup.member.model.vo.Address;
 import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.vo.MemberAddress;
 import com.proj.rup.product.model.vo.Product;
-import com.proj.rup.purchase.iamport.IamportClient;
 import com.proj.rup.purchase.model.service.PurchaseService;
 import com.proj.rup.purchase.model.service.PurchaseServiceImpl;
 import com.proj.rup.purchase.model.vo.Purchase;
 import com.proj.rup.purchase.model.vo.PurchaseComplete;
+import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.request.CancelData;
-import com.siot.IamportRestClient.response.IamportResponse;
-import com.siot.IamportRestClient.response.Payment;
-
-import retrofit2.Response;
 
 @Controller
 public class PurchaseController {
@@ -85,8 +80,8 @@ public class PurchaseController {
 							@RequestParam(value="zip_code") String zip_code,
 							@RequestParam(value="basketNo") String basketNo,
 							@RequestParam(value="membership") int membership,
-							@RequestParam(value="totalPrice") int totalPrice,
-							@RequestParam(value="imp_uid") String imp_uid) {
+							@RequestParam(value="total_price") int total_price,
+							@RequestParam(value="imp_uid", required=false) String imp_uid) {
 
 		logger.debug(product_no+","+member_id+","+product_amount+","+address+","+zip_code+","+basketNo);
 		int result = 0;
@@ -98,7 +93,7 @@ public class PurchaseController {
 			result = purchaseService.insertPurchase(purchase);
 			logger.debug("result@purchaseEnd : "+result);
 			// purchase_complete 테이블에 값 넣기
-			PurchaseComplete purchaseComplete = new PurchaseComplete(0, purchase.getPurchase_no(), Integer.parseInt(product_no), member_id, null, Integer.parseInt(product_amount), address, zip_code, imp_uid);
+			PurchaseComplete purchaseComplete = new PurchaseComplete(0, purchase.getPurchase_no(), Integer.parseInt(product_no), member_id, null, Integer.parseInt(product_amount), address, zip_code, imp_uid, total_price);
 			purchaseService.insertPurchaseComplete(purchaseComplete);
 			
 			// product_purchase 테이블에 값 넣기 / 프로시저 실행하기
@@ -122,7 +117,7 @@ public class PurchaseController {
 				
 				if(purchaseService.insertPurchase(purchase) > 0) {
 					// purchase_complete 테이블에 값 넣기
-					PurchaseComplete purchaseComplete = new PurchaseComplete(0, purchase.getPurchase_no(), Integer.parseInt(productNoList[i]), member_id, null, Integer.parseInt(amountList[i]), address, zip_code, imp_uid);
+					PurchaseComplete purchaseComplete = new PurchaseComplete(0, purchase.getPurchase_no(), Integer.parseInt(productNoList[i]), member_id, null, Integer.parseInt(amountList[i]), address, zip_code, imp_uid, total_price);
 					purchaseService.insertPurchaseComplete(purchaseComplete);
 					
 					// product_purchase 테이블에 값 넣기 / 프로시저 실행하기
@@ -149,7 +144,7 @@ public class PurchaseController {
 			Map<String, Object> map = new HashMap<>();
 			map.put("member_id", member_id);
 			map.put("membership", membership);
-			map.put("totalPrice", totalPrice);
+			map.put("totalPrice", total_price-2000);
 			
 			memberService.updateMembership(map);
 			returnMsg = "success";
