@@ -16,7 +16,7 @@
 
 <script>
 
-/* master push 2018.07.05 12:45  */
+/* master push 2018.07.06 09:36  */
 
 //신상품불러오기
 $(function(){
@@ -207,9 +207,35 @@ $(function(){
    		}
 	});
 }); 
-u</script>
- 
-    <div class="main-img-wrapper">
+</script>
+ 	
+      <%--  <div id="myCarousel" class="carousel slide main-slide carousel-master" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+          <li data-target="#myCarousel" data-slide-to="1"></li>
+          <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner carousel-inner-master">
+          <div class="carousel-item active carousel-item-master">
+            <img class="first-slide main-event-img-master" src="${pageContext.request.contextPath }/resources/img/resource_img1.jpg" alt="First slide">
+          </div>
+          <div class="carousel-item carousel-item-master">
+            <img class="second-slide main-event-img-master" src="${pageContext.request.contextPath }/resources/img/resource_img2.jpg" alt="First slide">
+          </div>
+          <div class="carousel-item carousel-item-master">
+            <img class="third-slide main-event-img-master" src="${pageContext.request.contextPath }/resources/img/resource_img3.jpg" alt="First slide">
+          </div>
+        </div>
+        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div> --%>
+   <%--  <div class="main-img-wrapper">
             <div class="main-img">
                <div class="main-category">
                     <ul class="list-group">
@@ -246,7 +272,7 @@ u</script>
 				  </a>
 				</div>
             </div>
-        </div>
+        </div> --%>
         <br><br>
 
         <!-- <h2>Hot & New</h2> -->
@@ -254,8 +280,9 @@ u</script>
         
         <!-- card layout 여기에 이것저것 정보입력예정-->
    			 <div class="card-columns">
+ 
 					  <!-- 신상품 -->
-					  <div class="card border-primary mb-3 new-product-container" style="max-width: 18rem;">
+					  <div class="card mb-3 new-product-container" style="max-width: 18rem;">
 						  <div class="card-body text-primary">
 						    <h5 class="card-title">New 신상품</h5>
 						  	<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
@@ -269,7 +296,7 @@ u</script>
 					  
 					   <!-- ----------------------- -->
 					  <!-- 인기상품 -->
-					   <div class="card border-primary mb-3 hot-product-container" style="max-width: 18rem;">
+					   <div class="card mb-3 hot-product-container" style="max-width: 18rem;">
 						  <div class="card-body text-primary">
 						    <h5 class="card-title">Hot 인기상품</h5>
 						  	<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
@@ -306,12 +333,63 @@ u</script>
 					    </div>
 					  </div>
 					 
-					  <!-- ----------------------- -->
 					 
-					  <!-- ----------------------- -->
 				</div> 
-         </div>  
-
+			  <!-- ----------card layout end------------- -->
+			  <div class="row">
+			  		 <div class="col-md-4">
+			              <div class="card mb-4 box-shadow">
+			                <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+							  <div class="carousel-inner slide-new-master hot-option"> 
+							   
+							  </div>
+							</div>
+			                <div class="card-body">
+			                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+			                  <div class="d-flex justify-content-between align-items-center">
+			                    <div class="btn-group">
+			                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+			                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+			                    </div>
+			                    <small class="text-muted">9 mins</small>
+			                  </div>
+			                </div>
+			              </div>
+			            </div>
+			            <div class="col-md-4">
+			              <div class="card mb-4 box-shadow">
+			                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+			                <div class="card-body">
+			                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+			                  <div class="d-flex justify-content-between align-items-center">
+			                    <div class="btn-group">
+			                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+			                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+			                    </div>
+			                    <small class="text-muted">9 mins</small>
+			                  </div>
+			                </div>
+			              </div>
+			            </div>
+			            <div class="col-md-4">
+			              <div class="card mb-4 box-shadow">
+			                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+			                <div class="card-body">
+			                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+			                  <div class="d-flex justify-content-between align-items-center">
+			                    <div class="btn-group">
+			                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+			                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+			                    </div>
+			                    <small class="text-muted">9 mins</small>
+			                  </div>
+			                </div>
+			              </div>
+			            </div>
+			         </div>  
+			  </div>
+			 
+		<!-- main-li-container end -->
         <!-- <h2>Hot & New</h2>
         <div class="main-li-container" id="NewProductList">
 

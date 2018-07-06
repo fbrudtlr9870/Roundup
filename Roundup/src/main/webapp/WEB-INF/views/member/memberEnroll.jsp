@@ -71,6 +71,23 @@ div#btnDiv {
 	text-align: center;
 }
 
+<<<<<<< HEAD
+function validate(str){
+	var member_id = $("#member_id_").val().trim();
+	var member_password = $("#member_password_").val().trim();
+	var member_name = $("#member_name_").val().trim();
+	var member_birthday = $("#member_birthday_").val().trim();
+	var member_phone = $("#member_phone_").val().trim();
+	var regExp = /^[가-힣]{2,8}$/;
+	var regExp0 = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
+	var regExp1 = /^[a-z]{4,8}$/; 
+	
+	if(!regExp1.test(member_id)){
+		alert("아이디를 영어로만  4글자 이상 8글자 이하로 적으세요.");
+		$("#member_id_").val("");
+		$("#member_id_").focus();
+		return false;
+=======
 </style>
 <script>
 $(function(){
@@ -129,15 +146,21 @@ function validate(str){
 	var member_phone = $("#member_phone_").val().trim();
 	var regExp = /^[가-힣]{2,8}$/;
 	var regExp0 = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
-
+	var regExp1 = /^[a-z]{4,8}$/;
 	
-	if(member_id.length<4 || member_id.length>=12){
-		alert("아이디는 최소4자리이상 12자 미만여야 합니다");
-		/* member_id.focus(); */
+	if(!regExp1.test(member_id)){
+		alert("아이디를 영어로만  4글자 이상 8글자 이하로 적으세요.");
+		$("#member_id_").val("");
 		$("#member_id_").focus();
 		return false;
-
 	}
+	
+	/* if(member_id.length<4 || member_id.length>=12){
+		alert("아이디는 최소4자리이상 12자 미만여야 합니다");
+		$("#member_id_").focus();
+		return false;
+	} */
+	
 	
 	if(member_password.length<4 || member_password.length>8){
 		alert("비밀번호는 최소4자리이상이거나 8자리 미만여야 합니다.");
@@ -158,19 +181,28 @@ function validate(str){
 		return false;
 	}
 	
-
-	if (member_name.val().indexOf(" ") >= 0) {
-        alert("이름에 공백을 사용할 수 없습니다.")
-        document.member_name_.focus()
-        document.member_name_.select()
-        return false;
-    }
+	if(member_password.length<4 || member_password.length>8){
+		alert("비밀번호는 최소4자리이상이거나 8자리 미만여야 합니다.");
+		/* member_password.focus(); */
+		$("#member_password_").focus();
+		return false;		
+	}
 	
+	/* if(member_name.val().trim().length>8){
+		alert("이름을 8글자 미만로 적어주세요");
+		return false;
+	} */
+	
+	if(!regExp.test(member_name)){
+		alert("이름을 2글자 이상 8글자 이하로 적으세요.");
+		$("#member_name_").val("");
+		$("#member_name_").focus();
+		return false;
+	}
 
-	if(!regExp0.test(member_phone)){
-		alert("번호를 형식에 맞게 적으세요");
-		$("#member_phone_").val("");
-		$("#member_phone_").focus();
+    
+	if(!regExp0.test($("#member_phone_").val())){
+		alert("잘못된 혁식입니다 형식에 맞게 -을 포함한 숫자를 입력하세요");
 		return false;
 	}
 
@@ -244,7 +276,7 @@ function sample4_execDaumPostcode() {
 				<th><label for="member_id_">아이디</label></th>
 				<td>
 					<div id="userId-container">
-						<input type="text" name="member_id" id=member_id_ class="input form-control" placeholder="아이디는 최소4자리이상 12자 미만여야 합니다" required />
+						<input type="text" name="member_id" id=member_id_ class="input form-control" placeholder="영어로 4자리이상 12자 미만으로 적으세요" required />
 						<span class="guide ok">이 아이디는 사용가능합니다.</span>
 						<span class="guide error">이 아이디는 사용할 수 없습니다.</span>
 						<input type="hidden" id="idDuplicateCheck" value="0" />
@@ -290,8 +322,8 @@ function sample4_execDaumPostcode() {
 				<td>
 					<input type="text" name="sample4_postcode" class="form-control inline-hyelin" id="sample4_postcode" placeholder="우편번호" style="width: 120px; display:inline;" required> 
 	                <input type="button" class="btn btn-light" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="width: 120px;"><br>
-	                <input type="text" class="form-control" name="sample4_roadAddress" id="sample4_roadAddress" placeholder="도로명 주소"  > 
-	                <input type="text" class="form-control" name="sample4_jibunAddress" id="sample4_jibunAddress" placeholder="지번 주소"  >
+	                <input type="text" class="form-control" name="sample4_roadAddress" id="sample4_roadAddress" placeholder="도로명 주소" required > 
+	                <input type="text" class="form-control" name="sample4_jibunAddress" id="sample4_jibunAddress" placeholder="지번 주소" required >
 	                <input type="text" class="form-control" name="sample4_detailAddress" id="sample4_detailAddress" placeholder="상세 주소" required>
 	                <span id="guide" style="color: #999"></span>
                 </td>
@@ -299,10 +331,11 @@ function sample4_execDaumPostcode() {
 			</table>	
 			<hr />
 			
+			
 			<div id="btnDiv">
 				<input type="submit" value="가입" class="btn btn-outline-success"/> &nbsp;
 				<input type="reset" value="취소" class="btn btn-outline-success"/>
-
+			</div>
 		<br><br> 
 		</form>
 	</div>

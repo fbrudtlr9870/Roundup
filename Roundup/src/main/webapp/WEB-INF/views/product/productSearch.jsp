@@ -15,8 +15,8 @@
 </sec:authorize>
 <script>
 $(function(){
-    var bloginfo=${bloginfo};
    if(${bloginfo!='not'}){      
+    var bloginfo=${bloginfo};
       console.log(bloginfo);
       var p1=$("#blog1");
       p1.html("<a href="+bloginfo.items[0].link+" target='_blank'>&nbsp;&nbsp;"+bloginfo.items[0].title+"</a>");
@@ -610,29 +610,35 @@ ul.category-hyelin li label {
 </div> --%>
 <br>
 <br>
-<div class="blog-container">
-   <div class="blogtext-container">
-      <img src="${pageContext.request.contextPath}/resources/img/blogimg.GIF" alt="" class="blogimg" /> 
-         <c:if test="${searchList.size() > 0}"> 
-            <input type="text" readonly="readonly" value="  ${searchList[0].productName } 후기" class="blogtext" />         
-         </c:if>
-         <c:if test="${searchList.size() == 0 }"> 
-            <input type="text" readonly="readonly" value="  ${searchKeyword } 후기" class="blogtext" />         
-         </c:if>         
-   </div>
-   <br />
-   <!--  <h4>네이버 블로그</h4>    -->
-   <p id="blog1"></p>
-   <hr />
-   <p id="blog2"></p>
-   <hr />
-   <p id="blog3"></p>
-   <hr />
-   <p id="blog4"></p>
-   <hr />
-   <p id="blog5"></p>
-
-</div>
+ <c:set var="scount" value="0" />
+<c:forEach var="p" items="${searchList }" varStatus="vs">
+ <c:set var="scount" value="${scount + 1}" />
+</c:forEach>
+<c:if test="${scount ne 0 }">
+	<div class="blog-container">
+	   <div class="blogtext-container">
+	      <img src="${pageContext.request.contextPath}/resources/img/blogimg.GIF" alt="" class="blogimg" /> 
+	         <c:if test="${searchList.size() > 0}"> 
+	            <input type="text" readonly="readonly" value="  ${searchList[0].productName } 후기" class="blogtext" />         
+	         </c:if>
+	         <c:if test="${searchList.size() == 0 }"> 
+	            <input type="text" readonly="readonly" value="  ${searchKeyword } 후기" class="blogtext" />         
+	         </c:if>         
+	   </div>
+	   <br />
+	   <!--  <h4>네이버 블로그</h4>    -->
+	   <p id="blog1"></p>
+	   <hr />
+	   <p id="blog2"></p>
+	   <hr />
+	   <p id="blog3"></p>
+	   <hr />
+	   <p id="blog4"></p>
+	   <hr />
+	   <p id="blog5"></p>
+	
+	</div>
+</c:if>
 
 <br /><br />
 

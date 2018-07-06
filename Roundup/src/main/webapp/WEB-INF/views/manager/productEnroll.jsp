@@ -25,6 +25,11 @@
 	<sec:authentication property="principal.username" var="admin_id"/>
 	<sec:authentication property="principal.member_name" var="admin_name"/>
 </sec:authorize>
+
+
+<!-- 180704 수요일 css 살짝 수정 - dh1ee -->
+
+
 <style>
 div.mypage{
 	width:980px;
@@ -52,6 +57,9 @@ div#product-container{
    position:relative;
    width:750px;
    margin:0 auto;
+   border: 0.7px solid rgb(206, 212, 218);
+   padding: 30px 15px 70px 25px;
+       background-color: aliceblue;
 
 }
 div#board-container input{margin-bottom:15px;}
@@ -138,20 +146,28 @@ $(function(){
 
 <div class="mypage container">
 	<div class="row">
+	  <div class="row">
 	  <div class="col-sm-3 sidenav">
 	    <div class="list-group" id="list-tab" role="tablist">
-	      <a class="list-group-item list-group-item-action" id="list-home-list"  href="${pageContext.request.contextPath }/manager/managerPage.do" role="tab" aria-controls="home">Home</a>
+	      <a class="list-group-item list-group-item-action active" id="list-home-list"  href="${pageContext.request.contextPath }/manager/managerPage.do" role="tab" aria-controls="home">Home</a>
 	      <a class="list-group-item list-group-item-action" id="list-profile-list"  href="${pageContext.request.contextPath }/manager/memberManagement.do" role="tab" aria-controls="profile">회원관리</a>
-	      <a class="list-group-item list-group-item-action active" id="list-basket-list"  href="${pageContext.request.contextPath }/product/productEnroll.do" role="tab" aria-controls="baskeet">상품등록</a>
-	      <a class="list-group-item list-group-item-action" id="list-settings-list"  href="#" role="tab" aria-controls="settings">이벤트등록</a>
+	      <a class="list-group-item list-group-item-action" id="list-deletedMember-list"  href="${pageContext.request.contextPath }/manager/deletedMember.do" role="tab" aria-controls="deletedMember">탈퇴회원목록</a>
+	      <a class="list-group-item list-group-item-action" id="list-basket-list"  href="${pageContext.request.contextPath }/product/productEnroll.do" role="tab" aria-controls="baskeet">상품등록</a>
+	      <a class="list-group-item list-group-item-action" id="list-allProduct-list"  href="${pageContext.request.contextPath }/product/allProductList.do" role="tab" aria-controls="allproduct">전체상품</a>
+	      <a class="list-group-item list-group-item-action" id="list-deletedProduct-list"  href="#" role="tab" aria-controls="settings">삭제된상품</a>
+	      <a class="list-group-item list-group-item-action" id="list-allPurchaseComplete-list"  href="${pageContext.request.contextPath }/manager/managerPurchaseComplete.do" role="tab" aria-controls="allPurchase">전체구매내역</a>
+	      <a class="list-group-item list-group-item-action" id="list-allPurchaseCancel-list"  href="#" role="tab" aria-controls="allCancel">전체취소내역</a>
+	      <a class="list-group-item list-group-item-action" id="list-event-list"  href="#" role="tab" aria-controls="settings">이벤트등록</a>
+	      <a class="list-group-item list-group-item-action" id="list-allEvent-list"  href="#" role="tab" aria-controls="settings">전체이벤트</a>
 	    </div>
 	  </div>
 	  <div class="col-8">
 	    <div class="tab-content" id="nav-tabContent">
 	      <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
 	      <!-- home -->
+	      <h3>상품등록</h3><br />
 	         	<div id="product-container">
-				   <h3>상품등록</h3><br />
+				   
 				   <form action="productEnrollEnd.do" name="productFrm" method="post" enctype="multipart/form-data" onsubmit="return validate();">
 				       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				    <div class="input-group mb-3">

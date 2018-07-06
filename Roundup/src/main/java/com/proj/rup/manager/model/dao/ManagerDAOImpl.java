@@ -34,6 +34,19 @@ public class ManagerDAOImpl implements ManagerDAO {
 		return sqlSession.selectOne("manager.selectOneMember",member_id);
 	}
 
+	@Override
+	public List<Map<String, String>> selectListDeletedMember(int cPage, int numPerPage) {
+		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		return sqlSession.selectList("manager.selectListDeletedMember",null,rowBounds);
+	}
+
+	@Override
+	public int selectManagerTotalDeletedMember() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("manager.selectManagerTotalDeletedMember");
+	}
+
+
 
 
 }

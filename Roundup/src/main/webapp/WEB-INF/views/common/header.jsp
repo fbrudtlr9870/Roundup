@@ -34,6 +34,16 @@ img#chat-icon{
 	z-index:10;
 	cursor:pointer;
 }
+.nav-master{
+    background-color: #01365a!important;
+}
+.login-dropdown-master{
+	list-style:none;
+}
+.nav-master>a {
+    font-size: 18px;
+    color: #f5f2f2!important;
+}
 </style>
 
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.js"></script>		
@@ -69,7 +79,117 @@ img#chat-icon{
 
 <body>
 <div id="main-container">
-        <nav class="nav-bar">
+<!-- navigation bar start-->
+<nav class="navbar navbar-expand-md navbar-dark fixed-top nav-master">
+        <a class="navbar-brand" href="#">
+		    <img src="/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+		    RoundUP
+		  </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="${pageContext.request.contextPath }">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		          Category
+		        </a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+					<a class="dropdown-item" href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=1">간편식사</a>
+                    <a class="dropdown-item" href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=2">식품</a>
+                    <a class="dropdown-item" href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=3">과자류</a>
+                    <a class="dropdown-item" href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=4">아이스크림</a>
+                    <a class="dropdown-item" href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=5">즉석식품</a>
+                    <a class="dropdown-item" href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=6">음료</a>
+                    <a class="dropdown-item" href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=7">생활용품</a>
+		        </div>
+		    </li>
+		     <li class="nav-item">
+              <a class="nav-item nav-link" href="${pageContext.request.contextPath }/noticeboard/noticeBoardList.do">Event</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-item nav-link" href="${pageContext.request.contextPath }/noticeboard/noticeBoardList.do">Notice</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-item nav-link" href="${pageContext.request.contextPath }/freeboard/freeBoardList.do">FreeBoard</a>
+            </li>
+          </ul>
+          <form class="form-inline mt-2 mt-md-0" action="${pageContext.request.contextPath }/product/productSearch.do">
+            <input type="text" class="form-control focus-hyelin border0-hyelin" id="productKey" placeholder="${param.pageSearch }" name="searchKeyword" autocomplete="off">
+            <button type="submit" class="btn btn-transparent-hyelin border0-hyelin focus-hyelin"> <img src="${pageContext.request.contextPath }/resources/img/search2.png" alt="" /></button>
+          </form>
+          
+ 
+		<c:choose>
+			<c:when test="${empty member_id and empty admin_id}">
+					<button type="button" class="btn btn-outline-light"
+						onclick="location.href='${pageContext.request.contextPath}/member/loginPage.do'">Sign UP</button>
+			</c:when>
+			<c:otherwise>
+					<li class="nav-item dropdown login-dropdown-master">
+				        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				          ${member_name }님
+				        </a>
+				        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+				          <a class="dropdown-item" href="${pageContext.request.contextPath }/member/myPage.do?member_id=${member_id }" style="color:black">
+                   			<img src="${pageContext.request.contextPath }/resources/img/mypage.png" alt="" />  My Page
+                   		  </a>
+				          <a class="dropdown-item" href="${pageContext.request.contextPath }/member/myPageBasket.do?member_id=${member_id}" style="color:black">
+                    		<img src="${pageContext.request.contextPath }/resources/img/basket.png" alt="" />  Basket
+                    	  </a>
+                    	  <hr />
+                    	  <button type="button" class="btn btn-link" onclick="document.getElementById('logout-form').submit();">Log Out</button>
+				      </li>			    
+				      <!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! --> 
+                    <!-- 권한에 따른 접근 방법 기술 -->
+               		<sec:authorize access="hasRole('ROLE_ADMIN')">
+                    <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/manager/managerPage.do">관리자페이지</a></li>  
+              		</sec:authorize>
+              
+					<!-- <button class="btn btn-outline-light" type="button"
+						onclick="document.getElementById('logout-form').submit();">
+						로그아웃</button> -->
+					<form id="logout-form" action="<c:url value="/logout"/>"
+						method="post">
+						<input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" />
+					</form>
+			</c:otherwise>
+		</c:choose>
+	</div>
+      </nav>
+<!-- navigation bar end-->
+      
+       <div id="myCarousel" class="carousel slide main-slide carousel-master" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+          <li data-target="#myCarousel" data-slide-to="1"></li>
+          <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner carousel-inner-master">
+          <div class="carousel-item active carousel-item-master">
+            <img class="first-slide main-event-img-master" src="${pageContext.request.contextPath }/resources/img/resource_img1.jpg" alt="First slide">
+          </div>
+          <div class="carousel-item carousel-item-master">
+            <img class="second-slide main-event-img-master" src="${pageContext.request.contextPath }/resources/img/resource_img2.jpg" alt="First slide">
+          </div>
+          <div class="carousel-item carousel-item-master">
+            <img class="third-slide main-event-img-master" src="${pageContext.request.contextPath }/resources/img/resource_img3.jpg" alt="First slide">
+          </div>
+        </div>
+        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+        <%-- <nav class="nav-bar">
             <div class="nav-bar-wrapper">
                 <a href="${pageContext.request.contextPath }" class="nav-bar-logo">편의점마스터</a>
                 <ul class="nav-bar-site">
@@ -132,7 +252,7 @@ img#chat-icon{
               	<div class="nav-bar-btn">
               		<c:choose>
               		<c:when test="${empty member_id and empty admin_id}">
-	               <%-- <c:if test="${memberLoggedIn==null}"> --%>
+	               <c:if test="${memberLoggedIn==null}">
 	               <!--  
 	                  <button type="button" class="btn btn-outline-success" data-toggle="modal" 
 			    		data-target="#exampleModal">로그인</button>
@@ -143,25 +263,20 @@ img#chat-icon{
 	                  <button type="button" class="btn btn-outline-success"
 	               		 onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
 
-	               <%-- </c:if> --%>
+	               </c:if>
 	             	</c:when>
 	             	<c:otherwise>
-	                <%-- <c:if test="${memberLoggedIn!=null }"> --%>
+	                <c:if test="${memberLoggedIn!=null }">
 	                <c:if test="${not empty member_id }">
-				   	 <a href="#">${member_name }</a>님, 안녕하세요			    
+				   	 <a>${member_name }</a>님, 안녕하세요			    
 	                </c:if>
-	                <c:if test="${not empty admin_id }">
-	                	<a href="#">${admin_name }</a>님, 안녕하세요
-	                </c:if>
-				  
-				     <button class="btn btn-outline-success" type="button" onclick="document.getElementById('logout-form').submit();" />
- 
-			    		로그아웃
+				     <button class="btn btn-outline-success" type="button" onclick="document.getElementById('logout-form').submit();">
+ 						로그아웃
 			    	</button>
 			    	<form id="logout-form" action="<c:url value="/logout"/>" method="post">
 				        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				    </form>
-				    <%-- </c:if> --%>
+				    </c:if>
 				    </c:otherwise>
 				    </c:choose>
 
@@ -198,7 +313,7 @@ img#chat-icon{
             </div> 
             <!-- 채팅관련 끝 -->
 
-        </nav>
+        </nav> --%>
         
         <!-- 여기있었으 -->
         
@@ -248,33 +363,6 @@ img#chat-icon{
      
  </nav>
         
-        <!-- 로그인 Modal 시작 -->
-		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h5 class="modal-title" id="exampleModalLabel">로그인</h5>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		      </div>
-		      <form action="${pageContext.request.contextPath }/member/memberLogin.do" method="post">
-		      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-		      <div class="modal-body">
-		      	<input type="text" class="form-control" name="member_id" id="member_id" placeholder="아이디" required autocomplete="off"/>
-		      	<br />
-		      	<input type="password" class="form-control" name="member_password" id="member_password" placeholder="비밀번호" required/>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="submit" class="btn btn-outline-primary">로그인</button>
-		        <button type="button" class="btn btn-outline-success" onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
-		      </div>
-		      
-		      </form>
-		    </div>
-		  </div>
-		</div>
-		<!-- 로그인 Modal 끝 -->
 
 	<section>
 <script>

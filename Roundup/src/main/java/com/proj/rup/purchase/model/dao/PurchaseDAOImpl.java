@@ -69,5 +69,9 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 	public int deletePurchaseComplete(String imp_uid) {
 		return sqlSession.delete("purchase.deletePurchaseComplete", imp_uid);
 	}
+	@Override
+	public List<PurchaseComplete> selectAPCList() {
+		return sqlSession.selectList("purchase.selectAPCList");
+	}
 
 }

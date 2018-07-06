@@ -78,14 +78,18 @@ public interface ProductDAO {
 
 	Category selectParentCategory(int parent_category);
 
+	List productSearch(String[] keyword);
 
 
+	int rowprice(Map map);
 
 
-	
+	int avgprice(Map map);
 
 
-	
+	Product popmenu(Map map);
+
+	List selectProductList();
 	
 
 }

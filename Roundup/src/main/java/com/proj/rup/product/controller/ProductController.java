@@ -44,17 +44,34 @@ public class ProductController {
 	public ModelAndView productSearch(@RequestParam String searchKeyword) {
 		ModelAndView mav=new ModelAndView();
 		logger.info("검색 키워드 : "+searchKeyword);
+		searchKeyword=searchKeyword.replaceAll("^\\s+","");//처음엔 트림해주고
+		if(searchKeyword.equals(""))searchKeyword="공백";//트림 했는데 아무것도 입력안돼있으면 공백한칸으로 넘어오게
+		String searchKeywordd=searchKeyword.replaceAll("[!@\\\\#$%\\^&*\\(\\)_+-=|\\[\\]\\{\\}<\\,>.?/]", " ");//특문>>공백
+		searchKeywordd = searchKeywordd.replaceAll("^\\s+",""); // ltrim
+		if(searchKeywordd.equals(""))searchKeywordd="공백";
+		String[] keyword=searchKeywordd.split(" ");//공백으로 나눈다.
+		Map<String,Object> map=new HashMap<String,Object>();
+		int notblank=0;
+		for(int i=0;i<keyword.length;i++) {
+			System.out.println(keyword[i]);
+			if(keyword[i]!="") notblank++;
+		}
+		if(notblank==0) {
+			keyword[0]="noproduct";
+		}
+		map.put("list", keyword);
 		mav.addObject("searchKeyword", searchKeyword);
 		List<Category> categoryList=productService.selecteAllCategoryList();
-		List<Product> list=productService.productSearch(searchKeyword);
+		List<Product> list=productService.productSearch(keyword);
+		//List<Product> list=productService.productSearch(searchKeyword);
 		searchNaver(searchKeyword,list,mav);
         int rowprice=0;
         int avgprice=0;
         Product popmenu=null;
         if(!list.isEmpty()) {
-    		rowprice = productService.rowprice(searchKeyword);   		
-    		avgprice = productService.avgprice(searchKeyword);
-    		popmenu=productService.popmenu(searchKeyword);
+    		rowprice = productService.rowprice(map);   		
+    		avgprice = productService.avgprice(map);
+    		popmenu=productService.popmenu(map);
     	}
         mav.addObject("rowprice", rowprice);
         mav.addObject("avgprice", avgprice);
@@ -111,6 +128,12 @@ public class ProductController {
 	@RequestMapping("/product/reSearch.do")
 	public ModelAndView reSearch(@RequestParam(required=false) String searchKeyword,@RequestParam(required=false) String[] brand,@RequestParam(required=false) int categoryselect,@RequestParam(required=false) int price1,@RequestParam(required=false) int price2) {
 		ModelAndView mav=new ModelAndView();
+		searchKeyword=searchKeyword.replaceAll("^\\s+","");
+		if(searchKeyword.equals(""))searchKeyword="공백";
+		String searchKeywordd=searchKeyword.replaceAll("[!@\\\\#$%\\^&*\\(\\)_+-=|\\[\\]\\{\\}<\\,>.?/]", " ");
+		searchKeywordd = searchKeywordd.replaceAll("^\\s+",""); // ltrim 예제
+		if(searchKeywordd.equals(""))searchKeywordd="공백";
+		String[] keyword=searchKeywordd.split(" ");
 		System.out.println("검색키워드="+searchKeyword);
 		for(String s:brand) {
 			System.out.println("브랜드="+s);
@@ -120,6 +143,15 @@ public class ProductController {
 		if(brand[0].equals("all"))
 			brand=new String[] {"CU","GS25","7ELEVEN","MINISTOP","EMART24"};
 		Map<String,Object> map=new HashMap<String, Object>();
+		int notblank=0;
+		for(int i=0;i<keyword.length;i++) {
+			System.out.println(keyword[i]);
+			if(keyword[i]!="") notblank++;
+		}
+		if(notblank==0) {
+			keyword[0]="noproduct";
+		}
+		map.put("list",keyword );
 		List<Category> categoryList=productService.selecteAllCategoryList();
 		List<Integer> categoryArr=new ArrayList<>();
 		if(categoryselect==0) {

@@ -40,7 +40,18 @@
 	and p.product_no=pf.product_no 
 	and pc.category_no=c.category_no 
 	and p.product_no=pp.product_no(+)
-	and p.product_name like upper('%'||#{searchKeyword}||'%') 
+	and ( 
+		<if test="list!=null">
+			<foreach collection="list" item="item" separator="or" index="i">
+				<if test="item != ''">
+					p.product_name like upper('%'||#{item}||'%') 				
+				</if>
+			</foreach>		
+		</if>
+		<if test="list==null">
+			p.product_name like upper('%%')
+		</if>
+			) 
 		<if test="brand!=null">
 			and b.brand_name in
 			<foreach collection="brand" item="item" open="(" close=")" separator=",">
@@ -113,8 +124,30 @@
 	and p.product_no=pf.product_no 
 	and pc.category_no=c.category_no 
 	and p.product_no=pp.product_no(+)
-	and p.product_name like upper('%'||#{searchKeyword}||'%') 
-	order by p.price) where product_name like upper('%'||#{searchKeyword}||'%') and rownum=1
+	and ( 
+		<if test="list!=null">
+			<foreach collection="list" item="item" separator="or">
+			<if test="item != ''">
+					p.product_name like upper('%'||#{item}||'%') 				
+				</if>
+			</foreach>		
+		</if>
+		<if test="list==null">
+			p.product_name like upper('%%')
+		</if>
+			)
+	order by p.price) where ( 
+		<if test="list!=null">
+			<foreach collection="list" item="item" separator="or">
+			<if test="item != ''">
+					product_name like upper('%'||#{item}||'%') 				
+				</if>
+			</foreach>		
+		</if>
+		<if test="list==null">
+			product_name like upper('%%')
+		</if>
+			) and rownum=1
 	</select>
 	
 	<select id="avgprice" resultType="_int">
@@ -125,8 +158,30 @@
 	and p.product_no=pf.product_no 
 	and pc.category_no=c.category_no 
 	and p.product_no=pp.product_no(+)
-	and p.product_name like upper('%'||#{searchKeyword}||'%') 
-	order by p.price) where product_name like upper('%'||#{searchKeyword}||'%')
+	and ( 
+		<if test="list!=null">
+			<foreach collection="list" item="item" separator="or">
+			<if test="item != ''">
+					p.product_name like upper('%'||#{item}||'%') 				
+				</if>
+			</foreach>		
+		</if>
+		<if test="list==null">
+			p.product_name like upper('%%')
+		</if>
+			) 
+	order by p.price) where ( 
+		<if test="list!=null">
+			<foreach collection="list" item="item" separator="or">
+			<if test="item != ''">
+					product_name like upper('%'||#{item}||'%') 				
+				</if>
+			</foreach>		
+		</if>
+		<if test="list==null">
+			product_name like upper('%%')
+		</if>
+			)
 	</select>
 	
 	<select id="popmenu" resultMap="search">
@@ -137,7 +192,18 @@
 	and p.product_no=pf.product_no 
 	and pc.category_no=c.category_no 
 	and p.product_no=pp.product_no(+)
-	and p.product_name like upper('%'||#{searchKeyword}||'%') 
+	and ( 
+		<if test="list!=null">
+			<foreach collection="list" item="item" separator="or">
+			<if test="item != ''">
+					p.product_name like upper('%'||#{item}||'%') 				
+				</if>
+			</foreach>		
+		</if>
+		<if test="list==null">
+			p.product_name like upper('%%')
+		</if>
+			) 
 	order by nvl(pp.purchase_amount,0) desc,p.price) where rownum=1
 	</select>
 	
@@ -149,7 +215,18 @@
 	and p.product_no=pf.product_no 
 	and pc.category_no=c.category_no 
 	and p.product_no=pp.product_no(+)
-	and p.product_name like upper('%'||#{searchKeyword}||'%') 
+	and ( 
+		<if test="list!=null">
+			<foreach collection="list" item="item" separator="or">
+			<if test="item != ''">
+					p.product_name like upper('%'||#{item}||'%') 				
+				</if>
+			</foreach>		
+		</if>
+		<if test="list==null">
+			p.product_name like upper('%%')
+		</if>
+			) 
 		<if test="brand!=null">
 			and b.brand_name in
 			<foreach collection="brand" item="item" open="(" close=")" separator=",">
@@ -171,7 +248,18 @@
 				(p.price <![CDATA[<=]]> #{price1} and p.price <![CDATA[>=]]> #{price2} )
 			</if>			
 		</if>
-	order by p.price) where product_name like upper('%'||#{searchKeyword}||'%') and rownum=1
+	order by p.price) where ( 
+		<if test="list!=null">
+			<foreach collection="list" item="item" separator="or">
+			<if test="item != ''">
+					product_name like upper('%'||#{item}||'%') 				
+				</if>
+			</foreach>		
+		</if>
+		<if test="list==null">
+			product_name like upper('%%')
+		</if>
+			) and rownum=1
 	</select>
 	
 	<select id="reavgprice" resultType="_int">
@@ -182,7 +270,18 @@
 	and p.product_no=pf.product_no 
 	and pc.category_no=c.category_no 
 	and p.product_no=pp.product_no(+)
-	and p.product_name like upper('%'||#{searchKeyword}||'%') 
+	and ( 
+		<if test="list!=null">
+			<foreach collection="list" item="item" separator="or">
+			<if test="item != ''">
+					p.product_name like upper('%'||#{item}||'%') 				
+				</if>
+			</foreach>		
+		</if>
+		<if test="list==null">
+			p.product_name like upper('%%')
+		</if>
+			) 
 		<if test="brand!=null">
 			and b.brand_name in
 			<foreach collection="brand" item="item" open="(" close=")" separator=",">
@@ -204,7 +303,18 @@
 				(p.price <![CDATA[<=]]> #{price1} and p.price <![CDATA[>=]]> #{price2} )
 			</if>			
 		</if>
-	order by p.price) where product_name like upper('%'||#{searchKeyword}||'%')
+	order by p.price) where ( 
+		<if test="list!=null">
+			<foreach collection="list" item="item" separator="or">
+			<if test="item != ''">
+					product_name like upper('%'||#{item}||'%') 				
+				</if>
+			</foreach>		
+		</if>
+		<if test="list==null">
+			product_name like upper('%%')
+		</if>
+			)
 	</select>
 	
 	<select id="repopmenu" resultMap="search">
@@ -215,7 +325,18 @@
 	and p.product_no=pf.product_no 
 	and pc.category_no=c.category_no 
 	and p.product_no=pp.product_no(+)
-	and p.product_name like upper('%'||#{searchKeyword}||'%') 
+	and ( 
+		<if test="list!=null">
+			<foreach collection="list" item="item" separator="or">
+			<if test="item != ''">
+					p.product_name like upper('%'||#{item}||'%') 				
+				</if>
+			</foreach>		
+		</if>
+		<if test="list==null">
+			p.product_name like upper('%%')
+		</if>
+			) 
 		<if test="brand!=null">
 			and b.brand_name in
 			<foreach collection="brand" item="item" open="(" close=")" separator=",">
@@ -271,5 +392,34 @@
 	<select id="selectParentCategory" resultType="category">
 	select * from category where category_no=#{parent_category}
 	</select>
+	
+	<select id="productSearch1" resultMap="search" parameterType="list">
+	select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level,nvl(pp.purchase_amount,0) as purchase_amount
+	from product p,product_file pf,brand b,category c,product_category pc ,product_purchase pp
+	where p.product_no=pc.product_no 
+	and p.brand_no=b.brand_no 
+	and p.product_no=pf.product_no 
+	and pc.category_no=c.category_no 
+	and p.product_no=pp.product_no(+)
+	and ( 
+		<if test="list!=null">
+			<foreach collection="list" item="item" separator="or">
+			<if test="item != ''">
+					p.product_name like upper('%'||#{item}||'%') 				
+				</if>
+			</foreach>		
+		</if>
+		<if test="list==null">
+			p.product_name like upper('%%')
+		</if>
+			)
+	order by nvl(pp.purchase_amount,0) desc,p.price
+	</select>
+
+	<!-- 180705 추가 by dh1ee  -->
+	<select id="selectProductList" resultMap="search">
+	select * from product p join product_file pf on p.product_no=pf.product_no order by p.product_no desc
+	</select>
+
 
 </mapper>

@@ -4,6 +4,8 @@ import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -163,6 +165,39 @@ public class ProductDAOImpl implements ProductDAO {
 	@Override
 	public Category selectParentCategory(int parent_category) {
 		return session.selectOne("product.selectParentCategory", parent_category);
+	}
+
+
+	@Override
+	public List productSearch(String[] keyword) {
+		List<String> list = new ArrayList<String>();
+		for(int i=0;i<keyword.length;i++) {
+			list.add(keyword[i]);
+		}
+		return session.selectList("product.productSearch1", list);
+	}
+
+
+	@Override
+	public int rowprice(Map map) {
+		return session.selectOne("product.rowprice",map);
+	}
+
+
+	@Override
+	public int avgprice(Map map) {
+		return session.selectOne("product.avgprice",map);
+	}
+
+
+	@Override
+	public Product popmenu(Map map) {
+		return session.selectOne("product.popmenu",map);
+	}
+	
+	@Override
+	public List selectProductList() {
+		return session.selectList("product.selectProductList");
 	}
 
 	

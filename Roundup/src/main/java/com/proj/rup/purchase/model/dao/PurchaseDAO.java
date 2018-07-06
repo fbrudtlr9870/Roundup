@@ -32,4 +32,7 @@ public interface PurchaseDAO {
 
 	int deletePurchaseComplete(String imp_uid);
 
+	List<PurchaseComplete> selectAPCList();
+
+
 }
