@@ -333,7 +333,7 @@ function payRequest() {
       var IMP = window.IMP; // 생략가능
       IMP.init('imp34778853');
       
-      if (purchasePrice-2000>0){
+      if (purchasePrice>0){
     	  IMP.request_pay({
     	         pg : 'inicis', // 결제방식
     	           pay_method : 'card',   // 결제 수단
@@ -365,7 +365,7 @@ function payRequest() {
     	                      zip_code : rsp.buyer_postcode,
     	                      basketNo : basketList,
     	                      membership : $("#membership").val(),
-    	                      totalPrice : parseInt($("#total2").val())-parseInt($("#membership").val())-2000
+    	                      total_price : parseInt($("#total2").val())-parseInt($("#membership").val())
     	                   },
     	                   success:function(data) {
     	                      console.log(data);
@@ -417,7 +417,7 @@ function payRequest() {
                     zip_code : $("#sample4_postcode").val(),
                     basketNo : basketList,
                     membership : $("#membership").val(),
-                    totalPrice : purchasePrice-2000
+                    total_price : purchasePrice
                  },
                  success:function(data) {
                     console.log(data);

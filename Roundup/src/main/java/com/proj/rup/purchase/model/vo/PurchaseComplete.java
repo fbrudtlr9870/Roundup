@@ -16,13 +16,37 @@ public class PurchaseComplete {
 	private String renamed_filename;
 	private String brand_name;
 	private String imp_uid;
+	private int difftime;
+	private int total_price;
+	private int membership;
 	
 	public PurchaseComplete() {
 		super();
 	}
 
+	public PurchaseComplete(int product_com_no, int purchase_no, int product_no, String member_id, Date purchase_date,
+			int product_amount, String address, String zip_code, String product_name, int price,
+			String renamed_filename, String brand_name, String imp_uid, int difftime, int total_price) {
+		super();
+		this.product_com_no = product_com_no;
+		this.purchase_no = purchase_no;
+		this.product_no = product_no;
+		this.member_id = member_id;
+		this.purchase_date = purchase_date;
+		this.product_amount = product_amount;
+		this.address = address;
+		this.zip_code = zip_code;
+		this.product_name = product_name;
+		this.price = price;
+		this.renamed_filename = renamed_filename;
+		this.brand_name = brand_name;
+		this.imp_uid = imp_uid;
+		this.difftime = difftime;
+		this.total_price = total_price;
+	}
+
 	public PurchaseComplete(int product_com_no, int purchase_no, int product_no, String member_id,
-			Date purchase_date, int product_amount, String address, String zip_code, String imp_uid) {
+			Date purchase_date, int product_amount, String address, String zip_code, String imp_uid, int total_price, int membership) {
 		super();
 		this.product_com_no = product_com_no;
 		this.purchase_no = purchase_no;
@@ -33,6 +57,8 @@ public class PurchaseComplete {
 		this.address = address;
 		this.zip_code = zip_code;
 		this.imp_uid = imp_uid;
+		this.total_price = total_price;
+		this.membership = membership;
 	}
 
 	public PurchaseComplete(int product_com_no, int purchase_no, int product_no, String member_id, Date purchase_date,
@@ -157,6 +183,30 @@ public class PurchaseComplete {
 
 	public void setBrand_name(String brand_name) {
 		this.brand_name = brand_name;
+	}
+
+	public int getDifftime() {
+		return difftime;
+	}
+
+	public void setDifftime(int difftime) {
+		this.difftime = difftime;
+	}
+
+	public int getTotal_price() {
+		return total_price;
+	}
+
+	public void setTotal_price(int total_price) {
+		this.total_price = total_price;
+	}
+
+	public int getMembership() {
+		return membership;
+	}
+
+	public void setMembership(int membership) {
+		this.membership = membership;
 	}
 
 	@Override
