@@ -45,15 +45,18 @@ public class ProductController {
 		ModelAndView mav=new ModelAndView();
 		logger.info("검색 키워드 : "+searchKeyword);
 		searchKeyword=searchKeyword.replaceAll("^\\s+","");//처음엔 트림해주고
-		if(searchKeyword.equals(""))searchKeyword="공백";//트림 했는데 아무것도 입력안돼있으면 공백한칸으로 넘어오게
-		String searchKeywordd=searchKeyword.replaceAll("[!@\\\\#$%\\^&*\\(\\)_+-=|\\[\\]\\{\\}<\\,>.?/]", " ");//특문>>공백
+		if(searchKeyword.equals(""))searchKeyword="공백1";//트림 했는데 아무것도 입력안돼있으면 공백한칸으로 넘어오게
+		//String searchKeywordd=searchKeyword.replaceAll("[!@\\\\#$%\\^&*\\(\\)_+-=|\\[\\]\\{\\}<\\,>.?/]", " ");//특문>>공백
+		//String searchKeywordd=searchKeyword.replaceAll("\\W|[^가-힣]", " ");//특문>>공백
+		String searchKeywordd=searchKeyword.replaceAll("[^0-9a-z가-힣]", " ");//특문>>공백
 		searchKeywordd = searchKeywordd.replaceAll("^\\s+",""); // ltrim
-		if(searchKeywordd.equals(""))searchKeywordd="공백";
+		if(searchKeywordd.length()==0)searchKeywordd="공백2";
 		String[] keyword=searchKeywordd.split(" ");//공백으로 나눈다.
 		Map<String,Object> map=new HashMap<String,Object>();
 		int notblank=0;
 		for(int i=0;i<keyword.length;i++) {
 			System.out.println(keyword[i]);
+			logger.info("keyword[i] : "+keyword[i]);
 			if(keyword[i]!="") notblank++;
 		}
 		if(notblank==0) {
@@ -126,19 +129,22 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/product/reSearch.do")
-	public ModelAndView reSearch(@RequestParam(required=false) String searchKeyword,@RequestParam(required=false) String[] brand,@RequestParam(required=false) int categoryselect,@RequestParam(required=false) int price1,@RequestParam(required=false) int price2) {
+	public ModelAndView reSearch(@RequestParam(required=false) String searchKeyword,@RequestParam(required=false) String[] brand,@RequestParam(required=false) String categoryselect,@RequestParam(required=false,defaultValue="0") int price1,@RequestParam(required=false,defaultValue="0") int price2) {
 		ModelAndView mav=new ModelAndView();
-		searchKeyword=searchKeyword.replaceAll("^\\s+","");
-		if(searchKeyword.equals(""))searchKeyword="공백";
-		String searchKeywordd=searchKeyword.replaceAll("[!@\\\\#$%\\^&*\\(\\)_+-=|\\[\\]\\{\\}<\\,>.?/]", " ");
-		searchKeywordd = searchKeywordd.replaceAll("^\\s+",""); // ltrim 예제
-		if(searchKeywordd.equals(""))searchKeywordd="공백";
-		String[] keyword=searchKeywordd.split(" ");
-		System.out.println("검색키워드="+searchKeyword);
-		for(String s:brand) {
+		logger.info("검색 키워드 : "+searchKeyword);
+		searchKeyword=searchKeyword.replaceAll("^\\s+","");//처음엔 트림해주고
+		if(searchKeyword.equals(""))searchKeyword="공백1";//트림 했는데 아무것도 입력안돼있으면 공백한칸으로 넘어오게
+		//String searchKeywordd=searchKeyword.replaceAll("[!@\\\\#$%\\^&*\\(\\)_+-=|\\[\\]\\{\\}<\\,>.?/]", " ");//특문>>공백
+		//String searchKeywordd=searchKeyword.replaceAll("\\W|[^가-힣]", " ");//특문>>공백
+		String searchKeywordd=searchKeyword.replaceAll("[^0-9a-z가-힣]", " ");//특문>>공백
+		searchKeywordd = searchKeywordd.replaceAll("^\\s+",""); // ltrim
+		if(searchKeywordd.length()==0)searchKeywordd="공백2";
+		String[] keyword=searchKeywordd.split(" ");//공백으로 나눈다.
+		/*for(String s:brand) {
 			System.out.println("브랜드="+s);
-		}
+		}*/
 		System.out.println(categoryselect);
+		
 		System.out.println(price1+"~"+price2+"범위");
 		if(brand[0].equals("all"))
 			brand=new String[] {"CU","GS25","7ELEVEN","MINISTOP","EMART24"};
@@ -154,13 +160,13 @@ public class ProductController {
 		map.put("list",keyword );
 		List<Category> categoryList=productService.selecteAllCategoryList();
 		List<Integer> categoryArr=new ArrayList<>();
-		if(categoryselect==0) {
+		if(Integer.parseInt(categoryselect)==0) {
 			for(Category c:categoryList) {
 				categoryArr.add(c.getCategory_no());				
 			}
 		}else {
 			for(Category c:categoryList) {
-				if(c.getCategory_level()==1 && c.getCategory_no()==categoryselect) {
+				if(c.getCategory_level()==1 && c.getCategory_no()==Integer.parseInt(categoryselect)) {
 					categoryArr.add(c.getCategory_no());
 					for(Category cc:categoryList) {
 						if(cc.getCategory_level()==2 && cc.getParent_category()==c.getCategory_no()) {
@@ -172,14 +178,14 @@ public class ProductController {
 							}
 						}
 					}
-				}else if(c.getCategory_level()==2 && c.getCategory_no()==categoryselect) {
+				}else if(c.getCategory_level()==2 && c.getCategory_no()==Integer.parseInt(categoryselect)) {
 					categoryArr.add(c.getCategory_no());
 					for(Category cc:categoryList) {
 						if(cc.getCategory_level()==3 && cc.getParent_category()==c.getCategory_no()) {
 							categoryArr.add(cc.getCategory_no());
 						}
 					}
-				}else if(c.getCategory_level()==3 && c.getCategory_no()==categoryselect) {
+				}else if(c.getCategory_level()==3 && c.getCategory_no()==Integer.parseInt(categoryselect)) {
 					categoryArr.add(c.getCategory_no());
 				}
 			}
@@ -208,7 +214,6 @@ public class ProductController {
         mav.addObject("popmenu", repopmenu);
         mav.addObject("searchKeyword", searchKeyword);        
         mav.addObject("searchList", list);
-        System.out.println("바꿀 때는 말하고 바꿉시다.");
         System.out.println("검색키워드"+searchKeyword+" 브랜드"+brand+" 카테고리 배열 "+categoryArr+"가격1"+price1+" 가격2"+price2);
         mav.setViewName("product/productSearch");
 		return mav;

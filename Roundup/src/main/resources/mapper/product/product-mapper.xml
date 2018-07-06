@@ -43,8 +43,13 @@
 	and ( 
 		<if test="list!=null">
 			<foreach collection="list" item="item" separator="or" index="i">
-				<if test="item != ''">
-					p.product_name like upper('%'||#{item}||'%') 				
+				<if test="item != '전체'">
+					<if test="item != ''">
+						p.product_name like upper('%'||#{item}||'%') 				
+					</if>			
+				</if>
+				<if test="item == '전체'">
+					p.product_name like '%%'
 				</if>
 			</foreach>		
 		</if>
@@ -127,8 +132,13 @@
 	and ( 
 		<if test="list!=null">
 			<foreach collection="list" item="item" separator="or">
-			<if test="item != ''">
-					p.product_name like upper('%'||#{item}||'%') 				
+				<if test="item != '전체'">
+					<if test="item != ''">
+							p.product_name like upper('%'||#{item}||'%') 				
+					</if>			
+				</if>
+				<if test="item == '전체'">
+					p.product_name like '%%'
 				</if>
 			</foreach>		
 		</if>
@@ -139,8 +149,13 @@
 	order by p.price) where ( 
 		<if test="list!=null">
 			<foreach collection="list" item="item" separator="or">
-			<if test="item != ''">
-					product_name like upper('%'||#{item}||'%') 				
+				<if test="item != '전체'">
+					<if test="item != ''">
+							product_name like upper('%'||#{item}||'%') 				
+					</if>			
+				</if>
+				<if test="item == '전체'">
+					product_name like '%%'
 				</if>
 			</foreach>		
 		</if>
@@ -161,8 +176,13 @@
 	and ( 
 		<if test="list!=null">
 			<foreach collection="list" item="item" separator="or">
-			<if test="item != ''">
-					p.product_name like upper('%'||#{item}||'%') 				
+				<if test="item != '전체'">
+					<if test="item != ''">
+							p.product_name like upper('%'||#{item}||'%') 				
+					</if>			
+				</if>
+				<if test="item == '전체'">
+					p.product_name like '%%'
 				</if>
 			</foreach>		
 		</if>
@@ -173,8 +193,13 @@
 	order by p.price) where ( 
 		<if test="list!=null">
 			<foreach collection="list" item="item" separator="or">
-			<if test="item != ''">
-					product_name like upper('%'||#{item}||'%') 				
+				<if test="item != '전체'">
+					<if test="item != ''">
+							product_name like upper('%'||#{item}||'%') 				
+					</if>			
+				</if>
+				<if test="item == '전체'">
+					product_name like '%%'
 				</if>
 			</foreach>		
 		</if>
@@ -195,8 +220,13 @@
 	and ( 
 		<if test="list!=null">
 			<foreach collection="list" item="item" separator="or">
-			<if test="item != ''">
-					p.product_name like upper('%'||#{item}||'%') 				
+				<if test="item != '전체'">
+					<if test="item != ''">
+							p.product_name like upper('%'||#{item}||'%') 				
+					</if>			
+				</if>
+				<if test="item == '전체'">
+					p.product_name like '%%'
 				</if>
 			</foreach>		
 		</if>
@@ -218,8 +248,13 @@
 	and ( 
 		<if test="list!=null">
 			<foreach collection="list" item="item" separator="or">
-			<if test="item != ''">
-					p.product_name like upper('%'||#{item}||'%') 				
+				<if test="item != '전체'">
+					<if test="item != ''">
+							p.product_name like upper('%'||#{item}||'%') 				
+					</if>			
+				</if>
+				<if test="item == '전체'">
+					p.product_name like '%%'
 				</if>
 			</foreach>		
 		</if>
@@ -251,8 +286,13 @@
 	order by p.price) where ( 
 		<if test="list!=null">
 			<foreach collection="list" item="item" separator="or">
-			<if test="item != ''">
-					product_name like upper('%'||#{item}||'%') 				
+				<if test="item != '전체'">
+					<if test="item != ''">
+							product_name like upper('%'||#{item}||'%') 				
+					</if>			
+				</if>
+				<if test="item == '전체'">
+					product_name like '%%'
 				</if>
 			</foreach>		
 		</if>
@@ -273,8 +313,13 @@
 	and ( 
 		<if test="list!=null">
 			<foreach collection="list" item="item" separator="or">
-			<if test="item != ''">
-					p.product_name like upper('%'||#{item}||'%') 				
+				<if test="item != '전체'">
+					<if test="item != ''">
+							p.product_name like upper('%'||#{item}||'%') 				
+					</if>			
+				</if>
+				<if test="item == '전체'">
+					p.product_name like '%%'
 				</if>
 			</foreach>		
 		</if>
@@ -306,8 +351,13 @@
 	order by p.price) where ( 
 		<if test="list!=null">
 			<foreach collection="list" item="item" separator="or">
-			<if test="item != ''">
-					product_name like upper('%'||#{item}||'%') 				
+				<if test="item != '전체'">
+					<if test="item != ''">
+							product_name like upper('%'||#{item}||'%') 				
+					</if>			
+				</if>
+				<if test="item == '전체'">
+					product_name like '%%'
 				</if>
 			</foreach>		
 		</if>
@@ -328,8 +378,13 @@
 	and ( 
 		<if test="list!=null">
 			<foreach collection="list" item="item" separator="or">
-			<if test="item != ''">
-					p.product_name like upper('%'||#{item}||'%') 				
+				<if test="item != '전체'">
+					<if test="item != ''">
+							p.product_name like upper('%'||#{item}||'%') 				
+					</if>			
+				</if>
+				<if test="item == '전체'">
+					p.product_name like '%%'
 				</if>
 			</foreach>		
 		</if>
@@ -404,8 +459,13 @@
 	and ( 
 		<if test="list!=null">
 			<foreach collection="list" item="item" separator="or">
-			<if test="item != ''">
-					p.product_name like upper('%'||#{item}||'%') 				
+				<if test="item != '전체'">
+					<if test="item != ''">
+							p.product_name like upper('%'||#{item}||'%') 				
+					</if>			
+				</if>
+				<if test="item == '전체'">
+					p.product_name like '%%'
 				</if>
 			</foreach>		
 		</if>
