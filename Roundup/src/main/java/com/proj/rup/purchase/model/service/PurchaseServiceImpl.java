@@ -72,9 +72,25 @@ public class PurchaseServiceImpl implements PurchaseService {
 		return purchaseDAO.deletePurchaseComplete(imp_uid);
 	}
 	
-	@Override
+/*	@Override
 	public List<PurchaseComplete> selectAPCList() {
 		return purchaseDAO.selectAPCList();
+	}*/
+
+	@Override
+	public List<PurchaseComplete> selectAPCancelList() {
+		// TODO Auto-generated method stub
+		return purchaseDAO.selectAPCancelList();
+	}
+
+	@Override
+	public List<Map<String, String>> selectAPCList(int cPage, int numPerPage) {
+		return purchaseDAO.selectAPCList(cPage,numPerPage);
+	}
+
+	@Override
+	public int selectTotalPurchase() {
+		return purchaseDAO.selectTotalPurchase();
 	}
 
 }

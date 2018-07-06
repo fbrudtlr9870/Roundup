@@ -341,6 +341,8 @@ public class ProductController {
 		return categoryList;
 	}
 	
+	
+	
 	@RequestMapping("/product/selectCategory.do")
 	@ResponseBody
 	public List<ProductCategoryLevel> selectCategory(@RequestParam(value="searchKeyword") String searchKeyword) {

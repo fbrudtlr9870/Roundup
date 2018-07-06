@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.proj.rup.manager.model.dao.ManagerDAO;
 import com.proj.rup.manager.model.dao.ManagerDAOImpl;
 import com.proj.rup.member.model.vo.Member;
+import com.proj.rup.product.model.vo.Product;
 
 @Service
 public class ManagerServiceImpl implements ManagerService {
@@ -41,7 +42,13 @@ public class ManagerServiceImpl implements ManagerService {
 	@Override
 	public int selectManagerTotalDeletedMember() {
 		// TODO Auto-generated method stub
-		return managerDAO.selectManagerTotalDeletedMember();
+		return managerDAO.selectManagerTotalMember();
+	}
+
+	@Override
+	public List<Product> selectProductList() {
+		// TODO Auto-generated method stub
+		return managerDAO.selectProductList();
 	}
 
 

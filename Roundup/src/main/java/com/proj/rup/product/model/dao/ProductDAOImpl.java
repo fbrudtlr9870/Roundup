@@ -194,12 +194,9 @@ public class ProductDAOImpl implements ProductDAO {
 	public Product popmenu(Map map) {
 		return session.selectOne("product.popmenu",map);
 	}
-	
-	@Override
-	public List selectProductList() {
-		return session.selectList("product.selectProductList");
-	}
 
+
+	
 	
 
 }
