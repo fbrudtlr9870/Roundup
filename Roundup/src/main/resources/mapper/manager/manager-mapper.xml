@@ -21,6 +21,8 @@
       select count(*) from del_member  
       </select>
       
+      
+      
 
 
 </mapper>

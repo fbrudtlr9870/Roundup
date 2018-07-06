@@ -3,6 +3,7 @@ package com.proj.rup.purchase.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -69,9 +70,27 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 	public int deletePurchaseComplete(String imp_uid) {
 		return sqlSession.delete("purchase.deletePurchaseComplete", imp_uid);
 	}
-	@Override
+/*	@Override
 	public List<PurchaseComplete> selectAPCList() {
 		return sqlSession.selectList("purchase.selectAPCList");
+	}*/
+
+	@Override
+	public List<PurchaseComplete> selectAPCancelList() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("purchase.selectAPCancelList");
+	}
+
+	@Override
+	public List<Map<String, String>> selectAPCList(int cPage, int numPerPage) {
+		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		return sqlSession.selectList("purchase.selectAPCList",null,rowBounds);
+	}
+
+	@Override
+	public int selectTotalPurchase() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("purchase.selectTotalPurchase");
 	}
 
 }

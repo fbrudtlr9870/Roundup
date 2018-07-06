@@ -156,9 +156,8 @@ div.mypage{
 	      <a class="list-group-item list-group-item-action" id="list-deletedMember-list"  href="${pageContext.request.contextPath }/manager/deletedMember.do" role="tab" aria-controls="deletedMember">탈퇴회원목록</a>
 	      <a class="list-group-item list-group-item-action" id="list-basket-list"  href="${pageContext.request.contextPath }/product/productEnroll.do" role="tab" aria-controls="baskeet">상품등록</a>
 	      <a class="list-group-item list-group-item-action" id="list-allProduct-list"  href="${pageContext.request.contextPath }/product/allProductList.do" role="tab" aria-controls="allproduct">전체상품</a>
-	      <a class="list-group-item list-group-item-action" id="list-deletedProduct-list"  href="#" role="tab" aria-controls="settings">삭제된상품</a>
 	      <a class="list-group-item list-group-item-action" id="list-allPurchaseComplete-list"  href="${pageContext.request.contextPath }/manager/managerPurchaseComplete.do" role="tab" aria-controls="allPurchase">전체구매내역</a>
-	      <a class="list-group-item list-group-item-action" id="list-allPurchaseCancel-list"  href="#" role="tab" aria-controls="allCancel">전체취소내역</a>
+	      <a class="list-group-item list-group-item-action" id="list-allPurchaseCancel-list"  href="${pageContext.request.contextPath }/manager/managerPurchaseCancel.do" role="tab" aria-controls="allCancel">전체취소내역</a>
 	      <a class="list-group-item list-group-item-action" id="list-event-list"  href="#" role="tab" aria-controls="settings">이벤트등록</a>
 	      <a class="list-group-item list-group-item-action" id="list-allEvent-list"  href="#" role="tab" aria-controls="settings">전체이벤트</a>
 	    </div>

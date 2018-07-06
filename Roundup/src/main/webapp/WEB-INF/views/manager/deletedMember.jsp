@@ -114,7 +114,7 @@ table tr td {
 	     	<h3>탈퇴회원목록</h3><br />
 	     	<div class="section_div-s" id="section-dh">
 	     	
-	            <p class="imsosotired2">탈퇴한 총 회원 수 : ${totalContents }명</p>
+	            <p class="imsosotired2">탈퇴한 회원 수 : ${totalContents }명</p>
 				
 	            <table class="table-dh">
 	               <tr>

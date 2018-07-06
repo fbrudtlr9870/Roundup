@@ -109,16 +109,15 @@ div.mypage{
 
 <div class="mypage container">
 	<div class="row">
-	   <div class="col-sm-3 sidenav">
+	  <div class="col-sm-3 sidenav">
 	    <div class="list-group" id="list-tab" role="tablist">
 	      <a class="list-group-item list-group-item-action active" id="list-home-list"  href="${pageContext.request.contextPath }/manager/managerPage.do" role="tab" aria-controls="home">Home</a>
 	      <a class="list-group-item list-group-item-action" id="list-profile-list"  href="${pageContext.request.contextPath }/manager/memberManagement.do" role="tab" aria-controls="profile">회원관리</a>
 	      <a class="list-group-item list-group-item-action" id="list-deletedMember-list"  href="${pageContext.request.contextPath }/manager/deletedMember.do" role="tab" aria-controls="deletedMember">탈퇴회원목록</a>
 	      <a class="list-group-item list-group-item-action" id="list-basket-list"  href="${pageContext.request.contextPath }/product/productEnroll.do" role="tab" aria-controls="baskeet">상품등록</a>
 	      <a class="list-group-item list-group-item-action" id="list-allProduct-list"  href="${pageContext.request.contextPath }/product/allProductList.do" role="tab" aria-controls="allproduct">전체상품</a>
-	      <a class="list-group-item list-group-item-action" id="list-deletedProduct-list"  href="#" role="tab" aria-controls="settings">삭제된상품</a>
 	      <a class="list-group-item list-group-item-action" id="list-allPurchaseComplete-list"  href="${pageContext.request.contextPath }/manager/managerPurchaseComplete.do" role="tab" aria-controls="allPurchase">전체구매내역</a>
-	      <a class="list-group-item list-group-item-action" id="list-allPurchaseCancel-list"  href="#" role="tab" aria-controls="allCancel">전체취소내역</a>
+	      <a class="list-group-item list-group-item-action" id="list-allPurchaseCancel-list"  href="${pageContext.request.contextPath }/manager/managerPurchaseCancel.do" role="tab" aria-controls="allCancel">전체취소내역</a>
 	      <a class="list-group-item list-group-item-action" id="list-event-list"  href="#" role="tab" aria-controls="settings">이벤트등록</a>
 	      <a class="list-group-item list-group-item-action" id="list-allEvent-list"  href="#" role="tab" aria-controls="settings">전체이벤트</a>
 	    </div>
@@ -188,10 +187,21 @@ div.mypage{
 						</table>
 						<hr style="width:780px">
 						
-						<br>
-						<br>
-						<br>
-						
+						 <br />
+				<ul class="pagination justify-content-center pagination-sm" style="clear:both; margin-left:140px;">
+	            <!-- 페이지바 -->
+	            <%
+	               int totalContents = Integer.parseInt(String.valueOf(request.getAttribute("totalContents")));
+	               int numPerPage = Integer.parseInt(String.valueOf(request.getAttribute("numPerPage")));
+	               int cPage = 1;
+	               try {
+	                  cPage = Integer.parseInt(request.getParameter("cPage"));
+	               } catch (NumberFormatException e) {
+	
+	               }
+	            %>
+	            <%=com.proj.rup.common.util.Utils.getPageBar(totalContents, cPage, numPerPage, "memberPurchaseComplete.do")%>
+				</ul>
 					</div> 
 	       </div>
 					

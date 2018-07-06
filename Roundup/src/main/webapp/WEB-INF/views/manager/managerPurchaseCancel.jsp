@@ -110,7 +110,7 @@ div.mypage{
 <div class="mypage container">
 	<div class="row">
 	  <div class="col-sm-3 sidenav">
-	   	 <div class="list-group" id="list-tab" role="tablist">
+	    <div class="list-group" id="list-tab" role="tablist">
 	      <a class="list-group-item list-group-item-action active" id="list-home-list"  href="${pageContext.request.contextPath }/manager/managerPage.do" role="tab" aria-controls="home">Home</a>
 	      <a class="list-group-item list-group-item-action" id="list-profile-list"  href="${pageContext.request.contextPath }/manager/memberManagement.do" role="tab" aria-controls="profile">회원관리</a>
 	      <a class="list-group-item list-group-item-action" id="list-deletedMember-list"  href="${pageContext.request.contextPath }/manager/deletedMember.do" role="tab" aria-controls="deletedMember">탈퇴회원목록</a>
@@ -124,7 +124,7 @@ div.mypage{
 	  </div>
 	  <div class="col-8">
 	    <div class="tab-content" id="nav-tabContent">
-	       <h3>전체상품조회</h3>
+	       <h3>전체취소내역</h3>
 	      <div class="tab-pane fade show active" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
 	       <!-- 결재내역페이지 시작-->
 	       <div class="step-buy">
@@ -136,46 +136,56 @@ div.mypage{
 						<table class="table">
 							<tr>
 								<th>상품번호</th>
-								<th>상품사진</th>
-								<th>상품이름</th>
-								<th>상품가격</th>
-								<th>상품등록일</th>
+								<th>구매자</th>
+								<th>상품정보</th>
+								
+								<th>수량</th>
+								<th>취소금액</th>
+								<th>결재일</th>
+						
 								<!-- <th>배송지조회</th> -->
 							</tr>
-							<c:if test="${not empty productList }">
-								<c:forEach var="i" items="${productList }" varStatus="vs">
+							<c:if test="${not empty cancelList }">
+								<c:forEach var="i" items="${cancelList }" varStatus="vs">
 									<tr>
 									
 										<td class="tbl-td">
 										
-											<span>${i['productNo']}</span>
+											<span>${i['product_no']}</span>
+										 
+										</td>
+										<td class="tbl-td">
+										
+											<span>${i["member_id"]}</span>
 										
 										</td>
 										<td class="tbl-td">
 											<div id="tbl-img-row">
-												<img src="${pageContext.request.contextPath }/resources/upload/productFile/${i['renamedFileName']}" alt="" width="auto" height="70px">
-												
+												<img src="${pageContext.request.contextPath }/resources/upload/productFile/${i['renamed_filename']}" alt="" width="auto" height="70px">
+												<span>&nbsp; [${i["brand_name"]}] &nbsp; ${i["product_name"]}</span>
 											</div>
 										</td>
 									
 										<td class="tbl-td">
-											<span>${i["productName"]}</span>
+											<input type="number" class="form-control number-hyelin" style="width: 70px; margin: 0 auto;" name="product_amount" value="${i['product_amount']}" min="1">
 										</td>
 										<td class="tbl-td">
-											<span>${i['price'] }</span>원
+											<input type="hidden" value="${i['product_amount']*i['price']}" name="price" id="price"/>
+											<fmt:formatNumber value="${i['product_amount']*i['price']}" type="currency" currencySymbol=""/>원
 										</td>
 										<td class="tbl-td">
-											<span>${i['regDate'] }</span>
+											<span>${i['purchase_date'] }</span>
 										</td>
+								
 										<!-- <td class="tbl-td">
 											<button type="button" class="btn btn-outline-primary" id="searchMap" onclick="searchMap();">조회</button>
 										</td> -->
 									</tr>
 								</c:forEach>
 							</c:if>
-							<c:if test="${empty productList }">
+							<c:if test="${empty cancelList }">
 						          <tr>
-						             <td colspan="6">상품이 없습니다.</td>
+						             <td colspan="6">취소내역이 없습니다.</td>
 						          </tr>
 							</c:if>
 						</table>
@@ -189,23 +199,7 @@ div.mypage{
 	       </div>
 					
 	       <!-- 결재내역페이지 끝-->
-	       <%-- 
-	      		<br />
-				<ul class="pagination justify-content-center pagination-sm" style="clear:both; margin-left:140px;">
-	            <!-- 페이지바 -->
-	            <%
-	               int totalContents = Integer.parseInt(String.valueOf(request.getAttribute("totalContents")));
-	               int numPerPage = Integer.parseInt(String.valueOf(request.getAttribute("numPerPage")));
-	               int cPage = 1;
-	               try {
-	                  cPage = Integer.parseInt(request.getParameter("cPage"));
-	               } catch (NumberFormatException e) {
-	
-	               }
-	            %>
-	            <%=com.proj.rup.common.util.Utils.getPageBar(totalContents, cPage, numPerPage, "allProductList.do")%>
-			</ul>
- --%>	      </div>
+	      </div>
 	    </div>
 	  </div>
 	</div>

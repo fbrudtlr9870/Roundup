@@ -32,7 +32,13 @@ public interface PurchaseService {
 
 	int deletePurchaseComplete(String imp_uid);
 
-	List<PurchaseComplete> selectAPCList();
+/*	List<PurchaseComplete> selectAPCList();*/
+
+	List<PurchaseComplete> selectAPCancelList();
+
+	List<Map<String, String>> selectAPCList(int cPage, int numPerPage);
+
+	int selectTotalPurchase();
 
 
 }

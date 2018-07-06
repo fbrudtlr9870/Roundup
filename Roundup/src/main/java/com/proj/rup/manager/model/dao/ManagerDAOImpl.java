@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.proj.rup.member.model.vo.Member;
+import com.proj.rup.product.model.vo.Product;
 
 @Repository
 public class ManagerDAOImpl implements ManagerDAO {
@@ -44,6 +45,12 @@ public class ManagerDAOImpl implements ManagerDAO {
 	public int selectManagerTotalDeletedMember() {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("manager.selectManagerTotalDeletedMember");
+	}
+
+	@Override
+	public List<Product> selectProductList() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("product.selectProductList");
 	}
 
 

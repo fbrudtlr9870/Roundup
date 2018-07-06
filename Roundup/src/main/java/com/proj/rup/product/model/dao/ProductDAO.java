@@ -90,8 +90,6 @@ public interface ProductDAO {
 
 	Product popmenu(Map map);
 
-	List selectProductList();
-	
 
 }
 

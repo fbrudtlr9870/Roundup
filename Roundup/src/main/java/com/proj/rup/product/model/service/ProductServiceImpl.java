@@ -179,10 +179,6 @@ public class ProductServiceImpl<ProductVO> implements ProductService {
 	public Product popmenu(Map map) {
 		return productDAO.popmenu(map);
 	}
-	@Override
-	public List selectProductList() {
-		return productDAO.selectProductList();
-	}
 
 
 
