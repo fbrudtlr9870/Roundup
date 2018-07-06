@@ -282,7 +282,7 @@ $(function(){
    			 <div class="card-columns">
  
 					  <!-- 신상품 -->
-					  <div class="card border-primary mb-3 new-product-container" style="max-width: 18rem;">
+					  <div class="card mb-3 new-product-container" style="max-width: 18rem;">
 						  <div class="card-body text-primary">
 						    <h5 class="card-title">New 신상품</h5>
 						  	<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
@@ -296,7 +296,7 @@ $(function(){
 					  
 					   <!-- ----------------------- -->
 					  <!-- 인기상품 -->
-					   <div class="card border-primary mb-3 hot-product-container" style="max-width: 18rem;">
+					   <div class="card mb-3 hot-product-container" style="max-width: 18rem;">
 						  <div class="card-body text-primary">
 						    <h5 class="card-title">Hot 인기상품</h5>
 						  	<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
