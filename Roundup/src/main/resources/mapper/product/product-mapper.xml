@@ -415,4 +415,11 @@
 			)
 	order by nvl(pp.purchase_amount,0) desc,p.price
 	</select>
+
+	<!-- 180705 추가 by dh1ee  -->
+	<select id="selectProductList" resultMap="search">
+	select * from product p join product_file pf on p.product_no=pf.product_no order by p.product_no desc
+	</select>
+
+
 </mapper>

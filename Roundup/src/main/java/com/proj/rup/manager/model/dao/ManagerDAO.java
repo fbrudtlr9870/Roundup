@@ -13,5 +13,8 @@ public interface ManagerDAO {
 
 	Member selectOneMember(String member_id);
 
+	List<Map<String, String>> selectListDeletedMember(int cPage, int numPerPage);
+
+	int selectManagerTotalDeletedMember();
 
 }

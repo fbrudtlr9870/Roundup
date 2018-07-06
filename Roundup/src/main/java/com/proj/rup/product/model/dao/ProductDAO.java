@@ -78,7 +78,6 @@ public interface ProductDAO {
 
 	Category selectParentCategory(int parent_category);
 
-
 	List productSearch(String[] keyword);
 
 
@@ -90,14 +89,7 @@ public interface ProductDAO {
 
 	Product popmenu(Map map);
 
-
-
-
-
-	
-
-
-	
+	List selectProductList();
 	
 
 }

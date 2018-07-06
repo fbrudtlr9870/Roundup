@@ -71,5 +71,10 @@ public class PurchaseServiceImpl implements PurchaseService {
 	public int deletePurchaseComplete(String imp_uid) {
 		return purchaseDAO.deletePurchaseComplete(imp_uid);
 	}
+	
+	@Override
+	public List<PurchaseComplete> selectAPCList() {
+		return purchaseDAO.selectAPCList();
+	}
 
 }

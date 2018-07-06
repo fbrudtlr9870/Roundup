@@ -21,14 +21,49 @@
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
 <style>
+<style>
+
+div#update-container{
+	width: 700px;
+    /* margin: 0 auto; */
+}
+div#basket-container{
+	width: 780px;
+    /* margin: 0 auto; */
+}
+
+div#userId-container span.guide{
+	display:none;
+	font-size:12px;
+	position:relative;
+	top:12px;
+	right:10px;
+	margin-right:1000px;
+}
+
+div#userId-container span.ok{color:blue;}
+div#userId-container span.error{color:orange;}
+
+table#tbl_enroll {
+	width: 980px
+	margin: 0 auto;
+}
+#update-container h2 {
+	text-align: left;
+	padding-bottom: 30px;
+	padding-top: 20px;
+}
+table#tbl_enroll input, table#tbl_enroll select{
+	width: 500px;
+}
+div#btnDiv {
+	text-align: center;
+}
 div.mypage{
 	width:980px;
 	margin:0 auto;
 	
 	min-height:780px;
-}
-.col-sm-3 {
-    max-width: 200px;
 }
 .list-group-item {
     position: relative;
@@ -39,61 +74,42 @@ div.mypage{
     border: 1px solid rgba(0,0,0,.125);
     width: 150px;
 }
-table {
-   margin: 0 auto;
-   border: 1px solid #ddd;
-   border-collapse: collapse;
-   width:780px;
+.col-sm-3 {
+    max-width: 200px;
+}
+.mypage-detail{
+	width:780px;
+}
+.sidenav {
+    background-color: #fff; 
+    height: 100%;
+}
+.number-hyelin {
+	display:inline;
 }
 
-table tr {
-   border: 1px solid #ddd;
+.table{
+	width:780px;
+	font-size:13.5px;
 }
 
-table tr:hover {
-   border: 1px solid #ddd;
-   background: #FFEAEA;
+.col-sm-3 {
+    max-width: 200px;
 }
-
-table tr th {
-   border: 1px solid #ddd;
-   background: lightblue;
-   padding: 15px;
-}
-
-table tr td {
-   border: 1px solid #ddd;
-   padding: 10px;
-   font-size: 0.8em;
-}
-
-.table-dh{
-	width: 770px;
-
+.chart-master{
+	width:780px;
 }
 
 </style>
-
-
 
 <sec:authorize access="hasAnyRole('ROLE_USER')">
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
 
-<script>
-   $(function() {
-      $("tr[no]").on("click",function() {
-         console.log($(this).attr("no"));
-         location.href = "${pageContext.request.contextPath}/manager/managerView.do?member_id="
-               + $(this).attr("no");
-      });
-   });
-</script>
-
 <div class="mypage container">
 	<div class="row">
-	  <div class="col-sm-3 sidenav">
+	   <div class="col-sm-3 sidenav">
 	    <div class="list-group" id="list-tab" role="tablist">
 	      <a class="list-group-item list-group-item-action active" id="list-home-list"  href="${pageContext.request.contextPath }/manager/managerPage.do" role="tab" aria-controls="home">Home</a>
 	      <a class="list-group-item list-group-item-action" id="list-profile-list"  href="${pageContext.request.contextPath }/manager/memberManagement.do" role="tab" aria-controls="profile">회원관리</a>
@@ -109,60 +125,77 @@ table tr td {
 	  </div>
 	  <div class="col-8">
 	    <div class="tab-content" id="nav-tabContent">
-	      <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
-	     	<h3>회원관리</h3><br />
-	     	<div class="section_div-s" id="section-dh">
-	     	
-	            <p class="imsosotired2">총 회원 수 : ${totalContents }명</p>
-				
-	            <table class="table-dh">
-	               <tr>
-	                  <th>아이디</th>
-	                  <th>이름</th>
-	                  <th>성별</th>
-	                  <th>생년월일</th>
-	                  <th>전화번호</th>
-	                  <th>이메일</th>
-	                  <th>가입일</th>
-	                  <th>회원등급</th>
-	               </tr>
-	               <c:forEach items="${list}" var="m">
-	                  <tr no="${m.member_id }">
-	                     <td>${m.member_id }</td>
-	                     <td>${m.member_name }</td>
-	                     <td>${m.member_gender }</td>
-	                     <td>${m.member_birthday }</td>
-	                     <td>${m.member_phone }</td>
-	                     <td>${m.member_email }</td>
-	                     <td>${m.member_enrollDate }</td>
-	                     <td>${m.member_grade }</td>
-	
-	                  </tr>
-	               </c:forEach>
-	
-	            </table>
-	            
-	            <br />
-				<ul class="pagination justify-content-center pagination-sm" style="clear:both; margin-left:140px;">
-	            <!-- 페이지바 -->
-	            <%
-	               int totalContents = Integer.parseInt(String.valueOf(request.getAttribute("totalContents")));
-	               int numPerPage = Integer.parseInt(String.valueOf(request.getAttribute("numPerPage")));
-	               int cPage = 1;
-	               try {
-	                  cPage = Integer.parseInt(request.getParameter("cPage"));
-	               } catch (NumberFormatException e) {
-	
-	               }
-	            %>
-	            <%=com.proj.rup.common.util.Utils.getPageBar(totalContents, cPage, numPerPage, "memberManagement.do")%>
-			</ul>
-	         </div>
-	      
-	      </div>
-	          
-	         
-	      
+	       <h3>전체구매내역</h3>
+	      <div class="tab-pane fade show active" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
+	       <!-- 결재내역페이지 시작-->
+	       <div class="step-buy">
+			<br><%--  <img src="${pageContext.request.contextPath }/resources/img/purchasebar.png" width="780px" height="auto"> --%>
+			<br>
+			</div>
+	       <div class="purchase-complete-container">
+	       		<div class="basket-container">
+						<table class="table">
+							<tr>
+								<th>번호</th>
+								<th>구매자</th>
+								<th>상품정보</th>
+								<th>수량</th>
+								<th>결재금액</th>
+								<th>결재일</th>
+								<!-- <th>배송지조회</th> -->
+							</tr>
+							<c:if test="${not empty completeList }">
+								<c:forEach var="i" items="${completeList }" varStatus="vs">
+									<tr>
+									
+										<td class="tbl-td">
+										
+											<span>${i['purchase_no']}</span>
+										 
+										</td>
+										<td class="tbl-td">
+										
+											<span>${i["member_id"]}</span>
+										
+										</td>
+										<td class="tbl-td">
+											<div id="tbl-img-row">
+												<img src="${pageContext.request.contextPath }/resources/upload/productFile/${i['renamed_filename']}" alt="" width="auto" height="70px">
+												<span>[${i["brand_name"]}] &nbsp; ${i["product_name"]}</span>
+											</div>
+										</td>
+										<td class="tbl-td">
+											<input type="number" class="form-control number-hyelin" style="width: 70px; margin: 0 auto;" name="product_amount" value="${i['product_amount']}" min="1">
+										</td>
+										<td class="tbl-td">
+											<input type="hidden" value="${i['product_amount']*i['price']}" name="price" id="price"/>
+											<fmt:formatNumber value="${i['product_amount']*i['price']}" type="currency" currencySymbol=""/>원
+										</td>
+										<td class="tbl-td">
+											<span>${i['purchase_date'] }</span>
+										</td>
+										<!-- <td class="tbl-td">
+											<button type="button" class="btn btn-outline-primary" id="searchMap" onclick="searchMap();">조회</button>
+										</td> -->
+									</tr>
+								</c:forEach>
+							</c:if>
+							<c:if test="${empty completeList }">
+						          <tr>
+						             <td colspan="6">구매내역이 없습니다.</td>
+						          </tr>
+							</c:if>
+						</table>
+						<hr style="width:780px">
+						
+						<br>
+						<br>
+						<br>
+						
+					</div> 
+	       </div>
+					
+	       <!-- 결재내역페이지 끝-->
 	      </div>
 	    </div>
 	  </div>

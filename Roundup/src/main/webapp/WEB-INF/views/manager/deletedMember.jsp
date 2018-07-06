@@ -57,7 +57,7 @@ table tr:hover {
 
 table tr th {
    border: 1px solid #ddd;
-   background: lightblue;
+   background: #FF7E7E;
    padding: 15px;
 }
 
@@ -93,6 +93,7 @@ table tr td {
 
 <div class="mypage container">
 	<div class="row">
+	  <div class="row">
 	  <div class="col-sm-3 sidenav">
 	    <div class="list-group" id="list-tab" role="tablist">
 	      <a class="list-group-item list-group-item-action active" id="list-home-list"  href="${pageContext.request.contextPath }/manager/managerPage.do" role="tab" aria-controls="home">Home</a>
@@ -110,10 +111,10 @@ table tr td {
 	  <div class="col-8">
 	    <div class="tab-content" id="nav-tabContent">
 	      <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
-	     	<h3>회원관리</h3><br />
+	     	<h3>탈퇴회원목록</h3><br />
 	     	<div class="section_div-s" id="section-dh">
 	     	
-	            <p class="imsosotired2">총 회원 수 : ${totalContents }명</p>
+	            <p class="imsosotired2">탈퇴한 총 회원 수 : ${totalContents }명</p>
 				
 	            <table class="table-dh">
 	               <tr>
@@ -124,7 +125,7 @@ table tr td {
 	                  <th>전화번호</th>
 	                  <th>이메일</th>
 	                  <th>가입일</th>
-	                  <th>회원등급</th>
+	                 
 	               </tr>
 	               <c:forEach items="${list}" var="m">
 	                  <tr no="${m.member_id }">
@@ -135,7 +136,7 @@ table tr td {
 	                     <td>${m.member_phone }</td>
 	                     <td>${m.member_email }</td>
 	                     <td>${m.member_enrollDate }</td>
-	                     <td>${m.member_grade }</td>
+	                  
 	
 	                  </tr>
 	               </c:forEach>
@@ -155,7 +156,7 @@ table tr td {
 	
 	               }
 	            %>
-	            <%=com.proj.rup.common.util.Utils.getPageBar(totalContents, cPage, numPerPage, "memberManagement.do")%>
+	            <%=com.proj.rup.common.util.Utils.getPageBar(totalContents, cPage, numPerPage, "deletedMember.do")%>
 			</ul>
 	         </div>
 	      

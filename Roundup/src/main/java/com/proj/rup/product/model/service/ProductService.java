@@ -79,6 +79,9 @@ public interface ProductService<ProductVO> {
 
 	Product popmenu(Map<String, Object> map);
 
+	List<Product> selectProductList();
+
+
 }
 
 
