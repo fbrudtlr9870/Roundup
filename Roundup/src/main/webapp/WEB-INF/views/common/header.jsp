@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -129,12 +129,30 @@ img#chat-icon{
               <a class="nav-item nav-link" href="${pageContext.request.contextPath }/freeboard/freeBoardList.do">FreeBoard</a>
             </li>
           </ul>
-          <form class="form-inline mt-2 mt-md-0" action="${pageContext.request.contextPath }/product/productSearch.do">
-            <input type="text" class="form-control focus-hyelin border0-hyelin" id="productKey" placeholder="${param.pageSearch }" name="searchKeyword" autocomplete="off">
+          <form class="form-inline mt-2 mt-md-0" action="${pageContext.request.contextPath }/product/productSearch.do" onsubmit="return fn_search();">
+            &nbsp;<input type="text" class="form-control focus-hyelin border0-hyelin" id="productKey" placeholder="${param.pageSearch }" name="searchKeyword" autocomplete="off">
             <button type="submit" class="btn btn-transparent-hyelin border0-hyelin focus-hyelin"> <img src="${pageContext.request.contextPath }/resources/img/search2.png" alt="" /></button>
-            <!-- <ul id="autoComplete"></ul>  -->
+
+          	<ul id="autoComplete"></ul>
+
           </form>
-          
+<script>
+function fn_search() {
+    var productKey=$("#productKey").val();
+    if(productKey.indexOf("#")!=-1){
+    	alert("검색어에 #은 입력할 수 없습니다.");
+    	return false;
+    }else if(productKey.indexOf("|")!=-1){
+    	alert("검색어에 |은 입력할 수 없습니다.");
+    	return false;
+    }else if(productKey.indexOf("\\")!=-1){
+    	alert("검색어에 \\은 입력할 수 없습니다.");
+    	return false;
+    }
+    console.log("검색시작");
+    return true;
+}
+</script>
  
 		<c:choose>
 			<c:when test="${empty member_id and empty admin_id}">
@@ -477,11 +495,13 @@ $(document).ready(function(){
 							var html="";
 							if(data.length>5){
 								for(var i=0;i<5;i++){
-									html+="<li>"+"<label>"+data[i].productName+"</label>"+data[i].brandName+"</li>";
+									/* html+="<li>"+"<label>"+data[i].productName+"</label>"+data[i].brandName+"</li>"; */
+									html+="<li>"+"<label>"+data[i].productName+"</label></li>";
 								}
 							}else{
 								for(var i=0;i<data.length;i++){
-									html+="<li>"+"<label>"+data[i].productName+"</label>"+data[i].brandName+"</li>";
+									/* html+="<li>"+"<label>"+data[i].productName+"</label>"+data[i].brandName+"</li>"; */
+									html+="<li>"+"<label>"+data[i].productName+"</label></li>";
 								}
 							}
 							

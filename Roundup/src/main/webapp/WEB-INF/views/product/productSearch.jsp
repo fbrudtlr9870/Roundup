@@ -164,7 +164,31 @@ $(function(){
    },function(){
       $(this).css("background","white");
    });
-})
+});
+//리스트 효과
+$(function(){
+	$(".card-body").hover(function(){
+		var brandname=$(this).find("#brandchk").text();
+		//console.log(brandname);
+		var rgb="";
+		if(brandname=="CU") rgb="rgb(119,41,143)";
+		else if(brandname=="GS25") rgb="rgb(0,145,223)";
+		else if(brandname=="7ELEVEN") rgb="rgb(27,138,95)";
+		else if(brandname=="MINISTOP") rgb="rgb(0,56,148)";
+		else if(brandname=="EMART24") rgb="rgb(255,179,0)";
+		$(this).css("border","2px solid "+rgb);
+	},function(){
+		$(this).css("border","1px solid rgba(0,0,0,.125)");
+	});
+	var product = new Array();
+	<c:forEach var="p" items="${searchList }">
+	product.push("${p.productName}");
+	</c:forEach>
+	//console.log(product);
+	/* for(var i in product){
+		
+	} */
+});
 // 검색결과에 따른 카테고리 표시
 /* $(function(){
    var searchKeyword = "${searchKeyword}";
@@ -296,10 +320,20 @@ $(function() {
 $(function(){
    $("#research").on("click",function(){
       var searchKeyword=$("#productKey").val();
+      if(searchKeyword.indexOf("#")!=-1){
+      	alert("검색어에 #은 입력할 수 없습니다.");
+      	return false;
+      }else if(searchKeyword.indexOf("|")!=-1){
+        	alert("검색어에 |은 입력할 수 없습니다.");
+          	return false;
+      }else if(searchKeyword.indexOf("\\")!=-1){
+      	alert("검색어에 \\은 입력할 수 없습니다.");
+      	return false;
+  	  }
       var ck=document.getElementsByName("brand");
       var brand=new Array();
       var caNo=$("#selectcategory").text();
-      if(caNo=="") caNo="0,0";
+      if(caNo=="") caNo="고르지않음,0";
       var categoryselect=caNo.split(",");
       for(var i in ck){
          if(ck[i].checked==true){
@@ -312,7 +346,8 @@ $(function(){
       var price2=document.getElementById("price2").value;
       
       console.log("키워드"+searchKeyword+"브랜드"+brand+"고른카테고리번호"+categoryselect[1]+"가격"+price1+"~"+price2);
-      location.href="${pageContext.request.contextPath}/product/reSearch.do?searchKeyword="+searchKeyword+"&brand="+brand+"&categoryselect="+categoryselect[1]+"&price1="+price1+"&price2="+price2;
+      
+      location.href="${pageContext.request.contextPath}/product/reSearch.do?searchKeyword="+searchKeyword+"&price1="+price1+"&price2="+price2+"&brand="+brand+"&categoryselect="+categoryselect[1];
    });
 });
 </script>
@@ -545,7 +580,6 @@ ul.category-hyelin li label {
 <hr class="searchMore-hyelin"/>
 <br /><br />
 
-
 <!-- 검색 결과 리스트 보여주기 -->
 <div id="searchContainer-hyelin">
    <c:forEach var="p" items="${searchList }" varStatus="vs">
@@ -553,7 +587,7 @@ ul.category-hyelin li label {
          <div class="card-body">
             <%-- <p>판매량 ${p.purchaseAmount }</p> --%>
             <img src="${pageContext.request.contextPath}/resources/upload/productFile/${p.renamedFileName}" class="prod-img-hyelin">
-            <h5 class="card-title">${p.brandName } ${p.productName }</h5>
+            <h5 class="card-title"><span id="brandchk">${p.brandName }</span> ${p.productName }</h5>
             <p class="card-text card-text-hyelin inline-hyelin"><fmt:formatNumber value="${p.price }" type="currency" currencySymbol=""/>원
                <c:if test="${searchList.size()>1 }">
                   <c:if test="${p.price>avgprice }">
@@ -611,6 +645,8 @@ ul.category-hyelin li label {
 </div> --%>
 <br>
 <br>
+<hr class="searchMore-hyelin"/>
+<br /><br />
  <c:set var="scount" value="0" />
 <c:forEach var="p" items="${searchList }" varStatus="vs">
  <c:set var="scount" value="${scount + 1}" />

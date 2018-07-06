@@ -36,20 +36,25 @@ button.btn-default{
 	bottom:2px;
 }
 ul#autoComplete{
-	min-width:365px;
+	min-width:205px;
 	/*padding:0 10px;*/
 	padding:0;
 	list-style:none;
 	position:absolute;
 	cursor:pointer;
-	top:35px;
-	right:54px;
+	top:50px;
 	background:rgb(255,192,203);
+	border-radius: 5px 5px 10px 10px;
+	border:2px solid rgb(1,71,131);
+}
+ul#autoComplete li{
+	padding:10px;
 }
 ul#autoComplete li.sel{
 	background:rgb(0,255,255);
 	color:white;
 	right:30px;
+	border-radius: 10px 10px 10px 10px;
 }
 span.srchval{
 	color:red;
@@ -330,12 +335,17 @@ img.prod-img-hyelin {
 	width: 280px;
 	height: 280px;
 }
-
+div.card-body{
+	height: 400px;
+	border-radius: 5px;
+}
 div.card-hyelin {
 	width: 320px;
 	display: inline-block;
 	position: relative;
 	height: 400px;
+	padding:0;
+	margin-bottom:5px;
 }
 
 p.card-text-hyelin {
