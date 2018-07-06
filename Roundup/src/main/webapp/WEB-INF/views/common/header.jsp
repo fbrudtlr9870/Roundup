@@ -93,6 +93,17 @@ img#chat-icon{
             <li class="nav-item active">
               <a class="nav-link" href="${pageContext.request.contextPath }">Home <span class="sr-only">(current)</span></a>
             </li>
+           <!--  <div class="btn-group dropright">
+			  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			    MENU
+			  </button>
+			  <div class="dropdown-menu">
+				    <a class="dropdown-item" href="#">C A T E G O R Y</a>
+				    <a class="dropdown-item" href="#">E V E N T</a>
+				    <a class="dropdown-item" href="#">N O T I C E</a>
+				    <a class="dropdown-item" href="#">F R E E B O A R D</a>
+			  </div>
+			</div> -->
             <li class="nav-item dropdown">
 		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		          Category
@@ -120,6 +131,7 @@ img#chat-icon{
           <form class="form-inline mt-2 mt-md-0" action="${pageContext.request.contextPath }/product/productSearch.do">
             <input type="text" class="form-control focus-hyelin border0-hyelin" id="productKey" placeholder="${param.pageSearch }" name="searchKeyword" autocomplete="off">
             <button type="submit" class="btn btn-transparent-hyelin border0-hyelin focus-hyelin"> <img src="${pageContext.request.contextPath }/resources/img/search2.png" alt="" /></button>
+            <!-- <ul id="autoComplete"></ul>  -->
           </form>
           
  
