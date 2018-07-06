@@ -58,7 +58,8 @@ seriesType('ohlc', 'column', {
 
     tooltip: {
         
-        pointFormat: '<span class="highcharts-color-{point.colorIndex}">\u25CF</span> <b> {series.name}</b><br/>' +
+
+        pointFormat: '<span style="color:{point.color}">\u25CF</span> <b> {series.name}</b><br/>' +
             'Open: {point.open}<br/>' +
             'High: {point.high}<br/>' +
             'Low: {point.low}<br/>' +
@@ -67,6 +68,36 @@ seriesType('ohlc', 'column', {
     },
 
     threshold: null,
+    
+
+    states: {
+
+        /**
+         * @extends plotOptions.column.states.hover
+         * @product highstock
+         */
+        hover: {
+
+            /**
+             * The pixel width of the line representing the OHLC point.
+             *
+             * @type {Number}
+             * @default 3
+             * @product highstock
+             */
+            lineWidth: 3
+        }
+    },
+
+
+    /**
+     * Line color for up points.
+     *
+     * @type {Color}
+     * @product highstock
+     * @apioption plotOptions.ohlc.upColor
+     */
+
     
 
     stickyTracking: true
@@ -79,6 +110,35 @@ seriesType('ohlc', 'column', {
     },
     pointValKey: 'close',
 
+    
+    pointAttrToOptions: {
+        'stroke': 'color',
+        'stroke-width': 'lineWidth'
+    },
+
+    /**
+     * Postprocess mapping between options and SVG attributes
+     */
+    pointAttribs: function (point, state) {
+        var attribs = seriesTypes.column.prototype.pointAttribs.call(
+                this,
+                point,
+                state
+            ),
+            options = this.options;
+
+        delete attribs.fill;
+
+        if (
+            !point.options.color &&
+            options.upColor &&
+            point.open < point.close
+        ) {
+            attribs.stroke = options.upColor;
+        }
+
+        return attribs;
+    },
     
 
     /**
@@ -145,6 +205,10 @@ seriesType('ohlc', 'column', {
                         .add(series.group);
                 }
 
+                
+                graphic.attr(
+                    series.pointAttribs(point, point.selected && 'select')
+                ); // #3897
                 
 
                 // crisp vector coordinates

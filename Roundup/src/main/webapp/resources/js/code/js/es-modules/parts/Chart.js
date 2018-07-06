@@ -674,10 +674,25 @@ extend(Chart.prototype, /** @lends Highcharts.Chart.prototype */ {
 
         chartTitleOptions = options.title = merge(
             
+            // Default styles
+            {
+                style: {
+                    color: '#333333',
+                    fontSize: options.isStock ? '16px' : '18px' // #2944
+                }
+            },
+            
             options.title,
             titleOptions
         );
         chartSubtitleOptions = options.subtitle = merge(
+            
+            // Default styles
+            {
+                style: {
+                    color: '#666666'
+                }
+            },
             
             options.subtitle,
             subtitleOptions
@@ -717,6 +732,9 @@ extend(Chart.prototype, /** @lends Highcharts.Chart.prototype */ {
                 };
 
                 
+                // Presentational
+                chart[name].css(chartTitleOptions.style);
+                
 
             }
         });
@@ -746,6 +764,8 @@ extend(Chart.prototype, /** @lends Highcharts.Chart.prototype */ {
                 titleSize;
 
             if (title) {
+                
+                titleSize = titleOptions.style.fontSize;
                 
                 titleSize = renderer.fontMetrics(titleSize, title).b;
                 title
@@ -976,6 +996,18 @@ extend(Chart.prototype, /** @lends Highcharts.Chart.prototype */ {
 
         // Create the inner container
         
+        containerStyle = extend({
+            position: 'relative',
+            overflow: 'hidden', // needed for context menu (avoid scrollbars)
+                // and content overflow in IE
+            width: chartWidth + 'px',
+            height: chartHeight + 'px',
+            textAlign: 'left',
+            lineHeight: 'normal', // #427
+            zIndex: 0, // #1072
+            '-webkit-tap-highlight-color': 'rgba(0,0,0,0)'
+        }, optionsChart.style);
+        
 
         /**
          * The containing HTML element of the chart. The container is
@@ -1020,10 +1052,7 @@ extend(Chart.prototype, /** @lends Highcharts.Chart.prototype */ {
 
         chart.setClassName(optionsChart.className);
         
-        // Initialize definitions
-        for (key in options.defs) {
-            this.renderer.definition(options.defs[key]);
-        }
+        chart.renderer.setStyle(optionsChart.style);
         
 
         // Add a reference to the charts index
@@ -1242,6 +1271,12 @@ extend(Chart.prototype, /** @lends Highcharts.Chart.prototype */ {
         // Resize the container with the global animation applied if enabled
         // (#2503)
         
+        globalAnimation = renderer.globalAnimation;
+        (globalAnimation ? animate : css)(chart.container, {
+            width: chart.chartWidth + 'px',
+            height: chart.chartHeight + 'px'
+        }, globalAnimation);
+        
 
         chart.setChartSize(true);
         renderer.setSize(chart.chartWidth, chart.chartHeight, animation);
@@ -1438,6 +1473,11 @@ extend(Chart.prototype, /** @lends Highcharts.Chart.prototype */ {
             plotBorder = chart.plotBorder,
             chartBorderWidth,
             
+            plotBGImage = chart.plotBGImage,
+            chartBackgroundColor = optionsChart.backgroundColor,
+            plotBackgroundColor = optionsChart.plotBackgroundColor,
+            plotBackgroundImage = optionsChart.plotBackgroundImage,
+            
             mgn,
             bgAttr,
             plotLeft = chart.plotLeft,
@@ -1458,7 +1498,21 @@ extend(Chart.prototype, /** @lends Highcharts.Chart.prototype */ {
         }
 
         
-        chartBorderWidth = mgn = chartBackground.strokeWidth();
+        // Presentational
+        chartBorderWidth = optionsChart.borderWidth || 0;
+        mgn = chartBorderWidth + (optionsChart.shadow ? 8 : 0);
+
+        bgAttr = {
+            fill: chartBackgroundColor || 'none'
+        };
+
+        if (chartBorderWidth || chartBackground['stroke-width']) { // #980
+            bgAttr.stroke = optionsChart.borderColor;
+            bgAttr['stroke-width'] = chartBorderWidth;
+        }
+        chartBackground
+            .attr(bgAttr)
+            .shadow(optionsChart.shadow);
         
         chartBackground[verb]({
             x: mgn / 2,
@@ -1478,6 +1532,28 @@ extend(Chart.prototype, /** @lends Highcharts.Chart.prototype */ {
         }
         plotBackground[verb](plotBox);
 
+        
+        // Presentational attributes for the background
+        plotBackground
+            .attr({
+                fill: plotBackgroundColor || 'none'
+            })
+            .shadow(optionsChart.plotShadow);
+
+        // Create the background image
+        if (plotBackgroundImage) {
+            if (!plotBGImage) {
+                chart.plotBGImage = renderer.image(
+                    plotBackgroundImage,
+                    plotLeft,
+                    plotTop,
+                    plotWidth,
+                    plotHeight
+                ).add();
+            } else {
+                plotBGImage.animate(plotBox);
+            }
+        }
         
 
         // Plot clip
@@ -1502,6 +1578,13 @@ extend(Chart.prototype, /** @lends Highcharts.Chart.prototype */ {
                 .add();
         }
 
+        
+        // Presentational
+        plotBorder.attr({
+            stroke: optionsChart.plotBorderColor,
+            'stroke-width': optionsChart.plotBorderWidth || 0,
+            fill: 'none'
+        });
         
 
         plotBorder[verb](plotBorder.crisp({
@@ -1782,6 +1865,8 @@ extend(Chart.prototype, /** @lends Highcharts.Chart.prototype */ {
                 align: credits.position.align,
                 zIndex: 8
             })
+            
+            .css(credits.style)
             
             .add()
             .align(credits.position);

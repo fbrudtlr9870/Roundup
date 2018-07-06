@@ -415,6 +415,85 @@ seriesType('treemap', 'scatter', {
 
 
     
+    // Presentational options
+
+    /**
+     * The color of the border surrounding each tree map item.
+     *
+     * @type {Color}
+     * @default #e6e6e6
+     * @product highcharts
+     */
+    borderColor: '#e6e6e6',
+
+    /**
+     * The width of the border surrounding each tree map item.
+     */
+    borderWidth: 1,
+
+    /**
+     * The opacity of a point in treemap. When a point has children, the
+     * visibility of the children is determined by the opacity.
+     *
+     * @type {Number}
+     * @default 0.15
+     * @since 4.2.4
+     * @product highcharts
+     */
+    opacity: 0.15,
+
+    /**
+     * A wrapper object for all the series options in specific states.
+     *
+     * @extends plotOptions.heatmap.states
+     * @product highcharts
+     */
+    states: {
+
+        /**
+         * Options for the hovered series
+         *
+         * @extends plotOptions.heatmap.states.hover
+         * @excluding halo
+         * @product highcharts
+         */
+        hover: {
+
+            /**
+             * The border color for the hovered state.
+             */
+            borderColor: '#999999',
+
+            /**
+             * Brightness for the hovered point. Defaults to 0 if the heatmap
+             * series is loaded, otherwise 0.1.
+             *
+             * @default null
+             * @type {Number}
+             */
+            brightness: seriesTypes.heatmap ? 0 : 0.1,
+            /**
+            * @extends plotOptions.heatmap.states.hover.halo
+            */
+            halo: false,
+            /**
+             * The opacity of a point in treemap. When a point has children,
+             * the visibility of the children is determined by the opacity.
+             *
+             * @type {Number}
+             * @default 0.75
+             * @since 4.2.4
+             * @product highcharts
+             */
+            opacity: 0.75,
+
+            /**
+             * The shadow option for hovered state.
+             */
+            shadow: false
+        }
+    }
+    
 
 
 
@@ -629,6 +708,16 @@ seriesType('treemap', 'scatter', {
                 y2,
                 crispCorr = 0;
 
+            
+            // Get the crisp correction in classic mode. For this to work in
+            // styled mode, we would need to first add the shape (without x, y,
+            // width and height), then read the rendered stroke width using
+            // point.graphic.strokeWidth(), then modify and apply the shapeArgs.
+            // This applies also to column series, but the downside is
+            // performance and code complexity.
+            crispCorr = (
+                (series.pointAttribs(point)['stroke-width'] || 0) % 2
+            ) / 2;
             
 
             // Points which is ignored, have no values.
@@ -1069,6 +1158,70 @@ seriesType('treemap', 'scatter', {
     },
 
     
+    /**
+     * Get presentational attributes
+     */
+    pointAttribs: function (point, state) {
+        var series = this,
+            mapOptionsToLevel = (
+                isObject(series.mapOptionsToLevel) ?
+                series.mapOptionsToLevel :
+                {}
+            ),
+            level = point && mapOptionsToLevel[point.node.level] || {},
+            options = this.options,
+            attr,
+            stateOptions = (state && options.states[state]) || {},
+            className = (point && point.getClassName()) || '',
+            opacity;
+
+        // Set attributes by precedence. Point trumps level trumps series.
+        // Stroke width uses pick because it can be 0.
+        attr = {
+            'stroke':
+                (point && point.borderColor) ||
+                level.borderColor ||
+                stateOptions.borderColor ||
+                options.borderColor,
+            'stroke-width': pick(
+                point && point.borderWidth,
+                level.borderWidth,
+                stateOptions.borderWidth,
+                options.borderWidth
+            ),
+            'dashstyle':
+                (point && point.borderDashStyle) ||
+                level.borderDashStyle ||
+                stateOptions.borderDashStyle ||
+                options.borderDashStyle,
+            'fill': (point && point.color) || this.color
+        };
+
+        // Hide levels above the current view
+        if (className.indexOf('highcharts-above-level') !== -1) {
+            attr.fill = 'none';
+            attr['stroke-width'] = 0;
+
+        // Nodes with children that accept interaction
+        } else if (
+            className.indexOf('highcharts-internal-node-interactive') !== -1
+        ) {
+            opacity = pick(stateOptions.opacity, options.opacity);
+            attr.fill = color(attr.fill).setOpacity(opacity).get();
+            attr.cursor = 'pointer';
+        // Hide nodes that have children
+        } else if (className.indexOf('highcharts-internal-node') !== -1) {
+            attr.fill = 'none';
+
+        } else if (state) {
+            // Brighten and hoist the hover nodes
+            attr.fill = color(attr.fill)
+                .brighten(stateOptions.brightness)
+                .get();
+        }
+        return attr;
+    },
+    
 
     /**
     * Extending ColumnSeries drawPoints
@@ -1096,17 +1249,6 @@ seriesType('treemap', 'scatter', {
         // Call standard drawPoints
         seriesTypes.column.prototype.drawPoints.call(this);
 
-        
-        // In styled mode apply point.color. Use CSS, otherwise the fill
-        // used in the style sheet will take precedence over the fill
-        // attribute.
-        if (this.colorAttribs) { // Heatmap is loaded
-            each(this.points, function (point) {
-                if (point.graphic) {
-                    point.graphic.css(this.colorAttribs(point));
-                }
-            }, this);
-        }
         
 
         // If drillToNode is allowed, set a point cursor on clickables & add

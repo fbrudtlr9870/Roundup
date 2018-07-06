@@ -52,7 +52,7 @@ H.initCanvasBoost = function () {
                         shapeArgs = point.shapeArgs;
 
                         
-                        pointAttr = point.series.colorAttribs(point);
+                        pointAttr = point.series.pointAttribs(point);
                         
 
                         ctx.fillStyle = pointAttr.fill;

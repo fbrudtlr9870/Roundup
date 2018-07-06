@@ -180,6 +180,25 @@ extend(Chart.prototype, /** @lends Highcharts.Chart.prototype */ {
         chart.loadingSpan.innerHTML = str || options.lang.loading;
 
         
+        // Update visuals
+        css(loadingDiv, extend(loadingOptions.style, {
+            zIndex: 10
+        }));
+        css(chart.loadingSpan, loadingOptions.labelStyle);
+
+        // Show it
+        if (!chart.loadingShown) {
+            css(loadingDiv, {
+                opacity: 0,
+                display: ''
+            });
+            animate(loadingDiv, {
+                opacity: loadingOptions.style.opacity || 0.5
+            }, {
+                duration: loadingOptions.showDuration || 0
+            });
+        }
+        
 
         chart.loadingShown = true;
         setLoadingSize();
@@ -201,6 +220,15 @@ extend(Chart.prototype, /** @lends Highcharts.Chart.prototype */ {
         if (loadingDiv) {
             loadingDiv.className =
                 'highcharts-loading highcharts-loading-hidden';
+            
+            animate(loadingDiv, {
+                opacity: 0
+            }, {
+                duration: options.loading.hideDuration || 100,
+                complete: function () {
+                    css(loadingDiv, { display: 'none' });
+                }
+            });
             
         }
         this.loadingShown = false;
@@ -346,9 +374,17 @@ extend(Chart.prototype, /** @lends Highcharts.Chart.prototype */ {
             });
 
             
+            if ('style' in optionsChart) {
+                chart.renderer.setStyle(optionsChart.style);
+            }
+            
         }
 
         // Moved up, because tooltip needs updated plotOptions (#6218)
+        
+        if (options.colors) {
+            this.options.colors = options.colors;
+        }
         
 
         if (options.plotOptions) {

@@ -119,6 +119,20 @@ defaultOptions.noData = {
 };
 
 
+// Presentational
+/**
+ * CSS styles for the no-data label.
+ *
+ * @sample highcharts/no-data-to-display/no-data-line
+ *         Styled no-data text
+ * @optionparent noData.style
+ */
+defaultOptions.noData.style = {
+    fontWeight: 'bold',
+    fontSize: '12px',
+    color: '#666666'
+};
+
 
 
 // Define hasData function for non-cartesian seris. Returns true if the series
@@ -176,6 +190,10 @@ chartPrototype.showNoData = function (str) {
                 'no-data'
             );
 
+        
+        chart.noDataLabel
+            .attr(noDataOptions.attr)
+            .css(noDataOptions.style);
         
 
         chart.noDataLabel.add();

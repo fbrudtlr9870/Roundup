@@ -70,6 +70,49 @@ var candlestickOptions = {
     threshold: null,
     
 
+    /**
+     * The color of the line/border of the candlestick.
+     *
+     * In styled mode, the line stroke can be set with the
+     * `.highcharts-candlestick-series .highcahrts-point` rule.
+     *
+     * @type {Color}
+     * @see [upLineColor](#plotOptions.candlestick.upLineColor)
+     * @sample {highstock} stock/plotoptions/candlestick-linecolor/
+     *         Candlestick line colors
+     * @default #000000
+     * @product highstock
+     */
+    lineColor: '#000000',
+
+    /**
+     * The pixel width of the candlestick line/border. Defaults to `1`.
+     *
+     *
+     * In styled mode, the line stroke width can be set with the
+     * `.highcharts-candlestick-series .highcahrts-point` rule.
+     *
+     * @type {Number}
+     * @default 1
+     * @product highstock
+     */
+    lineWidth: 1,
+
+    /**
+     * The fill color of the candlestick when values are rising.
+     *
+     * In styled mode, the up color can be set with the
+     * `.highcharts-candlestick-series .highcharts-point-up` rule.
+     *
+     * @type {Color}
+     * @sample {highstock} stock/plotoptions/candlestick-color/ Custom colors
+     * @sample {highstock} highcharts/css/candlestick/ Colors in styled mode
+     * @default #ffffff
+     * @product highstock
+     */
+    upColor: '#ffffff',
+    
+
     stickyTracking: true
 
 };
@@ -84,6 +127,40 @@ seriesType('candlestick', 'ohlc', merge(
     defaultPlotOptions.column,
     candlestickOptions
 ), /** @lends seriesTypes.candlestick */ {
+    
+    /**
+     * Postprocess mapping between options and SVG attributes
+     */
+    pointAttribs: function (point, state) {
+        var attribs = seriesTypes.column.prototype.pointAttribs.call(
+                this,
+                point,
+                state
+            ),
+            options = this.options,
+            isUp = point.open < point.close,
+            stroke = options.lineColor || this.color,
+            stateOptions;
+
+        attribs['stroke-width'] = options.lineWidth;
+
+        attribs.fill = point.options.color ||
+            (isUp ? (options.upColor || this.color) : this.color);
+        attribs.stroke = point.lineColor ||
+            (isUp ? (options.upLineColor || stroke) : stroke);
+
+        // Select or hover states
+        if (state) {
+            stateOptions = options.states[state];
+            attribs.fill = stateOptions.color || attribs.fill;
+            attribs.stroke = stateOptions.lineColor || attribs.stroke;
+            attribs['stroke-width'] =
+                stateOptions.lineWidth || attribs['stroke-width'];
+        }
+
+
+        return attribs;
+    },
     
     /**
      * Draw the data points
@@ -116,6 +193,12 @@ seriesType('candlestick', 'ohlc', merge(
                         .add(series.group);
                 }
 
+                
+                graphic
+                    .attr(
+                        series.pointAttribs(point, point.selected && 'select')
+                    ) // #3897
+                    .shadow(series.options.shadow);
                 
 
                 // Crisp vector coordinates

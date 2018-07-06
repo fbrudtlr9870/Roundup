@@ -114,7 +114,41 @@ defaultOptions.mapNavigation = {
          * @since 5.0.0
          * @product highmaps
          */
-        padding: 5
+        padding: 5,
+        
+
+        /**
+         * Text styles for the map navigation buttons. Defaults to
+         *
+         * <pre>{
+         *     fontSize: '15px',
+         *     fontWeight: 'bold',
+         *     textAlign: 'center'
+         * }</pre>
+         *
+         * @type {CSSObject}
+         * @product highmaps
+         */
+        style: {
+            fontSize: '15px',
+            fontWeight: 'bold'
+        },
+
+        /**
+         * A configuration object for the button theme. The object accepts
+         * SVG properties like `stroke-width`, `stroke` and `fill`. Tri-state
+         * button styles are supported by the `states.hover` and `states.select`
+         * objects.
+         *
+         * @type {Object}
+         * @sample {highmaps} maps/mapnavigation/button-theme/
+         *         Themed navigation buttons
+         * @product highmaps
+         */
+        theme: {
+            'stroke-width': 1,
+            'text-align': 'center'
+        }
         
     },
 

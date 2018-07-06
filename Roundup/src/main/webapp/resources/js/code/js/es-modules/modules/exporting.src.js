@@ -238,6 +238,149 @@ defaultOptions.navigation = {
 };
 
 
+// Presentational attributes
+
+merge(true, defaultOptions.navigation,
+/**
+ * A collection of options for buttons and menus appearing in the exporting
+ * module.
+ * @type {Object}
+ * @optionparent navigation
+ */
+{
+
+    /**
+     * CSS styles for the popup menu appearing by default when the export
+     * icon is clicked. This menu is rendered in HTML.
+     *
+     * @type {CSSObject}
+     * @see In styled mode, the menu is styled with the `.highcharts-menu`
+     * class.
+     * @sample highcharts/navigation/menustyle/ Light gray menu background
+     * @default { "border": "1px solid #999999", "background": "#ffffff", "padding": "5px 0" }
+     * @since 2.0
+     */
+    menuStyle: {
+        border: '1px solid #999999',
+        background: '#ffffff',
+        padding: '5px 0'
+    },
+
+    /**
+     * CSS styles for the individual items within the popup menu appearing
+     * by default when the export icon is clicked. The menu items are rendered
+     * in HTML.
+     *
+     * @type {CSSObject}
+     * @see     In styled mode, the menu items are styled with the
+     *          `.highcharts-menu-item` class.
+     * @sample  {highcharts} highcharts/navigation/menuitemstyle/
+     *          Add a grey stripe to the left
+     * @default { "padding": "0.5em 1em", "color": "#333333", "background": "none" }
+     * @since 2.0
+     */
+    menuItemStyle: {
+        padding: '0.5em 1em',
+        background: 'none',
+        color: '#333333',
+        /**
+         * Defaults to `14px` on touch devices and `11px` on desktop.
+         * @type {String}
+         */
+        fontSize: isTouchDevice ? '14px' : '11px',
+        transition: 'background 250ms, color 250ms'
+    },
+
+    /**
+     * CSS styles for the hover state of the individual items within the
+     * popup menu appearing by default when the export icon is clicked.
+     *  The menu items are rendered in HTML.
+     *
+     * @type {CSSObject}
+     * @see    In styled mode, the menu items are styled with the
+     *         `.highcharts-menu-item` class.
+     * @sample highcharts/navigation/menuitemhoverstyle/ Bold text on hover
+     * @default { "background": "#335cad", "color": "#ffffff" }
+     * @since 2.0
+     */
+    menuItemHoverStyle: {
+        background: '#335cad',
+        color: '#ffffff'
+    },
+
+    /**
+     * A collection of options for buttons appearing in the exporting module.
+     *
+     *
+     * In styled mode, the buttons are styled with the
+     * `.highcharts-contextbutton` and `.highcharts-button-symbol` classes.
+     *
+     */
+    buttonOptions: {
+
+        /**
+         * Fill color for the symbol within the button.
+         *
+         * @type {Color}
+         * @sample highcharts/navigation/buttonoptions-symbolfill/
+         *         Blue symbol stroke for one of the buttons
+         * @default #666666
+         * @since 2.0
+         */
+        symbolFill: '#666666',
+
+        /**
+         * The color of the symbol's stroke or line.
+         *
+         * @type {Color}
+         * @sample highcharts/navigation/buttonoptions-symbolstroke/
+         *         Blue symbol stroke
+         * @default #666666
+         * @since 2.0
+         */
+        symbolStroke: '#666666',
+
+        /**
+         * The pixel stroke width of the symbol on the button.
+         *
+         * @type {Number}
+         * @sample highcharts/navigation/buttonoptions-height/
+         *         Bigger buttons
+         * @default 1
+         * @since 2.0
+         */
+        symbolStrokeWidth: 3,
+
+        /**
+         * A configuration object for the button theme. The object accepts
+         * SVG properties like `stroke-width`, `stroke` and `fill`. Tri-state
+         * button styles are supported by the `states.hover` and `states.select`
+         * objects.
+         *
+         * @type {Object}
+         * @sample highcharts/navigation/buttonoptions-theme/
+         *         Theming the buttons
+         * @since 3.0
+         */
+        theme: {
+            /**
+             * The default fill exists only to capture hover events.
+             * @type {String}
+             */
+            fill: '#ffffff',
+            /**
+             * @type {String}
+             */
+            stroke: 'none',
+            /**
+             * @type {Number}
+             * @default 5
+             */
+            padding: 5
+        }
+    }
+});
+
 
 
 // Add the export related options
@@ -767,6 +910,11 @@ extend(Chart.prototype, /** @lends Highcharts.Chart.prototype */ {
             .replace(/&shy;/g,  '\u00AD'); // soft hyphen
 
         
+        // Further sanitize for oldIE
+        if (this.ieSanitizeSVG) {
+            svg = this.ieSanitizeSVG(svg);
+        }
+        
 
         return svg;
     },
@@ -781,8 +929,6 @@ extend(Chart.prototype, /** @lends Highcharts.Chart.prototype */ {
      *          The unfiltered SVG of the chart.
      */
     getChartHTML: function () {
-        
-        this.inlineStyles();
         
         return this.container.innerHTML;
     },
@@ -1106,6 +1252,13 @@ extend(Chart.prototype, /** @lends Highcharts.Chart.prototype */ {
             );
 
             
+            // Presentational CSS
+            css(innerMenu, extend({
+                    MozBoxShadow: '3px 3px 10px #888',
+                    WebkitBoxShadow: '3px 3px 10px #888',
+                    boxShadow: '3px 3px 10px #888'
+                }, navOptions.menuStyle));
+            
 
             // hide on mouse out
             hide = function () {
@@ -1165,6 +1318,16 @@ extend(Chart.prototype, /** @lends Highcharts.Chart.prototype */ {
                             )
                         }, null, innerMenu);
 
+                        
+                        element.onmouseover = function () {
+                            css(this, navOptions.menuItemHoverStyle);
+                        };
+                        element.onmouseout = function () {
+                            css(this, navOptions.menuItemStyle);
+                        };
+                        css(element, extend({
+                            cursor: 'pointer'
+                        }, navOptions.menuItemStyle));
                         
                     }
 
@@ -1278,6 +1441,8 @@ extend(Chart.prototype, /** @lends Highcharts.Chart.prototype */ {
             .addClass(options.className)
             .attr({
                 
+                'stroke-linecap': 'round',
+                
                 title: pick(chart.options.lang[btnOptions._titleKey], ''),
                 zIndex: 3 // #4955
             });
@@ -1304,6 +1469,12 @@ extend(Chart.prototype, /** @lends Highcharts.Chart.prototype */ {
                     zIndex: 1
                 }).add(button);
 
+            
+            symbol.attr({
+                stroke: btnOptions.symbolStroke,
+                fill: btnOptions.symbolFill,
+                'stroke-width': btnOptions.symbolStrokeWidth || 1
+            });
             
         }
 
@@ -1383,222 +1554,6 @@ extend(Chart.prototype, /** @lends Highcharts.Chart.prototype */ {
     }
 });
 
-
-// These ones are translated to attributes rather than styles
-SVGRenderer.prototype.inlineToAttributes = [
-    'fill',
-    'stroke',
-    'strokeLinecap',
-    'strokeLinejoin',
-    'strokeWidth',
-    'textAnchor',
-    'x',
-    'y'
-];
-// These CSS properties are not inlined. Remember camelCase.
-SVGRenderer.prototype.inlineBlacklist = [
-    /-/, // In Firefox, both hyphened and camelCased names are listed
-    /^(clipPath|cssText|d|height|width)$/, // Full words
-    /^font$/, // more specific props are set
-    /[lL]ogical(Width|Height)$/,
-    /perspective/,
-    /TapHighlightColor/,
-    /^transition/,
-    /^length$/ // #7700
-    // /^text (border|color|cursor|height|webkitBorder)/
-];
-SVGRenderer.prototype.unstyledElements = [
-    'clipPath',
-    'defs',
-    'desc'
-];
-
-/**
- * Analyze inherited styles from stylesheets and add them inline
- *
- * @todo: What are the border styles for text about? In general, text has a lot
- * of properties.
- * @todo: Make it work with IE9 and IE10.
- */
-Chart.prototype.inlineStyles = function () {
-    var renderer = this.renderer,
-        inlineToAttributes = renderer.inlineToAttributes,
-        blacklist = renderer.inlineBlacklist,
-        whitelist = renderer.inlineWhitelist, // For IE
-        unstyledElements = renderer.unstyledElements,
-        defaultStyles = {},
-        dummySVG,
-        iframe,
-        iframeDoc;
-
-    // Create an iframe where we read default styles without pollution from this
-    // body
-    iframe = doc.createElement('iframe');
-    css(iframe, {
-        width: '1px',
-        height: '1px',
-        visibility: 'hidden'
-    });
-    doc.body.appendChild(iframe);
-    iframeDoc = iframe.contentWindow.document;
-    iframeDoc.open();
-    iframeDoc.write('<svg xmlns="http://www.w3.org/2000/svg"></svg>');
-    iframeDoc.close();
-
-
-    /**
-     * Make hyphenated property names out of camelCase
-     */
-    function hyphenate(prop) {
-        return prop.replace(
-            /([A-Z])/g,
-            function (a, b) {
-                return '-' + b.toLowerCase();
-            }
-        );
-    }
-
-    /**
-     * Call this on all elements and recurse to children
-     */
-    function recurse(node) {
-        var styles,
-            parentStyles,
-            cssText = '',
-            dummy,
-            styleAttr,
-            blacklisted,
-            whitelisted,
-            i;
-
-        // Check computed styles and whether they are in the white/blacklist for
-        // styles or atttributes
-        function filterStyles(val, prop) {
-
-            // Check against whitelist & blacklist
-            blacklisted = whitelisted = false;
-            if (whitelist) {
-                // Styled mode in IE has a whitelist instead.
-                // Exclude all props not in this list.
-                i = whitelist.length;
-                while (i-- && !whitelisted) {
-                    whitelisted = whitelist[i].test(prop);
-                }
-                blacklisted = !whitelisted;
-            }
-
-            // Explicitly remove empty transforms
-            if (prop === 'transform' && val === 'none') {
-                blacklisted = true;
-            }
-
-            i = blacklist.length;
-            while (i-- && !blacklisted) {
-                blacklisted = (
-                    blacklist[i].test(prop) ||
-                    typeof val === 'function'
-                );
-            }
-
-            if (!blacklisted) {
-                // If parent node has the same style, it gets inherited, no need
-                // to inline it. Top-level props should be diffed against parent
-                // (#7687).
-                if (
-                    (parentStyles[prop] !== val || node.nodeName === 'svg') &&
-                    defaultStyles[node.nodeName][prop] !== val
-                ) {
-                    // Attributes
-                    if (inlineToAttributes.indexOf(prop) !== -1) {
-                        node.setAttribute(hyphenate(prop), val);
-                    // Styles
-                    } else {
-                        cssText += hyphenate(prop) + ':' + val + ';';
-                    }
-                }
-            }
-        }
-
-        if (
-            node.nodeType === 1 &&
-            unstyledElements.indexOf(node.nodeName) === -1
-        ) {
-            styles = win.getComputedStyle(node, null);
-            parentStyles = node.nodeName === 'svg' ?
-                {} :
-                win.getComputedStyle(node.parentNode, null);
-
-            // Get default styles from the browser so that we don't have to add
-            // these
-            if (!defaultStyles[node.nodeName]) {
-                /*
-                if (!dummySVG) {
-                    dummySVG = doc.createElementNS(H.SVG_NS, 'svg');
-                    dummySVG.setAttribute('version', '1.1');
-                    doc.body.appendChild(dummySVG);
-                }
-                */
-                dummySVG = iframeDoc.getElementsByTagName('svg')[0];
-                dummy = iframeDoc.createElementNS(
-                    node.namespaceURI,
-                    node.nodeName
-                );
-                dummySVG.appendChild(dummy);
-                // Copy, so we can remove the node
-                defaultStyles[node.nodeName] = merge(
-                    win.getComputedStyle(dummy, null)
-                );
-                // Remove default fill, otherwise text disappears when exported
-                if (node.nodeName === 'text') {
-                    delete defaultStyles.text.fill;
-                }
-                dummySVG.removeChild(dummy);
-            }
-
-            // Loop through all styles and add them inline if they are ok
-            if (isFirefoxBrowser || isMSBrowser) {
-                // Some browsers put lots of styles on the prototype
-                for (var p in styles) {
-                    filterStyles(styles[p], p);
-                }
-            } else {
-                objectEach(styles, filterStyles);
-            }
-
-            // Apply styles
-            if (cssText) {
-                styleAttr = node.getAttribute('style');
-                node.setAttribute(
-                    'style',
-                    (styleAttr ? styleAttr + ';' : '') + cssText
-                );
-            }
-
-            // Set default stroke width (needed at least for IE)
-            if (node.nodeName === 'svg') {
-                node.setAttribute('stroke-width', '1px');
-            }
-
-            if (node.nodeName === 'text') {
-                return;
-            }
-
-            // Recurse
-            each(node.children || node.childNodes, recurse);
-        }
-    }
-
-    /**
-     * Remove the dummy objects used to get defaults
-     */
-    function tearDown() {
-        dummySVG.parentNode.removeChild(dummySVG);
-    }
-
-    recurse(this.container.querySelector('svg'));
-    tearDown();
-
-};
 
 
 

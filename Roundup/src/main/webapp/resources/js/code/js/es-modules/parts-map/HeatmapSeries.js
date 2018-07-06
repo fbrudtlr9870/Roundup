@@ -102,6 +102,15 @@ seriesType('heatmap', 'scatter', {
 
     
 
+    /**
+     * The color applied to null points. In styled mode, a general CSS class is
+     * applied instead.
+     *
+     * @type {Color}
+     */
+    nullColor: '#f7f7f7',
+    
+
     dataLabels: {
 
         formatter: function () { // #2945
@@ -225,9 +234,7 @@ seriesType('heatmap', 'scatter', {
 
         each(this.points, function (point) {
             
-            // In styled mode, use CSS, otherwise the fill used in the style
-            // sheet will take precedence over the fill attribute.
-            point.graphic.css(this.colorAttribs(point));
+            point.graphic.attr(this.colorAttribs(point));
             
         }, this);
     },

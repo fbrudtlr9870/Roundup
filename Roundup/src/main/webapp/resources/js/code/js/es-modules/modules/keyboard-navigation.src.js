@@ -46,6 +46,11 @@ H.extend(H.SVGElement.prototype, {
         .addClass('highcharts-focus-border')
         
         .attr({
+            stroke: style && style.stroke,
+            'stroke-width': style && style.strokeWidth
+        })
+        
+        .attr({
             zIndex: 99
         })
         .add(this.parentGroup);

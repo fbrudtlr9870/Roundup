@@ -90,6 +90,22 @@ wrap(
 );
 
 
+wrap(
+    seriesTypes.pie.prototype,
+    'pointAttribs',
+    function (proceed, point, state) {
+        var attr = proceed.call(this, point, state),
+            options = this.options;
+
+        if (this.chart.is3d()) {
+            attr.stroke = options.edgeColor || point.color || this.color;
+            attr['stroke-width'] = pick(options.edgeWidth, 1);
+        }
+
+        return attr;
+    }
+);
+
 
 wrap(seriesTypes.pie.prototype, 'drawPoints', function (proceed) {
     proceed.apply(this, [].slice.call(arguments, 1));

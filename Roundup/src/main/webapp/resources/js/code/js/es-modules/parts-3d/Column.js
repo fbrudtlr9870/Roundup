@@ -316,6 +316,27 @@ addEvent(Series, 'afterInit', function () {
 });
 
 
+function pointAttribs(proceed) {
+    var attr = proceed.apply(this, [].slice.call(arguments, 1));
+
+    if (this.chart.is3d && this.chart.is3d()) {
+        // Set the fill color to the fill color to provide a smooth edge
+        attr.stroke = this.options.edgeColor || attr.fill;
+        attr['stroke-width'] = pick(this.options.edgeWidth, 1); // #4055
+    }
+
+    return attr;
+}
+
+wrap(seriesTypes.column.prototype, 'pointAttribs', pointAttribs);
+if (seriesTypes.columnrange) {
+    wrap(seriesTypes.columnrange.prototype, 'pointAttribs', pointAttribs);
+    seriesTypes.columnrange.prototype.plotGroup =
+        seriesTypes.column.prototype.plotGroup;
+    seriesTypes.columnrange.prototype.setVisible =
+        seriesTypes.column.prototype.setVisible;
+}
+
 
 wrap(Series.prototype, 'alignDataLabel', function (proceed) {
 

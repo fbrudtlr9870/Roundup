@@ -6,9 +6,13 @@
 </head>
 <body>
 <h1>
+<<<<<<< HEAD
+	Hello world!
+=======
 
 	Hello world!
 
+>>>>>>> branch 'master' of https://github.com/fbrudtlr9870/Roundup.git
 </h1>
 
 <P>  The time on the server is ${serverTime}. </P>

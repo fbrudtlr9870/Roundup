@@ -179,7 +179,22 @@ extend(defaultOptions, {
         // inputDateFormat: '%b %e, %Y',
         // inputEditDateFormat: '%Y-%m-%d',
         // inputEnabled: true,
-        // selected: undefined
+        // selected: undefined,
+        
+        // inputStyle: {},
+
+        /**
+         * CSS styles for the labels - the Zoom, From and To texts.
+         *
+         * In styled mode, the labels are styled by the `.highcharts-range-label` class.
+         *
+         * @type {CSSObject}
+         * @sample {highstock} stock/rangeselector/styling/ Styling the buttons and inputs
+         * @product highstock
+         */
+        labelStyle: {
+            color: '#666666'
+        }
         
     }
 });
@@ -781,6 +796,25 @@ RangeSelector.prototype = {
             top: chart.plotTop + 'px' // prevent jump on focus in Firefox
         }, div);
 
+        
+        // Styles
+        label.css(merge(chartStyle, options.labelStyle));
+
+        dateBox.css(merge({
+            color: '#333333'
+        }, chartStyle, options.inputStyle));
+
+        css(input, extend({
+            position: 'absolute',
+            border: 0,
+            width: '1px', // Chrome needs a pixel to see it
+            height: '1px',
+            padding: 0,
+            textAlign: 'center',
+            fontSize: chartStyle.fontSize,
+            fontFamily: chartStyle.fontFamily,
+            top: '-9999em' // #4798
+        }, options.inputStyle));
         
 
         // Blow up the input box

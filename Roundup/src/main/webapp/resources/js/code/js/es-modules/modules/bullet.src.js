@@ -63,20 +63,56 @@ seriesType('bullet', 'column',
              * @since   6.0.0
              * @product highcharts
              */
-            height: 3
+            height: 3,
+
+            
+
+            /**
+             * The border color of the rectangle representing the target. When
+             * not set, the  point's border color is used.
+             *
+             * In styled mode, use class `highcharts-bullet-target` instead.
+             *
+             * @type      {Color}
+             * @since     6.0.0
+             * @product   highcharts
+             * @apioption plotOptions.bullet.targetOptions.borderColor
+             */
+
+            /**
+             * The color of the rectangle representing the target. When not set,
+             * point's color (if set in point's options -
+             * [`color`](#series.bullet.data.color)) or zone of the target value
+             * (if [`zones`](#plotOptions.bullet.zones) or
+             * [`negativeColor`](#plotOptions.bullet.negativeColor) are set)
+             * or the same color as the point has is used.
+             *
+             * In styled mode, use class `highcharts-bullet-target` instead.
+             *
+             * @type      {Color}
+             * @since     6.0.0
+             * @product   highcharts
+             * @apioption plotOptions.bullet.targetOptions.color
+             */
+
+            /**
+             * The border width of the rectangle representing the target.
+             *
+             * In styled mode, use class `highcharts-bullet-target` instead.
+             *
+             * @since   6.0.0
+             * @product highcharts
+             */
+            borderWidth: 0
 
             
         },
 
         tooltip: {
             
-
-            pointFormat: '' + // eslint-disable-line no-dupe-keys
-                '<span class="highcharts-color-{point.colorIndex}">' +
-                '\u25CF</span> {series.name}: ' +
-                '<span class="highcharts-strong">{point.y}</span>. ' +
-                'Target: <span class="highcharts-strong">' +
-                '{point.target}</span><br/>'
+            pointFormat: '<span style="color:{series.color}">\u25CF</span>' +
+                ' {series.name}: <b>{point.y}</b>. Target: <b>{point.target}' +
+                '</b><br/>'
             
         }
     }, {
@@ -162,6 +198,28 @@ seriesType('bullet', 'column',
                             .attr(targetShapeArgs)
                             .add(series.group);
                     }
+                    
+                    // Presentational
+                    targetGraphic.attr({
+                        fill: pick(
+                            targetOptions.color,
+                            pointOptions.color,
+                            (series.zones.length && (point.getZone.call({
+                                series: series,
+                                x: point.x,
+                                y: targetVal,
+                                options: {}
+                            }).color || series.color)) || undefined,
+                            point.color,
+                            series.color
+                        ),
+                        stroke: pick(
+                            targetOptions.borderColor,
+                            point.borderColor,
+                            series.options.borderColor
+                        ),
+                        'stroke-width': targetOptions.borderWidth
+                    });
                     
 
                     // Add tooltip reference

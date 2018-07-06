@@ -72,6 +72,45 @@ seriesType('map', 'scatter', {
     animation: false, // makes the complex shapes slow
 
     
+    /**
+     * The color to apply to null points.
+     *
+     * In styled mode, the null point fill is set in the
+     * `.highcharts-null-point` class.
+     *
+     * @type {Color}
+     * @sample {highmaps} maps/demo/all-areas-as-null/ Null color
+     * @default #f7f7f7
+     * @product highmaps
+     */
+    nullColor: '#f7f7f7',
+
+    /**
+     * The border color of the map areas.
+     *
+     * In styled mode, the border stroke is given in the `.highcharts-point`
+     * class.
+     *
+     * @type {Color}
+     * @sample {highmaps} maps/plotoptions/series-border/ Borders demo
+     * @default #cccccc
+     * @product highmaps
+     * @apioption plotOptions.series.borderColor
+     */
+    borderColor: '#cccccc',
+
+    /**
+     * The border width of each map area.
+     *
+     * In styled mode, the border stroke width is given in the
+     * `.highcharts-point` class.
+     *
+     * @sample    {highmaps} maps/plotoptions/series-border/ Borders demo
+     * @product   highmaps
+     * @apioption plotOptions.series.borderWidth
+     */
+    borderWidth: 1,
+    
 
     /**
      * Whether to allow pointer interaction like tooltips and mouse events
@@ -217,8 +256,12 @@ seriesType('map', 'scatter', {
              */
             brightness: 0.2
 
-        }
+        },
 
+        
+        select: {
+            color: '#cccccc'
+        }
         
     }
 
@@ -626,7 +669,9 @@ seriesType('map', 'scatter', {
     pointAttribs: function (point, state) {
         var attr;
         
-        attr = this.colorAttribs(point);
+        attr = seriesTypes.column.prototype.pointAttribs.call(
+            this, point, state
+        );
         
 
         // If vector-effect is not supported, we set the stroke-width on the
@@ -681,6 +726,19 @@ seriesType('map', 'scatter', {
 
             // Individual point actions. TODO: Check unstyled.
             
+            if (chart.hasRendered) {
+                each(series.points, function (point) {
+
+                    // Restore state color on update/redraw (#3529)
+                    if (point.shapeArgs) {
+                        point.shapeArgs.fill = series.pointAttribs(
+                            point,
+                            point.state
+                        ).fill;
+                    }
+                });
+            }
+            
 
             // Draw them in transformGroup
             series.group = series.transformGroup;
@@ -703,10 +761,6 @@ seriesType('map', 'scatter', {
                         );
                     }
 
-                    
-                    point.graphic.css(
-                        series.pointAttribs(point, point.selected && 'select')
-                    );
                     
                 }
             });

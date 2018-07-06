@@ -109,6 +109,50 @@ seriesType('funnel', 'pie',
     size: true, // to avoid adapting to data label size in Pie.drawDataLabels
 
     
+    // Presentational
+
+    dataLabels: {
+        connectorWidth: 1
+    },
+
+    /**
+     * Options for the series states.
+     *
+     * @product highcharts
+     */
+    states: {
+        /**
+         * @excluding halo,marker,lineWidth,lineWidthPlus
+         * @apioption plotOptions.funnel.states.hover
+         */
+
+        /**
+         * Options for a selected funnel item.
+         *
+         * @excluding halo,marker,lineWidth,lineWidthPlus
+         * @product highcharts
+         */
+        select: {
+            /**
+             * A specific color for the selected point.
+             *
+             * @type    {Color}
+             * @default #cccccc
+             * @product highcharts highstock
+             */
+            color: '#cccccc',
+
+            /**
+             * A specific border color for the selected point.
+             *
+             * @type    {Color}
+             * @default #000000
+             * @product highcharts highstock
+             */
+            borderColor: '#000000'
+        }
+    }
+    
 },
 
 // Properties

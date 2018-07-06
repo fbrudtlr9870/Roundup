@@ -118,6 +118,10 @@ extend(Pane.prototype, {
             )
         }).attr({
             
+            'fill': backgroundOptions.backgroundColor,
+            'stroke': backgroundOptions.borderColor,
+            'stroke-width': backgroundOptions.borderWidth,
+            
             'class': 'highcharts-pane ' + (backgroundOptions.className || '')
         });
 
@@ -214,6 +218,58 @@ extend(Pane.prototype, {
          * @product highcharts
          */
         shape: 'circle',
+        
+
+        /**
+         * The pixel border width of the pane background.
+         *
+         * @type {Number}
+         * @default 1
+         * @since 2.3.0
+         * @product highcharts
+         */
+        borderWidth: 1,
+
+        /**
+         * The pane background border color.
+         *
+         * @type {Color}
+         * @default #cccccc
+         * @since 2.3.0
+         * @product highcharts
+         */
+        borderColor: '#cccccc',
+
+        /**
+         * The background color or gradient for the pane.
+         *
+         * @type {Color}
+         * @since 2.3.0
+         * @product highcharts
+         */
+        backgroundColor: {
+            /**
+             * Definition of the gradient, similar to SVG: object literal holds
+             * start position (x1, y1) and the end position (x2, y2) relative
+             * to the shape, where 0 means top/left and 1 is bottom/right.
+             * All positions are floats between 0 and 1.
+             *
+             * @type {Object}
+             */
+            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+            /**
+             * The stops is an array of tuples, where the first item is a float
+             * between 0 and 1 assigning the relative position in the gradient,
+             * and the second item is the color.
+             *
+             * @default [[0, #ffffff], [1, #e6e6e6]]
+             * @type {Array<Array>}
+             */
+            stops: [
+                [0, '#ffffff'],
+                [1, '#e6e6e6']
+            ]
+        },
         
 
         /** @ignore-option */

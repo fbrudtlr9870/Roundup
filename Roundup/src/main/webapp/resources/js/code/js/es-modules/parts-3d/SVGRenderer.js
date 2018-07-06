@@ -76,43 +76,6 @@ function curveTo(cx, cy, rx, ry, start, end, dx, dy) {
 }
 
 
-/**
- * Override the SVGRenderer initiator to add definitions used by brighter and
- * darker faces of the cuboids.
- */
-wrap(SVGRenderer.prototype, 'init', function (proceed) {
-    proceed.apply(this, [].slice.call(arguments, 1));
-
-    each([{
-        name: 'darker',
-        slope: 0.6
-    }, {
-        name: 'brighter',
-        slope: 1.4
-    }], function (cfg) {
-        this.definition({
-            tagName: 'filter',
-            id: 'highcharts-' + cfg.name,
-            children: [{
-                tagName: 'feComponentTransfer',
-                children: [{
-                    tagName: 'feFuncR',
-                    type: 'linear',
-                    slope: cfg.slope
-                }, {
-                    tagName: 'feFuncG',
-                    type: 'linear',
-                    slope: cfg.slope
-                }, {
-                    tagName: 'feFuncB',
-                    type: 'linear',
-                    slope: cfg.slope
-                }]
-            }]
-        });
-    }, this);
-});
-
 
 SVGRenderer.prototype.toLinePath = function (points, closed) {
     var result = [];
@@ -244,6 +207,10 @@ SVGRenderer.prototype.polyhedron = function (args) {
         destroy = result.destroy;
 
     
+    result.attr({
+        'stroke-linejoin': 'round'
+    });
+    
 
     result.faces = [];
 
@@ -308,6 +275,10 @@ SVGRenderer.prototype.cuboid = function (shapeArgs) {
         destroy = result.destroy,
         paths = this.cuboidPath(shapeArgs);
 
+    
+    result.attr({
+        'stroke-linejoin': 'round'
+    });
     
 
     // Create the 3 sides. // Front, top and side are never overlapping in our

@@ -104,7 +104,27 @@ seriesType('gauge', 'line', {
          * @since   2.1.5
          * @product highcharts highmaps
          */
-        zIndex: 2
+        zIndex: 2,
+        
+        // Presentational
+
+        /**
+         * The border width in pixels for the gauge data label.
+         *
+         * @since   2.3.0
+         * @product highcharts highmaps
+         */
+        borderWidth: 1,
+
+        /**
+         * The border color for the data label.
+         *
+         * @type    {Color}
+         * @default #cccccc
+         * @since   2.3.0
+         * @product highcharts highmaps
+         */
+        borderColor: '#cccccc'
         
     },
 
@@ -189,6 +209,46 @@ seriesType('gauge', 'line', {
     
 
     /**
+     * The background or fill color of the gauge's dial.
+     *
+     * @type      {Color}
+     * @sample    {highcharts} highcharts/plotoptions/gauge-dial/
+     *            Dial options demonstrated
+     * @default   #000000
+     * @since     2.3.0
+     * @product   highcharts
+     * @apioption plotOptions.gauge.dial.backgroundColor
+     */
+
+    /**
+     * The border color or stroke of the gauge's dial. By default, the
+     * borderWidth is 0, so this must be set in addition to a custom border
+     * color.
+     *
+     * @type      {Color}
+     * @sample    {highcharts} highcharts/plotoptions/gauge-dial/
+     *            Dial options demonstrated
+     * @default   #cccccc
+     * @since     2.3.0
+     * @product   highcharts
+     * @apioption plotOptions.gauge.dial.borderColor
+     */
+
+    /**
+     * The width of the gauge dial border in pixels.
+     *
+     * @type      {Number}
+     * @sample    {highcharts} highcharts/plotoptions/gauge-dial/
+     *            Dial options demonstrated
+     * @default   0
+     * @since     2.3.0
+     * @product   highcharts
+     * @apioption plotOptions.gauge.dial.borderWidth
+     */
+
+    
+
+    /**
      * Allow the dial to overshoot the end of the perimeter axis by this
      * many degrees. Say if the gauge axis goes from 0 to 60, a value of
      * 100, or 1000, will show 5 degrees beyond the end of the axis when this
@@ -229,6 +289,45 @@ seriesType('gauge', 'line', {
      * @apioption plotOptions.gauge.pivot.radius
      */
 
+    
+
+    /**
+     * The border or stroke width of the pivot.
+     *
+     * @type      {Number}
+     * @sample    {highcharts} highcharts/plotoptions/gauge-pivot/
+     *            Pivot options demonstrated
+     * @default   0
+     * @since     2.3.0
+     * @product   highcharts
+     * @apioption plotOptions.gauge.pivot.borderWidth
+     */
+
+    /**
+     * The border or stroke color of the pivot. In able to change this,
+     * the borderWidth must also be set to something other than the default
+     * 0.
+     *
+     * @type      {Color}
+     * @sample    {highcharts} highcharts/plotoptions/gauge-pivot/
+     *            Pivot options demonstrated
+     * @default   #cccccc
+     * @since     2.3.0
+     * @product   highcharts
+     * @apioption plotOptions.gauge.pivot.borderColor
+        */
+
+    /**
+     * The background color or fill of the pivot.
+     *
+     * @type      {Color}
+     * @sample    {highcharts} highcharts/plotoptions/gauge-pivot/
+     *            Pivot options demonstrated
+     * @default   #000000
+     * @since     2.3.0
+     * @product   highcharts
+     * @apioption plotOptions.gauge.pivot.backgroundColor
+     */
     
 
 
@@ -360,6 +459,14 @@ seriesType('gauge', 'line', {
                     .add(series.group);
 
                 
+                // Presentational attributes
+                point.graphic.attr({
+                    stroke: dialOptions.borderColor || 'none',
+                    'stroke-width': dialOptions.borderWidth || 0,
+                    fill: dialOptions.backgroundColor ||
+                        '#000000'
+                });
+                
             }
         });
 
@@ -378,6 +485,15 @@ seriesType('gauge', 'line', {
                 .translate(center[0], center[1])
                 .add(series.group);
 
+            
+            // Presentational attributes
+            series.pivot.attr({
+                'stroke-width': pivotOptions.borderWidth || 0,
+                stroke: pivotOptions.borderColor ||
+                    '#cccccc',
+                fill: pivotOptions.backgroundColor ||
+                    '#000000'
+            });
             
         }
     },

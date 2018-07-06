@@ -20,7 +20,6 @@ public class Chatting {
 	}
 
 	
-	
 	public Chatting(String member_id, String chat_content) {
 		super();
 		this.member_id = member_id;

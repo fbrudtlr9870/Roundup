@@ -259,6 +259,50 @@ seriesType('column', 'line', {
              */
 
             
+
+            /**
+             * How much to brighten the point on interaction. Requires the main
+             * color to be defined in hex or rgb(a) format.
+             *
+             * In styled mode, the hover brightening is by default replaced
+             * with a fill-opacity set in the `.highcharts-point:hover` rule.
+             *
+             * @sample  {highcharts}
+             *          highcharts/plotoptions/column-states-hover-brightness/
+             *          Brighten by 0.5
+             * @product highcharts highstock
+             */
+            brightness: 0.1
+
+            
+        },
+        
+
+        /**
+         * Options for the selected point. These settings override the normal
+         * state options when a point is selected.
+         *
+         * @excluding halo,lineWidth,lineWidthPlus,marker
+         * @product highcharts highstock
+         */
+        select: {
+            /**
+             * A specific color for the selected point.
+             *
+             * @type    {Color}
+             * @default #cccccc
+             * @product highcharts highstock
+             */
+            color: '#cccccc',
+
+            /**
+             * A specific border color for the selected point.
+             *
+             * @type    {Color}
+             * @default #000000
+             * @product highcharts highstock
+             */
+            borderColor: '#000000'
         }
         
     },
@@ -303,7 +347,37 @@ seriesType('column', 'line', {
      * @since   2.0
      * @product highcharts
      */
-    threshold: 0
+    threshold: 0,
+
+    
+
+    /**
+     * The width of the border surrounding each column or bar.
+     *
+     * In styled mode, the stroke width can be set with the `.highcharts-point`
+     * rule.
+     *
+     * @type      {Number}
+     * @sample    {highcharts} highcharts/plotoptions/column-borderwidth/
+     *            2px black border
+     * @default   1
+     * @product   highcharts highstock
+     * @apioption plotOptions.column.borderWidth
+     */
+
+    /**
+     * The color of the border surrounding each column or bar.
+     *
+     * In styled mode, the border stroke can be set with the `.highcharts-point`
+     * rule.
+     *
+     * @type    {Color}
+     * @sample  {highcharts} highcharts/plotoptions/column-bordercolor/
+     *          Dark gray border
+     * @default #ffffff
+     * @product highcharts highstock
+     */
+    borderColor: '#ffffff'
 
     
 
@@ -596,6 +670,65 @@ seriesType('column', 'line', {
     },
 
     
+    /**
+     * Get presentational attributes
+     */
+    pointAttribs: function (point, state) {
+        var options = this.options,
+            stateOptions,
+            ret,
+            p2o = this.pointAttrToOptions || {},
+            strokeOption = p2o.stroke || 'borderColor',
+            strokeWidthOption = p2o['stroke-width'] || 'borderWidth',
+            fill = (point && point.color) || this.color,
+            stroke = (point && point[strokeOption]) || options[strokeOption] ||
+                this.color || fill, // set to fill when borderColor null
+            strokeWidth = (point && point[strokeWidthOption]) ||
+                options[strokeWidthOption] || this[strokeWidthOption] || 0,
+            dashstyle = options.dashStyle,
+            zone,
+            brightness;
+
+        // Handle zone colors
+        if (point && this.zones.length) {
+            zone = point.getZone();
+            // When zones are present, don't use point.color (#4267). Changed
+            // order (#6527)
+            fill = point.options.color || (zone && zone.color) || this.color;
+        }
+
+        // Select or hover states
+        if (state) {
+            stateOptions = merge(
+                options.states[state],
+                // #6401
+                point.options.states && point.options.states[state] || {}
+            );
+            brightness = stateOptions.brightness;
+            fill = stateOptions.color ||
+                (
+                    brightness !== undefined &&
+                    color(fill).brighten(stateOptions.brightness).get()
+                ) ||
+                fill;
+            stroke = stateOptions[strokeOption] || stroke;
+            strokeWidth = stateOptions[strokeWidthOption] || strokeWidth;
+            dashstyle = stateOptions.dashStyle || dashstyle;
+        }
+
+        ret = {
+            'fill': fill,
+            'stroke': stroke,
+            'stroke-width': strokeWidth
+        };
+
+        if (dashstyle) {
+            ret.dashstyle = dashstyle;
+        }
+
+        return ret;
+    },
+    
 
     /**
      * Draw the columns. For bars, the series.group is rotated, so the same
@@ -638,6 +771,17 @@ seriesType('column', 'line', {
                     });
                 }
 
+                
+                // Presentational
+                graphic[verb](series.pointAttribs(
+                        point,
+                        point.selected && 'select'
+                    ))
+                    .shadow(
+                        options.shadow,
+                        null,
+                        options.stacking && !options.borderRadius
+                    );
                 
 
                 graphic.addClass(point.getClassName(), true);

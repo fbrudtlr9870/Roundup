@@ -197,11 +197,81 @@ extend(defaultOptions, {
              * @product highstock
              * @since 6.0.0
              */
-            enabled: true
+            enabled: true,
+
+            
+            /**
+             * The width for the handle border and the stripes inside.
+             *
+             * @type {Number}
+             * @default 7
+             * @product highstock
+             * @sample {highstock} stock/navigator/styled-handles/
+             *         Styled handles
+             * @since 6.0.0
+             */
+            lineWidth: 1,
+
+            /**
+             * The fill for the handle.
+             *
+             * @type {Color}
+             * @product highstock
+             */
+            backgroundColor: '#f2f2f2',
+
+            /**
+             * The stroke for the handle border and the stripes inside.
+             *
+             * @type {Color}
+             * @product highstock
+             */
+            borderColor: '#999999'
 
             
         },
 
+        
+
+        /**
+         * The color of the mask covering the areas of the navigator series
+         * that are currently not visible in the main series. The default
+         * color is bluish with an opacity of 0.3 to see the series below.
+         *
+         * @type {Color}
+         * @see     In styled mode, the mask is styled with the
+         *          `.highcharts-navigator-mask` and
+         *          `.highcharts-navigator-mask-inside` classes.
+         * @sample  {highstock} stock/navigator/maskfill/
+         *          Blue, semi transparent mask
+         * @default rgba(102,133,194,0.3)
+         * @product highstock
+         */
+        maskFill: color('#6685c2').setOpacity(0.3).get(),
+
+        /**
+         * The color of the line marking the currently zoomed area in the
+         * navigator.
+         *
+         * @type {Color}
+         * @sample {highstock} stock/navigator/outline/ 2px blue outline
+         * @default #cccccc
+         * @product highstock
+         */
+        outlineColor: '#cccccc',
+
+        /**
+         * The width of the line marking the currently zoomed area in the
+         * navigator.
+         *
+         * @type {Number}
+         * @see In styled mode, the outline stroke width is set with the
+         * `.highcharts-navigator-outline` class.
+         * @sample {highstock} stock/navigator/outline/ 2px blue outline
+         * @default 2
+         * @product highstock
+         */
+        outlineWidth: 1,
         
 
         /**
@@ -244,6 +314,18 @@ extend(defaultOptions, {
              * @type {String}
              */
             type: defaultSeriesType,
+            
+
+
+            /**
+             * The fill opacity of the navigator series.
+             */
+            fillOpacity: 0.05,
+
+            /**
+             * The pixel line width of the navigator series.
+             */
+            lineWidth: 1,
             
 
             /**
@@ -342,12 +424,20 @@ extend(defaultOptions, {
             tickLength: 0,
 
             
+            lineWidth: 0,
+            gridLineColor: '#e6e6e6',
+            gridLineWidth: 1,
+            
 
             tickPixelInterval: 200,
 
             labels: {
                 align: 'left',
 
+                
+                style: {
+                    color: '#999999'
+                },
                 
 
                 x: 3,
@@ -386,6 +476,8 @@ extend(defaultOptions, {
 
             className: 'highcharts-navigator-yaxis',
 
+            
+            gridLineWidth: 0,
             
 
             startOnTick: false,
@@ -643,6 +735,10 @@ Navigator.prototype = {
 
 
         
+        var mouseCursor = {
+            cursor: inverted ? 'ns-resize' : 'ew-resize'
+        };
+        
 
         // Create masks, each mask will get events and fill:
         each([!maskInside, maskInside, !maskInside], function (hasMask, index) {
@@ -650,12 +746,22 @@ Navigator.prototype = {
                 .addClass('highcharts-navigator-mask' +
                     (index === 1 ? '-inside' : '-outside'))
                 
+                .attr({
+                    fill: hasMask ? navigatorOptions.maskFill : 'rgba(0,0,0,0)'
+                })
+                .css(index === 1 && mouseCursor)
+                
                 .add(navigatorGroup);
         });
 
         // Create the outline:
         navigator.outline = renderer.path()
             .addClass('highcharts-navigator-outline')
+            
+            .attr({
+                'stroke-width': navigatorOptions.outlineWidth,
+                stroke: navigatorOptions.outlineColor
+            })
             
             .add(navigatorGroup);
 
@@ -680,6 +786,15 @@ Navigator.prototype = {
                         ['left', 'right'][index]
                     ).add(navigatorGroup);
 
+                
+                var handlesOptions = navigatorOptions.handles;
+                navigator.handles[index]
+                    .attr({
+                        fill: handlesOptions.backgroundColor,
+                        stroke: handlesOptions.borderColor,
+                        'stroke-width': handlesOptions.lineWidth
+                    })
+                    .css(mouseCursor);
                 
             });
         }

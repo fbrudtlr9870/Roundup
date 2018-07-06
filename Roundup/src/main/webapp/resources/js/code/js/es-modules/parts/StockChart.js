@@ -483,6 +483,10 @@ SVGRenderer.prototype.crispPolyLine = function (points, width) {
     return points;
 };
 
+if (Renderer === VMLRenderer) {
+    VMLRenderer.prototype.crispPolyLine = SVGRenderer.prototype.crispPolyLine;
+}
+
 
 // Wrapper to hide the label
 wrap(Axis.prototype, 'hideCrosshair', function (proceed, i) {
@@ -552,6 +556,22 @@ addEvent(Axis, 'afterDrawCrosshair', function (event) {
             })
             .add(this.labelGroup);
 
+        
+        // Presentational
+        crossLabel
+            .attr({
+                fill: options.backgroundColor ||
+                    (this.series[0] && this.series[0].color) ||
+                    '#666666',
+                stroke: options.borderColor || '',
+                'stroke-width': options.borderWidth || 0
+            })
+            .css(extend({
+                color: '#ffffff',
+                fontWeight: 'normal',
+                fontSize: '11px',
+                textAlign: 'center'
+            }, options.style));
         
     }
 

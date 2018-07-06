@@ -1,6 +1,7 @@
 package com.proj.rup.chatting.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -30,6 +31,11 @@ public class ChattingDAOImpl implements ChattingDAO {
 	@Override
 	public int insertChat(Chatting chatting) {
 		return sqlSession.insert("chatting.insertChat",chatting);
+	}
+
+	@Override
+	public int chatUpload(Map<String, String> map) {
+		return sqlSession.insert("chatting.chatUpload",map);
 	}
 
 

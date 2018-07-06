@@ -75,6 +75,14 @@ seriesType('bubble', 'scatter', {
      */
     marker: {
         
+        lineColor: null, // inherit from series.color
+        lineWidth: 1,
+
+        /**
+         * The fill opacity of the bubble markers.
+         */
+        fillOpacity: 0.5,
+        
         /**
          * In bubble charts, the radius is overridden and determined based on
          * the point's data value.
@@ -267,6 +275,18 @@ seriesType('bubble', 'scatter', {
     zoneAxis: 'z',
     directTouch: true,
 
+    
+    pointAttribs: function (point, state) {
+        var markerOptions = this.options.marker,
+            fillOpacity = markerOptions.fillOpacity,
+            attr = Series.prototype.pointAttribs.call(this, point, state);
+
+        if (fillOpacity !== 1) {
+            attr.fill = color(attr.fill).setOpacity(fillOpacity).get('rgba');
+        }
+
+        return attr;
+    },
     
 
     /**

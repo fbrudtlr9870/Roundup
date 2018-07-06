@@ -110,6 +110,15 @@ extend(SVGElement.prototype, /** @lends SVGElement.prototype */ {
         });
 
         
+        if (wrapper.shadows) { // used in labels/tooltip
+            each(wrapper.shadows, function (shadow) {
+                css(shadow, {
+                    marginLeft: translateX + 1,
+                    marginTop: translateY + 1
+                });
+            });
+        }
+        
 
         // apply inversion
         if (wrapper.inverted) { // wrapper is a group
@@ -310,6 +319,9 @@ extend(SVGRenderer.prototype, /** @lends SVGRenderer.prototype */ {
                 y: Math.round(y)
             })
             .css({
+                
+                fontFamily: this.style.fontFamily,
+                fontSize: this.style.fontSize,
                 
                 position: 'absolute'
             });

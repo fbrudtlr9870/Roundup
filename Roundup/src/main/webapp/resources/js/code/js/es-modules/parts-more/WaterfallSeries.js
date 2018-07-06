@@ -50,6 +50,71 @@ seriesType('waterfall', 'column', {
     },
     
 
+    /**
+     * The width of the line connecting waterfall columns.
+     *
+     * @product highcharts
+     */
+    lineWidth: 1,
+
+    /**
+     * The color of the line that connects columns in a waterfall series.
+     *
+     * In styled mode, the stroke can be set with the `.highcharts-graph` class.
+     *
+     * @type    {Color}
+     * @default #333333
+     * @since   3.0
+     * @product highcharts
+     */
+    lineColor: '#333333',
+
+    /**
+     * A name for the dash style to use for the line connecting the columns
+     * of the waterfall series. Possible values:
+     *
+     * *   Solid
+     * *   ShortDash
+     * *   ShortDot
+     * *   ShortDashDot
+     * *   ShortDashDotDot
+     * *   Dot
+     * *   Dash
+     * *   LongDash
+     * *   DashDot
+     * *   LongDashDot
+     * *   LongDashDotDot
+     *
+     * In styled mode, the stroke dash-array can be set with the
+     * `.highcharts-graph` class.
+     *
+     * @type    {String}
+     * @default Dot
+     * @since   3.0
+     * @product highcharts
+     */
+    dashStyle: 'dot',
+
+    /**
+     * The color of the border of each waterfall column.
+     *
+     * In styled mode, the border stroke can be set with the
+     * `.highcharts-point` class.
+     *
+     * @type    {Color}
+     * @default #333333
+     * @since   3.0
+     * @product highcharts
+     */
+    borderColor: '#333333',
+
+    states: {
+        hover: {
+            lineWidthPlus: 0 // #3126
+        }
+    }
+    
+
 // Prototype members
 }, {
     pointValKey: 'y',
@@ -250,6 +315,32 @@ seriesType('waterfall', 'column', {
         return pt.y;
     },
 
+    
+    /**
+     * Postprocess mapping between options and SVG attributes
+     */
+    pointAttribs: function (point, state) {
+
+        var upColor = this.options.upColor,
+            attr;
+
+        // Set or reset up color (#3710, update to negative)
+        if (upColor && !point.options.color) {
+            point.color = point.y > 0 ? upColor : null;
+        }
+
+        attr = seriesTypes.column.prototype.pointAttribs.call(
+                this,
+                point,
+                state
+            );
+
+        // The dashStyle option in waterfall applies to the graph, not
+        // the points
+        delete attr.dashstyle;
+
+        return attr;
+    },
     
 
     /**

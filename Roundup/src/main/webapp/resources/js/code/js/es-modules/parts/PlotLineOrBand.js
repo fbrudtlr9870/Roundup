@@ -69,6 +69,26 @@ H.PlotLineOrBand.prototype = {
         }
 
         
+        // Set the presentational attributes
+        if (isLine) {
+            attribs = {
+                stroke: color,
+                'stroke-width': options.width
+            };
+            if (options.dashStyle) {
+                attribs.dashstyle = options.dashStyle;
+            }
+
+        } else if (isBand) { // plot band
+            if (color) {
+                attribs.fill = color;
+            }
+            if (options.borderWidth) {
+                attribs.stroke = options.borderColor;
+                attribs['stroke-width'] = options.borderWidth;
+            }
+        }
+        
 
         // Grouping and zIndex
         groupAttribs.zIndex = zIndex;
@@ -186,6 +206,8 @@ H.PlotLineOrBand.prototype = {
                 .attr(attribs)
                 .add();
 
+            
+            label.css(optionsLabel.style);
             
         }
 

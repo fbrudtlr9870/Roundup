@@ -235,7 +235,7 @@ public class FreeBoardController {
 	
 	
 	//게시물 등록
-	@RequestMapping("/freeboard/insertEndBoard.do")
+	@RequestMapping(value="/freeboard/insertEndBoard.do",method=RequestMethod.POST, headers = ("content-type=multipart/*"))
 	public ModelAndView insertEndBoard(@RequestParam(value="boardTitle")String boardTitle,
 								 @RequestParam(value="memberId")String memberId,
 								 @RequestParam(value="smarteditor")String boardComment,

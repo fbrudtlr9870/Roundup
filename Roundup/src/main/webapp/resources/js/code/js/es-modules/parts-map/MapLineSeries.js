@@ -22,9 +22,49 @@ var seriesType = H.seriesType,
  */
 seriesType('mapline', 'map', {
     
+
+    /**
+     * The width of the map line.
+     *
+     * @type {Number}
+     * @default 1
+     * @product highmaps
+     */
+    lineWidth: 1,
+
+    /**
+     * Fill color for the map line shapes
+     *
+     * @type {Color}
+     * @default none
+     * @product highmaps
+     */
+    fillColor: 'none'
+    
 }, {
     type: 'mapline',
     colorProp: 'stroke',
+    
+    pointAttrToOptions: {
+        'stroke': 'color',
+        'stroke-width': 'lineWidth'
+    },
+    /**
+     * Get presentational attributes
+     */
+    pointAttribs: function (point, state) {
+        var attr = seriesTypes.map.prototype.pointAttribs.call(
+            this,
+            point,
+            state
+        );
+
+        // The difference from a map series is that the stroke takes the point
+        // color
+        attr.fill = this.options.fillColor;
+
+        return attr;
+    },
     
     drawLegendSymbol: seriesTypes.line.prototype.drawLegendSymbol
 });

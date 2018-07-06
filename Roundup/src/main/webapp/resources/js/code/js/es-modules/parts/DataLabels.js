@@ -292,8 +292,33 @@ Series.prototype.drawDataLabels = function () {
                 style = options.style;
                 rotation = options.rotation;
                 
+                // Determine the color
+                style.color = pick(
+                    options.color,
+                    style.color,
+                    series.color,
+                    '#000000'
+                );
+                // Get automated contrast color
+                if (style.color === 'contrast') {
+                    point.contrastColor =
+                        renderer.getContrast(point.color || series.color);
+                    style.color = options.inside ||
+                        pick(point.labelDistance, options.distance) < 0 ||
+                        !!seriesOptions.stacking ?
+                            point.contrastColor :
+                            '#000000';
+                }
+                if (seriesOptions.cursor) {
+                    style.cursor = seriesOptions.cursor;
+                }
+                
 
                 attr = {
+                    
+                    fill: options.backgroundColor,
+                    stroke: options.borderColor,
+                    'stroke-width': options.borderWidth,
                     
                     r: options.borderRadius || 0,
                     rotation: rotation,
@@ -345,6 +370,10 @@ Series.prototype.drawDataLabels = function () {
                     attr.text = str;
                 }
                 dataLabel.attr(attr);
+                
+                // Styles must be applied before add in order to read text
+                // bounding box
+                dataLabel.css(style).shadow(options.shadow);
                 
 
                 if (!dataLabel.added) {
@@ -404,6 +433,8 @@ Series.prototype.alignDataLabel = function (
 
     if (visible) {
 
+        
+        fontSize = options.style.fontSize;
         
 
         baseline = chart.renderer.fontMetrics(fontSize, dataLabel).b;
@@ -643,6 +674,15 @@ if (seriesTypes.pie) {
 
                 // Avoid long labels squeezing the pie size too far down
                 
+                if (
+                    !defined(options.style.width) &&
+                    !defined(
+                        point.options.dataLabels &&
+                        point.options.dataLabels.style &&
+                        point.options.dataLabels.style.width
+                    )
+                ) {
+                
                     if (point.dataLabel.getBBox().width > maxWidth) {
                         point.dataLabel.css({
                             // Use a fraction of the maxWidth to avoid wrapping
@@ -651,6 +691,8 @@ if (seriesTypes.pie) {
                         });
                         point.dataLabel.shortened = true;
                     }
+                
+                }
                 
             }
         });
@@ -869,6 +911,15 @@ if (seriesTypes.pie) {
                                 )
                                 .add(series.dataLabelsGroup);
 
+                            
+                            connector.attr({
+                                'stroke-width': connectorWidth,
+                                'stroke': (
+                                    options.connectorColor ||
+                                    point.color ||
+                                    '#666666'
+                                )
+                            });
                             
                         }
                         connector[isNew ? 'attr' : 'animate']({

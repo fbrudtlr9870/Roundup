@@ -94,6 +94,33 @@ var addEvent = H.addEvent,
  */
 H.Series = H.seriesType('line', null, { // base series options
     
+    /**
+     * The SVG value used for the `stroke-linecap` and `stroke-linejoin`
+     * of a line graph. Round means that lines are rounded in the ends and
+     * bends.
+     *
+     * @validvalue ["round", "butt", "square"]
+     * @type {String}
+     * @default round
+     * @since 3.0.7
+     * @apioption plotOptions.line.linecap
+     */
+
+    /**
+     * Pixel width of the graph line.
+     *
+     * @type {Number}
+     * @see In styled mode, the line stroke-width can be set with the
+     * `.highcharts-graph` class name.
+     * @sample {highcharts} highcharts/plotoptions/series-linewidth-general/
+     *         On all series
+     * @sample {highcharts} highcharts/plotoptions/series-linewidth-specific/
+     *         On one single series
+     * @default 2
+     * @product highcharts highstock
+     */
+    lineWidth: 2,
+    
 
     /**
      * For some series, there is a limit that shuts down initial animation
@@ -957,6 +984,41 @@ H.Series = H.seriesType('line', null, { // base series options
     marker: {
         
 
+
+        /**
+         * The width of the point marker's outline.
+         *
+         * @type {Number}
+         * @sample {highcharts} highcharts/plotoptions/series-marker-fillcolor/
+         *         2px blue marker
+         * @default 0
+         */
+        lineWidth: 0,
+
+
+        /**
+         * The color of the point marker's outline. When `null`, the series'
+         * or point's color is used.
+         *
+         * @type {Color}
+         * @sample {highcharts} highcharts/plotoptions/series-marker-fillcolor/
+         *         Inherit from series color (null)
+         */
+        lineColor: '#ffffff',
+
+        /**
+         * The fill color of the point marker. When `null`, the series' or
+         * point's color is used.
+         *
+         * @type {Color}
+         * @sample {highcharts} highcharts/plotoptions/series-marker-fillcolor/
+         *         White fill
+         * @default null
+         * @apioption plotOptions.series.marker.fillColor
+         */
+
+        
+
         /**
          * Enable or disable the point marker. If `null`, the markers are hidden
          * when the data is dense, and shown for more widespread data points.
@@ -1155,9 +1217,88 @@ H.Series = H.seriesType('line', null, { // base series options
                  *         5 pixels greater radius on hover
                  * @since 4.0.3
                  */
-                radiusPlus: 2
+                radiusPlus: 2,
 
                 
+
+                /**
+                 * The additional line width for a hovered point.
+                 *
+                 * @sample {highcharts}
+                 *         highcharts/plotoptions/series-states-hover-linewidthplus/
+                 *         2 pixels wider on hover
+                 * @sample {highstock}
+                 *         highcharts/plotoptions/series-states-hover-linewidthplus/
+                 *         2 pixels wider on hover
+                 * @since 4.0.3
+                 */
+                lineWidthPlus: 1
+                
+            },
+            
+
+
+
+            /**
+             * The appearance of the point marker when selected. In order to
+             * allow a point to be selected, set the `series.allowPointSelect`
+             * option to true.
+             */
+            select: {
+
+                /**
+                 * The radius of the point marker. In hover state, it defaults
+                 * to the normal state's radius + 2.
+                 *
+                 * @type {Number}
+                 * @sample {highcharts}
+                 *         highcharts/plotoptions/series-marker-states-select-radius/
+                 *         10px radius for selected points
+                 * @apioption plotOptions.series.marker.states.select.radius
+                 */
+
+                /**
+                 * Enable or disable visible feedback for selection.
+                 *
+                 * @type {Boolean}
+                 * @sample {highcharts}
+                 *         highcharts/plotoptions/series-marker-states-select-enabled/
+                 *         Disabled select state
+                 * @default true
+                 * @apioption plotOptions.series.marker.states.select.enabled
+                 */
+
+                /**
+                 * The fill color of the point marker.
+                 *
+                 * @type {Color}
+                 * @sample {highcharts}
+                 *         highcharts/plotoptions/series-marker-states-select-fillcolor/
+                 *         Solid red discs for selected points
+                 * @default #cccccc
+                 */
+                fillColor: '#cccccc',
+
+                /**
+                 * The color of the point marker's outline. When `null`, the
+                 * series' or point's color is used.
+                 *
+                 * @type {Color}
+                 * @sample {highcharts}
+                 *         highcharts/plotoptions/series-marker-states-select-linecolor/
+                 *         Red line color for selected points
+                 * @default #000000
+                 */
+                lineColor: '#000000',
+
+                /**
+                 * The width of the point marker's outline.
+                 *
+                 * @sample {highcharts}
+                 *         highcharts/plotoptions/series-marker-states-select-linewidth/
+                 *         3px line width for selected points
+                 */
+                lineWidth: 2
             }
             
         }
@@ -1528,6 +1669,148 @@ H.Series = H.seriesType('line', null, { // base series options
         },
         
 
+
+        /**
+         * Styles for the label. The default `color` setting is `"contrast"`,
+         * which is a pseudo color that Highcharts picks up and applies the
+         * maximum contrast to the underlying point item, for example the
+         * bar in a bar chart.
+         *
+         * The `textOutline` is a pseudo property that
+         * applies an outline of the given width with the given color, which
+         * by default is the maximum contrast to the text. So a bright text
+         * color will result in a black text outline for maximum readability
+         * on a mixed background. In some cases, especially with grayscale
+         * text, the text outline doesn't work well, in which cases it can
+         * be disabled by setting it to `"none"`. When `useHTML` is true, the
+         * `textOutline` will not be picked up. In this, case, the same effect
+         * can be acheived through the `text-shadow` CSS property.
+         *
+         * @type {CSSObject}
+         * @sample {highcharts} highcharts/plotoptions/series-datalabels-style/
+         *         Bold labels
+         * @sample {highmaps} maps/demo/color-axis/ Bold labels
+         * @default {"color": "contrast", "fontSize": "11px", "fontWeight": "bold", "textOutline": "1px contrast" }
+         * @since 4.1.0
+         */
+        style: {
+            fontSize: '11px',
+            fontWeight: 'bold',
+            color: 'contrast',
+            textOutline: '1px contrast'
+        },
+
+        /**
+         * The name of a symbol to use for the border around the label. Symbols
+         * are predefined functions on the Renderer object.
+         *
+         * @type {String}
+         * @sample highcharts/plotoptions/series-datalabels-shape/
+         *         A callout for annotations
+         * @default square
+         * @since 4.1.2
+         * @apioption plotOptions.series.dataLabels.shape
+         */
+
+        /**
+         * The Z index of the data labels. The default Z index puts it above
+         * the series. Use a Z index of 2 to display it behind the series.
+         *
+         * @type {Number}
+         * @default 6
+         * @since 2.3.5
+         * @apioption plotOptions.series.dataLabels.zIndex
+         */
+
+        /**
+         * A declarative filter for which data labels to display. The
+         * declarative filter is designed for use when callback functions are
+         * not available, like when the chart options require a pure JSON
+         * structure or for use with graphical editors. For programmatic
+         * control, use the `formatter` instead, and return `false` to disable
+         * a single data label.
+         *
+         * @example
+         * filter: {
+         *     property: 'percentage',
+         *     operator: '>',
+         *     value: 4
+         * }
+         *
+         * @sample highcharts/demo/pie-monochrome
+         *         Data labels filtered by percentage
+         *
+         * @type {Object}
+         * @since 6.0.3
+         * @apioption plotOptions.series.dataLabels.filter
+         */
+
+        /**
+         * The point property to filter by. Point options are passed directly to
+         * properties, additionally there are `y` value, `percentage` and others
+         * listed under [Point](https://api.highcharts.com/class-reference/Highcharts.Point)
+         * members.
+         *
+         * @type {String}
+         * @apioption plotOptions.series.dataLabels.filter.property
+         */
+
+        /**
+         * The operator to compare by. Can be one of `>`, `<`, `>=`, `<=`, `==`,
+         * and `===`.
+         *
+         * @type {String}
+         * @validvalue [">", "<", ">=", "<=", "==", "===""]
+         * @apioption plotOptions.series.dataLabels.filter.operator
+         */
+
+        /**
+         * The value to compare against.
+         *
+         * @type {Mixed}
+         * @apioption plotOptions.series.dataLabels.filter.value
+         */
+
+        /**
+         * The background color or gradient for the data label.
+         *
+         * @type {Color}
+         * @sample {highcharts} highcharts/plotoptions/series-datalabels-box/
+         *         Data labels box options
+         * @sample {highmaps} maps/plotoptions/series-datalabels-box/
+         *         Data labels box options
+         * @since 2.2.1
+         * @apioption plotOptions.series.dataLabels.backgroundColor
+         */
+
+        /**
+         * The border color for the data label. Defaults to `undefined`.
+         *
+         * @type {Color}
+         * @sample {highcharts|highstock}
+         *         highcharts/plotoptions/series-datalabels-box/
+         *         Data labels box options
+         * @default undefined
+         * @since 2.2.1
+         * @apioption plotOptions.series.dataLabels.borderColor
+         */
+
+        /**
+         * The shadow of the box. Works best with `borderWidth` or
+         * `backgroundColor`. Since 2.3 the shadow can be an object
+         * configuration containing `color`, `offsetX`, `offsetY`, `opacity` and
+         * `width`.
+         *
+         * @type {Boolean|Object}
+         * @sample {highcharts|highstock}
+         *         highcharts/plotoptions/series-datalabels-box/
+         *         Data labels box options
+         * @default false
+         * @since 2.2.1
+         * @apioption plotOptions.series.dataLabels.shadow
+         */
+        
+
         /**
          * For points with an extent, like columns or map areas, whether to
          * align the data label inside the box or to the actual value point.
@@ -1835,7 +2118,22 @@ H.Series = H.seriesType('line', null, { // base series options
                  * @since 4.0
                  * @product highcharts highstock
                  */
-                size: 10
+                size: 10,
+                
+
+
+
+                /**
+                 * Opacity for the halo unless a specific fill is overridden
+                 * using the `attributes` setting. Note that Highcharts is only
+                 * able to apply opacity to colors of hex or rgb(a) formats.
+                 *
+                 * @type {Number}
+                 * @default 0.25
+                 * @since 4.0
+                 * @product highcharts highstock
+                 */
+                opacity: 0.25
                 
             }
         },
@@ -2405,13 +2703,19 @@ H.Series = H.seriesType('line', null, { // base series options
                     options[this.zoneAxis + 'Threshold'] ||
                     options.threshold ||
                     0,
-                className: 'highcharts-negative'
+                className: 'highcharts-negative',
+                
+                color: options.negativeColor,
+                fillColor: options.negativeFillColor
                 
             });
         }
         if (zones.length) { // Push one extra zone for the rest
             if (defined(zones[zones.length - 1].value)) {
                 zones.push({
+                    
+                    color: this.color,
+                    fillColor: this.fillColor
                     
                 });
             }
@@ -2481,9 +2785,18 @@ H.Series = H.seriesType('line', null, { // base series options
      */
     
     getColor: function () {
-        this.getCyclic('color');
+        if (this.options.colorByPoint) {
+            // #4359, selected slice got series.color even when colorByPoint was
+            // set.
+            this.options.color = null;
+        } else {
+            this.getCyclic(
+                'color',
+                this.options.color || defaultPlotOptions[this.type].color,
+                this.chart.options.colors
+            );
+        }
     },
-
     
     /**
      * Get the series' symbol based on either the options or pulled from global
@@ -3598,6 +3911,16 @@ H.Series = H.seriesType('line', null, { // base series options
                     }
 
                     
+                    // Presentational attributes
+                    if (graphic) {
+                        graphic.attr(
+                            series.pointAttribs(
+                                point,
+                                point.selected && 'select'
+                            )
+                        );
+                    }
+                    
 
                     if (graphic) {
                         graphic.addClass(point.getClassName(), true);
@@ -3673,6 +3996,89 @@ H.Series = H.seriesType('line', null, { // base series options
 
     },
 
+    
+    /**
+     * Internal function to get presentational attributes for each point. Unlike
+     * {@link Series#markerAttribs}, this function should return those
+     * attributes that can also be set in CSS. In styled mode, `pointAttribs`
+     * won't be called.
+     *
+     * @param  {Point} point
+     *         The point instance to inspect.
+     * @param  {String} [state]
+     *         The point state, can be either `hover`, `select` or undefined for
+     *         normal state.
+     *
+     * @return {SVGAttributes}
+     *         The presentational attributes to be set on the point.
+     */
+    pointAttribs: function (point, state) {
+        var seriesMarkerOptions = this.options.marker,
+            seriesStateOptions,
+            pointOptions = point && point.options,
+            pointMarkerOptions = (pointOptions && pointOptions.marker) || {},
+            pointStateOptions,
+            color = this.color,
+            pointColorOption = pointOptions && pointOptions.color,
+            pointColor = point && point.color,
+            strokeWidth = pick(
+                pointMarkerOptions.lineWidth,
+                seriesMarkerOptions.lineWidth
+            ),
+            zoneColor = point && point.zone && point.zone.color,
+            fill,
+            stroke;
+
+        color = (
+            pointColorOption ||
+            zoneColor ||
+            pointColor ||
+            color
+        );
+        fill = (
+            pointMarkerOptions.fillColor ||
+            seriesMarkerOptions.fillColor ||
+            color
+        );
+        stroke = (
+            pointMarkerOptions.lineColor ||
+            seriesMarkerOptions.lineColor ||
+            color
+        );
+
+        // Handle hover and select states
+        if (state) {
+            seriesStateOptions = seriesMarkerOptions.states[state];
+            pointStateOptions = (
+                pointMarkerOptions.states && pointMarkerOptions.states[state]
+            ) || {};
+            strokeWidth = pick(
+                pointStateOptions.lineWidth,
+                seriesStateOptions.lineWidth,
+                strokeWidth + pick(
+                    pointStateOptions.lineWidthPlus,
+                    seriesStateOptions.lineWidthPlus,
+                    0
+                )
+            );
+            fill = (
+                pointStateOptions.fillColor ||
+                seriesStateOptions.fillColor ||
+                fill
+            );
+            stroke = (
+                pointStateOptions.lineColor ||
+                seriesStateOptions.lineColor ||
+                stroke
+            );
+        }
+
+        return {
+            'stroke': stroke,
+            'stroke-width': strokeWidth,
+            'fill': fill
+        };
+    },
     
     /**
      * Clear DOM objects and free up memory.
@@ -3886,7 +4292,10 @@ H.Series = H.seriesType('line', null, { // base series options
             graphPath = (this.gappedPath || this.getGraphPath).call(this),
             props = [[
                 'graph',
-                'highcharts-graph'
+                'highcharts-graph',
+                
+                options.lineColor || this.color,
+                options.dashStyle
                 
             ]];
 
@@ -3912,6 +4321,26 @@ H.Series = H.seriesType('line', null, { // base series options
                     .add(series.group);
 
                 
+                attribs = {
+                    'stroke': prop[2],
+                    'stroke-width': options.lineWidth,
+                    // Polygon series use filled graph
+                    'fill': (series.fillGraph && series.color) || 'none'
+                };
+
+                if (prop[3]) {
+                    attribs.dashstyle = prop[3];
+                } else if (options.linecap !== 'square') {
+                    attribs['stroke-linecap'] = attribs['stroke-linejoin'] =
+                        'round';
+                }
+
+                graph = series[graphKey]
+                    .attr(attribs)
+                    // Add shadow to normal series (0) or to first zone (1)
+                    // #3932
+                    .shadow((i < 2) && options.shadow);
+                
             }
 
             // Helpers for animation
@@ -3934,7 +4363,10 @@ H.Series = H.seriesType('line', null, { // base series options
             props.push([
                 'zone-graph-' + i,
                 'highcharts-graph highcharts-zone-graph-' + i + ' ' +
-                    (zone.className || '')
+                    (zone.className || ''),
+                
+                zone.color || this.color,
+                zone.dashStyle || this.options.dashStyle
                 
             ]);
         }, this);
@@ -4038,6 +4470,26 @@ H.Series = H.seriesType('line', null, { // base series options
                     }
                 }
 
+                
+                // VML SUPPPORT
+                if (inverted && renderer.isVML) {
+                    if (axis.isXAxis) {
+                        clipAttr = {
+                            x: 0,
+                            y: reversed ? pxPosMin : pxPosMax,
+                            height: clipAttr.width,
+                            width: chart.chartWidth
+                        };
+                    } else {
+                        clipAttr = {
+                            x: clipAttr.y - chart.plotLeft - chart.spacingBox.x,
+                            y: 0,
+                            width: clipAttr.height,
+                            height: chart.chartHeight
+                        };
+                    }
+                }
+                // END OF VML SUPPORT
                 
 
                 if (clips[i]) {

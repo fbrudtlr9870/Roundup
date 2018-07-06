@@ -35,11 +35,31 @@ var each = H.each,
 seriesType('arearange', 'area', {
     
 
+    /**
+     * Whether to apply a drop shadow to the graph line. Since 2.3 the shadow
+     * can be an object configuration containing `color`, `offsetX`, `offsetY`,
+     * `opacity` and `width`.
+     *
+     * @type      {Boolean|Object}
+     * @product   highcharts
+     * @apioption plotOptions.arearange.shadow
+     */
+
+    /**
+     * Pixel width of the arearange graph line.
+     *
+     * @since   2.3.0
+     * @product highcharts highstock
+     */
+    lineWidth: 1,
+    
+
     threshold: null,
 
     tooltip: {
         
-        pointFormat: '<span class="highcharts-color-{series.colorIndex}">\u25CF</span> {series.name}: <b>{point.low}</b> - <b>{point.high}</b><br/>'
+
+        pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.low}</b> - <b>{point.high}</b><br/>' // eslint-disable-line no-dupe-keys
         
     },
 

@@ -103,7 +103,116 @@ var defaultScrollbarOptions =  {
     /**
      * The z index of the scrollbar group.
      */
-    zIndex: 3
+    zIndex: 3,
+    
+
+    /**
+     * The background color of the scrollbar itself.
+     *
+     * @type {Color}
+     * @sample {highstock} stock/scrollbar/style/ Scrollbar styling
+     * @default #cccccc
+     * @product highstock
+     */
+    barBackgroundColor: '#cccccc',
+
+    /**
+     * The width of the bar's border.
+     *
+     * @type {Number}
+     * @sample {highstock} stock/scrollbar/style/ Scrollbar styling
+     * @default 1
+     * @product highstock
+     */
+    barBorderWidth: 1,
+
+    /**
+     * The color of the scrollbar's border.
+     *
+     * @type {Color}
+     * @default #cccccc
+     * @product highstock
+     */
+    barBorderColor: '#cccccc',
+
+    /**
+     * The color of the small arrow inside the scrollbar buttons.
+     *
+     * @type {Color}
+     * @sample {highstock} stock/scrollbar/style/ Scrollbar styling
+     * @default #333333
+     * @product highstock
+     */
+    buttonArrowColor: '#333333',
+
+    /**
+     * The color of scrollbar buttons.
+     *
+     * @type {Color}
+     * @sample {highstock} stock/scrollbar/style/ Scrollbar styling
+     * @default #e6e6e6
+     * @product highstock
+     */
+    buttonBackgroundColor: '#e6e6e6',
+
+    /**
+     * The color of the border of the scrollbar buttons.
+     *
+     * @type {Color}
+     * @sample {highstock} stock/scrollbar/style/ Scrollbar styling
+     * @default #cccccc
+     * @product highstock
+     */
+    buttonBorderColor: '#cccccc',
+
+    /**
+     * The border width of the scrollbar buttons.
+     *
+     * @type {Number}
+     * @sample {highstock} stock/scrollbar/style/ Scrollbar styling
+     * @default 1
+     * @product highstock
+     */
+    buttonBorderWidth: 1,
+
+    /**
+     * The color of the small rifles in the middle of the scrollbar.
+     *
+     * @type {Color}
+     * @default #333333
+     * @product highstock
+     */
+    rifleColor: '#333333',
+
+    /**
+     * The color of the track background.
+     *
+     * @type {Color}
+     * @sample {highstock} stock/scrollbar/style/ Scrollbar styling
+     * @default #f2f2f2
+     * @product highstock
+     */
+    trackBackgroundColor: '#f2f2f2',
+
+    /**
+     * The color of the border of the scrollbar track.
+     *
+     * @type {Color}
+     * @sample {highstock} stock/scrollbar/style/ Scrollbar styling
+     * @default #f2f2f2
+     * @product highstock
+     */
+    trackBorderColor: '#f2f2f2',
+
+    /**
+     * The width of the border of the scrollbar track.
+     *
+     * @type {Number}
+     * @sample {highstock} stock/scrollbar/style/ Scrollbar styling
+     * @default 1
+     * @product highstock
+     */
+    trackBorderWidth: 1
     
 };
 
@@ -194,6 +303,12 @@ Scrollbar.prototype = {
             }).add(group);
 
         
+        scroller.track.attr({
+            fill: options.trackBackgroundColor,
+            stroke: options.trackBorderColor,
+            'stroke-width': options.trackBorderWidth
+        });
+        
         this.trackBorderWidth = scroller.track.strokeWidth();
         scroller.track.attr({
             y: -this.trackBorderWidth % 2 / 2
@@ -229,6 +344,16 @@ Scrollbar.prototype = {
             .addClass('highcharts-scrollbar-rifles')
             .add(scroller.scrollbarGroup);
 
+        
+        scroller.scrollbar.attr({
+            fill: options.barBackgroundColor,
+            stroke: options.barBorderColor,
+            'stroke-width': options.barBorderWidth
+        });
+        scroller.scrollbarRifles.attr({
+            stroke: options.rifleColor,
+            'stroke-width': 1
+        });
         
         scroller.scrollbarStrokeWidth = scroller.scrollbar.strokeWidth();
         scroller.scrollbarGroup.translate(
@@ -316,6 +441,13 @@ Scrollbar.prototype = {
             .add(group);
 
         
+        // Presentational attributes
+        tempElem.attr({
+            stroke: options.buttonBorderColor,
+            'stroke-width': options.buttonBorderWidth,
+            fill: options.buttonBackgroundColor
+        });
+        
 
         // Place the rectangle based on the rendered stroke width
         tempElem.attr(tempElem.crisp({
@@ -342,6 +474,10 @@ Scrollbar.prototype = {
             .addClass('highcharts-scrollbar-arrow')
             .add(scrollbarButtons[index]);
 
+        
+        tempElem.attr({
+            fill: options.buttonArrowColor
+        });
         
     },
 

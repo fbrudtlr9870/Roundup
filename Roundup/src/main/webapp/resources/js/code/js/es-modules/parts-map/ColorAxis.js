@@ -301,7 +301,17 @@ if (!H.ColorAxis) {
                 /**
                  * @ignore
                  */
-                width: 0.01
+                width: 0.01,
+                
+
+                /**
+                 * The color of the marker.
+                 *
+                 * @type {Color}
+                 * @default #999999
+                 * @product highcharts highmaps
+                 */
+                color: '#999999'
                 
             },
 
@@ -500,7 +510,15 @@ if (!H.ColorAxis) {
                 dataClasses.push(dataClass);
 
                 
+                if (dataClass.color) {
+                    return;
+                }
+                
                 if (options.dataClassColor === 'category') {
+                    
+                    colors = chart.options.colors;
+                    colorCount = colors.length;
+                    dataClass.color = colors[colorCounter];
                     
                     dataClass.colorIndex = colorCounter;
 
@@ -608,6 +626,8 @@ if (!H.ColorAxis) {
                         (from === undefined || value >= from) &&
                         (to === undefined || value <= to)
                     ) {
+                        
+                        color = dataClass.color;
                         
                         if (point) {
                             point.dataClass = i;
@@ -784,6 +804,10 @@ if (!H.ColorAxis) {
 
                     this.cross.addedToColorAxis = true;
 
+                    
+                    this.cross.attr({
+                        fill: this.crosshair.color
+                    });
                     
 
                 }

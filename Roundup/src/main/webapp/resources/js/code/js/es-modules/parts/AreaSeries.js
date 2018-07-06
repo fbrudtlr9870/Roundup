@@ -436,7 +436,10 @@ seriesType('area', 'line', {
             zones = this.zones,
             props = [[
                 'area',
-                'highcharts-area'
+                'highcharts-area',
+                
+                this.color,
+                options.fillColor
                 
             ]]; // area name, main color, fill color
 
@@ -444,7 +447,10 @@ seriesType('area', 'line', {
             props.push([
                 'zone-area-' + i,
                 'highcharts-area highcharts-zone-area-' + i + ' ' +
-                    zone.className
+                    zone.className,
+                
+                zone.color || series.color,
+                zone.fillColor || options.fillColor
                 
             ]);
         });
@@ -462,6 +468,13 @@ seriesType('area', 'line', {
                 area = series[areaKey] = series.chart.renderer.path(areaPath)
                     .addClass(prop[1])
                     .attr({
+                        
+                        fill: pick(
+                            prop[3],
+                            color(prop[2])
+                                .setOpacity(pick(options.fillOpacity, 0.75))
+                                .get()
+                        ),
                         
                         zIndex: 0 // #1069
                     }).add(series.group);

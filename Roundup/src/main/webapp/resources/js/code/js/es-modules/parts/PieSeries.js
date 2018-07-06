@@ -320,6 +320,64 @@ seriesType('pie', 'line', {
 
     tooltip: {
         followPointer: true
+    },
+    
+
+    /**
+     * The color of the border surrounding each slice. When `null`, the
+     * border takes the same color as the slice fill. This can be used
+     * together with a `borderWidth` to fill drawing gaps created by antialiazing
+     * artefacts in borderless pies.
+     *
+     * In styled mode, the border stroke is given in the `.highcharts-point` class.
+     *
+     * @type {Color}
+     * @sample {highcharts} highcharts/plotoptions/pie-bordercolor-black/ Black border
+     * @default #ffffff
+     * @product highcharts
+     */
+    borderColor: '#ffffff',
+
+    /**
+     * The width of the border surrounding each slice.
+     *
+     * When setting the border width to 0, there may be small gaps between
+     * the slices due to SVG antialiasing artefacts. To work around this,
+     * keep the border width at 0.5 or 1, but set the `borderColor` to
+     * `null` instead.
+     *
+     * In styled mode, the border stroke width is given in the `.highcharts-point` class.
+     *
+     * @type {Number}
+     * @sample {highcharts} highcharts/plotoptions/pie-borderwidth/ 3px border
+     * @default 1
+     * @product highcharts
+     */
+    borderWidth: 1,
+
+    states: {
+
+        /**
+         * @extends   plotOptions.series.states.hover
+         * @excluding marker,lineWidth,lineWidthPlus
+         * @product   highcharts
+         */
+        hover: {
+
+            /**
+             * How much to brighten the point on interaction. Requires the main
+             * color to be defined in hex or rgb(a) format.
+             *
+             * In styled mode, the hover brightness is by default replaced
+             * by a fill-opacity given in the `.highcharts-point-hover` class.
+             *
+             * @sample  {highcharts}
+             *          highcharts/plotoptions/pie-states-hover-brightness/
+             *          Brightened by 0.5
+             * @product highcharts
+             */
+            brightness: 0.1
+        }
     }
     
 
@@ -540,6 +598,12 @@ seriesType('pie', 'line', {
             shapeArgs;
 
         
+        var shadow = series.options.shadow;
+        if (shadow && !series.shadowGroup) {
+            series.shadowGroup = renderer.g('shadow')
+                .add(series.group);
+        }
+        
 
         // draw the slices
         each(series.points, function (point) {
@@ -553,11 +617,25 @@ seriesType('pie', 'line', {
                 groupTranslation = point.getTranslate();
 
                 
+                // Put the shadow behind all points
+                var shadowGroup = point.shadowGroup;
+                if (shadow && !shadowGroup) {
+                    shadowGroup = point.shadowGroup = renderer.g('shadow')
+                        .add(series.shadowGroup);
+                }
+
+                if (shadowGroup) {
+                    shadowGroup.attr(groupTranslation);
+                }
+                pointAttr = series.pointAttribs(point, point.selected && 'select');
+                
 
                 // Draw the slice
                 if (graphic) {
                     graphic
                         .setRadialReference(series.center)
+                        
+                        .attr(pointAttr)
                         
                         .animate(extend(shapeArgs, groupTranslation));
                 } else {
@@ -571,6 +649,11 @@ seriesType('pie', 'line', {
                         graphic.attr({ visibility: 'hidden' });
                     }
 
+                    
+                    graphic
+                        .attr(pointAttr)
+                        .attr({ 'stroke-linejoin': 'round' })
+                        .shadow(shadow, shadowGroup);
                     
                 }
 
@@ -709,6 +792,10 @@ seriesType('pie', 'line', {
 
         point.graphic.animate(this.getTranslate());
 
+        
+        if (point.shadowGroup) {
+            point.shadowGroup.animate(this.getTranslate());
+        }
         
     },
 

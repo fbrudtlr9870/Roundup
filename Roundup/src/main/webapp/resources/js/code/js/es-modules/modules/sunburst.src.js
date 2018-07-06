@@ -663,6 +663,8 @@ var sunburstSeries = {
         }
     },
     
+    pointAttribs: seriesTypes.column.prototype.pointAttribs,
+    
 
     /*
      * The layout algorithm for the levels

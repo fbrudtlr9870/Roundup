@@ -26,6 +26,13 @@ seriesType('plotband', 'column', {
     threshold: null
 }, {
     
+    // mapping between SVG attributes and the corresponding options
+    pointAttrToOptions: {
+        fill: 'color',
+        stroke: 'lineColor',
+        'stroke-width': 'lineWidth'
+    },
+    
     animate: function () {},
 
     translate: function () {

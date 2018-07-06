@@ -1564,7 +1564,7 @@ function GLRenderer(postRenderCallback) {
                     shapeArgs = point.shapeArgs;
 
                     
-                    pointAttr = point.series.colorAttribs(point);
+                    pointAttr = point.series.pointAttribs(point);
                     
                     swidth = pointAttr['stroke-width'] || 0;
 
@@ -2115,10 +2115,13 @@ function GLRenderer(postRenderCallback) {
                 color;
 
             
-            fillColor = (
-                s.series.markerGroup &&
-                s.series.markerGroup.getStyle('fill')
-            );
+            fillColor =
+                (s.series.pointAttribs && s.series.pointAttribs().fill) ||
+                s.series.color;
+
+            if (options.colorByPoint) {
+                fillColor = s.series.chart.options.colors[si];
+            }
             
 
             if (s.series.fillOpacity && options.fillOpacity) {

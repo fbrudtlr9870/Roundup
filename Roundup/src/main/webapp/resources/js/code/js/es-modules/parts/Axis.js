@@ -799,6 +799,25 @@ H.extend(Axis.prototype, /** @lends Highcharts.Axis.prototype */{
             
 
             /**
+             * CSS styles for the label. Use `whiteSpace: 'nowrap'` to prevent
+             * wrapping of category labels. Use `textOverflow: 'none'` to
+             * prevent ellipsis (dots).
+             *
+             * In styled mode, the labels are styled with the
+             * `.highcharts-axis-labels` class.
+             *
+             * @type   {CSSObject}
+             * @sample {highcharts} highcharts/xaxis/labels-style/
+             *         Red X axis labels
+             */
+            style: {
+                color: '#666666',
+                cursor: 'default',
+                fontSize: '11px'
+            },
+            
+
+            /**
              * Whether to [use HTML](http://www.highcharts.com/docs/chart-
              * concepts/labels-and-string-formatting#html) to render the labels.
              *
@@ -1290,8 +1309,29 @@ H.extend(Axis.prototype, /** @lends Highcharts.Axis.prototype */{
              * @sample     {highstock} stock/xaxis/title-align/
              *             Aligned to "high" value
              */
-            align: 'middle'
+            align: 'middle',
 
+            
+
+            /**
+             * CSS styles for the title. If the title text is longer than the
+             * axis length, it will wrap to multiple lines by default. This can
+             * be customized by setting `textOverflow: 'ellipsis'`, by
+             * setting a specific `width` or by setting `whiteSpace: 'nowrap'`.
+             *
+             * In styled mode, the stroke width is given in the
+             * `.highcharts-axis-title` class.
+             *
+             * @type    {CSSObject}
+             * @sample  {highcharts} highcharts/xaxis/title-style/
+             *          Red
+             * @sample  {highcharts} highcharts/css/axis/
+             *          Styled mode
+             * @default { "color": "#666666" }
+             */
+            style: {
+                color: '#666666'
+            }
             
         },
 
@@ -1317,8 +1357,150 @@ H.extend(Axis.prototype, /** @lends Highcharts.Axis.prototype */{
          *             Logarithmic with extension to emulate negative values
          * @product    highcharts
          */
-        type: 'linear'
+        type: 'linear',
 
+        
+
+        /**
+         * Color of the minor, secondary grid lines.
+         *
+         * In styled mode, the stroke width is given in the
+         * `.highcharts-minor-grid-line` class.
+         *
+         * @type    {Color}
+         * @sample  {highcharts} highcharts/yaxis/minorgridlinecolor/
+         *          Bright grey lines from Y axis
+         * @sample  {highcharts|highstock} highcharts/css/axis-grid/
+         *          Styled mode
+         * @sample  {highstock} stock/xaxis/minorgridlinecolor/
+         *          Bright grey lines from Y axis
+         * @default #f2f2f2
+         */
+        minorGridLineColor: '#f2f2f2',
+        // minorGridLineDashStyle: null,
+
+        /**
+         * Width of the minor, secondary grid lines.
+         *
+         * In styled mode, the stroke width is given in the
+         * `.highcharts-grid-line` class.
+         *
+         * @sample {highcharts} highcharts/yaxis/minorgridlinewidth/
+         *         2px lines from Y axis
+         * @sample {highcharts|highstock} highcharts/css/axis-grid/
+         *         Styled mode
+         * @sample {highstock} stock/xaxis/minorgridlinewidth/
+         *         2px lines from Y axis
+         */
+        minorGridLineWidth: 1,
+
+        /**
+         * Color for the minor tick marks.
+         *
+         * @type    {Color}
+         * @sample  {highcharts} highcharts/yaxis/minortickcolor/
+         *          Black tick marks on Y axis
+         * @sample  {highstock} stock/xaxis/minorticks/
+         *          Black tick marks on Y axis
+         * @default #999999
+         */
+        minorTickColor: '#999999',
+
+        /**
+         * The color of the line marking the axis itself.
+         *
+         * In styled mode, the line stroke is given in the
+         * `.highcharts-axis-line` or `.highcharts-xaxis-line` class.
+         *
+         * @productdesc {highmaps}
+         * In Highmaps, the axis line is hidden by default, because the axis is
+         * not visible by default.
+         *
+         * @type    {Color}
+         * @sample  {highcharts} highcharts/yaxis/linecolor/
+         *          A red line on Y axis
+         * @sample  {highcharts|highstock} highcharts/css/axis/
+         *          Axes in styled mode
+         * @sample  {highstock} stock/xaxis/linecolor/
+         *          A red line on X axis
+         * @default #ccd6eb
+         */
+        lineColor: '#ccd6eb',
+
+        /**
+         * The width of the line marking the axis itself.
+         *
+         * In styled mode, the stroke width is given in the
+         * `.highcharts-axis-line` or `.highcharts-xaxis-line` class.
+         *
+         * @sample  {highcharts} highcharts/yaxis/linecolor/
+         *          A 1px line on Y axis
+         * @sample  {highcharts|highstock} highcharts/css/axis/
+         *          Axes in styled mode
+         * @sample  {highstock} stock/xaxis/linewidth/
+         *          A 2px line on X axis
+         * @default {highcharts|highstock} 1
+         * @default {highmaps} 0
+         */
+        lineWidth: 1,
+
+        /**
+         * Color of the grid lines extending the ticks across the plot area.
+         *
+         * In styled mode, the stroke is given in the `.highcharts-grid-line`
+         * class.
+         *
+         * @productdesc {highmaps}
+         * In Highmaps, the grid lines are hidden by default.
+         *
+         * @type    {Color}
+         * @sample  {highcharts} highcharts/yaxis/gridlinecolor/
+         *          Green lines
+         * @sample  {highcharts|highstock} highcharts/css/axis-grid/
+         *          Styled mode
+         * @sample  {highstock} stock/xaxis/gridlinecolor/
+         *          Green lines
+         * @default #e6e6e6
+         */
+        gridLineColor: '#e6e6e6',
+        // gridLineDashStyle: 'solid',
+
+
+        /**
+         * The width of the grid lines extending the ticks across the plot area.
+         *
+         * In styled mode, the stroke width is given in the
+         * `.highcharts-grid-line` class.
+         *
+         * @type      {Number}
+         * @sample    {highcharts} highcharts/yaxis/gridlinewidth/
+         *            2px lines
+         * @sample    {highcharts|highstock} highcharts/css/axis-grid/
+         *            Styled mode
+         * @sample    {highstock} stock/xaxis/gridlinewidth/
+         *            2px lines
+         * @default   0
+         * @apioption xAxis.gridLineWidth
+         */
+        // gridLineWidth: 0,
+
+        /**
+         * Color for the main tick marks.
+         *
+         * In styled mode, the stroke is given in the `.highcharts-tick`
+         * class.
+         *
+         * @type    {Color}
+         * @sample  {highcharts} highcharts/xaxis/tickcolor/
+         *          Red ticks on X axis
+         * @sample  {highcharts|highstock} highcharts/css/axis-grid/
+         *          Styled mode
+         * @sample  {highstock} stock/xaxis/ticks/
+         *          Formatted ticks on X axis
+         * @default #ccd6eb
+         */
+        tickColor: '#ccd6eb'
+        // tickWidth: 1
         
     },
 
@@ -1549,9 +1731,33 @@ H.extend(Axis.prototype, /** @lends Highcharts.Axis.prototype */{
              */
             formatter: function () {
                 return H.numberFormat(this.total, -1);
+            },
+            
+
+            /**
+             * CSS styles for the label.
+             *
+             * In styled mode, the styles are set in the
+             * `.highcharts-stack-label` class.
+             *
+             * @type    {CSSObject}
+             * @sample  {highcharts} highcharts/yaxis/stacklabels-style/
+             *          Red stack total labels
+             * @since   2.1.5
+             * @product highcharts
+             */
+            style: {
+                fontSize: '11px',
+                fontWeight: 'bold',
+                color: '#000000',
+                textOutline: '1px contrast'
             }
             
-        }
+        },
+        
+        gridLineWidth: 1,
+        lineWidth: 0
+        // tickWidth: 0
         
     },
 
@@ -4014,15 +4220,22 @@ H.extend(Axis.prototype, /** @lends Highcharts.Axis.prototype */{
             })
             .addClass('highcharts-axis-title')
             
+            // #7814, don't mutate style option
+            .css(merge(axisTitleOptions.style))
+            
             .add(axis.axisGroup);
             axis.axisTitle.isNew = true;
         }
 
         // Max width defaults to the length of the axis
         
+        if (!axisTitleOptions.style.width && !axis.isRadial) {
+        
             axis.axisTitle.css({
                 width: axis.len
             });
+        
+        }
         
 
         // hide or show the title depending on whether showEmpty is set
@@ -4274,6 +4487,12 @@ H.extend(Axis.prototype, /** @lends Highcharts.Axis.prototype */{
                 .addClass('highcharts-axis-line')
                 .add(this.axisGroup);
 
+            
+            this.axisLine.attr({
+                stroke: this.options.lineColor,
+                'stroke-width': this.options.lineWidth,
+                zIndex: 7
+            });
             
         }
     },
@@ -4761,6 +4980,25 @@ H.extend(Axis.prototype, /** @lends Highcharts.Axis.prototype */{
                     })
                     .add();
 
+                
+                // Presentational attributes
+                graphic.attr({
+                    'stroke': options.color ||
+                        (
+                            categorized ?
+                                color('#ccd6eb')
+                                    .setOpacity(0.25).get() :
+                                '#cccccc'
+                        ),
+                    'stroke-width': pick(options.width, 1)
+                }).css({
+                    'pointer-events': 'none'
+                });
+                if (options.dashStyle) {
+                    graphic.attr({
+                        dashstyle: options.dashStyle
+                    });
+                }
                 
 
             }

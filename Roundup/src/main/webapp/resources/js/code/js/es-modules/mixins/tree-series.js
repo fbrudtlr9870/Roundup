@@ -111,6 +111,15 @@ var getColor = function getColor(node, options) {
         }
 
         
+        // Select either point color, level color or inherited color.
+        color = pick(
+            point && point.options.color,
+            level && level.color,
+            colorByPoint,
+            parentColor && variation(parentColor),
+            series.color
+        );
+        
         colorIndex = pick(
             point && point.options.colorIndex,
             level && level.colorIndex,

@@ -82,6 +82,16 @@ MapNavigation.prototype.update = function (options) {
             buttonOptions = merge(o.buttonOptions, button);
 
             
+            // Presentational
+            attr = buttonOptions.theme;
+            attr.style = merge(
+                buttonOptions.theme.style,
+                buttonOptions.style // #3203
+            );
+            states = attr.states;
+            hoverStates = states && states.hover;
+            selectStates = states && states.select;
+            
 
             button = chart.renderer.button(
                 buttonOptions.text,

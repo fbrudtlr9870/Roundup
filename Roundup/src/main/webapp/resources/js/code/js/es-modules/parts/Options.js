@@ -24,6 +24,39 @@ var color = H.color,
 H.defaultOptions = {
     
 
+    /**
+     * An array containing the default colors for the chart's series. When
+     * all colors are used, new colors are pulled from the start again.
+     *
+     * Default colors can also be set on a series or series.type basis,
+     * see [column.colors](#plotOptions.column.colors),
+     * [pie.colors](#plotOptions.pie.colors).
+     *
+     * In styled mode, the colors option doesn't exist. Instead, colors
+     * are defined in CSS and applied either through series or point class
+     * names, or through the [chart.colorCount](#chart.colorCount) option.
+     *
+     *
+     * ### Legacy
+     *
+     * In Highcharts 3.x, the default colors were:
+     *
+     * <pre>colors: ['#2f7ed8', '#0d233a', '#8bbc21', '#910000', '#1aadce',
+     *     '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a']</pre>
+     *
+     * In Highcharts 2.x, the default colors were:
+     *
+     * <pre>colors: ['#4572A7', '#AA4643', '#89A54E', '#80699B', '#3D96AE',
+     *    '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92']</pre>
+     *
+     * @type {Array<Color>}
+     * @sample {highcharts} highcharts/chart/colors/ Assign a global color theme
+     * @default ["#7cb5ec", "#434348", "#90ed7d", "#f7a35c", "#8085e9",
+     *          "#f15c80", "#e4d354", "#2b908f", "#f45b5b", "#91e8e1"]
+     */
+    colors: '#7cb5ec #434348 #90ed7d #f7a35c #8085e9 #f15c80 #e4d354 #2b908f #f45b5b #91e8e1'.split(' '),
+    
+
 
     /**
      * Styled mode only. Configuration object for adding SVG definitions for
@@ -643,20 +676,6 @@ H.defaultOptions = {
         
 
         /**
-         * In styled mode, this sets how many colors the class names
-         * should rotate between. With ten colors, series (or points) are
-         * given class names like `highcharts-color-0`, `highcharts-color-0`
-         * [...] `highcharts-color-9`. The equivalent in non-styled mode
-         * is to set colors using the [colors](#colors) setting.
-         *
-         * @type {Number}
-         * @default 10
-         * @since 5.0.0
-         */
-        colorCount: 10,
-        
-
-        /**
          * Alias of `type`.
          *
          * @validvalue ["line", "spline", "column", "area", "areaspline", "pie"]
@@ -1102,8 +1121,108 @@ H.defaultOptions = {
          *         Highcharts with percentage height
          * @default null
          */
-        height: null
+        height: null,
 
+        
+
+        /**
+         * The color of the outer chart border.
+         *
+         * @type {Color}
+         * @see In styled mode, the stroke is set with the `.highcharts-background`
+         * class.
+         * @sample {highcharts} highcharts/chart/bordercolor/ Brown border
+         * @sample {highstock} stock/chart/border/ Brown border
+         * @sample {highmaps} maps/chart/border/ Border options
+         * @default #335cad
+         */
+        borderColor: '#335cad',
+
+        /**
+         * The pixel width of the outer chart border.
+         *
+         * @type {Number}
+         * @see In styled mode, the stroke is set with the `.highcharts-background`
+         * class.
+         * @sample {highcharts} highcharts/chart/borderwidth/ 5px border
+         * @sample {highstock} stock/chart/border/
+         *         2px border
+         * @sample {highmaps} maps/chart/border/
+         *         Border options
+         * @default 0
+         * @apioption chart.borderWidth
+         */
+
+        /**
+         * The background color or gradient for the outer chart area.
+         *
+         * @type {Color}
+         * @see In styled mode, the background is set with the `.highcharts-background` class.
+         * @sample {highcharts} highcharts/chart/backgroundcolor-color/ Color
+         * @sample {highcharts} highcharts/chart/backgroundcolor-gradient/ Gradient
+         * @sample {highstock} stock/chart/backgroundcolor-color/
+         *         Color
+         * @sample {highstock} stock/chart/backgroundcolor-gradient/
+         *         Gradient
+         * @sample {highmaps} maps/chart/backgroundcolor-color/
+         *         Color
+         * @sample {highmaps} maps/chart/backgroundcolor-gradient/
+         *         Gradient
+         * @default #FFFFFF
+         */
+        backgroundColor: '#ffffff',
+
+        /**
+         * The background color or gradient for the plot area.
+         *
+         * @type {Color}
+         * @see In styled mode, the plot background is set with the `.highcharts-plot-background` class.
+         * @sample {highcharts} highcharts/chart/plotbackgroundcolor-color/
+         *         Color
+         * @sample {highcharts} highcharts/chart/plotbackgroundcolor-gradient/
+         *         Gradient
+         * @sample {highstock} stock/chart/plotbackgroundcolor-color/
+         *         Color
+         * @sample {highstock} stock/chart/plotbackgroundcolor-gradient/
+         *         Gradient
+         * @sample {highmaps} maps/chart/plotbackgroundcolor-color/
+         *         Color
+         * @sample {highmaps} maps/chart/plotbackgroundcolor-gradient/
+         *         Gradient
+         * @default null
+         * @apioption chart.plotBackgroundColor
+         */
+
+
+        /**
+         * The URL for an image to use as the plot background. To set an image
+         * as the background for the entire chart, set a CSS background image
+         * to the container element. Note that for the image to be applied to
+         * exported charts, its URL needs to be accessible by the export server.
+         *
+         * @type {String}
+         * @see In styled mode, a plot background image can be set with the
+         * `.highcharts-plot-background` class and a [custom pattern](http://www.
+         * highcharts.com/docs/chart-design-and-style/gradients-shadows-and-
+         * patterns).
+         * @sample {highcharts} highcharts/chart/plotbackgroundimage/ Skies
+         * @sample {highstock} stock/chart/plotbackgroundimage/ Skies
+         * @default null
+         * @apioption chart.plotBackgroundImage
+         */
+
+        /**
+         * The color of the inner chart or plot area border.
+         *
+         * @type {Color}
+         * @see In styled mode, a plot border stroke can be set with the
+         *      `.highcharts-plot-border` class.
+         * @sample {highcharts} highcharts/chart/plotbordercolor/ Blue border
+         * @sample {highstock} stock/chart/plotborder/ Blue border
+         * @sample {highmaps} maps/chart/plotborder/ Plot border options
+         * @default #cccccc
+         */
+        plotBorderColor: '#cccccc'
         
 
     },
@@ -1769,6 +1888,37 @@ H.defaultOptions = {
              */
 
             
+
+            /**
+             * The color for the active up or down arrow in the legend page navigation.
+             *
+             * @type {Color}
+             * @see In styled mode, the active arrow be styled with the `.highcharts-legend-nav-active` class.
+             * @sample {highcharts} highcharts/legend/navigation/ Legend page navigation demonstrated
+             * @sample {highstock} highcharts/legend/navigation/ Legend page navigation demonstrated
+             * @default #003399
+             * @since 2.2.4
+             */
+            activeColor: '#003399',
+
+            /**
+             * The color of the inactive up or down arrow in the legend page
+             * navigation. .
+             *
+             * @type {Color}
+             * @see In styled mode, the inactive arrow be styled with the
+             *      `.highcharts-legend-nav-inactive` class.
+             * @sample {highcharts} highcharts/legend/navigation/
+             *         Legend page navigation demonstrated
+             * @sample {highstock} highcharts/legend/navigation/
+             *         Legend page navigation demonstrated
+             * @default {highcharts} #cccccc
+             * @default {highstock} #cccccc
+             * @default {highmaps} ##cccccc
+             * @since 2.2.4
+             */
+            inactiveColor: '#cccccc'
+            
         },
 
         /**
@@ -1823,6 +1973,76 @@ H.defaultOptions = {
          * @apioption legend.style
          */
 
+        
+
+        /**
+         * CSS styles for each legend item. Only a subset of CSS is supported,
+         * notably those options related to text. The default `textOverflow`
+         * property makes long texts truncate. Set it to `null` to wrap text
+         * instead. A `width` property can be added to control the text width.
+         *
+         * @type {CSSObject}
+         * @see In styled mode, the legend items can be styled with the
+         * `.highcharts-legend-item` class.
+         * @sample {highcharts} highcharts/legend/itemstyle/ Bold black text
+         * @sample {highmaps} maps/legend/itemstyle/ Item text styles
+         * @default { "color": "#333333", "cursor": "pointer", "fontSize": "12px", "fontWeight": "bold", "textOverflow": "ellipsis" }
+         */
+        itemStyle: {
+            color: '#333333',
+            fontSize: '12px',
+            fontWeight: 'bold',
+            textOverflow: 'ellipsis'
+        },
+
+        /**
+         * CSS styles for each legend item in hover mode. Only a subset of
+         * CSS is supported, notably those options related to text. Properties
+         * are inherited from `style` unless overridden here.
+         *
+         * @type {CSSObject}
+         * @see In styled mode, the hovered legend items can be styled with
+         * the `.highcharts-legend-item:hover` pesudo-class.
+         * @sample {highcharts} highcharts/legend/itemhoverstyle/ Red on hover
+         * @sample {highmaps} maps/legend/itemstyle/ Item text styles
+         * @default { "color": "#000000" }
+         */
+        itemHoverStyle: {
+            color: '#000000'
+        },
+
+        /**
+         * CSS styles for each legend item when the corresponding series or
+         * point is hidden. Only a subset of CSS is supported, notably those
+         * options related to text. Properties are inherited from `style`
+         * unless overridden here.
+         *
+         * @type {CSSObject}
+         * @see In styled mode, the hidden legend items can be styled with
+         * the `.highcharts-legend-item-hidden` class.
+         * @sample {highcharts} highcharts/legend/itemhiddenstyle/ Darker gray color
+         * @default { "color": "#cccccc" }
+         */
+        itemHiddenStyle: {
+            color: '#cccccc'
+        },
+
+        /**
+         * Whether to apply a drop shadow to the legend. A `backgroundColor`
+         * also needs to be applied for this to take effect. The shadow can be
+         * an object configuration containing `color`, `offsetX`, `offsetY`,
+         * `opacity` and `width`.
+         *
+         * @type {Boolean|Object}
+         * @sample {highcharts} highcharts/legend/shadow/
+         *         White background and drop shadow
+         * @sample {highstock} stock/legend/align/
+         *         Various legend options
+         * @sample {highmaps} maps/legend/border-background/
+         *         Border and background options
+         * @default false
+         */
+        shadow: false,
         
 
         /**
@@ -1989,6 +2209,20 @@ H.defaultOptions = {
              */
 
             
+
+            /**
+             * Generic CSS styles for the legend title.
+             *
+             * @type {CSSObject}
+             * @see In styled mode, the legend title is styled with the
+             * `.highcharts-legend-title` class.
+             * @default {"fontWeight":"bold"}
+             * @since 3.0
+             */
+            style: {
+                fontWeight: 'bold'
+            }
+            
         }
     },
 
@@ -2024,6 +2258,41 @@ H.defaultOptions = {
          * @since 1.2.0
          * @apioption loading.showDuration
          */
+        
+
+        /**
+         * CSS styles for the loading label `span`.
+         *
+         * @type {CSSObject}
+         * @see In styled mode, the loading label is styled with the
+         * `.highcharts-legend-loading-inner` class.
+         * @sample {highcharts|highmaps} highcharts/loading/labelstyle/ Vertically centered
+         * @sample {highstock} stock/loading/general/ Label styles
+         * @default { "fontWeight": "bold", "position": "relative", "top": "45%" }
+         * @since 1.2.0
+         */
+        labelStyle: {
+            fontWeight: 'bold',
+            position: 'relative',
+            top: '45%'
+        },
+
+        /**
+         * CSS styles for the loading screen that covers the plot area.
+         *
+         * @type {CSSObject}
+         * @see In styled mode, the loading label is styled with the `.highcharts-legend-loading` class.
+         * @sample {highcharts|highmaps} highcharts/loading/style/ Gray plot area, white text
+         * @sample {highstock} stock/loading/general/ Gray plot area, white text
+         * @default { "position": "absolute", "backgroundColor": "#ffffff", "opacity": 0.5, "textAlign": "center" }
+         * @since 1.2.0
+         */
+        style: {
+            position: 'absolute',
+            backgroundColor: '#ffffff',
+            opacity: 0.5,
+            textAlign: 'center'
+        }
         
     },
 
@@ -2425,10 +2694,103 @@ H.defaultOptions = {
          */
         snap: isTouchDevice ? 25 : 10,
         
-        headerFormat: '<span class="highcharts-header">{point.key}</span><br/>',
-        pointFormat: '<span class="highcharts-color-{point.colorIndex}">' +
-            '\u25CF</span> {series.name}: <span class="highcharts-strong">' +
-            '{point.y}</span><br/>'
+
+        /**
+         * The background color or gradient for the tooltip.
+         *
+         * In styled mode, the stroke width is set in the `.highcharts-tooltip-box` class.
+         *
+         * @type {Color}
+         * @sample {highcharts} highcharts/tooltip/backgroundcolor-solid/ Yellowish background
+         * @sample {highcharts} highcharts/tooltip/backgroundcolor-gradient/ Gradient
+         * @sample {highcharts} highcharts/css/tooltip-border-background/ Tooltip in styled mode
+         * @sample {highstock} stock/tooltip/general/ Custom tooltip
+         * @sample {highstock} highcharts/css/tooltip-border-background/ Tooltip in styled mode
+         * @sample {highmaps} maps/tooltip/background-border/ Background and border demo
+         * @sample {highmaps} highcharts/css/tooltip-border-background/ Tooltip in styled mode
+         * @default rgba(247,247,247,0.85)
+         */
+        backgroundColor: color('#f7f7f7').setOpacity(0.85).get(),
+
+        /**
+         * The pixel width of the tooltip border.
+         *
+         * In styled mode, the stroke width is set in the `.highcharts-tooltip-box` class.
+         *
+         * @type {Number}
+         * @sample {highcharts} highcharts/tooltip/bordercolor-default/ 2px by default
+         * @sample {highcharts} highcharts/tooltip/borderwidth/ No border (shadow only)
+         * @sample {highcharts} highcharts/css/tooltip-border-background/ Tooltip in styled mode
+         * @sample {highstock} stock/tooltip/general/ Custom tooltip
+         * @sample {highstock} highcharts/css/tooltip-border-background/ Tooltip in styled mode
+         * @sample {highmaps} maps/tooltip/background-border/ Background and border demo
+         * @sample {highmaps} highcharts/css/tooltip-border-background/ Tooltip in styled mode
+         * @default 1
+         */
+        borderWidth: 1,
+
+        /**
+         * The HTML of the tooltip header line. Variables are enclosed by
+         * curly brackets. Available variables are `point.key`, `series.name`,
+         * `series.color` and other members from the `point` and `series`
+         * objects. The `point.key` variable contains the category name, x
+         * value or datetime string depending on the type of axis. For datetime
+         * axes, the `point.key` date format can be set using tooltip.xDateFormat.
+         *
+         * @type {String}
+         * @sample {highcharts} highcharts/tooltip/footerformat/
+         *         A HTML table in the tooltip
+         * @sample {highstock} highcharts/tooltip/footerformat/
+         *         A HTML table in the tooltip
+         * @sample {highmaps} maps/tooltip/format/ Format demo
+         */
+        headerFormat: '<span style="font-size: 10px">{point.key}</span><br/>',
+
+        /**
+         * The HTML of the point's line in the tooltip. Variables are enclosed
+         * by curly brackets. Available variables are point.x, point.y, series.
+         * name and series.color and other properties on the same form. Furthermore,
+         * point.y can be extended by the `tooltip.valuePrefix` and
+         * `tooltip.valueSuffix` variables. This can also be overridden for each
+         * series, which makes it a good hook for displaying units.
+         *
+         * In styled mode, the dot is colored by a class name rather
+         * than the point color.
+         *
+         * @type {String}
+         * @sample {highcharts} highcharts/tooltip/pointformat/ A different point format with value suffix
+         * @sample {highmaps} maps/tooltip/format/ Format demo
+         * @default <span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y}</b><br/>
+         * @since 2.2
+         */
+        pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y}</b><br/>',
+
+        /**
+         * Whether to apply a drop shadow to the tooltip.
+         *
+         * @type {Boolean}
+         * @sample {highcharts} highcharts/tooltip/bordercolor-default/ True by default
+         * @sample {highcharts} highcharts/tooltip/shadow/ False
+         * @sample {highmaps} maps/tooltip/positioner/ Fixed tooltip position, border and shadow disabled
+         * @default true
+         */
+        shadow: true,
+
+        /**
+         * CSS styles for the tooltip. The tooltip can also be styled through
+         * the CSS class `.highcharts-tooltip`.
+         *
+         * @type {CSSObject}
+         * @sample {highcharts} highcharts/tooltip/style/ Greater padding, bold text
+         * @default { "color": "#333333", "cursor": "default", "fontSize": "12px", "pointerEvents": "none", "whiteSpace": "nowrap" }
+         */
+        style: {
+            color: '#333333',
+            cursor: 'default',
+            fontSize: '12px',
+            pointerEvents: 'none', // #1686 http://caniuse.com/#feat=pointer-events
+            whiteSpace: 'nowrap'
+        }
         
     },
 
@@ -2507,6 +2869,22 @@ H.defaultOptions = {
              * @default -5
              */
             y: -5
+        },
+        
+
+        /**
+         * CSS styles for the credits label.
+         *
+         * @type {CSSObject}
+         * @see In styled mode, credits styles can be set with the
+         * `.highcharts-credits` class.
+         * @default { "cursor": "pointer", "color": "#999999", "fontSize": "10px" }
+         */
+        style: {
+
+            cursor: 'pointer',
+            color: '#999999',
+            fontSize: '9px'
         },
         
 

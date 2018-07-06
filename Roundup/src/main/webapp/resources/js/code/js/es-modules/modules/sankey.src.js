@@ -96,6 +96,11 @@ seriesType('sankey', 'column', {
     },
     
     /**
+     * Opacity for the links between nodes in the sankey diagram.
+     */
+    linkOpacity: 0.5,
+    
+    /**
      * The pixel width of each node in a sankey diagram, or the height in case
      * the chart is inverted.
      */
@@ -131,8 +136,8 @@ seriesType('sankey', 'column', {
         followPointer: true,
 
         
-        headerFormat: // eslint-disable-line no-dupe-keys
-            '<span class="highcharts-header">{series.name}</span><br/>',
+        headerFormat:
+            '<span style="font-size: 0.85em">{series.name}</span><br/>',
         
         pointFormat: '{point.fromNode.name} \u2192 {point.toNode.name}: <b>{point.weight}</b><br/>',
         /**
@@ -309,6 +314,24 @@ seriesType('sankey', 'column', {
     },
 
     
+    /**
+     * Return the presentational attributes.
+     */
+    pointAttribs: function (point, state) {
+
+        var opacity = this.options.linkOpacity;
+
+        if (state) {
+            opacity = this.options.states[state].linkOpacity || opacity;
+        }
+
+        return {
+            fill: point.isNode ?
+                point.color :
+                H.color(point.color).setOpacity(opacity).get()
+        };
+    },
+    
 
     /**
      * Extend generatePoints by adding the nodes, which are Point objects
@@ -342,10 +365,8 @@ seriesType('sankey', 'column', {
 
                 // Point color defaults to the fromNode's color
                 
-                point.colorIndex = pick(
-                    point.options.colorIndex,
-                    nodeLookup[point.from].colorIndex
-                );
+                point.color =
+                    point.options.color || nodeLookup[point.from].color;
                 
 
             }

@@ -1,3 +1,4 @@
+
 package com.proj.rup.product.model.dao;
 
 import javax.inject.Inject;
@@ -166,7 +167,6 @@ public class ProductDAOImpl implements ProductDAO {
 	public Category selectParentCategory(int parent_category) {
 		return session.selectOne("product.selectParentCategory", parent_category);
 	}
-
 
 	@Override
 	public List productSearch(String[] keyword) {

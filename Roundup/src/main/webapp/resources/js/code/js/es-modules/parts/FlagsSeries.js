@@ -162,6 +162,78 @@ seriesType('flags', 'column', {
 
     
 
+    /**
+     * The fill color for the flags.
+     *
+     * @type      {Color}
+     * @default   #ffffff
+     * @product   highstock
+     */
+    fillColor: '#ffffff',
+
+    /**
+     * The color of the line/border of the flag.
+     *
+     * In styled mode, the stroke is set in the
+     * `.highcharts-flag-series.highcharts-point` rule.
+     *
+     * @type      {Color}
+     * @default   #000000
+     * @product   highstock
+     * @apioption plotOptions.flags.lineColor
+     */
+
+    /**
+     * The pixel width of the flag's line/border.
+     *
+     * @product highstock
+     */
+    lineWidth: 1,
+
+    states: {
+
+        /**
+         * @extends plotOptions.column.states.hover
+         * @product highstock
+         */
+        hover: {
+
+            /**
+             * The color of the line/border of the flag.
+             *
+             * @type    {Color}
+             * @default #000000
+             * @product highstock
+             */
+            lineColor: '#000000',
+
+            /**
+             * The fill or background color of the flag.
+             *
+             * @type    {Color}
+             * @default #ccd6eb
+             * @product highstock
+             */
+            fillColor: '#ccd6eb'
+        }
+    },
+
+    /**
+     * The text styles of the flag.
+     *
+     * In styled mode, the styles are set in the
+     * `.highcharts-flag-series .highcharts-point` rule.
+     *
+     * @type    {CSSObject}
+     * @default { "fontSize": "11px", "fontWeight": "bold" }
+     * @product highstock
+     */
+    style: {
+        fontSize: '11px',
+        fontWeight: 'bold'
+    }
+    
+
 }, /** @lends seriesTypes.flags.prototype */ {
     sorted: false,
     noSharedTooltip: true,
@@ -174,6 +246,29 @@ seriesType('flags', 'column', {
      */
     init: Series.prototype.init,
 
+    
+    /**
+     * Get presentational attributes
+     */
+    pointAttribs: function (point, state) {
+        var options = this.options,
+            color = (point && point.color) || this.color,
+            lineColor = options.lineColor,
+            lineWidth = (point && point.lineWidth),
+            fill = (point && point.fillColor) || options.fillColor;
+
+        if (state) {
+            fill = options.states[state].fillColor;
+            lineColor = options.states[state].lineColor;
+            lineWidth = options.states[state].lineWidth;
+        }
+
+        return {
+            'fill': fill || color,
+            'stroke': lineColor || color,
+            'stroke-width': lineWidth || options.lineWidth || 0
+        };
+    },
     
 
     translate: onSeriesMixin.translate,
@@ -243,6 +338,9 @@ seriesType('flags', 'column', {
                         options.useHTML
                     )
                     
+                    .attr(series.pointAttribs(point))
+                    .css(merge(options.style, point.style))
+                    
                     .attr({
                         align: shape === 'flag' ? 'left' : 'center',
                         width: options.width,
@@ -257,6 +355,8 @@ seriesType('flags', 'column', {
                         point.graphic.div.point = point;
                     }
 
+                    
+                    graphic.shadow(options.shadow);
                     
                     graphic.isNew = true;
                 }
@@ -461,6 +561,17 @@ function createPinSymbol(shape) {
 createPinSymbol('circle');
 createPinSymbol('square');
 
+
+/**
+ * The symbol callbacks are generated on the SVGRenderer object in all browsers.
+ * Even VML browsers need this in order to generate shapes in export. Now share
+ * them with the VMLRenderer.
+ */
+if (Renderer === VMLRenderer) {
+    each(['flag', 'circlepin', 'squarepin'], function (shape) {
+        VMLRenderer.prototype.symbols[shape] = symbols[shape];
+    });
+}
 
 
 /**

@@ -66,6 +66,9 @@ Highcharts.Legend.prototype = {
         this.options = options;
 
         
+        this.itemStyle = options.itemStyle;
+        this.itemHiddenStyle = merge(this.itemStyle, options.itemHiddenStyle);
+        
         this.itemMarginTop = options.itemMarginTop || 0;
         this.padding = padding;
         this.initialItemY = padding - 5; // 5 is pixels above the text
@@ -112,6 +115,40 @@ Highcharts.Legend.prototype = {
             'highcharts-legend-item-hidden'
         );
 
+        
+        var legend = this,
+            options = legend.options,
+            legendItem = item.legendItem,
+            legendLine = item.legendLine,
+            legendSymbol = item.legendSymbol,
+            hiddenColor = legend.itemHiddenStyle.color,
+            textColor = visible ? options.itemStyle.color : hiddenColor,
+            symbolColor = visible ? (item.color || hiddenColor) : hiddenColor,
+            markerOptions = item.options && item.options.marker,
+            symbolAttr = { fill: symbolColor };
+
+        if (legendItem) {
+            legendItem.css({
+                fill: textColor,
+                color: textColor // #1553, oldIE
+            });
+        }
+        if (legendLine) {
+            legendLine.attr({ stroke: symbolColor });
+        }
+
+        if (legendSymbol) {
+
+            // Apply marker options
+            if (markerOptions && legendSymbol.isMarker) { // #585
+                symbolAttr = item.pointAttribs();
+                if (!visible) {
+                    symbolAttr.stroke = symbolAttr.fill = hiddenColor; // #6769
+                }
+            }
+
+            legendSymbol.attr(symbolAttr);
+        }
         
 
         fireEvent(this, 'afterColorizeItem', { item: item, visible: visible });
@@ -263,6 +300,8 @@ Highcharts.Legend.prototype = {
                     )
                     .attr({ zIndex: 1 })
                     
+                    .css(titleOptions.style)
+                    
                     .add(this.group);
             }
             bBox = this.title.getBBox();
@@ -305,6 +344,9 @@ Highcharts.Legend.prototype = {
             symbolWidth = legend.symbolWidth,
             symbolPadding = options.symbolPadding,
             
+            itemStyle = legend.itemStyle,
+            itemHiddenStyle = legend.itemHiddenStyle,
+            
             itemDistance = horizontal ? pick(options.itemDistance, 20) : 0,
             ltr = !options.rtl,
             bBox,
@@ -346,6 +388,9 @@ Highcharts.Legend.prototype = {
                     useHTML
                 )
                 
+                // merge to prevent modifying original (#1021)
+                .css(merge(item.visible ? itemStyle : itemHiddenStyle))
+                
                 .attr({
                     align: ltr ? 'left' : 'right',
                     zIndex: 2
@@ -355,6 +400,8 @@ Highcharts.Legend.prototype = {
             // Get the baseline for the first item - the font size is equal for
             // all
             if (!legend.baseline) {
+                
+                fontSize = itemStyle.fontSize;
                 
                 legend.fontMetrics = renderer.fontMetrics(
                     fontSize,
@@ -384,6 +431,8 @@ Highcharts.Legend.prototype = {
 
         // Take care of max width and text overflow (#6659)
         
+        if (!itemStyle.width) {
+        
             li.css({
                 width: (
                     options.itemWidth ||
@@ -391,6 +440,8 @@ Highcharts.Legend.prototype = {
                     chart.spacingBox.width
                 ) -    itemExtraWidth
             });
+        
+        }
         
 
         // Always update the text
@@ -667,6 +718,15 @@ Highcharts.Legend.prototype = {
         }
 
         
+        // Presentational
+        box
+            .attr({
+                stroke: options.borderColor,
+                'stroke-width': options.borderWidth || 0,
+                fill: options.backgroundColor || 'none'
+            })
+            .shadow(options.shadow);
+        
 
         if (legendWidth > 0 && legendHeight > 0) {
             box[box.isNew ? 'attr' : 'animate'](
@@ -683,11 +743,6 @@ Highcharts.Legend.prototype = {
         // hide the border if no items
         box[display ? 'show' : 'hide']();
 
-        
-        // Open for responsiveness
-        if (legendGroup.getStyle('display') === 'none') {
-            legendWidth = legendHeight = 0;
-        }
         
 
         legend.legendWidth = legendWidth;
@@ -847,6 +902,8 @@ Highcharts.Legend.prototype = {
                 this.pager = renderer.text('', 15, 10)
                     .addClass('highcharts-legend-navigation')
                     
+                    .css(navOptions.style)
+                    
                     .add(nav);
 
                 this.down = renderer
@@ -929,6 +986,25 @@ Highcharts.Legend.prototype = {
             });
 
             
+            this.up
+                .attr({
+                    fill: currentPage === 1 ?
+                        navOptions.inactiveColor :
+                        navOptions.activeColor
+                })
+                .css({
+                    cursor: currentPage === 1 ? 'default' : 'pointer'
+                });
+            this.down
+                .attr({
+                    fill: currentPage === pageCount ?
+                        navOptions.inactiveColor :
+                        navOptions.activeColor
+                })
+                .css({
+                    cursor: currentPage === pageCount ? 'default' : 'pointer'
+                });
+            
 
             this.scrollOffset = -pages[currentPage - 1] + this.initialItemY;
 
@@ -999,6 +1075,13 @@ H.LegendSymbolMixin = {
             attr = {};
 
         // Draw the line
+        
+        attr = {
+            'stroke-width': options.lineWidth || 0
+        };
+        if (options.dashStyle) {
+            attr.dashstyle = options.dashStyle;
+        }
         
 
         this.legendLine = renderer.path([

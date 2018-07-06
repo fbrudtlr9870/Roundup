@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -7,7 +8,9 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="main" name="pageTitle"/>
 </jsp:include>
-<jsp:include page="/WEB-INF/views/common/nav.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/common/nav.jsp">
+	<jsp:param value="active" name="active1"/>
+</jsp:include>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.js"></script>	
 <sec:authorize access="hasAnyRole('ROLE_USER')">
 	<sec:authentication property="principal.username" var="member_id"/>
@@ -208,6 +211,7 @@ $(function(){
 	});
 }); 
 </script>
+
  	
       <%--  <div id="myCarousel" class="carousel slide main-slide carousel-master" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -236,6 +240,7 @@ $(function(){
         </a>
       </div> --%>
    <%--  <div class="main-img-wrapper">
+
             <div class="main-img">
                <div class="main-category">
                     <ul class="list-group">

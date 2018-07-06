@@ -59,9 +59,21 @@ Highcharts.Point.prototype = {
         point.series = series;
 
         
+        /**
+         * The point's current color.
+         * @name color
+         * @memberof Highcharts.Point
+         * @type {Color}
+         */
+        point.color = series.color; // #3445
+        
         point.applyOptions(options, x);
 
         if (series.options.colorByPoint) {
+            
+            colors = series.options.colors || series.chart.options.colors;
+            point.color = point.color || colors[series.colorCounter];
+            colorCount = colors.length;
             
             colorIndex = series.colorCounter;
             series.colorCounter++;

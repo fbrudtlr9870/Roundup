@@ -66,6 +66,9 @@ seriesType('polygon', 'scatter', {
     },
     drawGraph: function () {
         
+        // Hack into the fill logic in area.drawGraph
+        this.options.fillColor = this.color;
+        
         seriesTypes.area.prototype.drawGraph.call(this);
     },
     drawLegendSymbol: LegendSymbolMixin.drawRectangle,

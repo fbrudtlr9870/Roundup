@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -326,6 +327,45 @@ img#chat-icon{
             <!-- 채팅관련 끝 -->
 
         </nav> --%>
+         <!-- 채팅아이콘 -->
+            <img src="${pageContext.request.contextPath }/resources/img/chat-icon.png" id="chat-icon"/>
+ 
+            <!-- 채팅 관련 html 시작 -->            
+             <div id="chatting-room">
+               <input type="hidden" name="member_id" value="${member_id}" />
+                <div style="text-align:center;">현재 접속중인 사용자<span id="connected-member"style="font-weight:bold;"> ? </span> 명 
+                   <button type="button" class="close" aria-label="Close" id="hide_chatting">
+                    <span aria-hidden="true">&times;</span>
+               </button>
+                </div> 
+               <c:if test="${member_id!=null }">
+               <div style="text-align:center;margin-top:10px;">채팅방에 접속되었습니다.</div>  
+               </c:if>
+               <c:if test="${member_id==null }">
+               <div style="text-align:center;margin-top:10px;">로그인 후 사용가능합니다.</div>  
+               </c:if>        
+               <div id="chatting-content"></div>
+
+               <div id="member-chat">
+               <sec:authorize access="hasRole('ROLE_USER')">
+                    <form name="successUpload" style="width:120px; float:right;"> 
+			        <input type="text" name="" id="chatUpload" readOnly hidden="true"/> 			        
+			        <button style="width:100px;" type="button" class="btn btn-danger" id="sendPhoto">이미지전송</button> 
+			        </form> 
+			   </sec:authorize>
+                  <input id="insertText" style="float:left; width:230px;"class="form-control form-control-sm" type="text">
+                  <button style="float:left; width:50px;" type="button" class="btn btn-primary" id="insertChat">전송</button>
+                  <sec:authorize access="hasRole('ROLE_USER')">
+                  <button style="float:left; width:50px;" type="button" class="btn btn-success" id="insertPhoto">첨부</button>
+                  </sec:authorize> 
+               </div>
+
+               <sec:authorize access="hasRole('ROLE_ADMIN')">
+               <input id="admin-notice" style="float:left; width:230px;"class="form-control form-control-sm" type="text"> 
+               <button style="float:left; width:50px;" type="button" class="btn btn-success" id="insertNotice">전송</button>
+               </sec:authorize>
+            </div> 
+            <!-- 채팅관련 끝 -->
         
         <!-- 여기있었으 -->
         
@@ -477,7 +517,7 @@ $(function(){
       $("#chatting-room").show();
        //스크롤바 설정 
        var offset = $(".chatting-comment:last").offset(); 
-       $("#chatting-content").animate({scrollTop : offset.top}, 400); 
+       $("#chatting-content").animate({scrollTop : offset.top}, 10); 
    });
    $("#hide_chatting").click(function(){
       $("#chatting-room").hide();
@@ -491,8 +531,9 @@ $(function(){
 <script> 
  
 var sock=new SockJS("<c:url value="/echo"/>"); 
- 
-sock.onmessage= onMessage; 
+	<sec:authorize access="hasRole('ROLE_USER')"> 
+	sock.onmessage= onMessage;
+	</sec:authorize>
 sock.onclose = onClose; 
 sock.onopen=function(){ 
      sendMessage();
@@ -557,8 +598,9 @@ $(function(){
              alert("로그인 후 이용가능합니다.");
              return false;
           }else{
-             sendMessage();
+        	 sendMessage();
              $("#insertText").val('');
+             $("#insertText").blur();
           }
       }
   });
@@ -572,11 +614,25 @@ $(function(){
      sendNotice(); 
       $("#admin-notice").val(''); 
   });
-  
+  $("#insertPhoto").click(function(){ 
+	    var popUrl = "${pageContext.request.contextPath}/resources/smarteditor/sample/photo_uploader/chat_uploader.html";   
+	    var popOption = "width=460, height=360,top=700, left=800, resizable=no, scrollbars=no, status=no;"; 
+	      window.open(popUrl,"",popOption);   
+	  }); 
+	  $("#sendPhoto").click(function(){ 
+	     if($("#chatUpload").val()!=""){ 
+	       sendPhoto(); 
+	     }else{ 
+	       alert("먼저 이미지를 등록하세요!"); 
+	     } 
+	       
+	 }); 
 }); 
- 
-function sendMessage(){ 
-  sock.send($("#insertText").val()); 
+function sendPhoto(){ 
+	sock.send($("#chatUpload").val()+"~!@#"); 
+} 
+function sendMessage(){
+  sock.send($("#insertText").val());
 } 
 
 function sendNotice(){
@@ -592,7 +648,8 @@ function onMessage(evt){
   var sessionid=null; 
   var message=null; 
   var strArr=data.split('|'); 
-   
+  var authorize = '${member_id}';
+  
   sessionid=strArr[0]; 
   message=strArr[1]; 
    
@@ -602,26 +659,27 @@ function onMessage(evt){
         alert("로그인 감지로 로그인을 해제합니다."); 
         location.href="${pageContext.request.contextPath}"; 
   }else if(sessionid=="관리자공지"){
-     console.log(message);
-        alert(message);
-       var html='<div class="chatting-comment" style="text-align:left;">';  
-       html+='<strong>'+message+'</strong>';  
-       html+='</div>';  
-       $("#chatting-content").append(html);       
-       var offset = $(".chatting-comment:last").offset(); 
-       $("#chatting-content").animate({scrollTop : offset.top}, 400); 
-  } else{  
+        alert(message); 
+  }else if(sessionid=="img"+authorize){ 
+	    var id = sessionid.substring(3,sessionid.length); 
+	    var html='<div class="chatting-comment" style="text-align:left;">';   
+	    html+='<strong>['+id+'] :</strong>'; 
+	    html+='<img src="http://localhost:9090/rup/resources/upload/chatting/'+message+'"width="100px" height="120px">'; 
+	    html+='</div>';   
+	      $("#chatting-content").append(html);        
+	      var offset = $(".chatting-comment:last").offset();  
+	      $("#chatting-content").animate({scrollTop : offset.top}, 10); 
+  }else{  
        var html='<div class="chatting-comment" style="text-align:left;">';  
        html+='<strong>['+sessionid+'] :</strong>'+message;  
        html+='</div>';  
        $("#chatting-content").append(html);       
        var offset = $(".chatting-comment:last").offset(); 
-       $("#chatting-content").animate({scrollTop : offset.top}, 400); 
+       $("#chatting-content").animate({scrollTop : offset.top}, 10); 
      }   
 } 
  
 </script> 
-
 
 
 

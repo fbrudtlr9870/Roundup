@@ -90,6 +90,10 @@ H.Tick.prototype = {
                             labelOptions.useHTML
                         )
                         
+                        // without position absolute, IE export sometimes is
+                        // wrong.
+                        .css(merge(labelOptions.style))
+                        
                         .add(axis.labelGroup) :
                     null;
 
@@ -368,8 +372,19 @@ H.Tick.prototype = {
             renderer = axis.chart.renderer;
 
         
+        var gridPrefix = type ? type + 'Grid' : 'grid',
+            gridLineWidth = options[gridPrefix + 'LineWidth'],
+            gridLineColor = options[gridPrefix + 'LineColor'],
+            dashStyle = options[gridPrefix + 'LineDashStyle'];
+        
 
         if (!gridLine) {
+            
+            attribs.stroke = gridLineColor;
+            attribs['stroke-width'] = gridLineWidth;
+            if (dashStyle) {
+                attribs.dashstyle = dashStyle;
+            }
             
             if (!type) {
                 attribs.zIndex = 1;
@@ -425,6 +440,12 @@ H.Tick.prototype = {
             y = xy.y;
 
         
+        var tickWidth = pick(
+                options[tickPrefix + 'Width'],
+                !type && axis.isXAxis ? 1 : 0
+            ), // X axis defaults to 1
+            tickColor = options[tickPrefix + 'Color'];
+        
 
         if (tickSize) {
 
@@ -439,6 +460,11 @@ H.Tick.prototype = {
                     .addClass('highcharts-' + (type ? type + '-' : '') + 'tick')
                     .add(axis.axisGroup);
 
+                
+                mark.attr({
+                    stroke: tickColor,
+                    'stroke-width': tickWidth
+                });
                 
             }
             mark[isNewMark ? 'attr' : 'animate']({

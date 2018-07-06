@@ -674,6 +674,12 @@ Highcharts.Pointer.prototype = {
                         )
                         .attr({
                             
+                            fill: (
+                                chartOptions.selectionMarkerFill ||
+                                color('#335cad')
+                                    .setOpacity(0.25).get()
+                            ),
+                            
                             'class': 'highcharts-selection-marker',
                             'zIndex': 7
                         })

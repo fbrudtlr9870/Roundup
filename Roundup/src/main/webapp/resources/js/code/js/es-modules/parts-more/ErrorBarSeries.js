@@ -27,6 +27,21 @@ var each = H.each,
 seriesType('errorbar', 'boxplot', {
     
 
+    /**
+     * The main color of the bars. This can be overridden by
+     * [stemColor](#plotOptions.errorbar.stemColor) and
+     * [whiskerColor](#plotOptions.errorbar.whiskerColor) individually.
+     *
+     * @type    {Color}
+     * @sample  {highcharts} highcharts/plotoptions/error-bar-styling/
+     *          Error bar styling
+     * @default #000000
+     * @since   3.0
+     * @product highcharts
+     */
+    color: '#000000',
+    
+
     grouping: false,
 
     /**

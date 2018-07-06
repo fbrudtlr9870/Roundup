@@ -70,52 +70,6 @@ H.Tooltip.prototype = {
     },
 
     
-    /**
-     * In styled mode, apply the default filter for the tooltip drop-shadow. It
-     * needs to have an id specific to the chart, otherwise there will be issues
-     * when one tooltip adopts the filter of a different chart, specifically one
-     * where the container is hidden.
-     */
-    applyFilter: function () {
-
-        var chart = this.chart;
-        chart.renderer.definition({
-            tagName: 'filter',
-            id: 'drop-shadow-' + chart.index,
-            opacity: 0.5,
-            children: [{
-                tagName: 'feGaussianBlur',
-                in: 'SourceAlpha',
-                stdDeviation: 1
-            }, {
-                tagName: 'feOffset',
-                dx: 1,
-                dy: 1
-            }, {
-                tagName: 'feComponentTransfer',
-                children: [{
-                    tagName: 'feFuncA',
-                    type: 'linear',
-                    slope: 0.3
-                }]
-            }, {
-                tagName: 'feMerge',
-                children: [{
-                    tagName: 'feMergeNode'
-                }, {
-                    tagName: 'feMergeNode',
-                    in: 'SourceGraphic'
-                }]
-            }]
-        });
-        chart.renderer.definition({
-            tagName: 'style',
-            textContent: '.highcharts-tooltip-' + chart.index + '{' +
-                'filter:url(#drop-shadow-' + chart.index + ')' +
-            '}'
-        });
-    },
-    
 
 
     /**
@@ -149,12 +103,17 @@ H.Tooltip.prototype = {
                     });
 
                 
+                this.label
+                    .attr({
+                        'fill': options.backgroundColor,
+                        'stroke-width': options.borderWidth
+                    })
+                    // #2301, #2657
+                    .css(options.style)
+                    .shadow(options.shadow);
+                
             }
 
-            
-            // Apply the drop-shadow filter
-            this.applyFilter();
-            this.label.addClass('highcharts-tooltip-' + this.chart.index);
             
 
             this.label
@@ -540,9 +499,13 @@ H.Tooltip.prototype = {
 
                 // Prevent the tooltip from flowing over the chart box (#6659)
                 
+                if (!options.style.width) {
+                
                     label.css({
                         width: this.chart.spacingBox.width
                     });
+                
+                }
                 
 
                 label.attr({
@@ -556,6 +519,15 @@ H.Tooltip.prototype = {
                         pick(point.colorIndex, currentSeries.colorIndex)
                     );
 
+                
+                label.attr({
+                    stroke: (
+                        options.borderColor ||
+                        point.color ||
+                        currentSeries.color ||
+                        '#666666'
+                    )
+                });
                 
 
                 tooltip.updatePosition({
@@ -624,7 +596,16 @@ H.Tooltip.prototype = {
                         .addClass('highcharts-tooltip-box ' + colorClass)
                         .attr({
                             'padding': options.padding,
-                            'r': options.borderRadius
+                            'r': options.borderRadius,
+                            
+                            'fill': options.backgroundColor,
+                            'stroke': (
+                                options.borderColor ||
+                                point.color ||
+                                series.color ||
+                                '#333333'
+                            ),
+                            'stroke-width': options.borderWidth
                             
                         })
                         .add(tooltipLabel);
@@ -634,6 +615,9 @@ H.Tooltip.prototype = {
                 tt.attr({
                     text: str
                 });
+                
+                tt.css(options.style)
+                    .shadow(options.shadow);
                 
 
                 // Get X position now, so we can move all to the other side in

@@ -62,6 +62,8 @@ H.colorSeriesMixin = {
     colorKey: 'value',
 
     
+    pointAttribs: seriesTypes.column.prototype.pointAttribs,
+    
 
     /**
      * In choropleth maps, the color is a result of the value, so this needs

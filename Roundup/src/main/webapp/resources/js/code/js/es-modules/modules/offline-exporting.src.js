@@ -597,39 +597,6 @@ Highcharts.Chart.prototype.exportChartLocal = function (
     // inline styles that we want to pass through. There are so many styles by
     // default in IE that we don't want to blacklist them all.
     
-    if (isMSBrowser) {
-        Highcharts.SVGRenderer.prototype.inlineWhitelist = [
-            /^blockSize/,
-            /^border/,
-            /^caretColor/,
-            /^color/,
-            /^columnRule/,
-            /^columnRuleColor/,
-            /^cssFloat/,
-            /^cursor/,
-            /^fill$/,
-            /^fillOpacity/,
-            /^font/,
-            /^inlineSize/,
-            /^length/,
-            /^lineHeight/,
-            /^opacity/,
-            /^outline/,
-            /^parentRule/,
-            /^rx$/,
-            /^ry$/,
-            /^stroke/,
-            /^textAlign/,
-            /^textAnchor/,
-            /^textDecoration/,
-            /^transform/,
-            /^vectorEffect/,
-            /^visibility/,
-            /^x$/,
-            /^y$/
-        ];
-    }
-    
 
     // Always fall back on:
     // - MS browsers: Embedded images JPEG/PNG, or any PDF
