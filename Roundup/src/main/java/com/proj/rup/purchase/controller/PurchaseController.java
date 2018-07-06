@@ -82,8 +82,9 @@ public class PurchaseController {
 							@RequestParam(value="membership") int membership,
 							@RequestParam(value="total_price") int total_price,
 							@RequestParam(value="imp_uid", required=false) String imp_uid) {
-
-		logger.debug(product_no+","+member_id+","+product_amount+","+address+","+zip_code+","+basketNo);
+		
+		// total_price 상품 금액 + 배송비 - 적립금 => 최종 결제 금액
+		logger.debug(product_no+","+member_id+","+product_amount+","+address+","+zip_code+","+basketNo+","+membership+","+total_price+","+imp_uid);
 		int result = 0;
 		String returnMsg = "";
 
@@ -93,7 +94,7 @@ public class PurchaseController {
 			result = purchaseService.insertPurchase(purchase);
 			logger.debug("result@purchaseEnd : "+result);
 			// purchase_complete 테이블에 값 넣기
-			PurchaseComplete purchaseComplete = new PurchaseComplete(0, purchase.getPurchase_no(), Integer.parseInt(product_no), member_id, null, Integer.parseInt(product_amount), address, zip_code, imp_uid, total_price);
+			PurchaseComplete purchaseComplete = new PurchaseComplete(0, purchase.getPurchase_no(), Integer.parseInt(product_no), member_id, null, Integer.parseInt(product_amount), address, zip_code, imp_uid, total_price, membership);
 			purchaseService.insertPurchaseComplete(purchaseComplete);
 			
 			// product_purchase 테이블에 값 넣기 / 프로시저 실행하기
@@ -117,7 +118,7 @@ public class PurchaseController {
 				
 				if(purchaseService.insertPurchase(purchase) > 0) {
 					// purchase_complete 테이블에 값 넣기
-					PurchaseComplete purchaseComplete = new PurchaseComplete(0, purchase.getPurchase_no(), Integer.parseInt(productNoList[i]), member_id, null, Integer.parseInt(amountList[i]), address, zip_code, imp_uid, total_price);
+					PurchaseComplete purchaseComplete = new PurchaseComplete(0, purchase.getPurchase_no(), Integer.parseInt(productNoList[i]), member_id, null, Integer.parseInt(amountList[i]), address, zip_code, imp_uid, total_price, membership);
 					purchaseService.insertPurchaseComplete(purchaseComplete);
 					
 					// product_purchase 테이블에 값 넣기 / 프로시저 실행하기
@@ -144,7 +145,7 @@ public class PurchaseController {
 			Map<String, Object> map = new HashMap<>();
 			map.put("member_id", member_id);
 			map.put("membership", membership);
-			map.put("totalPrice", total_price-2000);
+			map.put("totalPrice", total_price-2000);	// 적립금은 배송비를 뺀 금액에서만 
 			
 			memberService.updateMembership(map);
 			returnMsg = "success";

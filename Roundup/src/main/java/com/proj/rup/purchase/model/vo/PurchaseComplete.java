@@ -18,6 +18,7 @@ public class PurchaseComplete {
 	private String imp_uid;
 	private int difftime;
 	private int total_price;
+	private int membership;
 	
 	public PurchaseComplete() {
 		super();
@@ -45,7 +46,7 @@ public class PurchaseComplete {
 	}
 
 	public PurchaseComplete(int product_com_no, int purchase_no, int product_no, String member_id,
-			Date purchase_date, int product_amount, String address, String zip_code, String imp_uid, int total_price) {
+			Date purchase_date, int product_amount, String address, String zip_code, String imp_uid, int total_price, int membership) {
 		super();
 		this.product_com_no = product_com_no;
 		this.purchase_no = purchase_no;
@@ -57,6 +58,7 @@ public class PurchaseComplete {
 		this.zip_code = zip_code;
 		this.imp_uid = imp_uid;
 		this.total_price = total_price;
+		this.membership = membership;
 	}
 
 	public PurchaseComplete(int product_com_no, int purchase_no, int product_no, String member_id, Date purchase_date,
@@ -197,6 +199,14 @@ public class PurchaseComplete {
 
 	public void setTotal_price(int total_price) {
 		this.total_price = total_price;
+	}
+
+	public int getMembership() {
+		return membership;
+	}
+
+	public void setMembership(int membership) {
+		this.membership = membership;
 	}
 
 	@Override

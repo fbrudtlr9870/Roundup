@@ -52,7 +52,7 @@
 	</resultMap>
 
 	<insert id="insertPurchaseComplete">
-		insert into purchase_complete values(seq_purchase_com_no.nextval, #{purchase_no}, #{product_no}, #{member_id}, default, #{product_amount}, #{address}, #{zip_code}, #{imp_uid}, #{total_price})
+		insert into purchase_complete values(seq_purchase_com_no.nextval, #{purchase_no}, #{product_no}, #{member_id}, default, #{product_amount}, #{address}, #{zip_code}, #{imp_uid}, #{total_price}, #{membership})
 	</insert>	
 	
 	<update id="updateProductPurchase" statementType="CALLABLE">

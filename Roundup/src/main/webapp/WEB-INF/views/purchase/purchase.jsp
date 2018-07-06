@@ -333,7 +333,7 @@ function payRequest() {
       var IMP = window.IMP; // 생략가능
       IMP.init('imp34778853');
       
-      if (purchasePrice-2000>0){
+      if (purchasePrice>0){
     	  IMP.request_pay({
     	         pg : 'inicis', // 결제방식
     	           pay_method : 'card',   // 결제 수단
