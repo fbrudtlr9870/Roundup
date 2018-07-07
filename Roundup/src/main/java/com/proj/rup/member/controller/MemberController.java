@@ -183,7 +183,7 @@ public class MemberController {
 		
 		mav.addObject("member",m);
 		mav.addObject("purchaseComplete",pc);
-		mav.setViewName("member/myPage");
+		mav.setViewName("member/test");
 
 		return mav;
 	}

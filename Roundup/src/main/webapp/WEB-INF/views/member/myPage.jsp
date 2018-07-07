@@ -59,12 +59,7 @@ table#tbl_enroll input, table#tbl_enroll select{
 div#btnDiv {
 	text-align: center;
 }
-div.mypage{
-	width:980px;
-	margin:0 auto;
-	
-	min-height:780px;
-}
+
 .list-group-item {
     position: relative;
     display: block;
@@ -137,6 +132,13 @@ div.mypage{
 }
 .delivery-map{
 	display:hidden;
+}
+div.mypage{
+	width:980px;
+	margin:0 auto;
+    top: 100px;
+    position: relative;
+	min-height:780px;
 }
 </style>
 

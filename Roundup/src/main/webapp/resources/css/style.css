@@ -86,7 +86,7 @@ div#main-container{
     min-width:100%;
     position: relative;
 }
-nav.nav-bar{
+/* nav.nav-bar{
     width:980px;
     height:150px;
     margin: 0 auto;
@@ -136,7 +136,7 @@ div.nav-bar-btn{
     position: absolute;
     top: 65px;
     right:0;
-}
+} */
 div.main-img-wrapper{
     background: lightblue;
     width:100%;
@@ -302,8 +302,8 @@ div#chatting-content{
 }
 
 .nav-item{
-	margin-left:40px;
-	margin-right:40px;
+	margin-left:10px;
+	margin-right:10px;
 }
 .nav-item>a{
     font-size: 18px;
@@ -432,7 +432,7 @@ img.btnImg-hyelin {
 
 .carousel-master{
 	position: relative;
-    top: 46px;
+    top: -25px;
 	margin: auto;
     text-align: center;
     width: 100%;
@@ -459,6 +459,7 @@ img.btnImg-hyelin {
 .focus-hyelin:focus {
 	box-shadow: none;
 }
+
 .border-hyelin {
 	border: 1px solid #ced4da;
 }
@@ -497,3 +498,11 @@ div.new-product-card-master{
 	background:red!important;
 	
 }
+table.table-event-master{
+	position:relative;
+	top:20px;
+	width:980px;
+	margin:0 auto;
+}
+
+

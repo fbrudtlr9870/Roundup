@@ -64,16 +64,6 @@ $(function(){
 			
 			$(".new-option").html(html);
 
-			/* $(".new-product").hover(function(){
-		       
-		        $(this).children(".buy-btn").show();
-		    },function(){
-		       
-		        $(this).children(".buy-btn").hide();
-		    }); */
-			
-
-			// 장바구니에 담기
 			$(".insertBasket-new").on("click",function(){
 				var memberId = '${member_id}';
 				if(memberId != "") {
@@ -145,13 +135,6 @@ $(function(){
 					}
 					html += "<div class='buy-btn'>";
 					html += "<input type='hidden' value='" + data.productHotList[i].productNo +"' name='product_no'>";
-		            /* html += "<input type='number' class='form-control inline-hyelin' style='width: 70px; margin: 0 auto;' name='product_amount' min='1' value='1'>&nbsp;"; */
-	               /*  html += "<button type='button' class='btn-transparent-hyelin insertBasket_'>";
-	                html += "<img id='img-cart-hyelin' src='${pageContext.request.contextPath}/resources/img/cart.png' alt='' class='btnImg-hyelin' title='장바구니' data-toggle='tooltip' data-placement='bottom'/>";
-	                html += "</button> &nbsp;";
-	                html += "<button type='button' class='btn-transparent-hyelin purchase_'>";
-	                html += "<img src='${pageContext.request.contextPath}/resources/img/card.png' alt='' class='btnImg-hyelin' title='구매하기' data-toggle='tooltip' data-placement='bottom'/>";
-					html += "</button>"; */
 		            html += "</div>";
 		            html += "<div class='ptext' style='font-size:19px;'>" + data.productHotList[i].brandName + "</div>"; 
 		            html += "<div class='ptext' style='font-size:23px;'>" + data.productHotList[i].productName + "</div>";
@@ -167,15 +150,6 @@ $(function(){
 			
 			$(".hot-option").html(html);
 
-			/* $(".hot-product").hover(function(){
-		       
-		        $(this).children(".buy-btn").show();
-		    },function(){
-		       
-		        $(this).children(".buy-btn").hide();
-		    }); */
-			
-			// 장바구니 담기
 			$(".insertBasket").on("click",function(){
 				var memberId = '${member_id}';
 				if(memberId != "") {
@@ -231,159 +205,83 @@ $(function(){
 
 </script>
 
- 	
-      <%--  <div id="myCarousel" class="carousel slide main-slide carousel-master" data-ride="carousel">
-        <ol class="carousel-indicators">
-          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-          <li data-target="#myCarousel" data-slide-to="1"></li>
-          <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner carousel-inner-master">
-          <div class="carousel-item active carousel-item-master">
-            <img class="first-slide main-event-img-master" src="${pageContext.request.contextPath }/resources/img/resource_img1.jpg" alt="First slide">
-          </div>
-          <div class="carousel-item carousel-item-master">
-            <img class="second-slide main-event-img-master" src="${pageContext.request.contextPath }/resources/img/resource_img2.jpg" alt="First slide">
-          </div>
-          <div class="carousel-item carousel-item-master">
-            <img class="third-slide main-event-img-master" src="${pageContext.request.contextPath }/resources/img/resource_img3.jpg" alt="First slide">
-          </div>
-        </div>
-        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
-      </div> --%>
-   <%--  <div class="main-img-wrapper">
-
-            <div class="main-img">
-               <div class="main-category">
-                    <ul class="list-group">
-                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=1">간편식사</a></li>
-                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=2">식품</a></li>
-                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=3">과자류</a></li>
-                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=4">아이스크림</a></li>
-                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=5">즉석식품</a></li>
-                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=6">음료</a></li>
-                        <li class="list-group-item"><a href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=7">생활용품</a></li>
-                    </ul>
-                    
-                </div> 
-            
-                <div id="carouselExampleControls" class="carousel slide main-category-img" data-ride="carousel">
-				  <div class="carousel-inner">
-				    <div class="carousel-item active">
-				      <img class="d-block w-100 main-img-one" src="${pageContext.request.contextPath }/resources/img/resource_img1.jpg" alt="First slide">
-				    </div>
-				    <div class="carousel-item">
-				      <img class="d-block w-100 main-img-one" src="${pageContext.request.contextPath }/resources/img/resource_img2.jpg" alt="Second slide">
-				    </div>
-				    <div class="carousel-item">
-				      <img class="d-block w-100 main-img-one" src="${pageContext.request.contextPath }/resources/img/resource_img3.jpg" alt="Third slide">
-				    </div>
-				  </div>
-				  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-				    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-				    <span class="sr-only">Previous</span>
-				  </a>
-				  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-				    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-				    <span class="sr-only">Next</span>
-				  </a>
+<br><br>
+<div id="myCarousel" class="carousel slide main-slide carousel-master"
+	data-ride="carousel">
+	<ol class="carousel-indicators">
+		<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+		<li data-target="#myCarousel" data-slide-to="1"></li>
+		<li data-target="#myCarousel" data-slide-to="2"></li>
+	</ol>
+	<div class="carousel-inner carousel-inner-master">
+		<div class="carousel-item active carousel-item-master">
+			<img class="first-slide main-event-img-master" src="${pageContext.request.contextPath }/resources/img/resource_img1.jpg" alt="First slide">
+		</div>
+		<div class="carousel-item carousel-item-master">
+			<img class="second-slide main-event-img-master" src="${pageContext.request.contextPath }/resources/img/resource_img2.jpg" alt="First slide">
+		</div>
+		<div class="carousel-item carousel-item-master">
+			<img class="third-slide main-event-img-master" src="${pageContext.request.contextPath }/resources/img/resource_img3.jpg" alt="First slide">
+		</div>
+	</div>
+	<a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span>
+	</a> <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span>
+	</a>
+</div>
+<!-- <h2>Hot & New</h2> -->
+<div class="main-li-container">
+	<!-- 신상품 시작 -->
+	<div class="row featurette"
+		style="font-family: 'Do Hyeon', sans-serif; font-size: 25px;">
+		<div class="col-md-7">
+			<p class="featurette-heading" style="font-family: 'Do Hyeon', sans-serif; font-size: 40px;">
+				<img src="${pageContext.request.contextPath }/resources/img/new (1).png" alt="" />신상품을 만나보세요 
+			</p>
+			<p class="lead" style="font-size: 30px;">각 편의점에 등록되는 신상품을 한번에
+				모아보세요</p>
+		</div>
+		<!-- 신상품  Ajax start-->
+		<div class="new-product-card-master product-container w3-card-4">
+			<div class="w3-container w3-center w3-lobster">
+				<h3>
+					<img src="${pageContext.request.contextPath }/resources/img/new (1).png" alt="" />
+				</h3>
+				<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+					<div class="carousel-inner slide-new-master new-option"></div>
 				</div>
-            </div>
-        </div> --%>
-        <br><br>
+			</div>
+			<br />
+		</div>
+		<!-- 신상품  ajax end-->
+	</div>
 
-        <!-- <h2>Hot & New</h2> -->
-        <div class="main-li-container">
-        	<%-- <div class="">
-        		<!-- 신상품  start-->
-					  <div class="new-product-card-master product-container w3-card-4">
-						
-							<div class="w3-container w3-center w3-lobster">
-							  <h3><img src="${pageContext.request.contextPath }/resources/img/new (1).png" alt="" /></h3>
-							  <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-								  <div class="carousel-inner slide-new-master new-option"> 
-								   
-								  </div>
-								</div>
-			
-							</div>
-						<br />
-					 </div>
-					 <!-- 신상품  end-->
-					 <!-- 인기상품  start-->
-					  <div class="hot-product-card-master product-container w3-card-4" >
-						
-							<div class="w3-container w3-center w3-lobster">
-							  <h3><img src="${pageContext.request.contextPath }/resources/img/best-seller.png" alt="" /></h3>
-							  <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-								  <div class="carousel-inner slide-new-master hot-option"> 
-								   
-								  </div>
-								</div>
-			
-							</div>
-						<br />
-					 </div>
-					 <!-- 인기상품  end-->
-        	</ div>--%>
-        	<!-- ------------------------- -->
-       
-			    <div class="row featurette" style="font-family: 'Do Hyeon', sans-serif;font-size:25px;">
-		          <div class="col-md-7">
-		            <p class="featurette-heading" style="font-family: 'Do Hyeon', sans-serif;font-size:40px;"><img src="${pageContext.request.contextPath }/resources/img/new (1).png" alt="" />신상품을 만나보세요 <span class="text-muted"></span></p>
-		            <p class="lead" style="font-size:30px;">각 편의점에 등록되는 신상품을 한번에 모아보세요</p>
-		          </div>
-		          <!-- 신상품  start-->
-					  <div class="new-product-card-master product-container w3-card-4">
-						
-							<div class="w3-container w3-center w3-lobster">
-							  <h3><img src="${pageContext.request.contextPath }/resources/img/new (1).png" alt="" /></h3>
-							  <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-								  <div class="carousel-inner slide-new-master new-option"> 
-								   
-								  </div>
-								</div>
-			
-							</div>
-						<br />
-					 </div>
-					 <!-- 신상품  end-->
-		        </div>
+	<hr class="featurette-divider">
+	<!-- 인기상품  -->
+	<div class="row featurette" style="font-family: 'Do Hyeon', sans-serif; font-size: 25px;">
+		<div class="col-md-7 order-md-2">
+			<p class="featurette-heading"
+				style="font-family: 'Do Hyeon', sans-serif; font-size: 40px;">
+				인기상품을 만나보세요 <img src="${pageContext.request.contextPath }/resources/img/best-seller.png" alt="" />
+			</p>
+			<p class="lead" style="font-size: 30px;">
+				가장 인기있는 상품을 만나보세요. <br />가장많이 구매한 상품들 입니다.
+			</p>
+		</div>
+		<!-- 인기상품  ajax start-->
+		<div class="hot-product-card-master product-container w3-card-4">
+			<div class="w3-container w3-center w3-lobster">
+				<h3>
+					<img src="${pageContext.request.contextPath }/resources/img/best-seller.png" alt="" />
+				</h3>
+				<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+					<div class="carousel-inner slide-new-master hot-option"></div>
+				</div>
+			</div>
+			<br />
+		</div>
+		<!-- 인기상품  ajax end-->
+	</div>
+</div>
 
-		        <hr class="featurette-divider">
-		
-		        <div class="row featurette" style="font-family: 'Do Hyeon', sans-serif;font-size:25px;">
-		          <div class="col-md-7 order-md-2">
-		            <p class="featurette-heading" style="font-family: 'Do Hyeon', sans-serif;font-size:40px;">인기상품을 만나보세요 <img src="${pageContext.request.contextPath }/resources/img/best-seller.png" alt="" /><span class="text-muted"></span></p>
-		            <p class="lead" style="font-size:30px;">가장 인기있는 상품을 만나보세요. <br />가장많이 구매한 상품들 입니다.</p>
-		          </div>
-		          <!-- 인기상품  start-->
-					  <div class="hot-product-card-master product-container w3-card-4" >
-						
-							<div class="w3-container w3-center w3-lobster">
-							  <h3><img src="${pageContext.request.contextPath }/resources/img/best-seller.png" alt="" /></h3>
-							  <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-								  <div class="carousel-inner slide-new-master hot-option"> 
-								   
-								  </div>
-								</div>
-			
-							</div>
-						<br />
-					 </div>
-					 <!-- 인기상품  end-->
-		        </div>
-			
-			
-
-        </div>
-        
-        <br><br>
+<br><br>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

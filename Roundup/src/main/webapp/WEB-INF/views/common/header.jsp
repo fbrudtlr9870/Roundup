@@ -17,6 +17,10 @@
     background: #5c83ad;
     width:80px;
 }
+.nav-item{
+	margin-left:20px;
+	margin-right:20px;
+}
 .nav-fill .nav-item {
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
@@ -120,9 +124,18 @@ img#chat-icon{
                     <a class="dropdown-item" href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=7">생활용품</a>
 		        </div>
 		    </li>
-		     <li class="nav-item">
-              <a class="nav-item nav-link" href="${pageContext.request.contextPath }/noticeboard/noticeBoardList.do">Event</a>
-            </li>
+		    <li class="nav-item dropdown">
+		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		          Event
+		        </a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+					<a class="dropdown-item" href="${pageContext.request.contextPath }/crawling/7-eleven">7ELEVEN</a>
+                    <a class="dropdown-item" href="${pageContext.request.contextPath }/crawlingEmart">emart24</a>
+                    <a class="dropdown-item" href="${pageContext.request.contextPath }/crawling/gs25">GS25</a>
+                    <a class="dropdown-item" href="${pageContext.request.contextPath }/crawling/ministop">ministop</a>
+                    <a class="dropdown-item" href="${pageContext.request.contextPath }/crawling/cu">CU</a>
+		        </div>
+		    </li>
             <li class="nav-item">
               <a class="nav-item nav-link" href="${pageContext.request.contextPath }/noticeboard/noticeBoardList.do">Notice</a>
             </li>
@@ -131,34 +144,19 @@ img#chat-icon{
             </li>
           </ul>
           <form class="form-inline mt-2 mt-md-0" action="${pageContext.request.contextPath }/product/productSearch.do" onsubmit="return fn_search();">
-            &nbsp;<input type="text" class="form-control focus-hyelin border0-hyelin" id="productKey" placeholder="${param.pageSearch }" name="searchKeyword" autocomplete="off">
-            <button type="submit" class="btn btn-transparent-hyelin border0-hyelin focus-hyelin"> <img src="${pageContext.request.contextPath }/resources/img/search2.png" alt="" /></button>
+            &nbsp;<input type="text" class="form-control focus-hyelin border0-hyelin" id="productKey" placeholder="${param.pageSearch }" name="searchKeyword" size="10" autocomplete="off">
+            <button type="submit" class="btn btn-transparent-hyelin border0-hyelin focus-hyelin"> <img src="${pageContext.request.contextPath }/resources/img/magnifier.png" alt="" /></button>
 
           	<ul id="autoComplete"></ul>
 
           </form>
-<script>
-function fn_search() {
-    var productKey=$("#productKey").val();
-    if(productKey.indexOf("#")!=-1){
-    	alert("검색어에 #은 입력할 수 없습니다.");
-    	return false;
-    }else if(productKey.indexOf("|")!=-1){
-    	alert("검색어에 |은 입력할 수 없습니다.");
-    	return false;
-    }else if(productKey.indexOf("\\")!=-1){
-    	alert("검색어에 \\은 입력할 수 없습니다.");
-    	return false;
-    }
-    console.log("검색시작");
-    return true;
-}
-</script>
+          
+          
  
 		<c:choose>
 			<c:when test="${empty member_id and empty admin_id}">
 					<button type="button" class="btn btn-outline-light"
-						onclick="location.href='${pageContext.request.contextPath}/member/loginPage.do'">Sign UP</button>
+						onclick="location.href='${pageContext.request.contextPath}/member/loginPage.do'" style="margin-right: 10px;">Log In</button>
 			</c:when>
 			<c:otherwise>
 					<li class="nav-item dropdown login-dropdown-master">
@@ -195,7 +193,7 @@ function fn_search() {
       </nav>
 <!-- navigation bar end-->
       
-       <div id="myCarousel" class="carousel slide main-slide carousel-master" data-ride="carousel">
+       <%-- <div id="myCarousel" class="carousel slide main-slide carousel-master" data-ride="carousel">
         <ol class="carousel-indicators">
           <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
           <li data-target="#myCarousel" data-slide-to="1"></li>
@@ -220,7 +218,7 @@ function fn_search() {
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="sr-only">Next</span>
         </a>
-      </div>
+      </div> --%>
         <%-- <nav class="nav-bar">
             <div class="nav-bar-wrapper">
                 <a href="${pageContext.request.contextPath }" class="nav-bar-logo">편의점마스터</a>
@@ -436,6 +434,23 @@ function fn_search() {
         
 
 	<section>
+<script>
+function fn_search() {
+    var productKey=$("#productKey").val();
+    if(productKey.indexOf("#")!=-1){
+    	alert("검색어에 #은 입력할 수 없습니다.");
+    	return false;
+    }else if(productKey.indexOf("|")!=-1){
+    	alert("검색어에 |은 입력할 수 없습니다.");
+    	return false;
+    }else if(productKey.indexOf("\\")!=-1){
+    	alert("검색어에 \\은 입력할 수 없습니다.");
+    	return false;
+    }
+    console.log("검색시작");
+    return true;
+}
+</script>
 <script>
 $(document).ready(function(){
 	//입력할 때 엔터값 막기 

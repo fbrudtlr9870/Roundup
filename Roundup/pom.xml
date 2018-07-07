@@ -24,6 +24,9 @@
 		    <url>https://jitpack.io</url>
 		</repository>
 	</repositories>
+	
+	
+	
 	<dependencies>
 		<!-- Spring -->
 		<dependency>
@@ -264,12 +267,34 @@
 		 	<version>2.10.3</version>
 		 </dependency>
 
-	<!-- 아임포트 -->
-	<dependency>
-	    <groupId>com.github.iamport</groupId>
-	    <artifactId>iamport-rest-client-java</artifactId>
-	    <version>0.1.10</version>
-	</dependency>
+		<!-- 아임포트 -->
+		<dependency>
+		    <groupId>com.github.iamport</groupId>
+		    <artifactId>iamport-rest-client-java</artifactId>
+		    <version>0.1.10</version>
+		</dependency>
+		
+		<!-- 아파치가 제공하는 http 관련 라이브러리 -->
+		<dependency>
+		  <groupId>org.apache.httpcomponents</groupId>
+		  <artifactId>httpclient</artifactId>
+		  <version>4.5.5</version>
+		</dependency>
+		
+		<!-- Dom을 파싱하는 jsoup -->
+		<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+		<dependency>
+		    <groupId>org.jsoup</groupId>
+		    <artifactId>jsoup</artifactId>
+		    <version>1.7.2</version>
+		</dependency>
+		
+		<!-- #ghostDriver : phatom.js -->
+		<dependency>
+		    <groupId>com.github.detro</groupId>
+		    <artifactId>ghostdriver</artifactId>
+		    <version>2.1.0</version>
+		</dependency>
 	</dependencies>
     <build>
         <plugins>
