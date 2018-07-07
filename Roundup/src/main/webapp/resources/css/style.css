@@ -188,6 +188,21 @@ div.main-li-container{
     position: relative;
     overflow: hidden;
     border-radius: 10px;
+    
+}
+div.product-container{
+	display:inline-block;
+	font-family: 'Jua', sans-serif;
+}
+.new-product-card-master{
+	width:300px;
+	background:#1b5d8d;
+	color:white;
+}
+.hot-product-card-master{
+	width:300px;
+	background:#f7889c;
+	color:white;
 }
 .w-100 {
   
@@ -242,7 +257,6 @@ li.main-li div.pprice{
 }
 div.buy-btn{
     text-align: center;
-    display: none;
 }
 footer{
     clear: both;
@@ -478,4 +492,8 @@ div.new-product-container-master{
 }
 .w3-lobster {
     font-family: "Lobster", serif;
+}
+div.new-product-card-master{
+	background:red!important;
+	
 }

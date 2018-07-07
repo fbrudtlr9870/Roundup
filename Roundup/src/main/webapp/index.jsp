@@ -14,6 +14,7 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.js"></script>	
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Jua" rel="stylesheet">
 <sec:authorize access="hasAnyRole('ROLE_USER')">
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
@@ -35,37 +36,41 @@ $(function(){
 			for(var i in data.productNewList){
 				if(data.productNewList[i].renamedFileName!=null){	
 					if(i==0){
-						html+="<div class='carousel-item active new-product'><img class='d-block' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productNewList[0].renamedFileName+"' height='150px' width='150px' alt='First slide'>";
+						html+="<div class='carousel-item active new-product'><img class='d-block' style='margin:0 auto;' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productNewList[0].renamedFileName+"' height='150px' width='150px' alt='First slide'>";
 					}else{					
-						html += "<div class='carousel-item new-product'><img class='d-block' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productNewList[i].renamedFileName+"' height='150px' width='150px' alt='Second slide'>";
+						html += "<div class='carousel-item new-product'><img class='d-block' style='margin:0 auto;' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productNewList[i].renamedFileName+"' height='150px' width='150px' alt='Second slide'>";
 					}
 					html += "<div class='buy-btn'>";
 					html += "<input type='hidden' value='" + data.productNewList[i].productNo +"' name='product_no'>";
-		            html += "<input type='number' class='form-control inline-hyelin' style='width: 70px; margin: 0 auto;' name='product_amount' min='1' value='1'>&nbsp;";
+		            /* html += "<input type='number' class='form-control inline-hyelin' style='width: 70px; margin: 0 auto;' name='product_amount' min='1' value='1'>&nbsp;"; */
 	               /*  html += "<button type='button' class='btn-transparent-hyelin insertBasket_'>";
 	                html += "<img id='img-cart-hyelin' src='${pageContext.request.contextPath}/resources/img/cart.png' alt='' class='btnImg-hyelin' title='장바구니' data-toggle='tooltip' data-placement='bottom'/>";
 	                html += "</button> &nbsp;";
 	                html += "<button type='button' class='btn-transparent-hyelin purchase_'>";
 	                html += "<img src='${pageContext.request.contextPath}/resources/img/card.png' alt='' class='btnImg-hyelin' title='구매하기' data-toggle='tooltip' data-placement='bottom'/>";
 					html += "</button>"; */
-					html += "<button type='button' class='btn btn-primary insertBasket-new'>장바구니</button> &nbsp;";
-	                html += "<button type='button' class='btn btn-success purchase-new'>구매</button>";
 		            html += "</div>";
 		            html += "<div class='ptext' style='font-size:19px;'>" + data.productNewList[i].brandName + "</div>"; 
 		            html += "<div class='ptext' style='font-size:23px;'>" + data.productNewList[i].productName + "</div>";
-	                html += "<div class='pprice' style='font-size:20px;float:right;'>" + data.productNewList[i].price + "원</div></div>";
+	                html += "<div class='pprice' style='font-size:20px;float:right;'>" + data.productNewList[i].price + "원</div>";
+	                html+="</br>";
+					html+="<input type='number' class='form-control inline-hyelin' style='width:70px; margin:0 auto;position:relative;top:-2.5px;' name='product_amount' min='1' value='1'>";
+				  	html+="<div class='btn-group' role='group' aria-label='Basic example' style='text-align:center'>";
+					html+="<button type='button' class='btn btn-primary insertBasket-new'>장바구니</button>";
+					html+="<button type='button' class='btn btn-success purchase-new'>구매</button>";
+					html+="</div></div>";
 				}
 			}
 			
 			$(".new-option").html(html);
 
-			$(".new-product").hover(function(){
+			/* $(".new-product").hover(function(){
 		       
 		        $(this).children(".buy-btn").show();
 		    },function(){
 		       
 		        $(this).children(".buy-btn").hide();
-		    });
+		    }); */
 			
 
 			// 장바구니에 담기
@@ -75,8 +80,8 @@ $(function(){
 					$.ajax({
 						url:"${pageContext.request.contextPath }/basket/insertBasket.do",
 						data: {
-							productAmount: $(this).parent().find("[name=product_amount]").val(),
-							productNo: $(this).parent().find("[name=product_no]").val(),
+							productAmount: $(this).parent().parent().find("[name=product_amount]").val(),
+							productNo: $(this).parent().parent().find("[name=product_no]").val(),
 							memberId :memberId
 						},
 						success:function(data) {
@@ -134,31 +139,41 @@ $(function(){
 			for(var i in data.productHotList){
 				if(data.productHotList[i].renamedFileName!=null){	
 					if(i==0){
-						html+="<div class='carousel-item active hot-product'><img class='d-block' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productHotList[0].renamedFileName+"' height='150px' width='150px' alt='First slide'>";
+						html+="<div class='carousel-item active new-product'><img class='d-block' style='margin:0 auto;' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productHotList[0].renamedFileName+"' height='150px' width='150px' alt='First slide'>";
 					}else{					
-						html += "<div class='carousel-item hot-product'><img class='d-block' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productHotList[i].renamedFileName+"' height='150px' width='150px' alt='Second slide'>";
+						html += "<div class='carousel-item new-product'><img class='d-block' style='margin:0 auto;' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productHotList[i].renamedFileName+"' height='150px' width='150px' alt='Second slide'>";
 					}
 					html += "<div class='buy-btn'>";
 					html += "<input type='hidden' value='" + data.productHotList[i].productNo +"' name='product_no'>";
-		            html += "<input type='number' class='form-control inline-hyelin' style='width: 70px; margin: 0 auto;' name='product_amount' min='1' value='1'>&nbsp;";
-	                html += "<button type='button' class='btn btn-primary insertBasket'>장바구니</button> &nbsp;";
-	                html += "<button type='button' class='btn btn-success purchase'>구매</button>";
+		            /* html += "<input type='number' class='form-control inline-hyelin' style='width: 70px; margin: 0 auto;' name='product_amount' min='1' value='1'>&nbsp;"; */
+	               /*  html += "<button type='button' class='btn-transparent-hyelin insertBasket_'>";
+	                html += "<img id='img-cart-hyelin' src='${pageContext.request.contextPath}/resources/img/cart.png' alt='' class='btnImg-hyelin' title='장바구니' data-toggle='tooltip' data-placement='bottom'/>";
+	                html += "</button> &nbsp;";
+	                html += "<button type='button' class='btn-transparent-hyelin purchase_'>";
+	                html += "<img src='${pageContext.request.contextPath}/resources/img/card.png' alt='' class='btnImg-hyelin' title='구매하기' data-toggle='tooltip' data-placement='bottom'/>";
+					html += "</button>"; */
 		            html += "</div>";
-		            html += "<div class='ptext product-brand-master' style='font-size:19px;'>" + data.productHotList[i].brandName + "</div>"; 
-		            html += "<div class='ptext product-title-master' style='font-size:23px;'>" + data.productHotList[i].productName + "</div>";
-	                html += "<div class='pprice product-price-master' style='font-size:20px;float:right;'>" + data.productHotList[i].price + "</div></div>";
+		            html += "<div class='ptext' style='font-size:19px;'>" + data.productHotList[i].brandName + "</div>"; 
+		            html += "<div class='ptext' style='font-size:23px;'>" + data.productHotList[i].productName + "</div>";
+	                html += "<div class='pprice' style='font-size:20px;float:right;'>" + data.productHotList[i].price + "원</div>";
+	                html+="</br>";
+					html+="<input type='number' class='form-control inline-hyelin' style='width:70px; margin:0 auto;position:relative;top:-2.5px;' name='product_amount' min='1' value='1'>";
+				  	html+="<div class='btn-group' role='group' aria-label='Basic example' style='text-align:center'>";
+					html+="<button type='button' class='btn btn-primary insertBasket-new'>장바구니</button>";
+					html+="<button type='button' class='btn btn-success purchase-new'>구매</button>";
+					html+="</div></div>";
 				}
 			}
 			
 			$(".hot-option").html(html);
 
-			$(".hot-product").hover(function(){
+			/* $(".hot-product").hover(function(){
 		       
 		        $(this).children(".buy-btn").show();
 		    },function(){
 		       
 		        $(this).children(".buy-btn").hide();
-		    });
+		    }); */
 			
 			// 장바구니 담기
 			$(".insertBasket").on("click",function(){
@@ -212,6 +227,8 @@ $(function(){
    		}
 	});
 }); 
+
+
 </script>
 
  	
@@ -284,87 +301,89 @@ $(function(){
 
         <!-- <h2>Hot & New</h2> -->
         <div class="main-li-container">
-        
-        <!-- card layout 여기에 이것저것 정보입력예정-->
-   			 <div class="card-columns">
- 
-					  <!-- 신상품 -->
-					  <div class="new-product-container-master" style="max-width: 18rem;border:2px solid #468aea;">
-						  <div class="card-body ">
-						    <h5 class="card-title" id="new-title-master" style="font-size:25px;font-style:italic;color:dodgerblue;"><img src="${pageContext.request.contextPath }/resources/img/new (1).png" alt="" />&nbsp;&nbsp;신상품</h5>
-						  	<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-							  <div class="carousel-inner slide-new-master new-option"> 
-							   
-							  </div>
-							</div>
-							<br />
-						  </div>
-						</div>
-					  
-					   <!-- ----------------------- -->
-					  <!-- 인기상품 -->
-					   <div class="card mb-3 hot-product-container" style="max-width: 18rem;">
-						  <div class="card-body">
-						    <h5 class="card-title" style="font-size:25px;font-style:italic;color:#b8740a;"><img src="${pageContext.request.contextPath }/resources/img/best-seller.png" alt="" />&nbsp;&nbsp;인기상품</h5>
-						  	<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-							  <div class="carousel-inner slide-new-master hot-option"> 
-							   
-							  </div>
-							</div>
-							<br />
-						  </div>
-						</div>
-					   <!-- ----------------------- -->
-					<%--  <div class="card">
-					    <div class="card-body text-info">
-					      <h5 class="card-title">이벤트</h5>
-					      <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-						  <div class="carousel-inner slide-hot-master"> 
-						    <div class="carousel-item active">
-						      <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/img/event/event1.jpg" height="300px" alt="First slide">
-						    </div>
-						    <div class="carousel-item">
-						      <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/img/event/event2.jpg" height="300px" alt="Second slide">
-						    </div>
-						    <div class="carousel-item">
-						      <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/img/event/event3.jpg" height="300px" alt="Third slide">
-						    </div>
-						    <div class="carousel-item">
-						      <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/img/event/event4.jpg" height="300px" alt="Third slide">
-						    </div>
-						    <div class="carousel-item">
-						      <img class="d-block w-100" src="${pageContext.request.contextPath}/resources/img/event/event5.jpg" height="300px" alt="Third slide">
-						    </div>
-						  </div>
-						</div>
-					    </div>
-					  </div>
-					  --%>
-					  <div class="w3-card-4 w3-dark-grey">
+        	<%-- <div class="">
+        		<!-- 신상품  start-->
+					  <div class="new-product-card-master product-container w3-card-4">
 						
-						<div class="w3-container w3-center w3-lobster">
-						  <h3><img src="${pageContext.request.contextPath }/resources/img/best-seller.png" alt="" /></h3>
-						  <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-							  <div class="carousel-inner slide-new-master new-option"> 
-							   
-							  </div>
-							</div>
-				
-							<button type='button' class='btn btn-primary insertBasket'>장바구니</button>
-						  	<button type='button' class='btn btn-success purchase-new'>구매</button>
-						</div>
-						<br />
-						</div>
-					 
-				</div> 
-			  <!-- ----------card layout end------------- -->
+							<div class="w3-container w3-center w3-lobster">
+							  <h3><img src="${pageContext.request.contextPath }/resources/img/new (1).png" alt="" /></h3>
+							  <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+								  <div class="carousel-inner slide-new-master new-option"> 
+								   
+								  </div>
+								</div>
 			
-			  </div>
-			 
-		<!-- main-li-container end -->
-        <!-- <h2>Hot & New</h2>
-        <div class="main-li-container" id="NewProductList">
+							</div>
+						<br />
+					 </div>
+					 <!-- 신상품  end-->
+					 <!-- 인기상품  start-->
+					  <div class="hot-product-card-master product-container w3-card-4" >
+						
+							<div class="w3-container w3-center w3-lobster">
+							  <h3><img src="${pageContext.request.contextPath }/resources/img/best-seller.png" alt="" /></h3>
+							  <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+								  <div class="carousel-inner slide-new-master hot-option"> 
+								   
+								  </div>
+								</div>
+			
+							</div>
+						<br />
+					 </div>
+					 <!-- 인기상품  end-->
+        	</ div>--%>
+        	<!-- ------------------------- -->
+       
+			    <div class="row featurette" style="font-family: 'Do Hyeon', sans-serif;font-size:25px;">
+		          <div class="col-md-7">
+		            <p class="featurette-heading" style="font-family: 'Do Hyeon', sans-serif;font-size:40px;"><img src="${pageContext.request.contextPath }/resources/img/new (1).png" alt="" />신상품을 만나보세요 <span class="text-muted"></span></p>
+		            <p class="lead" style="font-size:30px;">각 편의점에 등록되는 신상품을 한번에 모아보세요</p>
+		          </div>
+		          <!-- 신상품  start-->
+					  <div class="new-product-card-master product-container w3-card-4">
+						
+							<div class="w3-container w3-center w3-lobster">
+							  <h3><img src="${pageContext.request.contextPath }/resources/img/new (1).png" alt="" /></h3>
+							  <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+								  <div class="carousel-inner slide-new-master new-option"> 
+								   
+								  </div>
+								</div>
+			
+							</div>
+						<br />
+					 </div>
+					 <!-- 신상품  end-->
+		        </div>
 
-        </div> -->
+		        <hr class="featurette-divider">
+		
+		        <div class="row featurette" style="font-family: 'Do Hyeon', sans-serif;font-size:25px;">
+		          <div class="col-md-7 order-md-2">
+		            <p class="featurette-heading" style="font-family: 'Do Hyeon', sans-serif;font-size:40px;">인기상품을 만나보세요 <img src="${pageContext.request.contextPath }/resources/img/best-seller.png" alt="" /><span class="text-muted"></span></p>
+		            <p class="lead" style="font-size:30px;">가장 인기있는 상품을 만나보세요. <br />가장많이 구매한 상품들 입니다.</p>
+		          </div>
+		          <!-- 인기상품  start-->
+					  <div class="hot-product-card-master product-container w3-card-4" >
+						
+							<div class="w3-container w3-center w3-lobster">
+							  <h3><img src="${pageContext.request.contextPath }/resources/img/best-seller.png" alt="" /></h3>
+							  <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+								  <div class="carousel-inner slide-new-master hot-option"> 
+								   
+								  </div>
+								</div>
+			
+							</div>
+						<br />
+					 </div>
+					 <!-- 인기상품  end-->
+		        </div>
+			
+			
+
+        </div>
+        
         <br><br>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
