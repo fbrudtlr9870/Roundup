@@ -83,7 +83,7 @@ img#chat-icon{
 <!-- navigation bar start-->
 <nav class="navbar navbar-expand-md navbar-dark fixed-top nav-master">
         <a class="navbar-brand" href="#">
-		    <img src="/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+		    <img src="${pageContext.request.contextPath }/resources/img/roundup.png" width="30" height="30" class="d-inline-block align-top" alt="">
 		    RoundUP
 		  </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">

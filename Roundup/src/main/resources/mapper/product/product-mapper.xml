@@ -485,6 +485,5 @@
       select count(*) from product  
       </select>
 
-
 </mapper>
 

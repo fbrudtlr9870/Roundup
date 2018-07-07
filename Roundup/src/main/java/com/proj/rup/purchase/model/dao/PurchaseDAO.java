@@ -40,5 +40,9 @@ public interface PurchaseDAO {
 
 	int selectTotalPurchase();
 
+	int selectPurchaseCompleteListCount(String member_id);
+
+	List<PurchaseComplete> selectPurchaseCompleteList(String member_id, int cPage, int numPerPage);
+
 
 }

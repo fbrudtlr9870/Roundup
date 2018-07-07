@@ -213,7 +213,7 @@ public class MemberController {
 		return mav;
 	}
 	
-	@RequestMapping("/member/myPagePurchaseComplete.do")
+	/*@RequestMapping("/member/myPagePurchaseComplete.do")
 	public ModelAndView myPagePurchaseComplete(@RequestParam(value="member_id") String member_id) {
 		ModelAndView mav = new ModelAndView();
 		System.out.println("member_id@myPage.do:"+member_id);
@@ -221,6 +221,25 @@ public class MemberController {
 		mav.addObject("completeList",pc);
 		mav.setViewName("member/myPagePurchaseComplete");
 
+		return mav;
+	}*/
+	
+	@RequestMapping("/member/myPagePurchaseComplete.do")
+	public ModelAndView myPagePurchaseComplete(@RequestParam(value="member_id") String member_id,
+			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage) {
+		ModelAndView mav = new ModelAndView();
+		
+		int numPerPage = 5; 
+		List<PurchaseComplete> list = purchaseService.selectPurchaseCompleteList(member_id, cPage, numPerPage);
+		
+		int pcount = purchaseService.selectPurchaseCompleteListCount(member_id);
+		
+		mav.addObject("count", pcount);
+		mav.addObject("numPerPage", numPerPage);
+		mav.addObject("list", list);
+		
+		mav.setViewName("member/myPagePurchaseComplete");
+		
 		return mav;
 	}
 	
