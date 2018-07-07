@@ -131,7 +131,7 @@ img#chat-icon{
           </ul>
           <form class="form-inline mt-2 mt-md-0" action="${pageContext.request.contextPath }/product/productSearch.do" onsubmit="return fn_search();">
             &nbsp;<input type="text" class="form-control focus-hyelin border0-hyelin" id="productKey" placeholder="${param.pageSearch }" name="searchKeyword" autocomplete="off">
-            <button type="submit" class="btn btn-transparent-hyelin border0-hyelin focus-hyelin"> <img src="${pageContext.request.contextPath }/resources/img/search2.png" alt="" /></button>
+            <button type="submit" class="btn btn-transparent-hyelin border0-hyelin focus-hyelin"> <img src="${pageContext.request.contextPath }/resources/img/search.png" alt="" /></button>
 
           	<ul id="autoComplete"></ul>
 

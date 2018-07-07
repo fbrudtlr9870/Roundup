@@ -186,7 +186,7 @@ div.mypage{
                   <br>
                   <br>
                   <br>
-                  <table class="table border-bottom-hyelin">
+                  <table class="table">
                      <tr>
                         <th>배송비</th>
                         <th>총 결제금액</th>
@@ -201,11 +201,15 @@ div.mypage{
                         <td class="tbl-td padding-hyelin"><fmt:formatNumber value="0" type="currency" currencySymbol="" />원 </td>
                         </c:if>
                      </tr>
+                     <tr>
+	                     <td colspan="2">
+		                  <div class="btnBuy">
+		                     <button type="button" class="btn btn-primary" id="purchaseAll" style="float: right; margin: 10px;" onclick="return purchaseAll();">전체상품 주문</button>
+		                     <button type="button" class="btn btn-success" id="purchaseChk" style="float: right; margin: 10px;" onclick="return purchaseChk();">선택상품 주문</button>
+		                  </div>                     
+	                     </td>
+                     </tr>
                   </table>
-                  <div class="btnBuy">
-                     <button type="button" class="btn btn-primary" id="purchaseAll" style="float: right; margin: 10px;" onclick="return purchaseAll();">전체상품 주문</button>
-                     <button type="button" class="btn btn-success" id="purchaseChk" style="float: right; margin: 10px;" onclick="return purchaseChk();">선택상품 주문</button>
-                  </div>
                </div> 
          </div>
        </div>
