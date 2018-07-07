@@ -93,14 +93,26 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 		return sqlSession.selectOne("purchase.selectTotalPurchase");
 	}
 
-	@Override
+	/*@Override
 	public int selectPurchaseCompleteListCount(String member_id) {
 		return sqlSession.selectOne("purchase.selectPurchaseCompleteListCount", member_id);
+	}*/
+
+	@Override
+	public List<PurchaseComplete> selectPurchaseCompleteList(Map<String, Object> map, int cPage, int numPerPage) {
+		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		return sqlSession.selectList("purchase.selectPurchaseCompleteList",map,rowBounds);
 	}
 
 	@Override
+	public int selectPurchaseCompleteListCount(Map<String, Object> map) {
+		return sqlSession.selectOne("purchase.selectPurchaseCompleteListCount", map);
+	}
+
+	/*@Override
 	public List<PurchaseComplete> selectPurchaseCompleteList(String member_id, int cPage, int numPerPage) {
 		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage, numPerPage);
 		return sqlSession.selectList("purchase.selectPurchaseCompleteList",member_id,rowBounds);
-	}
+	}*/
+
 }
