@@ -329,7 +329,6 @@ function payRequest() {
 	
       // 총 결제금액
       var purchasePrice = parseInt($("#total2").val())-parseInt($("#membership").val());
-      
       var IMP = window.IMP; // 생략가능
       IMP.init('imp34778853');
       
@@ -544,9 +543,11 @@ $(function() {
          // 적립금이 1000원 이상인 경우만 사용 가능
          if(parseInt($("#membershipText").text()) > 1000) {
             $("#membership").val(parseInt($("#membershipText").text()));      
+         } else if(parseInt($("#membershipText").text()) == 0) {
+        	 
          }
          else {
-            alert("적립금은 1000원 이상부터 사용 가능합니다.")
+            alert("적립금은 1000원 이상부터 사용 가능합니다.");
          }
       }
       totalCalc($("#membership").val());
@@ -576,6 +577,13 @@ $(function() {
          totalCalc(this.value);
       else
          totalCalc(0);
+   }).on("blur", function() {
+      var membership = document.getElementById("membership");
+      
+      if(parseInt($("#membership").val()) != 0 && parseInt($("#membership").val()) < 1000) {
+    	 alert("적립금은 1000원 이상부터 사용 가능합니다.");
+         membership.value=0;
+      } 
    });
 });
 

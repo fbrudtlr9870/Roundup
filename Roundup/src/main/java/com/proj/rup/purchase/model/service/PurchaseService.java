@@ -40,5 +40,9 @@ public interface PurchaseService {
 
 	int selectTotalPurchase();
 
+	List<PurchaseComplete> selectPurchaseCompleteList(String member_id, int cPage, int numPerPage);
+
+	int selectPurchaseCompleteListCount(String member_id);
+
 
 }

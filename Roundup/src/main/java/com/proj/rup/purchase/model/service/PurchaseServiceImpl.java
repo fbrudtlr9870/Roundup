@@ -92,5 +92,15 @@ public class PurchaseServiceImpl implements PurchaseService {
 	public int selectTotalPurchase() {
 		return purchaseDAO.selectTotalPurchase();
 	}
+	
+	@Override
+	public int selectPurchaseCompleteListCount(String member_id) {
+		return purchaseDAO.selectPurchaseCompleteListCount(member_id);
+	}
+
+	@Override
+	public List<PurchaseComplete> selectPurchaseCompleteList(String member_id, int cPage, int numPerPage) {
+		return purchaseDAO.selectPurchaseCompleteList(member_id, cPage, numPerPage);
+	}
 
 }
