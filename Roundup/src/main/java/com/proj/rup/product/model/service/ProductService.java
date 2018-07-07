@@ -80,6 +80,12 @@ public interface ProductService<ProductVO> {
 	Product popmenu(Map<String, Object> map);
 
 
+	List<Map<String, String>> selectAllProductList(int cPage, int numPerPage);
+
+
+	int selectTotalProduct();
+
+
 }
 
 

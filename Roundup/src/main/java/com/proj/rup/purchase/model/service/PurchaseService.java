@@ -40,5 +40,13 @@ public interface PurchaseService {
 
 	int selectTotalPurchase();
 
+	List<Map<String, String>> selectAllProductList(int cPage, int numPerPage);
+
+	int selectTotalProduct();
+
+	List<Map<String, String>> selectAPCancelList(int cPage, int numPerPage);
+
+	int selectTotalCancel();
+
 
 }

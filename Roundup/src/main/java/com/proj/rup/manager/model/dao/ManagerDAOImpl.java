@@ -47,12 +47,6 @@ public class ManagerDAOImpl implements ManagerDAO {
 		return sqlSession.selectOne("manager.selectManagerTotalDeletedMember");
 	}
 
-	@Override
-	public List<Product> selectProductList() {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList("product.selectProductList");
-	}
-
 
 
 

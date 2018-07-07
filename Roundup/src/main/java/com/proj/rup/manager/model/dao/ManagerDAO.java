@@ -19,6 +19,5 @@ public interface ManagerDAO {
 	int selectManagerTotalDeletedMember();
 
 
-	List<Product> selectProductList();
 
 }

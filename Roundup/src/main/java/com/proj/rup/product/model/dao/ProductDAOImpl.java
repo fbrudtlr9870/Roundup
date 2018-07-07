@@ -2,6 +2,7 @@ package com.proj.rup.product.model.dao;
 
 import javax.inject.Inject;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.ArrayList;
@@ -193,6 +194,21 @@ public class ProductDAOImpl implements ProductDAO {
 	@Override
 	public Product popmenu(Map map) {
 		return session.selectOne("product.popmenu",map);
+	}
+
+
+	@Override
+	public List selectAllProductList(int cPage, int numPerPage) {
+		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		return session.selectList("product.selectAllProductList",null,rowBounds);
+	
+	}
+
+
+	@Override
+	public int selectTotalProduct() {
+		// TODO Auto-generated method stub
+		return session.selectOne("product.selectTotalProduct");
 	}
 
 

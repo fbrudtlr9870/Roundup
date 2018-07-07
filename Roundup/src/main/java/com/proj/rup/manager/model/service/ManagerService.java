@@ -18,8 +18,6 @@ public interface ManagerService {
 
 	int selectManagerTotalDeletedMember();
 
-	List<Product> selectProductList();
-
 
 
 

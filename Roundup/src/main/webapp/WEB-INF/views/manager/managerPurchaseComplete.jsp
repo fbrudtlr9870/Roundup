@@ -126,10 +126,12 @@ div.mypage{
 	    <div class="tab-content" id="nav-tabContent">
 	       <h3>전체구매내역</h3>
 	      <div class="tab-pane fade show active" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
+	      <br>
+	       <p class="imsosotired2">총 구매내역 : ${totalContents }개</p>
 	       <!-- 결재내역페이지 시작-->
 	       <div class="step-buy">
-			<br><%--  <img src="${pageContext.request.contextPath }/resources/img/purchasebar.png" width="780px" height="auto"> --%>
-			<br>
+			<%--  <img src="${pageContext.request.contextPath }/resources/img/purchasebar.png" width="780px" height="auto"> --%>
+			
 			</div>
 	       <div class="purchase-complete-container">
 	       		<div class="basket-container">
@@ -143,8 +145,8 @@ div.mypage{
 								<th>결재일</th>
 								<!-- <th>배송지조회</th> -->
 							</tr>
-							<c:if test="${not empty completeList }">
-								<c:forEach var="i" items="${completeList }" varStatus="vs">
+							<c:if test="${not empty list }">
+								<c:forEach var="i" items="${list }" varStatus="vs">
 									<tr>
 									
 										<td class="tbl-td">
@@ -179,7 +181,7 @@ div.mypage{
 									</tr>
 								</c:forEach>
 							</c:if>
-							<c:if test="${empty completeList }">
+							<c:if test="${empty list }">
 						          <tr>
 						             <td colspan="6">구매내역이 없습니다.</td>
 						          </tr>
@@ -208,7 +210,7 @@ div.mypage{
 	       <!-- 결재내역페이지 끝-->
 	      </div>
 	    </div>
-	  </div>
+	  </div> 
 	</div>
 	
 </div>
