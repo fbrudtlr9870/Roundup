@@ -543,6 +543,8 @@ $(function() {
          // 적립금이 1000원 이상인 경우만 사용 가능
          if(parseInt($("#membershipText").text()) > 1000) {
             $("#membership").val(parseInt($("#membershipText").text()));      
+         } else if(parseInt($("#membershipText").text()) == 0) {
+        	 
          }
          else {
             alert("적립금은 1000원 이상부터 사용 가능합니다.");
