@@ -130,7 +130,7 @@ div.mypage{
 	       <!-- 결재내역페이지 시작-->
 	       <div class="step-buy">
 			<br><%--  <img src="${pageContext.request.contextPath }/resources/img/purchasebar.png" width="780px" height="auto"> --%>
-			<br>
+			<p class="imsosotired2">총 취소내역 : ${totalContents }개</p>
 			</div>
 	       <div class="purchase-complete-container">
 	       		<div class="basket-container">
@@ -146,8 +146,8 @@ div.mypage{
 						
 								<!-- <th>배송지조회</th> -->
 							</tr>
-							<c:if test="${not empty cancelList }">
-								<c:forEach var="i" items="${cancelList }" varStatus="vs">
+							<c:if test="${not empty list }">
+								<c:forEach var="i" items="${list }" varStatus="vs">
 									<tr>
 									
 										<td class="tbl-td">
@@ -184,7 +184,7 @@ div.mypage{
 									</tr>
 								</c:forEach>
 							</c:if>
-							<c:if test="${empty cancelList }">
+							<c:if test="${empty list }">
 						          <tr>
 						             <td colspan="6">취소내역이 없습니다.</td>
 						          </tr>
@@ -193,8 +193,20 @@ div.mypage{
 						<hr style="width:780px">
 						
 						<br>
-						<br>
-						<br>
+						<ul class="pagination justify-content-center pagination-sm" style="clear:both; margin-left:140px;">
+	            <!-- 페이지바 -->
+	            <%
+	               int totalContents = Integer.parseInt(String.valueOf(request.getAttribute("totalContents")));
+	               int numPerPage = Integer.parseInt(String.valueOf(request.getAttribute("numPerPage")));
+	               int cPage = 1;
+	               try {
+	                  cPage = Integer.parseInt(request.getParameter("cPage"));
+	               } catch (NumberFormatException e) {
+	
+	               }
+	            %>
+	            <%=com.proj.rup.common.util.Utils.getPageBar(totalContents, cPage, numPerPage, "memberPurchaseCancel.do")%>
+				</ul>
 						
 					</div> 
 	       </div>

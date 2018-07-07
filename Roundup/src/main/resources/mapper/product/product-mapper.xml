@@ -477,11 +477,11 @@
 	</select>
 
 	<!-- 180705 추가 by dh1ee  -->
-	<select id="selectProductList" resultMap="search">
+	<select id="selectAllProductList" resultMap="search">
 	select * from product p join product_file pf on p.product_no=pf.product_no order by p.product_no desc
 	</select>
 	
-	  <select id="selectManagerTotalProduct" resultType="_int">
+	  <select id="selectTotalProduct" resultType="_int">
       select count(*) from product  
       </select>
 

@@ -129,7 +129,7 @@ div.mypage{
 	       <!-- 결재내역페이지 시작-->
 	       <div class="step-buy">
 			<br><%--  <img src="${pageContext.request.contextPath }/resources/img/purchasebar.png" width="780px" height="auto"> --%>
-			<br>
+			 <p class="imsosotired2">총 상품 : ${totalContents }개</p>
 			</div>
 	       <div class="purchase-complete-container">
 	       		<div class="basket-container">
@@ -142,8 +142,8 @@ div.mypage{
 								<th>상품등록일</th>
 								<!-- <th>배송지조회</th> -->
 							</tr>
-							<c:if test="${not empty productList }">
-								<c:forEach var="i" items="${productList }" varStatus="vs">
+							<c:if test="${not empty list }">
+								<c:forEach var="i" items="${list }" varStatus="vs">
 									<tr>
 									
 										<td class="tbl-td">
@@ -173,7 +173,7 @@ div.mypage{
 									</tr>
 								</c:forEach>
 							</c:if>
-							<c:if test="${empty productList }">
+							<c:if test="${empty list }">
 						          <tr>
 						             <td colspan="6">상품이 없습니다.</td>
 						          </tr>
@@ -182,15 +182,13 @@ div.mypage{
 						<hr style="width:780px">
 						
 						<br>
-						<br>
-						<br>
 						
 					</div> 
 	       </div>
 					
 	       <!-- 결재내역페이지 끝-->
-	       <%-- 
-	      		<br />
+	        
+	      	
 				<ul class="pagination justify-content-center pagination-sm" style="clear:both; margin-left:140px;">
 	            <!-- 페이지바 -->
 	            <%
@@ -205,7 +203,7 @@ div.mypage{
 	            %>
 	            <%=com.proj.rup.common.util.Utils.getPageBar(totalContents, cPage, numPerPage, "allProductList.do")%>
 			</ul>
- --%>	      </div>
+ 	      </div>
 	    </div>
 	  </div>
 	</div>

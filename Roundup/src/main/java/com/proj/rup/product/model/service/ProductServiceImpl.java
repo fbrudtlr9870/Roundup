@@ -180,6 +180,17 @@ public class ProductServiceImpl<ProductVO> implements ProductService {
 		return productDAO.popmenu(map);
 	}
 
+	@Override
+	public List selectAllProductList(int cPage, int numPerPage) {
+		return productDAO.selectAllProductList(cPage,numPerPage);
+	}
+
+	@Override
+	public int selectTotalProduct() {
+		// TODO Auto-generated method stub
+		return productDAO.selectTotalProduct();
+	}
+
 
 
 }

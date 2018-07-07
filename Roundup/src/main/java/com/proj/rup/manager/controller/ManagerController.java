@@ -83,16 +83,7 @@ public class ManagerController {
 	}
 	
 
-	@RequestMapping("/manager/managerPurchaseCancel.do")
-	public ModelAndView managerPurchaseCancel() {
-		ModelAndView mav = new ModelAndView();
-		List<PurchaseComplete> pc = purchaseService.selectAPCancelList();
-		mav.addObject("cancelList",pc);
-		mav.setViewName("manager/managerPurchaseCancel");
- 
-		return mav;
-	}
-	
+
 	
 	
 	@RequestMapping("/manager/memberManagement.do")
@@ -118,35 +109,7 @@ public class ManagerController {
 		
 	}
 	
-	@RequestMapping("/manager/managerPurchaseComplete.do")
-	public ModelAndView managerPurchaseComplete(@RequestParam(value="cPage", 
-													  required=false, 
-													  defaultValue="1") 
-													  int cPage) {
-		if(logger.isDebugEnabled()) logger.debug("결제완료목록 요청");
-		ModelAndView mav = new ModelAndView();
-		int numPerPage = 10;
-		
-		//1. 현재페이지 컨텐츠 구하기
-		List<Map<String,String>> list = purchaseService.selectAPCList(cPage, numPerPage);
-				
-		//2. 페이지바처리를 위한 전체컨텐츠수 구하기
-		int totalContents = purchaseService.selectTotalPurchase();
-		
-		mav.addObject("list", list);
-		mav.addObject("totalContents",totalContents);
-		mav.addObject("numPerPage",numPerPage);
-		mav.setViewName("/manager/managerPurchaseComplete");
-		
-		
-		
-		/*ModelAndView mav = new ModelAndView();
-		List<PurchaseComplete> pc = purchaseService.selectAPCList();
-		mav.addObject("completeList",pc);
-		mav.setViewName("manager/managerPurchaseComplete");*/
- 
-		return mav;
-	}
+	
 	
 	
 	
@@ -173,18 +136,78 @@ public class ManagerController {
 		
 	}
 	
-	@RequestMapping("/product/allProductList.do")
-	public ModelAndView allProductList(){
+	@RequestMapping("/manager/managerPurchaseComplete.do")
+	public ModelAndView managerPurchaseComplete(@RequestParam(value="cPage", 
+													  required=false, 
+													  defaultValue="1") 
+													  int cPage) {
+		if(logger.isDebugEnabled()) logger.debug("결제완료목록 요청");
 		ModelAndView mav = new ModelAndView();
-
+		int numPerPage = 7;
 		
-		List<Product> p = managerService.selectProductList();
-		mav.addObject("productList",p);
+		//1. 현재페이지 컨텐츠 구하기
+		List<Map<String,String>> list = purchaseService.selectAPCList(cPage, numPerPage);
+				
+		//2. 페이지바처리를 위한 전체컨텐츠수 구하기
+		int totalContents = purchaseService.selectTotalPurchase();
 		
-	/*	mav.addObject("list", list);
+		mav.addObject("list", list);
 		mav.addObject("totalContents",totalContents);
 		mav.addObject("numPerPage",numPerPage);
-		mav.setViewName("/product/allProductList");*/
+		mav.setViewName("/manager/managerPurchaseComplete");
+		
+		
+		
+		/*ModelAndView mav = new ModelAndView();
+		List<PurchaseComplete> pc = purchaseService.selectAPCList();
+		mav.addObject("completeList",pc);
+		mav.setViewName("manager/managerPurchaseComplete");*/
+ 
+		return mav;
+	}
+	
+	
+	@RequestMapping("/manager/managerPurchaseCancel.do")
+	public ModelAndView managerPurchaseCancel(@RequestParam(value="cPage", 
+			  required=false, 
+			  defaultValue="1") 
+		int cPage) {if(logger.isDebugEnabled()) logger.debug("결제완료목록 요청");
+		ModelAndView mav = new ModelAndView();
+		int numPerPage = 7;
+		
+		//1. 현재페이지 컨텐츠 구하기
+		List<Map<String,String>> list = purchaseService.selectAPCancelList(cPage, numPerPage);
+						
+		//2. 페이지바처리를 위한 전체컨텐츠수 구하기
+		int totalContents = purchaseService.selectTotalCancel();
+		
+		mav.addObject("list", list);
+		mav.addObject("totalContents",totalContents);
+		mav.addObject("numPerPage",numPerPage);
+		mav.setViewName("/manager/managerPurchaseCancel");
+ 
+		return mav;
+	}
+	
+	
+	@RequestMapping("/product/allProductList.do")
+	public ModelAndView allProductList(@RequestParam(value="cPage", 
+			  required=false, 
+			  defaultValue="1") 
+			  int cPage) {
+		ModelAndView mav = new ModelAndView();
+		
+		int numPerPage = 7;
+		//1. 현재페이지 컨텐츠 구하기
+		List<Map<String,String>> list = productService.selectAllProductList(cPage, numPerPage);
+						
+		//2. 페이지바처리를 위한 전체컨텐츠수 구하기
+		int totalContents = productService.selectTotalProduct();
+		
+		mav.addObject("list", list);
+		mav.addObject("totalContents",totalContents);
+		mav.addObject("numPerPage",numPerPage);
+		mav.setViewName("/product/allProductList");
 
 		return mav;
 	}

@@ -91,5 +91,11 @@ public interface ProductDAO {
 	Product popmenu(Map map);
 
 
+	List selectAllProductList(int cPage, int numPerPage);
+
+
+	int selectTotalProduct();
+
+
 }
 

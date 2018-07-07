@@ -103,4 +103,23 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage, numPerPage);
 		return sqlSession.selectList("purchase.selectPurchaseCompleteList",member_id,rowBounds);
 	}
+
+	public List<Map<String, String>> selectAllProductList(int cPage, int numPerPage) {
+		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		return sqlSession.selectList("product.selectAllProductList",null,rowBounds);
+	}
+
+	@Override
+	public List<Map<String, String>> selectAPCancelList(int cPage, int numPerPage) {
+		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage, numPerPage);
+		return sqlSession.selectList("purchase.selectAPCancelList",null,rowBounds);
+
+	}
+
+	@Override
+	public int selectTotalCancel() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("purchase.selectTotalCancel");
+	}
+
 }

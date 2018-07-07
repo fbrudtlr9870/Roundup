@@ -103,4 +103,27 @@ public class PurchaseServiceImpl implements PurchaseService {
 		return purchaseDAO.selectPurchaseCompleteList(member_id, cPage, numPerPage);
 	}
 
+	@Override
+	public List<Map<String, String>> selectAllProductList(int cPage, int numPerPage) {
+		return purchaseDAO.selectAllProductList(cPage,numPerPage);
+	}
+
+	@Override
+	public int selectTotalProduct() {
+		// TODO Auto-generated method stub
+		return purchaseDAO.selectTotalPurchase();
+	}
+
+	@Override
+	public List<Map<String, String>> selectAPCancelList(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return purchaseDAO.selectAPCancelList(cPage,numPerPage);
+	}
+
+	@Override
+	public int selectTotalCancel() {
+		// TODO Auto-generated method stub
+		return purchaseDAO.selectTotalCancel();
+	}
+
 }

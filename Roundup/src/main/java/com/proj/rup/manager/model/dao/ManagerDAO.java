@@ -21,7 +21,6 @@ public interface ManagerDAO {
 	int selectManagerTotalDeletedMember();
 
 
-	List<Product> selectProductList();
 
 	List<Question> selectQuestionList(int cPage, int numPerPage);
 
@@ -34,5 +33,7 @@ public interface ManagerDAO {
 	int insertFile(QuestionFile fbf);
 
 	int deleteQuestion(String question_no);
+
+	List<Product> selectProductList();
 
 }
