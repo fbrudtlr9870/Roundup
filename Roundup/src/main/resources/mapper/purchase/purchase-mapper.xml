@@ -82,10 +82,51 @@
 	</select>
 	
 		<select id="selectPurchaseCompleteListCount" resultType="_int">
-		select count(*) from purchase_complete where member_id = #{member_id}
+		select count(*) 
+		from purchase_complete pc 
+		join product p on pc.product_no = p.product_no
+		join member m on pc.member_id = m.member_id 
+		where pc.member_id = #{member_id}
+		<if test="searchKeyword != null and searchKeyword != ''">
+		and product_name like '%'||#{searchKeyword}||'%'
+		</if> 
+		<if test="searchStartDate != null and searchStartDate != ''">
+		and purchase_date between to_date(#{searchStartDate},'yy/mm/dd')
+		</if>
+		<if test="searchStartDate == ''">
+		and purchase_date between to_date(m.member_enrolldate,'yy/mm/dd')
+		</if>
+		<if test="searchEndDate != null and searchEndDate != ''">
+		and to_date(#{searchEndDate},'yy/mm/dd')+1
+		</if> 
+		<if test="searchEndDate == ''">
+		and sysdate+1
+		</if>
 	</select>
 	
 	<select id="selectPurchaseCompleteList" resultType="purchaseComplete">
-		select pc.*, p.*, f.*, b.*, trunc((sysdate - pc.purchase_date)*24*60*60) diffTime from purchase_complete pc join product p on pc.product_no = p.product_no left join product_file f on pc.product_no = f.product_no left join brand b on p.brand_no = b.brand_no where pc.member_id = #{member_id} order by pc.purchase_date desc
-	</select>	
+		select pc.*, p.*, f.*, b.*, trunc((sysdate - pc.purchase_date)*24*60*60) diffTime 
+		from purchase_complete pc 
+		join product p on pc.product_no = p.product_no 
+		left join product_file f on pc.product_no = f.product_no 
+		left join brand b on p.brand_no = b.brand_no 
+		join member m on pc.member_id = m.member_id
+		where pc.member_id = #{member_id}
+		<if test="searchKeyword != null and searchKeyword != ''">
+		and product_name like '%'||#{searchKeyword}||'%'
+		</if> 
+		<if test="searchStartDate != null and searchStartDate != ''">
+		and purchase_date between to_date(#{searchStartDate},'yy/mm/dd')
+		</if>
+		<if test="searchStartDate == ''">
+		and purchase_date between to_date(m.member_enrolldate,'yy/mm/dd')
+		</if>
+		<if test="searchEndDate != null and searchEndDate != ''">
+		and to_date(#{searchEndDate},'yy/mm/dd')+1
+		</if> 
+		<if test="searchEndDate == ''">
+		and sysdate+1
+		</if>
+		order by pc.purchase_date desc
+	</select>
 </mapper>

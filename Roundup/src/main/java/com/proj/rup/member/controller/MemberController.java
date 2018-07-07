@@ -240,13 +240,24 @@ public class MemberController {
 	
 	@RequestMapping("/member/myPagePurchaseComplete.do")
 	public ModelAndView myPagePurchaseComplete(@RequestParam(value="member_id") String member_id,
-			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage) {
+			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage,
+			@RequestParam(value="searchStartDate", required=false) String searchStartDate,
+			@RequestParam(value="searchEndDate", required=false) String searchEndDate,
+			@RequestParam(value="searchKeyword", required=false) String searchKeyword) {
 		ModelAndView mav = new ModelAndView();
 		
-		int numPerPage = 5; 
-		List<PurchaseComplete> list = purchaseService.selectPurchaseCompleteList(member_id, cPage, numPerPage);
+		int numPerPage = 5;
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("searchStartDate", searchStartDate);
+		map.put("searchEndDate", searchEndDate);
+		map.put("searchKeyword", searchKeyword);
+		map.put("member_id", member_id);
 		
-		int pcount = purchaseService.selectPurchaseCompleteListCount(member_id);
+		List<PurchaseComplete> list = purchaseService.selectPurchaseCompleteList(map, cPage, numPerPage);
+		int pcount =  purchaseService.selectPurchaseCompleteListCount(map);
+		
+		/*List<PurchaseComplete> list = purchaseService.selectPurchaseCompleteList(member_id, cPage, numPerPage);
+		int pcount = purchaseService.selectPurchaseCompleteListCount(member_id);*/
 		
 		mav.addObject("count", pcount);
 		mav.addObject("numPerPage", numPerPage);

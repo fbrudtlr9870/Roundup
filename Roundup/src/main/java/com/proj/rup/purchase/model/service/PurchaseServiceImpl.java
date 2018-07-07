@@ -97,11 +97,22 @@ public class PurchaseServiceImpl implements PurchaseService {
 	public int selectPurchaseCompleteListCount(String member_id) {
 		return purchaseDAO.selectPurchaseCompleteListCount(member_id);
 	}
+	
+	@Override
+	public List<PurchaseComplete> selectPurchaseCompleteList(Map<String, Object> map, int cPage, int numPerPage) {
+		return purchaseDAO.selectPurchaseCompleteList(map, cPage, numPerPage);
+	}
 
 	@Override
+	public int selectPurchaseCompleteListCount(Map<String, Object> map) {
+		return purchaseDAO.selectPurchaseCompleteListCount(map);
+	}
+
+	/*@Override
 	public List<PurchaseComplete> selectPurchaseCompleteList(String member_id, int cPage, int numPerPage) {
 		return purchaseDAO.selectPurchaseCompleteList(member_id, cPage, numPerPage);
-	}
+	}*/
+
 
 	@Override
 	public List<Map<String, String>> selectAllProductList(int cPage, int numPerPage) {
@@ -125,5 +136,12 @@ public class PurchaseServiceImpl implements PurchaseService {
 		// TODO Auto-generated method stub
 		return purchaseDAO.selectTotalCancel();
 	}
+
+	@Override
+	public List<PurchaseComplete> selectPurchaseCompleteList(String member_id, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

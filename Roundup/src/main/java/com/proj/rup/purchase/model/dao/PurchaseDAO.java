@@ -40,7 +40,6 @@ public interface PurchaseDAO {
 
 	int selectTotalPurchase();
 
-
 	int selectPurchaseCompleteListCount(String member_id);
 
 	List<PurchaseComplete> selectPurchaseCompleteList(String member_id, int cPage, int numPerPage);
@@ -51,6 +50,7 @@ public interface PurchaseDAO {
 
 	int selectTotalCancel();
 
+	List<PurchaseComplete> selectPurchaseCompleteList(Map<String, Object> map, int cPage, int numPerPage);
 
-
+	int selectPurchaseCompleteListCount(Map<String, Object> map);
 }
