@@ -35,7 +35,7 @@ function fn_insertBoard(){
 
 </script>
 
-
+<!--
 <div class="main-img-wrapper">
 	<div class="main-img">
 		 <img src="${pageContext.request.contextPath }/resources/img/main-display.png" 
@@ -43,7 +43,7 @@ function fn_insertBoard(){
 	</div>
 </div>
 <br /><br />
-
+-->
 <div id="freetable_container">
 	<h2>공지사항</h2>
 	<table class="table table-striped">

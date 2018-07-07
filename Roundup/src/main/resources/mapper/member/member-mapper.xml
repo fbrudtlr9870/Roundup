@@ -72,4 +72,39 @@
 	<update id="updateMembership" statementType="CALLABLE">
 		{call proc_membership(#{member_id}, #{membership}, #{totalPrice})}
 	</update>
+	<select id="selectQuestionList" resultType="question">
+		select question_no, member_id, question_comment,
+		to_char(question_reg_date,'yyyy-mm-dd hh24:mi:ss') as question_reg_date,
+		question_title
+		from question
+		where admin_id is not null
+		order by question_no desc
+	</select>
+	<select id="selectQuestionListCount" resultType="_int">
+		select count(*)
+		from question
+		where member_id=#{member_id} and admin_id is not null
+		order by question_no desc
+	</select>
+	
+	<insert id="insertQuestion">
+			insert into question
+			values(seq_question_no.nextval,#{member_id},#{question_comment},sysdate,#{question_title},null)
+	
+			<selectKey keyProperty="question_no" order="AFTER" resultType="_int">
+				select seq_question_no.currval from dual
+			</selectKey>
+	</insert>
+	<insert id="insertFile">
+	insert into question_file
+	values(seq_question_file_no.nextval,#{question_no},null,#{renamed_filename})
+	</insert>
+	<select id="selectQuestion" resultType="question">
+	select * from question where question_no=#{no}
+	</select>
+	
+	<delete id="deleteQuestion">
+		delete question where question_no=#{question_no}
+	</delete>
+	
 </mapper>

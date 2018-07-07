@@ -114,7 +114,7 @@ function fn_insertBoard(){
 }
 </script>
 
-
+<br /><br /><br />
 <div id="freeBoardView-container">
 	<div class="freeBoardView-title title">
 		<div style="float:left;">

@@ -35,13 +35,14 @@ function fn_insertBoard(){
 
 </script>
 
-
+<!--  
 <div class="main-img-wrapper">
 	<div class="main-img">
 		 <img src="${pageContext.request.contextPath }/resources/img/main-display.png" 
 		 class="main-img-one" style="width:100%">
 	</div>
 </div>
+-->
 <br /><br />
 
 <div id="freetable_container">

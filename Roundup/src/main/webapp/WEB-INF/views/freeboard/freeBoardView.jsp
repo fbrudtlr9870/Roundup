@@ -113,7 +113,8 @@ function fn_insertBoard(){
 	location.href="${pageContext.request.contextPath}/freeboard/insertBoard.do";
 }
 </script>
-
+ 
+<br /><br /><br />
 
 <div id="freeBoardView-container">
 	<div class="freeBoardView-title title">
