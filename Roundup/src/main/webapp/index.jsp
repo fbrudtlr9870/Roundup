@@ -12,6 +12,8 @@
 	<jsp:param value="active" name="active1"/>
 </jsp:include>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.js"></script>	
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
 <sec:authorize access="hasAnyRole('ROLE_USER')">
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
@@ -33,9 +35,9 @@ $(function(){
 			for(var i in data.productNewList){
 				if(data.productNewList[i].renamedFileName!=null){	
 					if(i==0){
-						html+="<div class='carousel-item active new-product'><img class='d-block w-100' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productNewList[0].renamedFileName+"' height='150px' width='auto' alt='First slide'>";
+						html+="<div class='carousel-item active new-product'><img class='d-block' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productNewList[0].renamedFileName+"' height='150px' width='150px' alt='First slide'>";
 					}else{					
-						html += "<div class='carousel-item new-product'><img class='d-block w-100' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productNewList[i].renamedFileName+"' height='150px' width='auto' alt='Second slide'>";
+						html += "<div class='carousel-item new-product'><img class='d-block' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productNewList[i].renamedFileName+"' height='150px' width='150px' alt='Second slide'>";
 					}
 					html += "<div class='buy-btn'>";
 					html += "<input type='hidden' value='" + data.productNewList[i].productNo +"' name='product_no'>";
@@ -49,9 +51,9 @@ $(function(){
 					html += "<button type='button' class='btn btn-primary insertBasket-new'>장바구니</button> &nbsp;";
 	                html += "<button type='button' class='btn btn-success purchase-new'>구매</button>";
 		            html += "</div>";
-		            html += "<div class='ptext'>" + data.productNewList[i].brandName + "</div>"; 
-		            html += "<div class='ptext'>" + data.productNewList[i].productName + "</div>";
-	                html += "<div class='pprice'>" + data.productNewList[i].price + "</div></div>";
+		            html += "<div class='ptext' style='font-size:19px;'>" + data.productNewList[i].brandName + "</div>"; 
+		            html += "<div class='ptext' style='font-size:23px;'>" + data.productNewList[i].productName + "</div>";
+	                html += "<div class='pprice' style='font-size:20px;float:right;'>" + data.productNewList[i].price + "원</div></div>";
 				}
 			}
 			
@@ -132,9 +134,9 @@ $(function(){
 			for(var i in data.productHotList){
 				if(data.productHotList[i].renamedFileName!=null){	
 					if(i==0){
-						html+="<div class='carousel-item active hot-product'><img class='d-block w-100' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productHotList[0].renamedFileName+"' height='150px' alt='First slide'>";
+						html+="<div class='carousel-item active hot-product'><img class='d-block' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productHotList[0].renamedFileName+"' height='150px' width='150px' alt='First slide'>";
 					}else{					
-						html += "<div class='carousel-item hot-product'><img class='d-block w-100' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productHotList[i].renamedFileName+"' height='150px' alt='Second slide'>";
+						html += "<div class='carousel-item hot-product'><img class='d-block' src='${pageContext.request.contextPath}/resources/upload/productFile/"+data.productHotList[i].renamedFileName+"' height='150px' width='150px' alt='Second slide'>";
 					}
 					html += "<div class='buy-btn'>";
 					html += "<input type='hidden' value='" + data.productHotList[i].productNo +"' name='product_no'>";
@@ -142,9 +144,9 @@ $(function(){
 	                html += "<button type='button' class='btn btn-primary insertBasket'>장바구니</button> &nbsp;";
 	                html += "<button type='button' class='btn btn-success purchase'>구매</button>";
 		            html += "</div>";
-		            html += "<div class='ptext'>" + data.productHotList[i].brandName + "</div>"; 
-		            html += "<div class='ptext'>" + data.productHotList[i].productName + "</div>";
-	                html += "<div class='pprice'>" + data.productHotList[i].price + "</div></div>";
+		            html += "<div class='ptext product-brand-master' style='font-size:19px;'>" + data.productHotList[i].brandName + "</div>"; 
+		            html += "<div class='ptext product-title-master' style='font-size:23px;'>" + data.productHotList[i].productName + "</div>";
+	                html += "<div class='pprice product-price-master' style='font-size:20px;float:right;'>" + data.productHotList[i].price + "</div></div>";
 				}
 			}
 			
@@ -287,9 +289,9 @@ $(function(){
    			 <div class="card-columns">
  
 					  <!-- 신상품 -->
-					  <div class="card mb-3 new-product-container" style="max-width: 18rem;">
-						  <div class="card-body text-primary">
-						    <h5 class="card-title">New 신상품</h5>
+					  <div class="new-product-container-master" style="max-width: 18rem;border:2px solid #468aea;">
+						  <div class="card-body ">
+						    <h5 class="card-title" id="new-title-master" style="font-size:25px;font-style:italic;color:dodgerblue;"><img src="${pageContext.request.contextPath }/resources/img/new (1).png" alt="" />&nbsp;&nbsp;신상품</h5>
 						  	<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
 							  <div class="carousel-inner slide-new-master new-option"> 
 							   
@@ -302,8 +304,8 @@ $(function(){
 					   <!-- ----------------------- -->
 					  <!-- 인기상품 -->
 					   <div class="card mb-3 hot-product-container" style="max-width: 18rem;">
-						  <div class="card-body text-primary">
-						    <h5 class="card-title">Hot 인기상품</h5>
+						  <div class="card-body">
+						    <h5 class="card-title" style="font-size:25px;font-style:italic;color:#b8740a;"><img src="${pageContext.request.contextPath }/resources/img/best-seller.png" alt="" />&nbsp;&nbsp;인기상품</h5>
 						  	<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
 							  <div class="carousel-inner slide-new-master hot-option"> 
 							   
@@ -313,7 +315,7 @@ $(function(){
 						  </div>
 						</div>
 					   <!-- ----------------------- -->
-					 <div class="card">
+					<%--  <div class="card">
 					    <div class="card-body text-info">
 					      <h5 class="card-title">이벤트</h5>
 					      <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
@@ -337,61 +339,26 @@ $(function(){
 						</div>
 					    </div>
 					  </div>
-					 
-					 
-				</div> 
-			  <!-- ----------card layout end------------- -->
-			  <div class="row">
-			  		 <div class="col-md-4">
-			              <div class="card mb-4 box-shadow">
-			                <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-							  <div class="carousel-inner slide-new-master hot-option"> 
+					  --%>
+					  <div class="w3-card-4 w3-dark-grey">
+						
+						<div class="w3-container w3-center w3-lobster">
+						  <h3><img src="${pageContext.request.contextPath }/resources/img/best-seller.png" alt="" /></h3>
+						  <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+							  <div class="carousel-inner slide-new-master new-option"> 
 							   
 							  </div>
 							</div>
-			                <div class="card-body">
-			                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			                  <div class="d-flex justify-content-between align-items-center">
-			                    <div class="btn-group">
-			                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                    </div>
-			                    <small class="text-muted">9 mins</small>
-			                  </div>
-			                </div>
-			              </div>
-			            </div>
-			            <div class="col-md-4">
-			              <div class="card mb-4 box-shadow">
-			                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
-			                <div class="card-body">
-			                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			                  <div class="d-flex justify-content-between align-items-center">
-			                    <div class="btn-group">
-			                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                    </div>
-			                    <small class="text-muted">9 mins</small>
-			                  </div>
-			                </div>
-			              </div>
-			            </div>
-			            <div class="col-md-4">
-			              <div class="card mb-4 box-shadow">
-			                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
-			                <div class="card-body">
-			                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-			                  <div class="d-flex justify-content-between align-items-center">
-			                    <div class="btn-group">
-			                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-			                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-			                    </div>
-			                    <small class="text-muted">9 mins</small>
-			                  </div>
-			                </div>
-			              </div>
-			            </div>
-			         </div>  
+				
+							<button type='button' class='btn btn-primary insertBasket'>장바구니</button>
+						  	<button type='button' class='btn btn-success purchase-new'>구매</button>
+						</div>
+						<br />
+						</div>
+					 
+				</div> 
+			  <!-- ----------card layout end------------- -->
+			
 			  </div>
 			 
 		<!-- main-li-container end -->

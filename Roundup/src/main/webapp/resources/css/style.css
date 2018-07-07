@@ -230,7 +230,8 @@ li.main-li img{
     height:230px;
 }
 li.main-li div.ptext{
-   font-size: 20px;
+   font-size: 30px;
+   color:red;
    /* width:100px; */
    padding:5px;
 }
@@ -453,4 +454,28 @@ img.btnImg-hyelin {
 .width450-hyelin {
 	width: 450px;
 }
+#new-title-master{
+    font-style: italic;
+    font-size: 25px;
+    color: dodgerblue;
+}
+div.product-brand-master{
+	font-size:20px;
+	color:red;
+}
 
+div.product-title-master{
+	
+	
+}
+div.product-price-master{
+	
+	
+}
+div.new-product-container-master{
+	max-width: 18rem;
+	border:1px solid black;
+}
+.w3-lobster {
+    font-family: "Lobster", serif;
+}
