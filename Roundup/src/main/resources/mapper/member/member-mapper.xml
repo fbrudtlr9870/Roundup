@@ -72,4 +72,8 @@
 	<update id="updateMembership" statementType="CALLABLE">
 		{call proc_membership(#{member_id}, #{membership}, #{totalPrice})}
 	</update>
+	
+	<select id="selectAddrList" resultType="address">
+		select * from address where member_id = #{member_id} order by address_level
+	</select>
 </mapper>

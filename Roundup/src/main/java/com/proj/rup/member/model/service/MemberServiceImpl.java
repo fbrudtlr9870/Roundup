@@ -1,11 +1,13 @@
 package com.proj.rup.member.model.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.proj.rup.member.model.dao.MemberDAO;
+import com.proj.rup.member.model.vo.Address;
 import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.vo.Membership;
 
@@ -82,6 +84,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int deleteMember(String member_id) {
 		return memberDAO.deleteMember(member_id);
+	}
+
+	@Override
+	public List<Address> selectAddrList(String member_id) {
+		return memberDAO.selectAddrList(member_id);
 	}
 
 }

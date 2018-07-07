@@ -1,11 +1,13 @@
 package com.proj.rup.member.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.proj.rup.member.model.vo.Address;
 import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.vo.Membership;
 
@@ -81,6 +83,8 @@ public class MemberDAOImpl implements MemberDAO {
 	public int deleteMember(String member_id) {
 		return sqlSession.delete("member.deleteMember",member_id);
 	}
-
-
+	@Override
+	public List<Address> selectAddrList(String member_id) {
+		return sqlSession.selectList("member.selectAddrList", member_id);
+	}
 }

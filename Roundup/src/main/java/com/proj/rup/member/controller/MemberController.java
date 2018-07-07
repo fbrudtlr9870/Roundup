@@ -389,5 +389,16 @@ public class MemberController {
 		return map;
 	}	
 	
+	@RequestMapping("/member/selectMemberAddress.do")
+	public ModelAndView selectMemberAddress(@RequestParam("member_id") String member_id) {
+		ModelAndView mav = new ModelAndView();
+		
+		List<Address> list = memberService.selectAddrList(member_id);
+		
+		mav.addObject("list", list);
+		mav.setViewName("/member/memberAddress");
+		
+		return mav;
+	}
 	
 }

@@ -57,7 +57,7 @@
                 </a>
               </li>
               <li class="nav-item-my">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="${pageContext.request.contextPath}/member/selectMemberAddress.do?member_id=${member_id}">
                   <span data-feather="bar-chart-2"></span>
                   주소록관리
                 </a>

@@ -1,7 +1,9 @@
 package com.proj.rup.member.model.service;
 
+import java.util.List;
 import java.util.Map;
 
+import com.proj.rup.member.model.vo.Address;
 import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.vo.Membership;
 
@@ -36,5 +38,7 @@ public interface MemberService {
 	int updateMembership(Map<String, Object> map);
 
 	int deleteMember(String member_id);
+
+	List<Address> selectAddrList(String member_id);
 
 }
