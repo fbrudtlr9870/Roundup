@@ -379,7 +379,7 @@ img#chat-icon{
 
                <sec:authorize access="hasRole('ROLE_ADMIN')">
                <input id="admin-notice" style="float:left; width:230px;"class="form-control form-control-sm" type="text"> 
-               <button style="float:left; width:50px;" type="button" class="btn btn-success" id="insertNotice">전송</button>
+               <button style="float:left; width:50px;" type="button" class="btn btn-success" id="insertNotice">공지</button>
                </sec:authorize>
             </div> 
             <!-- 채팅관련 끝 -->
@@ -567,12 +567,12 @@ $(function(){
 <script> 
  
 var sock=new SockJS("<c:url value="/echo"/>"); 
-	<sec:authorize access="hasRole('ROLE_USER')"> 
-	sock.onmessage= onMessage;
-	</sec:authorize>
+sock.onmessage= onMessage;
 sock.onclose = onClose; 
 sock.onopen=function(){ 
+	<sec:authorize access="hasRole('ROLE_USER')"> 
      sendMessage();
+ 	</sec:authorize>
      $.ajax({ 
            url:"${pageContext.request.contextPath}/chatting/showChat.do", 
            type:"post", 

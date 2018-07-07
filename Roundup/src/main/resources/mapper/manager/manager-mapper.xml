@@ -21,6 +21,29 @@
       select count(*) from del_member  
       </select>
       
+      <select id="selectQuestionList" resultType="question">
+      	select question_no, member_id, question_comment,
+		to_char(question_reg_date,'yyyy-mm-dd hh24:mi:ss') as question_reg_date,
+		question_title
+		from question
+		where admin_id is null
+		order by question_no desc
+      </select>
+      
+      <select id="selectQuestionListCount" resultType="_int">
+      	select count(*)
+		from question
+		where admin_id is null
+		order by question_no desc
+      </select>
+      <insert id="insertQuestion">
+      		insert into question
+			values(seq_question_no.nextval,#{member_id},#{question_comment},sysdate,#{question_title},#{admin_id})
+	
+			<selectKey keyProperty="question_no" order="AFTER" resultType="_int">
+				select seq_question_no.currval from dual
+			</selectKey>
+      </insert>
       
       
 

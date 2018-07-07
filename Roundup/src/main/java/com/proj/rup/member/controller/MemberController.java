@@ -1,33 +1,44 @@
 package com.proj.rup.member.controller;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.proj.rup.basket.model.service.BasketService;
 import com.proj.rup.basket.model.service.BasketServiceImpl;
 import com.proj.rup.basket.model.vo.BasketProduct;
+import com.proj.rup.freeboard.model.service.freeBoardService;
+import com.proj.rup.freeboard.model.service.freeBoardServiceImpl;
 import com.proj.rup.member.model.service.MemberService;
-import com.proj.rup.member.model.vo.Address;
 import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.vo.MemberAddress;
+import com.proj.rup.member.model.vo.MemberDetails;
 import com.proj.rup.member.model.vo.Membership;
+import com.proj.rup.member.model.vo.Question;
+import com.proj.rup.member.model.vo.QuestionFile;
 import com.proj.rup.purchase.model.service.PurchaseService;
 import com.proj.rup.purchase.model.service.PurchaseServiceImpl;
 import com.proj.rup.purchase.model.vo.PurchaseComplete;
-import com.proj.rup.member.model.vo.Membership;
 
 @SessionAttributes({"memberLoggedIn"})
 @Controller
@@ -38,6 +49,9 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private freeBoardService freeboardService= new freeBoardServiceImpl();
 	
 	@Autowired
 	private PurchaseService purchaseService = new PurchaseServiceImpl();
@@ -376,7 +390,102 @@ public class MemberController {
 		System.out.println(map.get("isUsable"));
 		
 		return map;
-	}	
+	}
+	@RequestMapping("/member/myPageQuestion.do")
+	public ModelAndView mypageQuestion(
+			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage){
+			
+			ModelAndView mav = new ModelAndView();
+			
+			//유저의 인증세션 값 가져오기
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); 
+			MemberDetails member = (MemberDetails) authentication.getPrincipal();
+			
+			//Rowbounds 처리를 위해 offset, limit 값 필요
+			int numPerPage = 10; //=> limit
+			
+			List<Question> list = memberService.selectQuestionList(cPage,numPerPage);
+			logger.debug("list@memberController="+list);
+			
+			//2. 페이지바처리를 위한 전체컨텐츠 수 구하기
+			int pcount = memberService.selectQuestionListCount(member.getUsername());
+				
+			mav.addObject("count", pcount);
+			mav.addObject("numPerPage", numPerPage);
+			mav.addObject("list", list);
+			mav.setViewName("member/myPageQuestionList");
+			return mav;
+		}
 	
+	@RequestMapping("/member/insertQuestion.do")
+	public String insertQuestion(){		
+		
+		//유저의 인증세션 값 가져오기
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); 
+		MemberDetails member = (MemberDetails) authentication.getPrincipal();
+		int result =freeboardService.deleteuploadPhoto(member.getUsername());
+		
+		return "member/insertQuestion";
+	}
+	@RequestMapping(value="/member/insertEndQuestion.do",method=RequestMethod.POST, headers = ("content-type=multipart/*"))
+	public ModelAndView insertEndQuestion(@RequestParam(value="boardTitle")String boardTitle,
+			 @RequestParam(value="memberId")String memberId,
+			 @RequestParam(value="smarteditor")String boardComment,
+			 HttpServletRequest request){
+
+			Question question = new Question();
+			question.setQuestion_title(boardTitle);
+			question.setMember_id(memberId);
+			question.setQuestion_comment(boardComment);
+			
+			
+			//upload테이블에서 유저가 등록하기 전까지 올린 이미지들 확인
+			List<Map<String,Object>> uploadList = freeboardService.uploadList(memberId);
+			
+			//체크해서 겹치는거만 넣을 리스트
+			List<String> uploadChk = new ArrayList<>();
+			
+			
+			String directory = request.getSession().getServletContext().getRealPath("/resources/upload/freeboard/");
+			
+			//업로드할 comment와 테이블에서 조회한 이미지들 간 겹치는거만 골라내기
+			for(int i=0; i<uploadList.size(); i++){
+			if(boardComment.contains((String)uploadList.get(i).get("RENAMED_FILENAME"))){
+			uploadChk.add((String)uploadList.get(i).get("RENAMED_FILENAME"));
+			}else{
+			//겹치지 않는 파일 삭제 처리 (겹친거만 살려둬야 게시글 올라갔을 때 이미지를 볼 수 있음)
+			File file = new File(directory+uploadList.get(i).get("RENAMED_FILENAME"));
+			System.out.println(directory+uploadList.get(i).get("RENAMED_FILENAME"));
+			file.delete();
+			}
+			}
+			
+			
+			int result = memberService.insertBoard(question);
+			logger.debug("게시물 등록 성공");
+			
+			//겹친 리스트만 free_board_file테이블에 넣음(후에 게시물삭제시 삭제하기 위한 용도)
+			for(int i=0; i<uploadChk.size(); i++){
+			QuestionFile fbf = new QuestionFile(question.getQuestion_no(), uploadChk.get(i));
+			int res = memberService.insertFile(fbf);
+			}
+			
+			ModelAndView mav = new ModelAndView();
+			mav.addObject("msg", "등록 완료");
+			mav.addObject("loc", "/member/myPageQuestion.do?member_id="+memberId);
+			mav.setViewName("common/msg");
+			return mav;
+			}
 	
+	@RequestMapping("/member/myPageQuestionView.do")
+	public ModelAndView myPageQuestionView(@RequestParam(value="no") int no){
+		ModelAndView mav = new ModelAndView();
+		
+		Question question = memberService.selectQuestion(no);
+		
+		mav.addObject("question",question);
+		return mav;
+	}
+	
+
 }

@@ -1,13 +1,17 @@
 package com.proj.rup.member.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.vo.Membership;
+import com.proj.rup.member.model.vo.Question;
+import com.proj.rup.member.model.vo.QuestionFile;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {
@@ -80,6 +84,27 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public int deleteMember(String member_id) {
 		return sqlSession.delete("member.deleteMember",member_id);
+	}
+	@Override
+	public List<Question> selectQuestionList(int cPage, int numPerPage) {
+		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage,numPerPage);
+		return sqlSession.selectList("member.selectQuestionList",null,rowBounds);
+	}
+	@Override
+	public int selectQuestionListCount(String member_id) {
+		return sqlSession.selectOne("member.selectQuestionListCount",member_id);
+	}
+	@Override
+	public int insertBoard(Question question) {
+		return sqlSession.insert("member.insertQuestion",question);
+	}
+	@Override
+	public int insertFile(QuestionFile fbf) {
+		return sqlSession.insert("member.insertFile",fbf);
+	}
+	@Override
+	public Question selectQuestion(int no) {
+		return sqlSession.selectOne("member.selectQuestion",no);
 	}
 
 

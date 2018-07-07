@@ -312,6 +312,7 @@ div.mypage {
 				<a class="list-group-item list-group-item-action" id="list-profile-list" href="${pageContext.request.contextPath }/member/myPageMemberView.do?member_id=${member_id }" role="tab" aria-controls="profile">내정보</a> 
 				<a class="list-group-item list-group-item-action" id="list-basket-list" href="${pageContext.request.contextPath }/member/myPageBasket.do?member_id=${member_id }" role="tab" aria-controls="baskeet">장바구니</a> 
 				<a class="list-group-item list-group-item-action active" id="list-settings-list" href="${pageContext.request.contextPath }/member/myPagePurchaseComplete.do?member_id=${member_id }" role="tab" aria-controls="settings">구매내역</a>
+
 			</div>
 		</div>
 		<div class="col-8">

@@ -106,6 +106,7 @@ table tr td {
 	      <a class="list-group-item list-group-item-action" id="list-allPurchaseCancel-list"  href="#" role="tab" aria-controls="allCancel">전체취소내역</a>
 	      <a class="list-group-item list-group-item-action" id="list-event-list"  href="#" role="tab" aria-controls="settings">이벤트등록</a>
 	      <a class="list-group-item list-group-item-action" id="list-allEvent-list"  href="#" role="tab" aria-controls="settings">전체이벤트</a>
+	      <a class="list-group-item list-group-item-action" id="list-question-list"  href="${pageContext.request.contextPath }/manager/managerQuestion.do" role="tab" aria-controls="question">1:1문의</a>
 	    </div>
 	  </div>
 	  <div class="col-8">
