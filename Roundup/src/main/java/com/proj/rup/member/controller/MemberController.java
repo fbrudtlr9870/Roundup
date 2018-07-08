@@ -105,6 +105,7 @@ public class MemberController {
 			map.put("member_id", member.getMember_id());
 			map.put("address", address);
 			map.put("zip_code", postCode);
+			map.put("address_level", 1);
 			
 			result = memberService.insertAddress(map);
 		}
@@ -299,6 +300,7 @@ public class MemberController {
 			map.put("member_id", member.getMember_id());
 			map.put("address", address);
 			map.put("zip_code", postCode);
+			map.put("address_level", 1);
 			
 			result = memberService.updateAddress(map);
 		}
@@ -487,7 +489,7 @@ public class MemberController {
 			mav.addObject("loc", "/member/myPageQuestion.do?member_id="+memberId);
 			mav.setViewName("common/msg");
 			return mav;
-			}
+	}
 	
 	@RequestMapping("/member/myPageQuestionView.do")
 	public ModelAndView myPageQuestionView(@RequestParam(value="no") int no){
@@ -514,5 +516,87 @@ public class MemberController {
 		
 		return mav;
 	}
+	
+	@RequestMapping("/member/deleteMemberAddress.do")
+	@ResponseBody
+	public String deleteMemberAddress(@RequestParam("address_no") int address_no) {
+		int result = memberService.deleteMemberAddress(address_no);
+		String msg = "";
+		
+		if(result > 0) msg = "success";
+		else msg = "fail";
+		
+		return msg;
+	}
+	
+	@RequestMapping("/member/updateDefaultAddress.do")
+	@ResponseBody
+	public String updateDefaultAddress(@RequestParam("address_no") int address_no,
+			@RequestParam("address_level") int address_level,
+			@RequestParam("member_id") String member_id) {
+		
+		// 해당 회원의 address_level이 1이었던 배송지 정보를 바꾸려는 배송지 정보의 level로 바꿔줌.
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("member_id", member_id);
+		map.put("address_level", address_level);
+		int result1 = memberService.updateAddressLevel(map);
+		
+		// address_no에 해당하는 배송지 정보의 level을 1로 바꿔줌
+		int result2 = memberService.updateAddressLevelByAddrNo(address_no);
+		String msg = "";
+		
+		if(result1 > 0 && result2 > 0) msg = "success";
+		else msg = "fail";
+		
+		return msg;
+	}
 
+	@RequestMapping("/member/insertMemberAdress.do")
+	@ResponseBody
+	public String insertMemberAdress(@RequestParam("address") String address,
+			@RequestParam("zip_code") String zip_code,
+			@RequestParam("member_id") String member_id) {
+		
+		// address_level 최대값 가져오기
+		int address_level = memberService.selectAddrLevel(member_id);
+		
+		// 새로운 배송지 정보 추가하기
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("member_id", member_id);
+		map.put("address", address);
+		map.put("zip_code", zip_code);
+		map.put("address_level", address_level+1);
+		
+		int result = memberService.insertAddress(map);
+		
+		String msg = "";
+		
+		if(result > 0) msg = "success";
+		else msg = "fail";
+		
+		return msg;
+	}
+	
+	@RequestMapping("/member/updateMemberAddress.do")
+	@ResponseBody
+	public String updateMemberAdress(@RequestParam("address_level") int address_level,
+			@RequestParam("address") String address,
+			@RequestParam("zip_code") String zip_code,
+			@RequestParam("member_id") String member_id) {
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("member_id", member_id);
+		map.put("address", address);
+		map.put("zip_code", zip_code);
+		map.put("address_level", address_level);
+		
+		int result = memberService.updateAddress(map);
+		
+		String msg = "";
+		
+		if(result > 0) msg = "success";
+		else msg = "fail";
+		
+		return msg;
+	}
 }
