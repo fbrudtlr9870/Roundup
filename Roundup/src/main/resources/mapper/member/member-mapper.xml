@@ -72,6 +72,7 @@
 	<update id="updateMembership" statementType="CALLABLE">
 		{call proc_membership(#{member_id}, #{membership}, #{totalPrice})}
 	</update>
+
 	<select id="selectQuestionList" resultType="question">
 		select question_no, member_id, question_comment,
 		to_char(question_reg_date,'yyyy-mm-dd hh24:mi:ss') as question_reg_date,
@@ -107,4 +108,8 @@
 		delete question where question_no=#{question_no}
 	</delete>
 	
+	<select id="selectAddrList" resultType="address">
+		select * from address where member_id = #{member_id} order by address_level
+	</select>
+
 </mapper>

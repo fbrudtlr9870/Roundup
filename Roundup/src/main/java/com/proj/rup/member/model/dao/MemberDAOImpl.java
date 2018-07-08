@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.proj.rup.member.model.vo.Address;
 import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.vo.Membership;
 import com.proj.rup.member.model.vo.Question;
@@ -107,5 +108,9 @@ public class MemberDAOImpl implements MemberDAO {
 		return sqlSession.selectOne("member.selectQuestion",no);
 	}
 
+	@Override
+	public List<Address> selectAddrList(String member_id) {
+		return sqlSession.selectList("member.selectAddrList", member_id);
+	}
 
 }

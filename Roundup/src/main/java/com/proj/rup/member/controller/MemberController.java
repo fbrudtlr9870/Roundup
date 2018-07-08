@@ -30,6 +30,7 @@ import com.proj.rup.basket.model.vo.BasketProduct;
 import com.proj.rup.freeboard.model.service.freeBoardService;
 import com.proj.rup.freeboard.model.service.freeBoardServiceImpl;
 import com.proj.rup.member.model.service.MemberService;
+import com.proj.rup.member.model.vo.Address;
 import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.vo.MemberAddress;
 import com.proj.rup.member.model.vo.MemberDetails;
@@ -197,7 +198,7 @@ public class MemberController {
 		
 		mav.addObject("member",m);
 		mav.addObject("purchaseComplete",pc);
-		mav.setViewName("member/myPage");
+		mav.setViewName("member/test");
 
 		return mav;
 	}
@@ -498,5 +499,19 @@ public class MemberController {
 		return mav;
 	}
 	
+
+		
+	
+	@RequestMapping("/member/selectMemberAddress.do")
+	public ModelAndView selectMemberAddress(@RequestParam("member_id") String member_id) {
+		ModelAndView mav = new ModelAndView();
+		
+		List<Address> list = memberService.selectAddrList(member_id);
+		
+		mav.addObject("list", list);
+		mav.setViewName("/member/memberAddress");
+		
+		return mav;
+	}
 
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.proj.rup.member.model.dao.MemberDAO;
+import com.proj.rup.member.model.vo.Address;
 import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.vo.Membership;
 import com.proj.rup.member.model.vo.Question;
@@ -110,6 +111,12 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Question selectQuestion(int no) {
 		return memberDAO.selectQuestion(no);
+	}
+	
+	@Override
+	public List<Address> selectAddrList(String member_id) {
+		return memberDAO.selectAddrList(member_id);
+
 	}
 
 }

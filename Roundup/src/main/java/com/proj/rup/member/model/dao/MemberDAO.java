@@ -3,6 +3,7 @@ package com.proj.rup.member.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.proj.rup.member.model.vo.Address;
 import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.vo.Membership;
 import com.proj.rup.member.model.vo.Question;
@@ -53,6 +54,7 @@ public interface MemberDAO {
 
 	Question selectQuestion(int no);
 
+	List<Address> selectAddrList(String member_id);
 
 
 }
