@@ -13,6 +13,7 @@ import com.proj.rup.product.model.vo.Product;
 import com.proj.rup.purchase.model.dao.PurchaseDAO;
 import com.proj.rup.purchase.model.dao.PurchaseDAOImpl;
 import com.proj.rup.purchase.model.vo.Purchase;
+import com.proj.rup.purchase.model.vo.PurchaseCancel;
 import com.proj.rup.purchase.model.vo.PurchaseComplete;
 
 
@@ -71,15 +72,9 @@ public class PurchaseServiceImpl implements PurchaseService {
 	public int deletePurchaseComplete(String imp_uid) {
 		return purchaseDAO.deletePurchaseComplete(imp_uid);
 	}
-	
-/*	@Override
-	public List<PurchaseComplete> selectAPCList() {
-		return purchaseDAO.selectAPCList();
-	}*/
 
 	@Override
 	public List<PurchaseComplete> selectAPCancelList() {
-		// TODO Auto-generated method stub
 		return purchaseDAO.selectAPCancelList();
 	}
 
@@ -94,11 +89,6 @@ public class PurchaseServiceImpl implements PurchaseService {
 	}
 	
 	@Override
-	public int selectPurchaseCompleteListCount(String member_id) {
-		return purchaseDAO.selectPurchaseCompleteListCount(member_id);
-	}
-	
-	@Override
 	public List<PurchaseComplete> selectPurchaseCompleteList(Map<String, Object> map, int cPage, int numPerPage) {
 		return purchaseDAO.selectPurchaseCompleteList(map, cPage, numPerPage);
 	}
@@ -108,40 +98,20 @@ public class PurchaseServiceImpl implements PurchaseService {
 		return purchaseDAO.selectPurchaseCompleteListCount(map);
 	}
 
-	/*@Override
-	public List<PurchaseComplete> selectPurchaseCompleteList(String member_id, int cPage, int numPerPage) {
-		return purchaseDAO.selectPurchaseCompleteList(member_id, cPage, numPerPage);
-	}*/
-
-
-	@Override
-	public List<Map<String, String>> selectAllProductList(int cPage, int numPerPage) {
-		return purchaseDAO.selectAllProductList(cPage,numPerPage);
-	}
 
 	@Override
 	public int selectTotalProduct() {
-		// TODO Auto-generated method stub
 		return purchaseDAO.selectTotalPurchase();
 	}
 
 	@Override
-	public List<Map<String, String>> selectAPCancelList(int cPage, int numPerPage) {
-		// TODO Auto-generated method stub
+	public List<PurchaseCancel> selectAPCancelList(int cPage, int numPerPage) {
 		return purchaseDAO.selectAPCancelList(cPage,numPerPage);
 	}
 
 	@Override
 	public int selectTotalCancel() {
-		// TODO Auto-generated method stub
 		return purchaseDAO.selectTotalCancel();
 	}
-
-	@Override
-	public List<PurchaseComplete> selectPurchaseCompleteList(String member_id, int cPage, int numPerPage) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 }

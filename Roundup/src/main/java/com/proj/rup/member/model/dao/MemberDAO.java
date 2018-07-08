@@ -23,18 +23,13 @@ public interface MemberDAO {
 
 	int selectMember(String member_id);
 
-	
-
 	int totalMember();
 
-	
-	/*ss*/
 	int deleteConnect(String member_id);
 
 	int insertAddress(Map<String, Object> map);
 
 	Map<String, Object> selectConnectMember(String username);
-
 
 	int updateAddress(Map<String, Object> map);
 

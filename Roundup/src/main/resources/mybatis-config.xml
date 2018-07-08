@@ -21,7 +21,9 @@
 		<typeAlias type="com.proj.rup.noticeboard.model.vo.NoticeBoard" alias="noticeboard"/>
 		<typeAlias type="com.proj.rup.noticeboard.model.vo.NoticeBoardFile" alias="noticeboardFile"/>
 		<typeAlias type="com.proj.rup.member.model.vo.Question" alias="question"/>
-		<typeAlias type="com.proj.rup.product.model.vo.Product_File" alias="productFile"/>
+		<typeAlias type="com.proj.rup.product.model.vo.Product_File" alias="productFile"/>	
+		<typeAlias type="com.proj.rup.purchase.model.vo.PurchaseCancel" alias="purchaseCancel"/>
+
 
 	 </typeAliases>
 </configuration>

@@ -27,12 +27,11 @@ import com.proj.rup.member.model.vo.MemberAddress;
 import com.proj.rup.member.model.vo.MemberDetails;
 import com.proj.rup.member.model.vo.Question;
 import com.proj.rup.member.model.vo.QuestionFile;
-import com.proj.rup.product.model.vo.Product;
 import com.proj.rup.product.model.service.ProductService;
 import com.proj.rup.product.model.service.ProductServiceImpl;
 import com.proj.rup.purchase.model.service.PurchaseService;
 import com.proj.rup.purchase.model.service.PurchaseServiceImpl;
-import com.proj.rup.purchase.model.vo.PurchaseComplete;
+import com.proj.rup.purchase.model.vo.PurchaseCancel;
 
 @Controller
 public class ManagerController {
@@ -176,7 +175,8 @@ public class ManagerController {
 		int numPerPage = 7;
 		
 		//1. 현재페이지 컨텐츠 구하기
-		List<Map<String,String>> list = purchaseService.selectAPCancelList(cPage, numPerPage);
+		List<PurchaseCancel> list = purchaseService.selectAPCancelList(cPage, numPerPage);
+		
 						
 		//2. 페이지바처리를 위한 전체컨텐츠수 구하기
 		int totalContents = purchaseService.selectTotalCancel();

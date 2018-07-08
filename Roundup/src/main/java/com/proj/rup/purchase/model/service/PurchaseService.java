@@ -8,6 +8,7 @@ import com.proj.rup.member.model.vo.Address;
 import com.proj.rup.member.model.vo.MemberAddress;
 import com.proj.rup.product.model.vo.Product;
 import com.proj.rup.purchase.model.vo.Purchase;
+import com.proj.rup.purchase.model.vo.PurchaseCancel;
 import com.proj.rup.purchase.model.vo.PurchaseComplete;
 
 public interface PurchaseService {
@@ -32,32 +33,19 @@ public interface PurchaseService {
 
 	int deletePurchaseComplete(String imp_uid);
 
-/*	List<PurchaseComplete> selectAPCList();*/
-
 	List<PurchaseComplete> selectAPCancelList();
 
 	List<Map<String, String>> selectAPCList(int cPage, int numPerPage);
 
 	int selectTotalPurchase();
 
-	List<PurchaseComplete> selectPurchaseCompleteList(String member_id, int cPage, int numPerPage);
-
-
-	int selectPurchaseCompleteListCount(String member_id);
-
-	List<Map<String, String>> selectAllProductList(int cPage, int numPerPage);
-
 	int selectTotalProduct();
 
-	List<Map<String, String>> selectAPCancelList(int cPage, int numPerPage);
+	List<PurchaseCancel> selectAPCancelList(int cPage, int numPerPage);
 
 	int selectTotalCancel();
-
-	/*int selectPurchaseCompleteListCount(String member_id);*/
 
 	List<PurchaseComplete> selectPurchaseCompleteList(Map<String, Object> map, int cPage, int numPerPage);
 
 	int selectPurchaseCompleteListCount(Map<String, Object> map);
-
-
 }
