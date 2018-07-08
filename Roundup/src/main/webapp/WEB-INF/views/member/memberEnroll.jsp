@@ -70,8 +70,12 @@ table#tbl_enroll input, table#tbl_enroll select{
 div#btnDiv {
 	text-align: center;
 }
+span.req {
+	color: red;
+}
+</style>
 
-<<<<<<< HEAD
+<script>
 function validate(str){
 	var member_id = $("#member_id_").val().trim();
 	var member_password = $("#member_password_").val().trim();
@@ -87,9 +91,9 @@ function validate(str){
 		$("#member_id_").val("");
 		$("#member_id_").focus();
 		return false;
-=======
-</style>
-<script>
+	}
+}
+
 $(function(){
 	$("#password_chk").blur(function(){
 		var p1 = $("#member_password_").val();
@@ -273,7 +277,7 @@ function sample4_execDaumPostcode() {
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			<table class="table" id="tbl_enroll">
 			<tr>
-				<th><label for="member_id_">아이디</label></th>
+				<th><label for="member_id_">아이디 <span class="req">*</span></label></th>
 				<td>
 					<div id="userId-container">
 						<input type="text" name="member_id" id=member_id_ class="input form-control" placeholder="영어로 4자리이상 12자 미만으로 적으세요" required />
@@ -284,15 +288,15 @@ function sample4_execDaumPostcode() {
 				</td>
 			</tr>
 			<tr>
-				<th><label for="member_password_">비밀번호</label></th>
+				<th><label for="member_password_">비밀번호 <span class="req">*</span></label></th>
 				<td><input type="password" name="member_password" id="member_password_" class="input form-control" required/></td>
 			</tr>
 			<tr>
-				<th><label for="password_chk">비밀번호 확인</label></th>
+				<th><label for="password_chk">비밀번호 확인 <span class="req">*</span></label></th>
 				<td><input type="password" id="password_chk" class="form-control" required /></td>
 			</tr>
 			<tr>
-				<th><label for="member_name_">이름</label></th>
+				<th><label for="member_name_">이름 <span class="req">*</span></label></th>
 				<td><input type="text" name="member_name" id="member_name_" class="form-control" required autocomplete="off" /></td>
 			</tr>
 			<tr>
@@ -300,7 +304,7 @@ function sample4_execDaumPostcode() {
 				<td><input type="email" name="member_email" id="member_email_" class="form-control" autocomplete="off" /></td>
 			</tr>
 			<tr>
-				<th><label for="member_phone_">전화번호</label></th>
+				<th><label for="member_phone_">전화번호 <span class="req">*</span></label></th>
 				<td><input type="text" name="member_phone" id="member_phone_" class="form-control" placeholder="-를 제외하고 입력하세요" required autocomplete="off"/></td>
 			</tr>
 			<tr>
@@ -310,20 +314,20 @@ function sample4_execDaumPostcode() {
 			<tr>
 				<th><label for="member_gender_">성별</label></th>
 				<td>
-					<select name="member_gender" id="member_gender_" class="form-control" required>
-						<option value=""disabled selected>성별</option>
-						<option value="M">남자</option>
+					<select name="member_gender" id="member_gender_" class="form-control">
+						<<!-- option value=""disabled selected>성별</option> -->
+						<option value="M" selected>남자</option>
 						<option value="F">여자</option>
 					</select>
 				</td>
 			</tr>
 			<tr>
-				<th><label for="sample4_postcode">주소</label></th>
+				<th><label for="sample4_postcode">주소 <span class="req">*</span></label></th>
 				<td>
 					<input type="text" name="sample4_postcode" class="form-control inline-hyelin" id="sample4_postcode" placeholder="우편번호" style="width: 120px; display:inline;" required> 
 	                <input type="button" class="btn btn-light" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="width: 120px;"><br>
 	                <input type="text" class="form-control" name="sample4_roadAddress" id="sample4_roadAddress" placeholder="도로명 주소" required > 
-	                <input type="text" class="form-control" name="sample4_jibunAddress" id="sample4_jibunAddress" placeholder="지번 주소" required >
+	                <input type="text" class="form-control" name="sample4_jibunAddress" id="sample4_jibunAddress" placeholder="지번 주소">
 	                <input type="text" class="form-control" name="sample4_detailAddress" id="sample4_detailAddress" placeholder="상세 주소" required>
 	                <span id="guide" style="color: #999"></span>
                 </td>

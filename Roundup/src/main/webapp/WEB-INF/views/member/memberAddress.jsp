@@ -31,6 +31,9 @@
 #addressInfo {
 	visibility: hidden;
 }
+#submitBtn {
+	float: right;
+}
 </style>      
 <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 <table class="table width980-hyelin">
