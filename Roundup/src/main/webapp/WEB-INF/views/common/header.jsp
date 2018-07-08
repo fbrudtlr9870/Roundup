@@ -196,7 +196,7 @@ img#chat-icon{
      
          <!-- 채팅아이콘 -->
             <img src="${pageContext.request.contextPath }/resources/img/chat-icon.png" id="chat-icon"/>
- 
+			<input type="hidden" name="" id="popupFlag" value=${param.flag}/>
             <!-- 채팅 관련 html 시작 -->            
              <div id="chatting-room">
                <input type="hidden" name="member_id" value="${member_id}" />
@@ -351,6 +351,7 @@ $(document).ready(function(){
 	
 });
 </script>
+
 
 
 <script>
@@ -511,7 +512,12 @@ function onMessage(evt){
 	      $("#chatting-content").append(html);        
 	      var offset = $(".chatting-comment:last").offset();  
 	      $("#chatting-content").animate({scrollTop : offset.top}, 10); 
-  }else{  
+  }else if(sessionid=="신상품업로드"){
+	  var popUrl = "${pageContext.request.contextPath}/product/newProductPop.do";   
+	    var popOption = "width=460, height=360,top=300, left=400, resizable=no, scrollbars=no, status=no;"; 
+	      window.open(popUrl,"",popOption);   
+  }
+  else{  
        var html='<div class="chatting-comment" style="text-align:left;">';  
        html+='<strong>['+sessionid+'] :</strong>'+message;  
        html+='</div>';  
@@ -648,4 +654,13 @@ function onMessage(evt){
 
 }) */
 
+</script>
+<script>
+$(function(){	
+	if($("#popupFlag") !=''){
+		console.log("ttt"+$("#popupFlag"));
+		sock.send("신상품업로드!@#");		
+	}
+
+})
 </script>

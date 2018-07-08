@@ -6,7 +6,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!-- 유저롤을 가진 유저  -->
-<sec:authorize access="hasAnyRole('ROLE_USER')">
+<sec:authorize access="hasAnyRole('ROLE_USER,ROLE_ADMIN')">
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
