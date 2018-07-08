@@ -76,7 +76,12 @@ public class EchoHandler extends TextWebSocketHandler {
                       sess.sendMessage(new TextMessage("img"+session.getPrincipal().getName()+"|"+map.get("RENAMED_FILENAME")));       
                     }
         	  }
-          }else {
+          }else if(message.getPayload().toString().equals("신상품업로드!@#")){
+        	  for(WebSocketSession sess : sessionList){
+                    sess.sendMessage(new TextMessage("신상품업로드|"+message.getPayload()));
+                }           
+          }
+          else {
              //db insert            
               Chatting chatting = new Chatting(session.getPrincipal().getName(),message.getPayload().toString());
               sqlSession.insert("chatting.insertChat",chatting);

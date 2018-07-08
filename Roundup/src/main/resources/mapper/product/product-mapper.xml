@@ -484,6 +484,19 @@
 	  <select id="selectTotalProduct" resultType="_int">
       select count(*) from product  
       </select>
-
+	
+	<!-- 신상품추가 관련 -->
+	<select id="selectProductFileOne" resultType="map">
+	<![CDATA[
+		select * 
+		from(
+		select *
+		from product_file a
+		join product b on a.product_no=b.product_no
+		order by product_file_no desc
+		)
+		where rownum<=1
+	]]>
+	</select>
 </mapper>
 

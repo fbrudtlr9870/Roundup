@@ -191,6 +191,12 @@ public class ProductServiceImpl<ProductVO> implements ProductService {
 		return productDAO.selectTotalProduct();
 	}
 
+	@Override
+	public Map<String,Object> selectProductFileOne() {
+		// TODO Auto-generated method stub
+		return productDAO.selectProductFileOne();
+	}
+
 
 
 }

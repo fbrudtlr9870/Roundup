@@ -97,5 +97,8 @@ public interface ProductDAO {
 	int selectTotalProduct();
 
 
+	Map<String,Object> selectProductFileOne();
+
+
 }
 

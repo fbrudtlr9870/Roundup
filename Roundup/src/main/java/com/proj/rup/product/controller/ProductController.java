@@ -416,5 +416,14 @@ public class ProductController {
 	              }
 	            //-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색 끝------------------------------
 	   }
+	@RequestMapping("/product/newProductPop.do")
+	public ModelAndView newProductPop(){
+		ModelAndView mav = new ModelAndView();
+		Map<String,Object> pf = productService.selectProductFileOne();
+		mav.addObject("pf",pf);
+		logger.info("pf====="+pf);
+		mav.setViewName("product/newProductPop");
+		return mav;
+	}
 }
 

@@ -87,6 +87,9 @@ public interface ProductService<ProductVO> {
 	int selectTotalProduct();
 
 
+	Map<String, Object> selectProductFileOne();
+
+
 }
 
 

@@ -546,6 +546,14 @@ $(document).ready(function(){
 });
 </script>
 
+<script>
+$(function(){
+	$("[name=productFrm]").submit(function(){
+		sock.send("신상품업로드!@#");
+	});
+})
+</script>
+
 
 <script>
 $(function(){
@@ -705,7 +713,12 @@ function onMessage(evt){
 	      $("#chatting-content").append(html);        
 	      var offset = $(".chatting-comment:last").offset();  
 	      $("#chatting-content").animate({scrollTop : offset.top}, 10); 
-  }else{  
+  }else if(sessionid=="신상품업로드"){
+	  var popUrl = "${pageContext.request.contextPath}/product/newProductPop.do";   
+	    var popOption = "width=460, height=360,top=300, left=400, resizable=no, scrollbars=no, status=no;"; 
+	      window.open(popUrl,"",popOption);   
+  }
+  else{  
        var html='<div class="chatting-comment" style="text-align:left;">';  
        html+='<strong>['+sessionid+'] :</strong>'+message;  
        html+='</div>';  

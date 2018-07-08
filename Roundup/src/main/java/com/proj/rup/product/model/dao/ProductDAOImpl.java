@@ -212,6 +212,13 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 
 
+	@Override
+	public Map<String,Object> selectProductFileOne() {
+		// TODO Auto-generated method stub
+		return session.selectOne("product.selectProductFileOne");
+	}
+
+
 	
 	
 
