@@ -36,6 +36,13 @@
 .marginLeft20-hyelin {
    margin-left: 20px;
 }
+.tbl-container{
+   min-height:1200px;
+   margin-bottom:50px;
+}
+.step-buy{
+	margin:0 auto;
+}
 </style>
 
 <div class="step-buy">

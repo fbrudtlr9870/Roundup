@@ -98,6 +98,7 @@ div#freetable_container{
 	width:980px;
 	margin:0 auto;
 	text-align: center;
+	min-height:1000px;
 }
 div#freetable_container tr th{
 	text-align: center;

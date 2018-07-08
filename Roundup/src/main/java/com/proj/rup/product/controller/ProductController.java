@@ -126,6 +126,7 @@ public class ProductController {
 		mav.addObject("searchList",list);
 		mav.addObject("categoryList",categoryList);
 		 mav.setViewName("product/productSearch");
+		 mav.addObject("searchKeyword", "전체");
 		return mav;
 	}
 	

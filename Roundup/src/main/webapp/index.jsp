@@ -8,9 +8,6 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="main" name="pageTitle"/>
 </jsp:include>
-<jsp:include page="/WEB-INF/views/common/nav.jsp">
-	<jsp:param value="active" name="active1"/>
-</jsp:include>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.3.1.js"></script>	
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
@@ -42,13 +39,6 @@ $(function(){
 					}
 					html += "<div class='buy-btn'>";
 					html += "<input type='hidden' value='" + data.productNewList[i].productNo +"' name='product_no'>";
-		            /* html += "<input type='number' class='form-control inline-hyelin' style='width: 70px; margin: 0 auto;' name='product_amount' min='1' value='1'>&nbsp;"; */
-	               /*  html += "<button type='button' class='btn-transparent-hyelin insertBasket_'>";
-	                html += "<img id='img-cart-hyelin' src='${pageContext.request.contextPath}/resources/img/cart.png' alt='' class='btnImg-hyelin' title='장바구니' data-toggle='tooltip' data-placement='bottom'/>";
-	                html += "</button> &nbsp;";
-	                html += "<button type='button' class='btn-transparent-hyelin purchase_'>";
-	                html += "<img src='${pageContext.request.contextPath}/resources/img/card.png' alt='' class='btnImg-hyelin' title='구매하기' data-toggle='tooltip' data-placement='bottom'/>";
-					html += "</button>"; */
 		            html += "</div>";
 		            html += "<div class='ptext' style='font-size:19px;'>" + data.productNewList[i].brandName + "</div>"; 
 		            html += "<div class='ptext' style='font-size:23px;'>" + data.productNewList[i].productName + "</div>";
@@ -96,8 +86,8 @@ $(function(){
 
 			$(".purchase-new").on("click",function(){
 
-				var productNo = $(this).parent().find("[name=product_no]").val();
-				var productAmount = $(this).parent().find("[name=product_amount]").val();
+				var productNo = $(this).parent().parent().find("[name=product_no]").val();
+				var productAmount = $(this).parent().parent().find("[name=product_amount]").val();
 				var memberId = '${member_id}';
 
 				if(memberId != "") {

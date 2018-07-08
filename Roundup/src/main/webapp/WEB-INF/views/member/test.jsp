@@ -24,7 +24,7 @@
 <style>
 .container-fluid-master{
 	position:relative;
-	top:70px;
+	top:38px;
 	min-height:1000px;
 }
 
@@ -78,25 +78,25 @@
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
               <li class="nav-item-my">
-                <a class="nav-link active" href="#">
+                <a class="nav-link active" href="${pageContext.request.contextPath }/member/myPage.do?member_id=${member_id }">
                   <span data-feather="home"></span>
                   My Page <span class="sr-only">(current)</span>
                 </a>
               </li>
               <li class="nav-item-my">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="${pageContext.request.contextPath }/member/myPageMemberView.do?member_id=${member_id }">
                   <span data-feather="file"></span>
                   내정보
                 </a>
               </li>
               <li class="nav-item-my">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="${pageContext.request.contextPath }/member/myPageBasket.do?member_id=${member_id }">
                   <span data-feather="shopping-cart"></span>
                   장바구니
                 </a>
               </li>
               <li class="nav-item-my">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="${pageContext.request.contextPath }/member/myPagePurchaseComplete.do?member_id=${member_id }">
                   <span data-feather="users"></span>
                   구매내역
                 </a>
@@ -106,6 +106,13 @@
                 <a class="nav-link" href="${pageContext.request.contextPath}/member/selectMemberAddress.do?member_id=${member_id}">
                   <span data-feather="bar-chart-2"></span>
                   주소록관리
+                </a>
+              </li>
+              <li class="nav-item-my">
+              <!-- wnth지워주세염 -->
+                <a class="nav-link" href="${pageContext.request.contextPath }/member/myPageQuestion.do?member_id=${member_id }">
+                  <span data-feather="bar-chart-2"></span>
+                 1:1문의
                 </a>
               </li>
               

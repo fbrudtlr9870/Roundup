@@ -7,9 +7,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="자유게시판" name="pageTitle"/>
 </jsp:include>
-<jsp:include page="/WEB-INF/views/common/nav.jsp">
-	<jsp:param value="active" name="active4"/>
-</jsp:include>
+
 <!-- 유저롤을 가진 유저  -->
 <sec:authorize access="hasAnyRole('ROLE_USER')">
 	<sec:authentication property="principal.username" var="member_id"/>
@@ -44,51 +42,53 @@ function fn_insertBoard(){
 </div>
 -->
 <br /><br />
-
-<div id="freetable_container">
-	<h2>자유게시판</h2>
-	<table class="table table-striped">
-		<tr>
-			<th>번호</th>
-			<th >제목</th>
-			<th >아이디</th>
-			<th >날짜</th>
-		</tr>
-		<c:if test="${list !=null }">
-			<c:forEach items="${list }" var="f">
-				<tr>
-					<td>${f["free_board_no"] }</td>
-					<td style="text-align:left;">
-						<a href="freeBoardView.do?no=${f['free_board_no']}" style="color:black;">
-						${f["free_board_title"] }
-						<c:if test="${f['bc_count'] !=0 }">
-						<span style="color:orange;">[${f["bc_count"]}]</span>
-						</c:if>
-						</a>
-					</td>
-					<td>${f["member_id"] }</td>
-					<td>${f["free_reg_date"] }</td>
-				</tr>
-			</c:forEach>
+<div class="container">
+	<div id="freetable_container">
+		<h2>자유게시판</h2>
+		<table class="table table-striped">
+			<tr>
+				<th>번호</th>
+				<th >제목</th>
+				<th >아이디</th>
+				<th >날짜</th>
+			</tr>
+			<c:if test="${list !=null }">
+				<c:forEach items="${list }" var="f">
+					<tr>
+						<td>${f["free_board_no"] }</td>
+						<td style="text-align:left;">
+							<a href="freeBoardView.do?no=${f['free_board_no']}" style="color:black;">
+							${f["free_board_title"] }
+							<c:if test="${f['bc_count'] !=0 }">
+							<span style="color:orange;">[${f["bc_count"]}]</span>
+							</c:if>
+							</a>
+						</td>
+						<td>${f["member_id"] }</td>
+						<td>${f["free_reg_date"] }</td>
+					</tr>
+				</c:forEach>
+			</c:if>
+		</table>
+		<br />
+		<c:if test="${member_id !=null}">
+		<input type="button" class="btn btn-light" value="글쓰기" style="float:right;" onclick="fn_insertBoard();"  />
 		</c:if>
-	</table>
-	<br />
-	<c:if test="${member_id !=null}">
-	<input type="button" class="btn btn-light" value="글쓰기" style="float:right;" onclick="fn_insertBoard();"  />
-	</c:if>
-<!-- 페이지바 -->
-<%
-	int count = Integer.parseInt(String.valueOf(request.getAttribute("count")));
-	int numPerPage = Integer.parseInt(String.valueOf(request.getAttribute("numPerPage")));
-	int cPage = 1;
-	try{
-		cPage = Integer.parseInt(request.getParameter("cPage"));
-	}catch(NumberFormatException e){
-		
-	}
-%>
-<%=com.proj.rup.common.util.Utils.getPageBar(count,cPage,numPerPage,"freeBoardList.do")%>
-</div>	
+	<!-- 페이지바 -->
+	<%
+		int count = Integer.parseInt(String.valueOf(request.getAttribute("count")));
+		int numPerPage = Integer.parseInt(String.valueOf(request.getAttribute("numPerPage")));
+		int cPage = 1;
+		try{
+			cPage = Integer.parseInt(request.getParameter("cPage"));
+		}catch(NumberFormatException e){
+			
+		}
+	%>
+	<%=com.proj.rup.common.util.Utils.getPageBar(count,cPage,numPerPage,"freeBoardList.do")%>
+	</div>	
+
+</div>
 
 
 
