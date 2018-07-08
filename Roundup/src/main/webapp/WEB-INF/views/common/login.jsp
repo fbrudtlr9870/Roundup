@@ -64,6 +64,9 @@ div#btn-container button{
 #login_btn {
 	width: 100%;
 }
+#enroll_btn {
+	width: 100%;
+}
 
 .marginTop0-hyelin {
 	margin-top: 0;
@@ -152,9 +155,7 @@ $(function(){
         	<span style="color:red;">아이디 혹은 비밀번호가 틀립니다. <br />다시 확인 해 주세요</span>
         </c:if>
         <div id="btn-container">
-                <button type="button" class="btn btn-outline-secondary" onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
-                <button type="button" class="btn btn-outline-secondary">아이디찾기</button>
-                <button type="button" class="btn btn-outline-secondary">비밀번호찾기</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'" id="enroll_btn">회원가입</button>
         </div>
 
     </div>
