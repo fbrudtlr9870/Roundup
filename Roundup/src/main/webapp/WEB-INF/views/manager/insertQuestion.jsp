@@ -117,45 +117,105 @@ div.mypage{
    width: 100%;
 }
 </style>
-</style>
-<div class="mypage container">
-	<div class="row">
-	  <div class="col-sm-3 sidenav">
-	    <div class="list-group" id="list-tab" role="tablist">
-	     <a class="list-group-item list-group-item-action" id="list-home-list"  href="${pageContext.request.contextPath }/member/myPage.do?member_id=${member_id }" role="tab" aria-controls="home">Home</a>
-	      <a class="list-group-item list-group-item-action" id="list-profile-list"  href="${pageContext.request.contextPath }/member/myPageMemberView.do?member_id=${member_id }" role="tab" aria-controls="profile">내정보</a>
-	      <a class="list-group-item list-group-item-action" id="list-basket-list"  href="${pageContext.request.contextPath }/member/myPageBasket.do?member_id=${member_id }" role="tab" aria-controls="baskeet">장바구니</a>
-	      <a class="list-group-item list-group-item-action" id="list-settings-list"  href="${pageContext.request.contextPath }/member/myPagePurchaseComplete.do?member_id=${member_id }" role="tab" aria-controls="settings">구매내역</a>
-	      <a class="list-group-item list-group-item-action active" id="list-settings-list"  href="${pageContext.request.contextPath }/member/myPageQuestion.do?member_id=${member_id }" role="tab" aria-controls="Question">1:1문의</a>
-	    </div>
-	  </div>
-	<div class="col-8">
 
-		<div id="insertBoard-container">
-		
-		<form action="insertEndQuestion.do" method="post" id="insertBoardFrm" enctype="multipart/form-data">
-		<div class="input-group mb-3">
-		  <div class="input-group-prepend">
-		    <span class="input-group-text" id="basic-addon1">제목</span>
-		  </div>
-		  <input type="text" class="form-control" id="boardTitle" name="boardTitle" aria-label="Username" aria-describedby="basic-addon1">
+<div class="container-fluid-master">
+	<div class="row">
+		<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+			<div class="sidebar-sticky">
+				<ul class="nav flex-column">
+					<li class="nav-item-my"><a class="nav-link active"
+						href="${pageContext.request.contextPath }/manager/managerPage.do">
+							<span data-feather="home"></span> Home <span class="sr-only">(current)</span>
+					</a></li>
+					<li class="nav-item-my"><a class="nav-link"
+						href="${pageContext.request.contextPath }/manager/memberManagement.do">
+							<span data-feather="file"></span> 회원관리
+					</a></li>
+					<li class="nav-item-my"><a class="nav-link"
+						href="${pageContext.request.contextPath }/manager/deletedMember.do">
+							<span data-feather="shopping-cart"></span> 탈퇴회원목록
+					</a></li>
+					<li class="nav-item-my"><a class="nav-link"
+						href="${pageContext.request.contextPath }/product/productEnroll.do">
+							<span data-feather="users"></span> 상품등록
+					</a></li>
+					<li class="nav-item-my">
+						<!-- wnth지워주세염 --> <a class="nav-link"
+						href="${pageContext.request.contextPath }/product/allProductList.do">
+							<span data-feather="bar-chart-2"></span> 전체상품
+					</a>
+					</li>
+					<li class="nav-item-my">
+						<!-- wnth지워주세염 --> <a class="nav-link"
+						href="${pageContext.request.contextPath }/manager/managerPurchaseComplete.do">
+							<span data-feather="bar-chart-2"></span> 전체구매내역
+					</a>
+					</li>
+					<li class="nav-item-my">
+						<!-- wnth지워주세염 --> <a class="nav-link"
+						href="${pageContext.request.contextPath }/manager/managerPurchaseCancel.do">
+							<span data-feather="bar-chart-2"></span> 전체취소내역
+					</a>
+					</li>
+					<li class="nav-item-my">
+						<!-- wnth지워주세염 --> <a class="nav-link"
+						href="${pageContext.request.contextPath }/manager/managerQuestion.do">
+							<span data-feather="bar-chart-2"></span> 1:1문의
+					</a>
+					</li>
+
+				</ul>
+			</div>
+		</nav>
+
+		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+		<div class="mypage container">
+			<div class="row">
+
+				<div class="col-8">
+
+					<div id="insertBoard-container">
+
+						<form action="insertEndQuestion.do" method="post"
+							id="insertBoardFrm" enctype="multipart/form-data">
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="basic-addon1">제목</span>
+								</div>
+								<input type="text" class="form-control" id="boardTitle"
+									name="boardTitle" aria-label="Username"
+									aria-describedby="basic-addon1">
+							</div>
+							<div style="width: 605px; margin: 0 auto;">
+								<textarea name="smarteditor" id="smarteditor" cols="30"
+									rows="10" style="width: 600px; height: 500px;"></textarea>
+							</div>
+							<input type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" /> <input type="hidden" name="memberId"
+								value="${member_id }" /> <input type="hidden" name="adminId"
+								value="${admin_id }" /> <input type="hidden" name="question_no"
+								value="${question_no}" />
+							<div style="text-align: center;">
+								<button type="button" class="btn btn-success" id="insertBoard">제출</button>
+								<button type="button" class="btn btn-danger"
+									onclick="fn_cancelBoard()">취소</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div style="width:605px; margin:0 auto;">
-		<textarea name="smarteditor" id="smarteditor" cols="30" rows="10" style="width:600px;height:500px;"></textarea>
-		</div>
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-		<input type="hidden" name="memberId" value="${member_id }" />
-		<input type="hidden" name="adminId" value="${admin_id }" />
-		<input type="hidden" name="question_no" value="${question_no}" />
-		<div style="text-align: center;">
-			<button type="button" class="btn btn-success" id="insertBoard">제출</button>
-			<button type="button" class="btn btn-danger" onclick="fn_cancelBoard()">취소</button>
-		</div>
-		</form>
-		</div>
-	</div>
+
+
+
+
+
+
+		</main>
 	</div>
 </div>
+
 <br /><br />
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

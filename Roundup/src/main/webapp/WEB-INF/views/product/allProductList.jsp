@@ -106,22 +106,74 @@ div.mypage{
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
+<div class="container-fluid-master">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item-my">
+                <a class="nav-link active" href="${pageContext.request.contextPath }/manager/managerPage.do">
+                  <span data-feather="home"></span>
+                  Home <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li class="nav-item-my">
+                <a class="nav-link" href="${pageContext.request.contextPath }/manager/memberManagement.do">
+                  <span data-feather="file"></span>
+                  회원관리
+                </a>
+              </li>
+              <li class="nav-item-my">
+                <a class="nav-link" href="${pageContext.request.contextPath }/manager/deletedMember.do">
+                  <span data-feather="shopping-cart"></span>
+                  탈퇴회원목록
+                </a>
+              </li>
+              <li class="nav-item-my">
+                <a class="nav-link" href="${pageContext.request.contextPath }/product/productEnroll.do">
+                  <span data-feather="users"></span>
+                  상품등록
+                </a>
+              </li>
+              <li class="nav-item-my">
+              <!-- wnth지워주세염 -->
+                <a class="nav-link" href="${pageContext.request.contextPath }/product/allProductList.do">
+                  <span data-feather="bar-chart-2"></span>
+                  전체상품
+                </a>
+              </li>
+              <li class="nav-item-my">
+              <!-- wnth지워주세염 -->
+                <a class="nav-link" href="${pageContext.request.contextPath }/manager/managerPurchaseComplete.do">
+                  <span data-feather="bar-chart-2"></span>
+                 전체구매내역
+                </a>
+              </li>
+              <li class="nav-item-my">
+              <!-- wnth지워주세염 -->
+                <a class="nav-link" href="${pageContext.request.contextPath }/manager/managerPurchaseCancel.do">
+                  <span data-feather="bar-chart-2"></span>
+                 전체취소내역
+                </a>
+              </li>
+              <li class="nav-item-my">
+              <!-- wnth지워주세염 -->
+                <a class="nav-link" href="${pageContext.request.contextPath }/manager/managerQuestion.do">
+                  <span data-feather="bar-chart-2"></span>
+                 1:1문의
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+        </nav>
 
-<div class="mypage container">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+
+      			<div class="mypage container">
 	<div class="row">
-	  <div class="col-sm-3 sidenav">
-	   	 <div class="list-group" id="list-tab" role="tablist">
-	      <a class="list-group-item list-group-item-action active" id="list-home-list"  href="${pageContext.request.contextPath }/manager/managerPage.do" role="tab" aria-controls="home">Home</a>
-	      <a class="list-group-item list-group-item-action" id="list-profile-list"  href="${pageContext.request.contextPath }/manager/memberManagement.do" role="tab" aria-controls="profile">회원관리</a>
-	      <a class="list-group-item list-group-item-action" id="list-deletedMember-list"  href="${pageContext.request.contextPath }/manager/deletedMember.do" role="tab" aria-controls="deletedMember">탈퇴회원목록</a>
-	      <a class="list-group-item list-group-item-action" id="list-basket-list"  href="${pageContext.request.contextPath }/product/productEnroll.do" role="tab" aria-controls="baskeet">상품등록</a>
-	      <a class="list-group-item list-group-item-action" id="list-allProduct-list"  href="${pageContext.request.contextPath }/product/allProductList.do" role="tab" aria-controls="allproduct">전체상품</a>
-	      <a class="list-group-item list-group-item-action" id="list-allPurchaseComplete-list"  href="${pageContext.request.contextPath }/manager/managerPurchaseComplete.do" role="tab" aria-controls="allPurchase">전체구매내역</a>
-	      <a class="list-group-item list-group-item-action" id="list-allPurchaseCancel-list"  href="${pageContext.request.contextPath }/manager/managerPurchaseCancel.do" role="tab" aria-controls="allCancel">전체취소내역</a>
-	      <a class="list-group-item list-group-item-action" id="list-event-list"  href="#" role="tab" aria-controls="settings">이벤트등록</a>
-	      <a class="list-group-item list-group-item-action" id="list-allEvent-list"  href="#" role="tab" aria-controls="settings">전체이벤트</a>
-	    </div>
-	  </div>
+	  
 	  <div class="col-8">
 	    <div class="tab-content" id="nav-tabContent">
 	       <h3>전체상품조회</h3>
@@ -209,6 +261,15 @@ div.mypage{
 	</div>
 	
 </div>
+			
+	      	
+	 
+        
+         
+        </main>
+      </div>
+    </div>
+
 <br /><br /><br />
 
 

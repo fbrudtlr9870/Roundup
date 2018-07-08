@@ -117,17 +117,17 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 		return 0;
 	}
 
-	@Override
+/*	@Override
 	public List<PurchaseComplete> selectPurchaseCompleteList(String member_id, int cPage, int numPerPage) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
+	}*/
+/*
 	@Override
 	public List<Map<String, String>> selectAllProductList(int cPage, int numPerPage) {
 		// TODO Auto-generated method stub
 		return null;
-	}
+	}*/
 
 	@Override
 	public List<Map<String, String>> selectAPCancelList(int cPage, int numPerPage) {
@@ -135,12 +135,12 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 		return null;
 	}
 
-	@Override
+	/*@Override
 	public int selectTotalCancel() {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("purchase.selectTotalCancel");
-	}
-	/*@Override
+	}*/
+	@Override
 	public List<PurchaseComplete> selectPurchaseCompleteList(String member_id, int cPage, int numPerPage) {
 		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage, numPerPage);
 		return sqlSession.selectList("purchase.selectPurchaseCompleteList",member_id,rowBounds);
@@ -151,12 +151,12 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 		return sqlSession.selectList("product.selectAllProductList",null,rowBounds);
 	}
 
-	@Override
+/*	@Override
 	public List<Map<String, String>> selectAPCancelList(int cPage, int numPerPage) {
 		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage, numPerPage);
 		return sqlSession.selectList("purchase.selectAPCancelList",null,rowBounds);
 
-	}
+	}*/
 
 	@Override
 	public int selectTotalCancel() {
@@ -164,6 +164,5 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 		return sqlSession.selectOne("purchase.selectTotalCancel");
 	}
 
-	}*/
 
 }
