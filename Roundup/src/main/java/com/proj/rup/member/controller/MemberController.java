@@ -198,7 +198,7 @@ public class MemberController {
 		
 		mav.addObject("member",m);
 		mav.addObject("purchaseComplete",pc);
-		mav.setViewName("member/test");
+		mav.setViewName("member/myPageHome");
 
 		return mav;
 	}
@@ -212,7 +212,7 @@ public class MemberController {
 		System.out.println("member@myPage:"+m);
 		mav.addObject("memberAddress",ma);
 		mav.addObject("member",m);
-		mav.setViewName("member/test3");
+		mav.setViewName("member/myInfo");
 
 		return mav;
 	}
@@ -223,7 +223,7 @@ public class MemberController {
 		System.out.println("member_id@myPage.do:"+member_id);
 		List<BasketProduct> basketList = basketService.selectBasketList(member_id);
 		mav.addObject("basketList",basketList);
-		mav.setViewName("member/test2");
+		mav.setViewName("member/myBasket");
 
 		return mav;
 	}
@@ -264,7 +264,7 @@ public class MemberController {
 		mav.addObject("numPerPage", numPerPage);
 		mav.addObject("list", list);
 		
-		mav.setViewName("member/test4");
+		mav.setViewName("member/myPurchase");
 		
 		return mav;
 	}
@@ -425,7 +425,7 @@ public class MemberController {
 			mav.addObject("count", pcount);
 			mav.addObject("numPerPage", numPerPage);
 			mav.addObject("list", list);
-			mav.setViewName("member/test5");
+			mav.setViewName("member/myQuestion");
 			return mav;
 		}
 	
@@ -437,7 +437,7 @@ public class MemberController {
 		MemberDetails member = (MemberDetails) authentication.getPrincipal();
 		int result =freeboardService.deleteuploadPhoto(member.getUsername());
 		
-		return "member/test7";
+		return "member/enrollQuestion";
 	}
 	@RequestMapping(value="/member/insertEndQuestion.do",method=RequestMethod.POST, headers = ("content-type=multipart/*"))
 	public ModelAndView insertEndQuestion(@RequestParam(value="boardTitle")String boardTitle,
@@ -496,7 +496,7 @@ public class MemberController {
 		Question question = memberService.selectQuestion(no);
 		
 		mav.addObject("question",question);
-		mav.setViewName("member/test6");
+		mav.setViewName("member/myQuestionView");
 		return mav;
 	}
 	

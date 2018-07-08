@@ -132,8 +132,8 @@ $(function(){
 	                html+="</br>";
 					html+="<input type='number' class='form-control inline-hyelin' style='width:70px; margin:0 auto;position:relative;top:-2.5px;' name='product_amount' min='1' value='1'>";
 				  	html+="<div class='btn-group' role='group' aria-label='Basic example' style='text-align:center'>";
-					html+="<button type='button' class='btn btn-primary insertBasket-new'>장바구니</button>";
-					html+="<button type='button' class='btn btn-success purchase-new'>구매</button>";
+					html+="<button type='button' class='btn btn-primary insertBasket'>장바구니</button>";
+					html+="<button type='button' class='btn btn-success purchase'>구매</button>";
 					html+="</div></div>";
 				}
 			}
@@ -146,8 +146,8 @@ $(function(){
 					$.ajax({
 						url:"${pageContext.request.contextPath }/basket/insertBasket.do",
 						data: {
-							productAmount: $(this).parent().find("[name=product_amount]").val(),
-							productNo: $(this).parent().find("[name=product_no]").val(),
+							productAmount: $(this).parent().parent().find("[name=product_amount]").val(),
+							productNo: $(this).parent().parent().find("[name=product_no]").val(),
 							memberId :memberId
 						},
 						success:function(data) {
@@ -172,8 +172,8 @@ $(function(){
 			
 			// 구매하기
 			$(".purchase").on("click",function(){
-				var productNo = $(this).parent().find("[name=product_no]").val();
-				var productAmount = $(this).parent().find("[name=product_amount]").val();
+				var productNo = $(this).parent().parent().find("[name=product_no]").val();
+				var productAmount = $(this).parent().parent().find("[name=product_amount]").val();
 				var memberId = '${member_id}';
 
 				if(memberId != "") {
