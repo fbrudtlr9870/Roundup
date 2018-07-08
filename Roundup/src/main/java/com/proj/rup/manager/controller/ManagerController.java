@@ -59,7 +59,7 @@ public class ManagerController {
 		
 		mav.addObject("totalContents",totalContents);
 		mav.addObject("numPerPage",numPerPage);
-		/*mav.setViewName("/manager/memberManagement");*/
+		mav.setViewName("manager/managetInfo");
 		return mav;
 		
 	}

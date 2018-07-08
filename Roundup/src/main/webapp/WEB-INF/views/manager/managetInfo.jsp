@@ -104,39 +104,53 @@ div.mypage{
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
               <li class="nav-item-my">
-                <a class="nav-link active" href="${pageContext.request.contextPath }/member/myPage.do?member_id=${member_id }">
+                <a class="nav-link active" href="${pageContext.request.contextPath }/manager/managerPage.do">
                   <span data-feather="home"></span>
-                  My Page <span class="sr-only">(current)</span>
+                  Home <span class="sr-only">(current)</span>
                 </a>
               </li>
               <li class="nav-item-my">
-                <a class="nav-link" href="${pageContext.request.contextPath }/member/myPageMemberView.do?member_id=${member_id }">
+                <a class="nav-link" href="${pageContext.request.contextPath }/manager/memberManagement.do">
                   <span data-feather="file"></span>
-                  내정보
+                  회원관리
                 </a>
               </li>
               <li class="nav-item-my">
-                <a class="nav-link" href="${pageContext.request.contextPath }/member/myPageBasket.do?member_id=${member_id }">
+                <a class="nav-link" href="${pageContext.request.contextPath }/manager/deletedMember.do">
                   <span data-feather="shopping-cart"></span>
-                  장바구니
+                  탈퇴회원목록
                 </a>
               </li>
               <li class="nav-item-my">
-                <a class="nav-link" href="${pageContext.request.contextPath }/member/myPagePurchaseComplete.do?member_id=${member_id }">
+                <a class="nav-link" href="${pageContext.request.contextPath }/product/productEnroll.do">
                   <span data-feather="users"></span>
-                  구매내역
+                  상품등록
                 </a>
               </li>
               <li class="nav-item-my">
               <!-- wnth지워주세염 -->
-                <a class="nav-link" href="${pageContext.request.contextPath}/member/selectMemberAddress.do?member_id=${member_id}">
+                <a class="nav-link" href="${pageContext.request.contextPath }/product/allProductList.do">
                   <span data-feather="bar-chart-2"></span>
-                  주소록관리
+                  전체상품
                 </a>
               </li>
               <li class="nav-item-my">
               <!-- wnth지워주세염 -->
-                <a class="nav-link" href="${pageContext.request.contextPath }/member/myPageQuestion.do?member_id=${member_id }">
+                <a class="nav-link" href="${pageContext.request.contextPath }/manager/managerPurchaseComplete.do">
+                  <span data-feather="bar-chart-2"></span>
+                 전체구매내역
+                </a>
+              </li>
+              <li class="nav-item-my">
+              <!-- wnth지워주세염 -->
+                <a class="nav-link" href="${pageContext.request.contextPath }/manager/managerPurchaseCancel.do">
+                  <span data-feather="bar-chart-2"></span>
+                 전체취소내역
+                </a>
+              </li>
+              <li class="nav-item-my">
+              <!-- wnth지워주세염 -->
+                <a class="nav-link" href="${pageContext.request.contextPath }/manager/managerQuestion.do">
                   <span data-feather="bar-chart-2"></span>
                  1:1문의
                 </a>
@@ -150,72 +164,6 @@ div.mypage{
 
 
       
-      			<div id="update-container">
-      				<h2>회원정보 </h2>
-      				
-      			<form action="memberUpdate.do" method="post" onsubmit="return validate();">
-      				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-	      			<table class="table" id="tbl_enroll">
-							<tr>
-								<th><label for="member_id_">아이디</label></th>
-								<td>
-									<div id="userId-container">
-									<input type="text" name="member_id" id=member_id_ class="input form-control" value="${member.member_id }" readonly required />
-									
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<th><label for="member_name_">이름</label></th>
-								<td><input type="text" name="member_name" id="member_name_" class="form-control" value="${member.member_name }" required autocomplete="off" /></td>
-							</tr>
-							<tr>
-								<th><label for="member_email_">이메일</label></th>
-								<td><input type="email" name="member_email" id="member_email_" class="form-control" value="${member.member_email} " autocomplete="off" /></td>
-							</tr>
-							<tr>
-								<th><label for="member_phone_">전화번호</label></th>
-								<td><input type="text" name="member_phone" id="member_phone_" class="form-control" value="${member.member_phone}" placeholder="-를 제외하고 입력하세요" required autocomplete="off"/></td>
-							</tr>
-							<tr>
-								<th><label for="member_birthday_">생일</label></th>
-								<td><input type="date" name="member_birthday" id="member_birthday_" value="${member.member_birthday }" class="form-control"  /></td>
-							</tr>
-							<tr>
-								<th><label for="member_gender_">성별</label></th>
-								<td>
-									<select name="member_gender" id="member_gender_" class="form-control" required>
-										<option value=""disabled selected>성별</option>
-										<c:if test="${member.member_gender eq 'M' }">									
-											<option value="M" selected>남자</option>
-											<option value="F">여자</option>
-										</c:if>
-										<c:if test="${member.member_gender eq 'F' }">									
-											<option value="M">남자</option>
-											<option value="F" selected>여자</option>
-										</c:if>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<th><label for="sample4_postcode">주소</label></th>
-								<td>
-									<input type="text" name="sample4_postcode" class="form-control inline-hyelin" id="sample4_postcode" value="${memberAddress.zip_code }" style="width: 120px; display:inline;" required> 
-					                <input type="button" class="btn btn-light" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="width: 120px;"><br>
-					                <input type="text" class="form-control" name="sample4_roadAddress" id="sample4_roadAddress" placeholder="도로명 주소" value=""> 
-					                <input type="text" class="form-control" name="sample4_jibunAddress" id="sample4_jibunAddress" placeholder="지번 주소"  >
-					                <input type="text" class="form-control" name="sample4_detailAddress" id="sample4_detailAddress" placeholder="상세 주소" >
-					                <span id="guide" style="color: #999"></span>
-				                </td>
-							</tr>
-							</table>
-							<input type="hidden" name="member_grade" value="${member.member_grade }" />
-	      					<div id="btnDiv">
-								<input type="submit" value="수정" class="btn btn-outline-success"/> &nbsp;
-								<input type="button" onclick="deleteMember('${member.member_id}');" value="탈퇴" class="btn btn-outline-success"/>
-							</div>
-					</form>
-      			</div>
       			<br /><br />
       			
 			
