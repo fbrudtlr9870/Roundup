@@ -76,25 +76,8 @@ span.req {
 </style>
 
 <script>
-function validate(str){
-	var member_id = $("#member_id_").val().trim();
-	var member_password = $("#member_password_").val().trim();
-	var member_name = $("#member_name_").val().trim();
-	var member_birthday = $("#member_birthday_").val().trim();
-	var member_phone = $("#member_phone_").val().trim();
-	var regExp = /^[가-힣]{2,8}$/;
-	var regExp0 = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
-	var regExp1 = /^[a-z]{4,8}$/; 
-	
-	if(!regExp1.test(member_id)){
-		alert("아이디를 영어로만  4글자 이상 8글자 이하로 적으세요.");
-		$("#member_id_").val("");
-		$("#member_id_").focus();
-		return false;
-	}
-}
-
 $(function(){
+	// 비밀번호 체크
 	$("#password_chk").blur(function(){
 		var p1 = $("#member_password_").val();
 		var p2 = $(this).val();
@@ -104,6 +87,7 @@ $(function(){
 		};
 	});
 	
+	// 아이디 체크
 	$("#member_id_").on("keyup",function(){
 		var member_id = $(this).val().trim();
 		if(member_id.length<3){
@@ -137,17 +121,33 @@ $(function(){
 		});
 		
 	});
+	
+	// 이름 체크
+	$("#member_name_").blur(function(){
+		var member_name = $(this).val().trim();
+		if(member_name.length<2 || member_name.length>8) {
+			alert("이름을 2글자 이상 8글자 이하로 적으세요.");					
+		}
+	});
+	
+	// 전화번호 체크
+	$("#member_phone_").blur(function(){
+		var member_phone = $(this).val().trim();
+		if(member_phone.length>11 || member_phone.indexOf("-") != -1) { 
+			alert("전화번호는 -를 포함하지 않는 최대 11자리입니다.");					
+		}
+	});
 });	
-/*
- * 유효성검사함수
- */
 
+// 유효성 검사
 function validate(str){
 	var member_id = $("#member_id_").val().trim();
 	var member_password = $("#member_password_").val().trim();
 	var member_name = $("#member_name_").val().trim();
 	var member_birthday = $("#member_birthday_").val().trim();
 	var member_phone = $("#member_phone_").val().trim();
+	
+	
 	var regExp = /^[가-힣]{2,8}$/;
 	var regExp0 = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
 	var regExp1 = /^[a-z]{4,8}$/;
@@ -212,7 +212,6 @@ function validate(str){
 
 	return true;
 }
-
 
 function sample4_execDaumPostcode() {
     new daum.Postcode(
@@ -337,8 +336,8 @@ function sample4_execDaumPostcode() {
 			
 			
 			<div id="btnDiv">
-				<input type="submit" value="가입" class="btn btn-outline-success"/> &nbsp;
-				<input type="reset" value="취소" class="btn btn-outline-success"/>
+				<input type="submit" value="가입" class="btn btn-outline-primary"/> &nbsp;
+				<input type="reset" value="취소" class="btn btn-outline-primary"/>
 			</div>
 		<br><br> 
 		</form>
