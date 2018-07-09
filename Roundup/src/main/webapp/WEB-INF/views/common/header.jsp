@@ -707,12 +707,3 @@ function onMessage(evt){
 }) */
 
 </script>
-<script>
-$(function(){	
-	if($("#popupFlag") !=''){
-		console.log("ttt"+$("#popupFlag"));
-		sock.send("신상품업로드!@#");		
-	}
-
-})
-</script>
