@@ -39,4 +39,6 @@ public interface FreeBoardDAO {
 
 	int deleteBoard(int no);
 
+	int deleteComment(int no);
+
 }

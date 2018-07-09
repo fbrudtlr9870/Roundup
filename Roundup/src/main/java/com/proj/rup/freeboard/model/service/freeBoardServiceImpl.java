@@ -94,4 +94,9 @@ public class freeBoardServiceImpl implements freeBoardService {
 		return freeBoardDAO.deleteBoard(no);
 	}
 
+	@Override
+	public int deleteComment(int no) {
+		return freeBoardDAO.deleteComment(no);
+	}
+
 }

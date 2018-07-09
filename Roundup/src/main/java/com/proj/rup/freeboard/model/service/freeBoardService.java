@@ -39,6 +39,8 @@ public interface freeBoardService {
 
 	int deleteBoard(int no);
 
+	int deleteComment(int no);
+
 
 
 }
