@@ -165,25 +165,33 @@ img#chat-icon{
 						onclick="location.href='${pageContext.request.contextPath}/member/loginPage.do'" style="margin-right: 10px;">Log In</button>
 			</c:when>
 			<c:otherwise>
-					<li class="nav-item dropdown login-dropdown-master">
+					<li class="nav-item dropdown login-dropdown-master" id="userMenu-hyelin">
 				        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				          ${member_name }님
 				        </a>
 				        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+				        <sec:authorize access="hasRole('ROLE_USER')">
 				          <a class="dropdown-item" href="${pageContext.request.contextPath }/member/myPage.do?member_id=${member_id }" style="color:black">
                    			<img src="${pageContext.request.contextPath }/resources/img/mypage.png" alt="" />  My Page
                    		  </a>
 				          <a class="dropdown-item" href="${pageContext.request.contextPath }/member/myPageBasket.do?member_id=${member_id}" style="color:black">
                     		<img src="${pageContext.request.contextPath }/resources/img/basket.png" alt="" />  Basket
                     	  </a>
+                    	  </sec:authorize>
+                    	 <sec:authorize access="hasRole('ROLE_ADMIN')">
+                    	 <a class="dropdown-item" href="${pageContext.request.contextPath }/manager/managerPage.do" style="color:black">
+                   			<img src="${pageContext.request.contextPath }/resources/img/admin.png" alt="" />  관리자페이지
+                   		  </a>
+              			</sec:authorize> 
                     	  <hr />
                     	  <button type="button" class="btn btn-link" onclick="document.getElementById('logout-form').submit();">Log Out</button>
+                    	  </div>
 				      </li>			    
 				      <!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! --> 
                     <!-- 권한에 따른 접근 방법 기술 -->
-               		<sec:authorize access="hasRole('ROLE_ADMIN')">
+               		<%-- <sec:authorize access="hasRole('ROLE_ADMIN')">
                     <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/manager/managerPage.do">관리자페이지</a></li>  
-              		</sec:authorize>
+              		</sec:authorize> --%>
               
 					<!-- <button class="btn btn-outline-light" type="button"
 						onclick="document.getElementById('logout-form').submit();">
@@ -197,6 +205,7 @@ img#chat-icon{
 		</c:choose>
 	</div>
       </nav>
+     
 <!-- navigation bar end-->
       
      

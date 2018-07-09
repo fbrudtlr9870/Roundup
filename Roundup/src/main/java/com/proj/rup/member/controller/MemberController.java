@@ -74,7 +74,7 @@ public class MemberController {
 	public String memberEnrollEnd(Member member, Model model,
 								  @RequestParam(value="sample4_postcode") String postCode,
 								  @RequestParam(value="sample4_roadAddress") String road,
-								  @RequestParam(value="sample4_jibunAddress") String jibun,
+								  @RequestParam(value="sample4_jibunAddress",required=false) String jibun,
 								  @RequestParam(value="sample4_detailAddress") String detail
 									) {
 		if(logger.isDebugEnabled())
