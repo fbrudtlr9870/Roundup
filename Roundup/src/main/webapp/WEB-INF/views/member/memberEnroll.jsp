@@ -146,7 +146,7 @@ function validate(str){
 	var member_id = $("#member_id_").val().trim();
 	var member_password = $("#member_password_").val().trim();
 	var member_name = $("#member_name_").val().trim();
-	var member_birthday = $("#member_birthday_").val().trim();
+	/* var member_birthday = $("#member_birthday_").val().trim(); */
 	var member_phone = $("#member_phone_").val().trim();
 	
 	
@@ -161,9 +161,7 @@ function validate(str){
 		$("#member_id_").focus();
 		return false;
 	}
-	
 
-	
 	if(member_password.length<4 || member_password.length>8){
 		alert("비밀번호는 최소4자리이상이거나 8자리 미만여야 합니다.");
 		/* member_password.focus(); */
@@ -183,13 +181,6 @@ function validate(str){
 		/* member_password.focus(); */
 		$("#member_password_").focus();
 		return false;		
-	}
-	
-	if(!regExp.test(member_name)){
-		alert("이름을 2글자 이상 8글자 이하로 적으세요.");
-		$("#member_name_").val("");
-		$("#member_name_").focus();
-		return false;
 	}
 
     
@@ -267,7 +258,7 @@ function sample4_execDaumPostcode() {
 				<th><label for="member_id_">아이디 <span class="req">*</span></label></th>
 				<td>
 					<div id="userId-container">
-						<input type="text" name="member_id" id=member_id_ class="input form-control" placeholder="영어로 4자리이상 12자 미만으로 적으세요" required />
+						<input type="text" name="member_id" id=member_id_ class="input form-control" placeholder="4자리이상 12자 미만으로 적으세요" required />
 						<span class="guide ok">이 아이디는 사용가능합니다.</span>
 						<span class="guide error">이 아이디는 사용할 수 없습니다.</span>
 						<input type="hidden" id="idDuplicateCheck" value="0" />
@@ -302,8 +293,8 @@ function sample4_execDaumPostcode() {
 				<th><label for="member_gender_">성별</label></th>
 				<td>
 					<select name="member_gender" id="member_gender_" class="form-control">
-						<option value="성별" disabled selected>성별</option>
-						<option value="M">남자</option>
+						<!-- <option value="성별" disabled selected>성별</option> -->
+						<option value="M" selected>남자</option>
 						<option value="F">여자</option>
 					</select>
 				</td>
