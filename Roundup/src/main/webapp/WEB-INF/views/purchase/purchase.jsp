@@ -412,38 +412,41 @@ function payRequest() {
  	             }
  	     	 });
      	 } else {
-     		jQuery.ajax({
-                 url: "${pageContext.request.contextPath}/purchase/purchaseEnd.do", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
-                 type: 'POST',
-                 data: {
-                    product_no : productList,
-                    member_id : "${member_id}",
-                    product_amount : amountList, 
-                    address : $("#sample4_roadAddress").val() + '#' + $("#sample4_jibunAddress").val() + '#' + $("#sample4_detailAddress").val(),
-                    zip_code : $("#sample4_postcode").val(),
-                    basketNo : basketList,
-                    membership : $("#membership").val(),
-                    total_price : 0
-                 },
-                 success:function(data) {
-                    console.log(data);
-                    if(data==="success") {
-                       if(confirm("결제가 완료되었습니다. 결제 내역 페이지로 이동하시겠습니까?")) {
-                          // 결제내역 페이지 보여주기
-                          location.href="${pageContext.request.contextPath}/member/myPagePurchaseComplete.do?member_id=${member_id}"; 
-                       } else {
-                          // 장바구니 페이지 보여주기
-                          location.href="${pageContext.request.contextPath }/member/myPageBasket.do?member_id=${member_id}";
-                       } 
-                    }
-                 },
-                 error:function(jqxhr, textStatus, errorThrown) {
-                         console.log("ajax처리실패!");
-                         console.log(jqxhr);
-                         console.log(textStatus);
-                         console.log(errorThrown);
-                 } 
-     		});
+     		 if(confirm("멤버십을 사용하여 결제하시겠습니까?")) {
+     			jQuery.ajax({
+                    url: "${pageContext.request.contextPath}/purchase/purchaseEnd.do", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
+                    type: 'POST',
+                    data: {
+                   	imp_uid : "${member_id}" + new Date().getTime(),
+                       product_no : productList,
+                       member_id : "${member_id}",
+                       product_amount : amountList, 
+                       address : $("#sample4_roadAddress").val() + '#' + $("#sample4_jibunAddress").val() + '#' + $("#sample4_detailAddress").val(),
+                       zip_code : $("#sample4_postcode").val(),
+                       basketNo : basketList,
+                       membership : $("#membership").val(),
+                       total_price : 0
+                    },
+                    success:function(data) {
+                       console.log(data);
+                       if(data==="success") {
+                          if(confirm("결제가 완료되었습니다. 결제 내역 페이지로 이동하시겠습니까?\n취소를 누르시면 장바구니로 이동합니다.")) {
+                             // 결제내역 페이지 보여주기
+                             location.href="${pageContext.request.contextPath}/member/myPagePurchaseComplete.do?member_id=${member_id}"; 
+                          } else {
+                             // 장바구니 페이지 보여주기
+                             location.href="${pageContext.request.contextPath }/member/myPageBasket.do?member_id=${member_id}";
+                          } 
+                       }
+                    },
+                    error:function(jqxhr, textStatus, errorThrown) {
+                            console.log("ajax처리실패!");
+                            console.log(jqxhr);
+                            console.log(textStatus);
+                            console.log(errorThrown);
+                    } 
+        		});
+     		 }
      	 }
       }
 }
