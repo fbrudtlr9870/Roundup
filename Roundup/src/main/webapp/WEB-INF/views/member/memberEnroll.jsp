@@ -76,25 +76,8 @@ span.req {
 </style>
 
 <script>
-function validate(str){
-	var member_id = $("#member_id_").val().trim();
-	var member_password = $("#member_password_").val().trim();
-	var member_name = $("#member_name_").val().trim();
-	var member_birthday = $("#member_birthday_").val().trim();
-	var member_phone = $("#member_phone_").val().trim();
-	var regExp = /^[가-힣]{2,8}$/;
-	var regExp0 = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
-	var regExp1 = /^[a-z]{4,8}$/; 
-	
-	if(!regExp1.test(member_id)){
-		alert("아이디를 영어로만  4글자 이상 8글자 이하로 적으세요.");
-		$("#member_id_").val("");
-		$("#member_id_").focus();
-		return false;
-	}
-}
-
 $(function(){
+	// 비밀번호 체크
 	$("#password_chk").blur(function(){
 		var p1 = $("#member_password_").val();
 		var p2 = $(this).val();
@@ -104,13 +87,16 @@ $(function(){
 		};
 	});
 	
+	// 아이디 체크
 	$("#member_id_").on("keyup",function(){
 		var member_id = $(this).val().trim();
-		if(member_id.length<3){
+		var regExp2 = /[0-9]/; 
+		
+		if(member_id.length<2 || member_id.length>8){
 			$(".guide").hide();
 			$("#idDuplicateCheck").val(0);
 			return;
-		}
+		} 
 		
 		$.ajax({
 			url : "checkIdDuplicate.do",
@@ -137,34 +123,46 @@ $(function(){
 		});
 		
 	});
+	
+	// 이름 체크
+	$("#member_name_").blur(function(){
+		var member_name = $(this).val().trim();
+		if(member_name.length<2 || member_name.length>8) {
+			alert("이름을 2글자 이상 8글자 이하로 적으세요.");					
+		}
+	});
+	
+	// 전화번호 체크
+	$("#member_phone_").blur(function(){
+		var member_phone = $(this).val().trim();
+		if(member_phone.length<8 || member_phone.length>11 || member_phone.indexOf("-") != -1) { 
+			alert("전화번호는 -를 포함하지 않는 최대 11자리입니다.");					
+		}
+	});
 });	
-/*
- * 유효성검사함수
- */
 
+// 유효성 검사
 function validate(str){
 	var member_id = $("#member_id_").val().trim();
 	var member_password = $("#member_password_").val().trim();
 	var member_name = $("#member_name_").val().trim();
 	var member_birthday = $("#member_birthday_").val().trim();
 	var member_phone = $("#member_phone_").val().trim();
+	
+	
 	var regExp = /^[가-힣]{2,8}$/;
 	var regExp0 = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
 	var regExp1 = /^[a-z]{4,8}$/;
+	var regExp2 = /[0-9]/; 
 	
-	if(!regExp1.test(member_id)){
-		alert("아이디를 영어로만  4글자 이상 8글자 이하로 적으세요.");
+	if(member_id.length<4 || member_id.length>12){
+		alert("아이디는 최소4자리이상 12자 이하여야 합니다");
 		$("#member_id_").val("");
 		$("#member_id_").focus();
 		return false;
 	}
 	
-	/* if(member_id.length<4 || member_id.length>=12){
-		alert("아이디는 최소4자리이상 12자 미만여야 합니다");
-		$("#member_id_").focus();
-		return false;
-	} */
-	
+
 	
 	if(member_password.length<4 || member_password.length>8){
 		alert("비밀번호는 최소4자리이상이거나 8자리 미만여야 합니다.");
@@ -172,11 +170,6 @@ function validate(str){
 		$("#member_password_").focus();
 		return false;		
 	}
-	
-	/* if(member_name.val().trim().length>8){
-		alert("이름을 8글자 미만로 적어주세요");
-		return false;
-	} */
 	
 	if(!regExp.test(member_name)){
 		alert("이름을 2글자 이상 8글자 이하로 적으세요.");
@@ -191,11 +184,6 @@ function validate(str){
 		$("#member_password_").focus();
 		return false;		
 	}
-	
-	/* if(member_name.val().trim().length>8){
-		alert("이름을 8글자 미만로 적어주세요");
-		return false;
-	} */
 	
 	if(!regExp.test(member_name)){
 		alert("이름을 2글자 이상 8글자 이하로 적으세요.");
@@ -205,14 +193,13 @@ function validate(str){
 	}
 
     
-	if(!regExp0.test($("#member_phone_").val())){
+/* 	if(!regExp0.test($("#member_phone_").val())){
 		alert("잘못된 혁식입니다 형식에 맞게 -을 포함한 숫자를 입력하세요");
 		return false;
-	}
+	} */
 
 	return true;
 }
-
 
 function sample4_execDaumPostcode() {
     new daum.Postcode(
@@ -315,8 +302,8 @@ function sample4_execDaumPostcode() {
 				<th><label for="member_gender_">성별</label></th>
 				<td>
 					<select name="member_gender" id="member_gender_" class="form-control">
-						<<!-- option value=""disabled selected>성별</option> -->
-						<option value="M" selected>남자</option>
+						<option value="성별" disabled selected>성별</option>
+						<option value="M">남자</option>
 						<option value="F">여자</option>
 					</select>
 				</td>
@@ -337,8 +324,8 @@ function sample4_execDaumPostcode() {
 			
 			
 			<div id="btnDiv">
-				<input type="submit" value="가입" class="btn btn-outline-success"/> &nbsp;
-				<input type="reset" value="취소" class="btn btn-outline-success"/>
+				<input type="submit" value="가입" class="btn btn-outline-primary"/> &nbsp;
+				<input type="reset" value="취소" class="btn btn-outline-primary"/>
 			</div>
 		<br><br> 
 		</form>
