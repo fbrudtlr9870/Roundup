@@ -226,38 +226,38 @@ function validate(){
 											<th><label for="member_name_">이름</label></th>
 											<td><input type="text" name="member_name"
 												id="member_name_" class="form-control"
-												value="${member.member_name }" required autocomplete="off" /></td>
+												value="${member.member_name }" required autocomplete="off" readonly/></td>
 										</tr>
 										<tr>
 											<th><label for="member_email_">이메일</label></th>
 											<td><input type="email" name="member_email"
 												id="member_email_" class="form-control"
-												value="${member.member_email} " autocomplete="off" /></td>
+												value="${member.member_email} " autocomplete="off" readonly/></td>
 										</tr>
 										<tr>
 											<th><label for="member_phone_">전화번호</label></th>
 											<td><input type="text" name="member_phone"
 												id="member_phone_" class="form-control"
 												value="${member.member_phone}" placeholder="-를 제외하고 입력하세요"
-												required autocomplete="off" /></td>
+												required autocomplete="off" readonly/></td>
 										</tr>
 										<tr>
 											<th><label for="member_birthday_">생일</label></th>
 											<td><input type="date" name="member_birthday"
 												id="member_birthday_" value="${member.member_birthday }"
-												class="form-control" /></td>
+												class="form-control" readonly/></td>
 										</tr>
 										<tr>
 											<th><label for="member_gender_">성별</label></th>
 											<td><select name="member_gender" id="member_gender_"
-												class="form-control" required>
+												class="form-control" required readonly>
 													<option value="" disabled selected>성별</option>
 													<c:if test="${member.member_gender eq 'F' }">
 														<option value="F" selected>여자</option>
-														<option value="M">남자</option>
+														<!-- <option value="M">남자</option> -->
 													</c:if>
 													<c:if test="${member.member_gender eq 'M' }">
-														<option value="F">여자</option>
+														<!-- <option value="F">여자</option> -->
 														<option value="M" selected>남자</option>
 													</c:if>
 											</select></td>
@@ -265,11 +265,11 @@ function validate(){
 										<tr>
 											<th><label for="sample4_postcode">주소</label></th>
 											<td>
-												<input type="text" name="sample4_postcode" class="form-control inline-hyelin" id="sample4_postcode" value="${memberAddress.zip_code }" style="width: 120px; display: inline;" required> 
+												<input type="text" name="sample4_postcode" class="form-control inline-hyelin" id="sample4_postcode" value="${memberAddress.zip_code }" style="width: 120px; display: inline;" required readonly> 
 												<input type="button" class="btn btn-light" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" style="width: 120px;"><br> 
-												<input type="text" class="form-control" name="sample4_roadAddress" id="sample4_roadAddress" placeholder="도로명 주소" value="">
-												<input type="text" class="form-control" name="sample4_jibunAddress" id="sample4_jibunAddress" placeholder="지번 주소"> 
-												<input type="text" class="form-control" name="sample4_detailAddress" id="sample4_detailAddress" placeholder="상세 주소"> 
+												<input type="text" class="form-control" name="sample4_roadAddress" id="sample4_roadAddress" placeholder="도로명 주소" value="" readonly>
+												<input type="text" class="form-control" name="sample4_jibunAddress" id="sample4_jibunAddress" placeholder="지번 주소" readonly> 
+												<input type="text" class="form-control" name="sample4_detailAddress" id="sample4_detailAddress" placeholder="상세 주소" readonly> 
 												<span id="guide" style="color: #999"></span>
 											</td>
 										</tr>

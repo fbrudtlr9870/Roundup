@@ -135,8 +135,11 @@ $(function(){
 	// 전화번호 체크
 	$("#member_phone_").blur(function(){
 		var member_phone = $(this).val().trim();
+		var regExp0 = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
 		if(member_phone.length<8 || member_phone.length>11 || member_phone.indexOf("-") != -1) { 
 			alert("전화번호는 -를 포함하지 않는 최대 11자리입니다.");					
+		} else if(!regExp0.test($("#member_phone_").val())){
+			alert("올바른 형식으로 작성해주세요.");	
 		}
 	});
 });	
@@ -151,7 +154,7 @@ function validate(str){
 	
 	
 	var regExp = /^[가-힣]{2,8}$/;
-	var regExp0 = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
+	var regExp0 = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
 	var regExp1 = /^[a-z]{4,8}$/;
 	var regExp2 = /[0-9]/; 
 	
@@ -172,7 +175,7 @@ function validate(str){
 	if(!regExp.test(member_name)){
 		alert("이름을 2글자 이상 8글자 이하로 적으세요.");
 		$("#member_name_").val("");
-		$("#member_name_").focus();
+		//$("#member_name_").focus();
 		return false;
 	}
 	
@@ -184,10 +187,10 @@ function validate(str){
 	}
 
     
-/* 	if(!regExp0.test($("#member_phone_").val())){
-		alert("잘못된 혁식입니다 형식에 맞게 -을 포함한 숫자를 입력하세요");
+	if(!regExp0.test($("#member_phone_").val())){
+		alert("전화번호는 -를 포함하지 않는 최대 11자리입니다.");
 		return false;
-	} */
+	}
 
 	return true;
 }

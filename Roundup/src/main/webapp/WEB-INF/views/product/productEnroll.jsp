@@ -71,7 +71,6 @@ div.mb-3{
 }
 .input-group-text{
    background-color: #ffffff;
-   width: 110px !important;
 }
 .input-group-prepend>span{
    width:110px;
@@ -81,6 +80,7 @@ control[readonly] {
     background-color: #efefef;
     opacity: 1;
 }
+
 </style>
 
 <script>
