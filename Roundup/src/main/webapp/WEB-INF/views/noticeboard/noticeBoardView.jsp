@@ -109,6 +109,9 @@ div#freetable_container tr th{
 div#freeBoard-comment img{
 	max-width:550px;
 }
+div#freeBoard-comment{
+	margin:20px;
+}
 </style>
 
 <!-- 글쓰기 상세보기 아래에 넣음 -->

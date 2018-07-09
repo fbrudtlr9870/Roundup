@@ -12,6 +12,7 @@
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
+
 <style>
 div#questionView-container{
 	width:640px;
@@ -34,11 +35,11 @@ div.questionView-title.title span, div.questionView-title.member span{
 div.questionView-title.member{
 	margin:10px 10px 10px 20px;
 }
-div.questionView-comment{
+div#questionView-comment{
 	width:638px;
 	background: rgb(229, 228, 221);
 }
-div.questionView-comment.read{
+div#questionView-comment.read{
 	width:600px;
 	margin:0 auto;
 }
@@ -90,34 +91,33 @@ div.mypage{
 	      <a class="list-group-item list-group-item-action active" id="list-question-list"  href="${pageContext.request.contextPath }/member/myPageQuestion.do?member_id=${member_id }" role="tab" aria-controls="Question">1:1문의</a>
 	    </div>
 	  </div>
-	  <div class="col-8">
-	    <div class="tab-content" id="nav-tabContent">
-	      <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-question-list">
-				<div id="questionView-container">
-					<div class="questionView-title title">
-						<div style="float:left;">
-							<span>${question["question_title"]}</span>
-							| 1:1문의
+	 </div>
+	 	<div class="col-8">
+	    	<div class="tab-content" id="nav-tabContent">
+	     		 <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-question-list">
+					<div id="questionView-container">
+						<div class="questionView-title title">
+							<div style="float:left;">
+								<span>${question["question_title"]}</span>
+								| 1:1문의
+							</div>
+							<div style="float:right;">
+								${question["question_reg_date"] }
+							</div>
 						</div>
-						<div style="float:right;">
-							${question["question_reg_date"] }
+						
+						<div class="questionView-title member">
+							<span>관리자</span>
 						</div>
-					</div>
-					
-					<div class="questionView-title member">
-						<span>관리자</span>
-					</div>
-					<br /><br />
-					<div id="questionView-comment">
-						${question["question_comment"]}
-					</div>
-				
-					
+						<br /><br />
+						<div id="questionView-comment">
+							${question["question_comment"]}
+						</div>			
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-</div>
+
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

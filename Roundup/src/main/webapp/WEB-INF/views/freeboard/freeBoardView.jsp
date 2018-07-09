@@ -106,6 +106,9 @@ div#freetable_container tr th{
 div#freeBoard-comment img{
 	max-width:550px;
 }
+div#freeBoard-comment{
+	margin:20px;
+}
 </style>
 
 <!-- 글쓰기 상세보기 아래에 넣음 -->
@@ -563,7 +566,7 @@ function fn_deleteComment(element){
 	   var comment_no = element.nextSibling.nextSibling.value;
 
 	   if(confirm("정말로 삭제하시겠습니까?")==true){
-	      location.href="${pageContext.request.contextPath}/freeboard/deleteComment.do?no="+comment_no;
+	      location.href="${pageContext.request.contextPath}/freeboard/deleteComment.do?no="+comment_no+"&parent_no=${fboard['free_board_no']}";;
 	   }else{
 	      return false;
 	   }

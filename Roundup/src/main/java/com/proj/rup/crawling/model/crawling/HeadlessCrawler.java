@@ -20,7 +20,7 @@ public class HeadlessCrawler {
 
   public HeadlessCrawler() {
 	  
-	  System.setProperty("phantomjs.binary.path", "C:\\dev\\phantomjs-2.1.1-windows\\bin\\phantomjs.exe");
+	  System.setProperty("phantomjs.binary.path", "/Users/MAC/Documents/phantomjs-2.1.1-macosx/bin/phantomjs");
 	  dCaps = new DesiredCapabilities();
 	  dCaps.setJavascriptEnabled(true);
 	  dCaps.setCapability("takesScreenshot", false);

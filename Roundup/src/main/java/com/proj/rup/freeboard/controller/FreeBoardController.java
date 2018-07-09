@@ -309,7 +309,7 @@ public class FreeBoardController {
 		int result = freeboardService.deleteBoard(no);
 		
 		
-		String loc = "/";
+		String loc = "/freeboard/freeBoardList.do";
 		String msg = "";
 		if(result>0) msg="게시물이 삭제 되었습니다.";
 		else msg="삭제오류가 발생하였습니다.";
@@ -320,11 +320,11 @@ public class FreeBoardController {
 		return mav;
 	}
 	@RequestMapping("/freeboard/deleteComment.do")
-	public ModelAndView deleteComment(@RequestParam(value="no")int no) {
+	public ModelAndView deleteComment(@RequestParam(value="no")int no,@RequestParam(value="parent_no")int pno) {
 		ModelAndView mav = new ModelAndView();
 		int result = freeboardService.deleteComment(no);
 				
-		String loc = "/";
+		String loc = "/freeboard/freeBoardView.do?no="+pno;
 		String msg = "";
 		if(result>0) msg="댓글이 삭제 되었습니다.";
 		else msg="삭제오류가 발생하였습니다.";

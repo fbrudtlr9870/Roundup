@@ -503,6 +503,7 @@
 		select *
 		from product_file a
 		join product b on a.product_no=b.product_no
+		where b.status='Y'
 		order by product_file_no desc
 		)
 		where rownum<=1
