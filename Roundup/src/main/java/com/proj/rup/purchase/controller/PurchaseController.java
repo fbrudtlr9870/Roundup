@@ -82,7 +82,7 @@ public class PurchaseController {
 							@RequestParam(value="basketNo", required=false) String basketNo,
 							@RequestParam(value="membership") int membership,
 							@RequestParam(value="total_price") int total_price,
-							@RequestParam(value="imp_uid", required=false,defaultValue="") String imp_uid) {
+							@RequestParam(value="imp_uid") String imp_uid) {
 		
 		// total_price 상품 금액 + 배송비 - 적립금 => 최종 결제 금액
 		logger.debug(product_no+","+member_id+","+product_amount+","+address+","+zip_code+","+basketNo+","+membership+","+total_price+","+imp_uid);
@@ -201,7 +201,7 @@ public class PurchaseController {
 	public String purchaseCancel(@RequestParam(value="imp_uid") String imp_uid) {
 		IamportClient ic = new IamportClient("5698549912038284", "m95q6GPCjLsPaoOhBUBu8rUtTGdKzL9WVfm1WbDfW657uTp6O0AXrvrlbE6LpfHku3mqfZFb6LjAEIHt");
 		String returnmsg = "";
-		
+
 		if(ic.cancelPaymentByImpUid(new CancelData(imp_uid, true)) != null) {
 			returnmsg = "success";
 			purchaseService.deletePurchaseComplete(imp_uid);
