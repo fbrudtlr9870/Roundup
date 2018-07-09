@@ -416,6 +416,7 @@ function payRequest() {
                  url: "${pageContext.request.contextPath}/purchase/purchaseEnd.do", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
                  type: 'POST',
                  data: {
+                	imp_uid:"none",
                     product_no : productList,
                     member_id : "${member_id}",
                     product_amount : amountList, 

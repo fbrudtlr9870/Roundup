@@ -9,14 +9,15 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="마이페이지" name="pageTitle"/>
 </jsp:include>
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7a701e8b07c907d6b0da0dbd2a200e68&libraries=services"></script>
 <script charset="UTF-8" type="text/javascript"
    src="http://t1.daumcdn.net/cssjs/postcode/1522037570977/180326.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/code/highcharts.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/code/modules/exporting.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/code/modules/export-data.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
 <sec:authorize access="hasAnyRole('ROLE_USER')">
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
@@ -70,6 +71,10 @@
 }
 .delivery-map{
 	display:hidden;
+}
+.nav-item-my>a{
+	font-size:20px;
+	font-family: 'Do Hyeon', sans-serif;
 }
 </style>
  <div class="container-fluid-master">

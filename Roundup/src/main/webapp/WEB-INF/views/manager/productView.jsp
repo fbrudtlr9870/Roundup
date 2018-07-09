@@ -128,7 +128,7 @@ $(function(){
                console.log(data[i].category_name);
                html += "<option value='"+data[i].category_no+"'>"+data[i].category_name+"</option>";
             }
-            
+            nextE.next().html("");
             nextE.html(html);
          },error:function(jqxhr, textStatus, errorThrown) {
                 console.log("ajax처리실패!");

@@ -100,6 +100,7 @@ $(function(){
       
       var nextEclasses = nextEclass.split(" ");
       console.log(nextEclasses[2]);
+      console.log("next:",nextE.next());
       
       $.ajax({
          url:"${pageContext.request.contextPath}/product/selectChildCategory.do",
@@ -107,6 +108,7 @@ $(function(){
          success:function(data){
             var html = "";
             console.log(data);
+           
             html += "<option value='' selected disabled>Select</option>";
             for(var i in data){
                console.log(data[i].category_name);
