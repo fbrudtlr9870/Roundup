@@ -126,6 +126,7 @@ public class ProductController {
 		mav.addObject("searchList",list);
 		mav.addObject("categoryList",categoryList);
 		 mav.setViewName("product/productSearch");
+		 mav.addObject("searchKeyword", "전체");
 		return mav;
 	}
 	
@@ -286,7 +287,7 @@ public class ProductController {
 			int result = productService.insertProduct(p,pf);
 			
 			//view단 분기
-			String loc = "/";
+			String loc = "/product/productEnroll.do?flag=1";
 			String msg = "";
 			
 			if(result>0) {
@@ -414,5 +415,90 @@ public class ProductController {
 	              }
 	            //-------------------------------------------------------------------------------------키워드로 네이버 블로그 검색 끝------------------------------
 	   }
+	@RequestMapping("/product/newProductPop.do")
+	public ModelAndView newProductPop(){
+		ModelAndView mav = new ModelAndView();
+		Map<String,Object> pf = productService.selectProductFileOne();
+		mav.addObject("pf",pf);
+		logger.info("pf====="+pf);
+		mav.setViewName("product/newProductPop");
+		return mav;
+	}
+	
+	@RequestMapping("/product/productView.do")
+	public ModelAndView productView(@RequestParam("product_no") int product_no) {
+		ModelAndView mav = new ModelAndView();
+		Product p = productService.productView(product_no);
+		List<Brand> brandList = productService.selectBrandList();
+		List<Category> categoryList = productService.selectCategoryList();
+		
+		mav.addObject("brandList",brandList);
+		mav.addObject("categoryList",categoryList);
+		mav.addObject("product",p);
+		mav.setViewName("manager/productView");
+		return mav;
+	}
+	
+	@RequestMapping("/product/productUpdate.do")
+	public ModelAndView updateProduct(@RequestParam(value="productName") String productName
+									 ,@RequestParam(value="memberId") String memberId
+									 ,@RequestParam(value="brandNo") int brandNo
+									 ,@RequestParam(value="categoryNo") int[] categoryNo
+									 ,@RequestParam(value="price") int price
+									 ,@RequestParam(value="productNo") int productNo
+									 ,@RequestParam(value="upFile") MultipartFile upFile,HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		try {	
+			//첨부파일 이름 설정/upload폴더에 저장로직
+			String saveDirectory = request.getSession().getServletContext().getRealPath("/resources/upload/productFile");
+			
+			String originalFileName = upFile.getOriginalFilename();
+			String ext = originalFileName.substring(originalFileName.lastIndexOf(".")+1);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+			int rndNum = (int)(Math.random()*1000);
+			String renamedFileName = sdf.format(new Date(System.currentTimeMillis()))+"_"+rndNum+"."+ext;
+			
+			try {
+				upFile.transferTo(new File(saveDirectory+"/"+renamedFileName));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			int category_No = 0;
+			for(int i=0;i<categoryNo.length;i++) {
+				category_No = categoryNo[i];
+			}
+			
+			Product p = new Product(productNo,productName, brandNo, price, memberId,category_No);
+			
+			Product_File pf = new Product_File();
+			pf.setOriginalFilename(originalFileName);
+			pf.setRenamedFilename(renamedFileName);
+			pf.setProductNo(p.getProductNo());
+			
+			logger.debug("productFile@productController : "+pf);
+			logger.debug("product@productController : "+p);
+			
+			//비지니스 로직
+			int result = productService.updateProduct(p,pf);
+			
+			//view단 분기
+			String loc = "/product/allProductList.do";
+			String msg = "";
+			
+			if(result>0) {
+				msg="상품수정 성공!";
+			}else {
+				msg="상품수정 실패!";
+			}
+			
+			mav.addObject("msg",msg);
+			mav.addObject("loc",loc);
+			mav.setViewName("common/msg");
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return mav;
+	}
+	
 }
 

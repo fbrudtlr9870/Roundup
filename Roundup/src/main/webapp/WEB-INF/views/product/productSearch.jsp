@@ -471,7 +471,7 @@ ul.category-hyelin li label {
 </style>
 
 
-
+<br /><br />
 <c:if test="${not empty searchKeyword }">
    <p class="alignCenter-hyelin"><span class="bold-hyelin fontSize30-hyelin">'${searchKeyword }'</span>&nbsp; <span class="fontSize30-hyelin colorGray-hyelin">검색결과</span></p>
 </c:if>

@@ -21,7 +21,7 @@
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
 <style>
-<style>
+
 div#update-container{
 	width: 700px;
     /* margin: 0 auto; */

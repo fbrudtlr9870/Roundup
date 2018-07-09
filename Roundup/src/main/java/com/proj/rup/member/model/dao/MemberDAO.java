@@ -23,18 +23,13 @@ public interface MemberDAO {
 
 	int selectMember(String member_id);
 
-	
-
 	int totalMember();
 
-	
-	/*ss*/
 	int deleteConnect(String member_id);
 
 	int insertAddress(Map<String, Object> map);
 
 	Map<String, Object> selectConnectMember(String username);
-
 
 	int updateAddress(Map<String, Object> map);
 
@@ -56,5 +51,12 @@ public interface MemberDAO {
 
 	List<Address> selectAddrList(String member_id);
 
+	int deleteMemberAddress(int address_no);
+
+	int updateAddressLevel(Map<String, Object> map);
+
+	int updateAddressLevelByAddrNo(int address_no);
+
+	int selectAddrLevel(String member_id);
 
 }

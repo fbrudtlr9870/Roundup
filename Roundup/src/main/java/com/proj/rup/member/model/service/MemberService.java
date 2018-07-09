@@ -53,5 +53,12 @@ public interface MemberService {
 
 	List<Address> selectAddrList(String member_id);
 
+	int deleteMemberAddress(int address_no);
+
+	int updateAddressLevel(Map<String, Object> map);
+
+	int updateAddressLevelByAddrNo(int address_no);
+
+	int selectAddrLevel(String member_id);
 
 }

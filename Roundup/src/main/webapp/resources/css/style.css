@@ -85,7 +85,11 @@ html,body{
 div#main-container{
     min-width:100%;
     position: relative;
+    min-height:1500px;
+    top:38px;
+    margin-bottom: 50px;
 }
+
 /* nav.nav-bar{
     width:980px;
     height:150px;
@@ -278,7 +282,7 @@ div.tbl-container{
 /* 장바구니 단계 이미지 div*/
 div.step-buy{
     width:980px;
-    margin:0 auto;
+    
 }
 td.tbl-td {
 	vertical-align: middle !important;
@@ -302,11 +306,10 @@ div#chatting-content{
 }
 
 .nav-item{
-	margin-left:10px;
-	margin-right:10px;
+	
 }
 .nav-item>a{
-    font-size: 18px;
+    font-size: 17px;
     color: white;
 }
 
@@ -505,4 +508,18 @@ table.table-event-master{
 	margin:0 auto;
 }
 
+/* section{
+	position:relative;
+	top:100px;
+}
+ */
+div.mypage{
+	width:100%;
+	margin:0;
+	
+	min-height:780px;
+}
 
+.row{
+	height:100%;
+}

@@ -17,7 +17,7 @@ public interface ProductService<ProductVO> {
 
 	List<Product> reSearch(Map<String, Object> map);
 
-	void updateProduct(Product vo);
+
 
 	void deleteProduct(int productId);
 
@@ -85,6 +85,16 @@ public interface ProductService<ProductVO> {
 
 
 	int selectTotalProduct();
+
+
+	Map<String, Object> selectProductFileOne();
+
+
+	Product productView(int product_no);
+
+
+	int updateProduct(Product p, Product_File pf);
+
 
 
 }

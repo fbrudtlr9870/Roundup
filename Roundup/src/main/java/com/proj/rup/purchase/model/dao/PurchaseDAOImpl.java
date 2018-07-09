@@ -13,6 +13,7 @@ import com.proj.rup.member.model.vo.Address;
 import com.proj.rup.member.model.vo.MemberAddress;
 import com.proj.rup.product.model.vo.Product;
 import com.proj.rup.purchase.model.vo.Purchase;
+import com.proj.rup.purchase.model.vo.PurchaseCancel;
 import com.proj.rup.purchase.model.vo.PurchaseComplete;
 
 @Repository
@@ -70,14 +71,9 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 	public int deletePurchaseComplete(String imp_uid) {
 		return sqlSession.delete("purchase.deletePurchaseComplete", imp_uid);
 	}
-/*	@Override
-	public List<PurchaseComplete> selectAPCList() {
-		return sqlSession.selectList("purchase.selectAPCList");
-	}*/
 
 	@Override
 	public List<PurchaseComplete> selectAPCancelList() {
-		// TODO Auto-generated method stub
 		return sqlSession.selectList("purchase.selectAPCancelList");
 	}
 
@@ -89,16 +85,8 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 
 	@Override
 	public int selectTotalPurchase() {
-		// TODO Auto-generated method stub
 		return sqlSession.selectOne("purchase.selectTotalPurchase");
 	}
-
-
-
-	/*@Override
-	public int selectPurchaseCompleteListCount(String member_id) {
-		return sqlSession.selectOne("purchase.selectPurchaseCompleteListCount", member_id);
-	}*/
 
 	@Override
 	public List<PurchaseComplete> selectPurchaseCompleteList(Map<String, Object> map, int cPage, int numPerPage) {
@@ -112,47 +100,7 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 	}
 
 	@Override
-	public int selectPurchaseCompleteListCount(String member_id) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public List<PurchaseComplete> selectPurchaseCompleteList(String member_id, int cPage, int numPerPage) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Map<String, String>> selectAllProductList(int cPage, int numPerPage) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Map<String, String>> selectAPCancelList(int cPage, int numPerPage) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int selectTotalCancel() {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("purchase.selectTotalCancel");
-	}
-	/*@Override
-	public List<PurchaseComplete> selectPurchaseCompleteList(String member_id, int cPage, int numPerPage) {
-		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage, numPerPage);
-		return sqlSession.selectList("purchase.selectPurchaseCompleteList",member_id,rowBounds);
-	}
-
-	public List<Map<String, String>> selectAllProductList(int cPage, int numPerPage) {
-		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage, numPerPage);
-		return sqlSession.selectList("product.selectAllProductList",null,rowBounds);
-	}
-
-	@Override
-	public List<Map<String, String>> selectAPCancelList(int cPage, int numPerPage) {
+	public List<PurchaseCancel> selectAPCancelList(int cPage, int numPerPage) {
 		RowBounds rowBounds = new RowBounds((cPage-1)*numPerPage, numPerPage);
 		return sqlSession.selectList("purchase.selectAPCancelList",null,rowBounds);
 
@@ -160,10 +108,7 @@ public class PurchaseDAOImpl implements PurchaseDAO {
 
 	@Override
 	public int selectTotalCancel() {
-		// TODO Auto-generated method stub
 		return sqlSession.selectOne("purchase.selectTotalCancel");
 	}
-
-	}*/
 
 }

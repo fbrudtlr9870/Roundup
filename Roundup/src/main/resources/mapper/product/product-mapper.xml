@@ -484,6 +484,37 @@
 	  <select id="selectTotalProduct" resultType="_int">
       select count(*) from product  
       </select>
-
+	
+	<!-- 신상품추가 관련 -->
+	<select id="selectProductFileOne" resultType="map">
+	<![CDATA[
+		select * 
+		from(
+		select *
+		from product_file a
+		join product b on a.product_no=b.product_no
+		order by product_file_no desc
+		)
+		where rownum<=1
+	]]>
+	</select>
+	
+	<!-- <update id="productUpdate">
+	update 
+	</update> -->
+	
+	<select id="productView" resultMap="search">
+	select * from product p join product_file pf on p.product_no=pf.product_no join brand b on p.brand_no = b.brand_no where p.product_no = #{product_no}
+	</select>
+	
+	<update id="updateProduct">
+	update product set product_name=#{productName},brand_no=#{brandNo},price=#{price},default,member_id=#{memberId} where product_no=#{product_no} 
+	</update>
+	
+	<update id="updateProductCategory">
+	update product_category set product_no=#{productNo},category_no=#{categoryNo},category_level=#{categoryLevel} where product_id=#{product_no}
+	</update>
+	
+	
 </mapper>
 

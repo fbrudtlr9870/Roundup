@@ -90,6 +90,22 @@ public class Product {
 
 
 
+	
+
+
+
+	public Product(int productNo, String productName, int brandNo, int price, String memberId, int categoryNo) {
+		super();
+		this.productNo = productNo;
+		this.productName = productName;
+		this.brandNo = brandNo;
+		this.price = price;
+		this.memberId = memberId;
+		this.categoryNo = categoryNo;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "Product [productNo=" + productNo + ", productName=" + productName + ", brandNo=" + brandNo

@@ -119,4 +119,24 @@ public class MemberServiceImpl implements MemberService {
 
 	}
 
+	@Override
+	public int deleteMemberAddress(int address_no) {
+		return memberDAO.deleteMemberAddress(address_no);
+	}
+
+	@Override
+	public int updateAddressLevel(Map<String, Object> map) {
+		return memberDAO.updateAddressLevel(map);
+	}
+
+	@Override
+	public int updateAddressLevelByAddrNo(int address_no) {
+		return memberDAO.updateAddressLevelByAddrNo(address_no);
+	}
+
+	@Override
+	public int selectAddrLevel(String member_id) {
+		return memberDAO.selectAddrLevel(member_id);
+	}
+
 }

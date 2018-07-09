@@ -34,7 +34,7 @@ public class BasketController {
 		logger.debug("list@BasketController="+basketList);
 
 		mav.addObject("basketList", basketList);
-		mav.setViewName("/member/myPageBasket");
+		mav.setViewName("/member/myBasket");
 		return mav;
 	}
 	

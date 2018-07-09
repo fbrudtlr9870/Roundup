@@ -112,5 +112,21 @@ public class MemberDAOImpl implements MemberDAO {
 	public List<Address> selectAddrList(String member_id) {
 		return sqlSession.selectList("member.selectAddrList", member_id);
 	}
-
+	
+	@Override
+	public int deleteMemberAddress(int address_no) {
+		return sqlSession.delete("member.deleteMemberAddress", address_no);
+	}
+	@Override
+	public int updateAddressLevel(Map<String, Object> map) {
+		return sqlSession.update("member.updateAddressLevel", map);
+	}
+	@Override
+	public int updateAddressLevelByAddrNo(int address_no) {
+		return sqlSession.update("member.updateAddressLevelByAddrNo", address_no);
+	}
+	@Override
+	public int selectAddrLevel(String member_id) {
+		return sqlSession.selectOne("member.selectAddrLevel", member_id);
+	}
 }

@@ -58,11 +58,11 @@
 	</delete>
 
 	<insert id="insertAddress">
-		insert into address values(seq_address_no.nextval, #{member_id}, #{address}, #{zip_code}, 1)
+		insert into address values(seq_address_no.nextval, #{member_id}, #{address}, #{zip_code}, #{address_level})
 	</insert>
 	
 	<update id="updateAddress">
-		update address set zip_code=#{zip_code},address=#{address} where member_id = #{member_id}
+		update address set zip_code=#{zip_code},address=#{address} where member_id = #{member_id} and address_level = #{address_level}
 	</update>
 
 	<select id="selectMembership" resultType="membership">
@@ -110,6 +110,22 @@
 	
 	<select id="selectAddrList" resultType="address">
 		select * from address where member_id = #{member_id} order by address_level
+	</select>
+
+	<delete id="deleteMemberAddress">
+		delete from address where address_no = #{address_no}
+	</delete>
+	
+	<update id="updateAddressLevel">
+		update address set address_level=#{address_level} where member_id=#{member_id} and address_level = 1
+	</update>
+	
+	<update id="updateAddressLevelByAddrNo">
+		update address set address_level = 1 where address_no = #{address_no}
+	</update>
+	
+	<select id="selectAddrLevel" resultType="_int">
+		select max(address_level) from address where member_id = #{member_id}
 	</select>
 
 </mapper>

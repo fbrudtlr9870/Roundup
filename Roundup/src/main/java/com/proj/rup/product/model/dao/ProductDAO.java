@@ -20,7 +20,7 @@ public interface ProductDAO {
 
 	List<Product> productSearch(String searchKeyword);
 	
-	void updateProduct(Product vo);
+	
 	
 	void deleteProduct(int productId);
 
@@ -95,6 +95,22 @@ public interface ProductDAO {
 
 
 	int selectTotalProduct();
+
+
+	Map<String,Object> selectProductFileOne();
+
+
+	Product productView(int product_no);
+
+
+	int updateProduct(Product p);
+
+
+	int updateProductCategory(Map<String, Integer> map);
+
+
+	int updateProductFile(Product_File pf);
+
 
 
 }

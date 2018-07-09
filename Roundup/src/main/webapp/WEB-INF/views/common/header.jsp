@@ -12,15 +12,13 @@
 <meta charset="UTF-8">
 <title>${param.pageTitle }</title>
 <style>
+
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
     color: #fff;
     background: #5c83ad;
     width:80px;
 }
-.nav-item{
-	margin-left:20px;
-	margin-right:20px;
-}
+
 .nav-fill .nav-item {
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
@@ -46,8 +44,17 @@ img#chat-icon{
 	list-style:none;
 }
 .nav-master>a {
-    font-size: 18px;
+    font-size: 16px;
     color: #f5f2f2!important;
+}
+
+
+@media (min-width: 1000px)
+.navbar-expand-md {
+    -ms-flex-flow: row nowrap;
+    flex-flow: row nowrap;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
 }
 </style>
 
@@ -66,6 +73,7 @@ img#chat-icon{
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
 
+
 <!-- 메타값 -->
 <meta name="_csrf" content="${_csrf.token}"/> 
 <meta name="_csrf_header" content="${_csrf.headerName}"/> 
@@ -83,22 +91,20 @@ img#chat-icon{
 </sec:authorize>
 
 
-<body>
+<body class="Site">
 <div id="main-container">
 <!-- navigation bar start-->
 <nav class="navbar navbar-expand-md navbar-dark fixed-top nav-master">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="${pageContext.request.contextPath }">
 		    <img src="${pageContext.request.contextPath }/resources/img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
-		    RoundUP
+		    RUP
 		  </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="${pageContext.request.contextPath }">Home <span class="sr-only">(current)</span></a>
-            </li>
+            
            <!--  <div class="btn-group dropright">
 			  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			    MENU
@@ -111,7 +117,7 @@ img#chat-icon{
 			  </div>
 			</div> -->
             <li class="nav-item dropdown">
-		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		        <a class="nav-link dropdown-toggle" style="font-size:14px;" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		          Category
 		        </a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -125,7 +131,7 @@ img#chat-icon{
 		        </div>
 		    </li>
 		    <li class="nav-item dropdown">
-		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		        <a class="nav-link dropdown-toggle" style="font-size:14px;" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		          Event
 		        </a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -137,10 +143,10 @@ img#chat-icon{
 		        </div>
 		    </li>
             <li class="nav-item">
-              <a class="nav-item nav-link" href="${pageContext.request.contextPath }/noticeboard/noticeBoardList.do">Notice</a>
+              <a class="nav-item nav-link" style="font-size:14px;" href="${pageContext.request.contextPath }/noticeboard/noticeBoardList.do">Notice</a>
             </li>
             <li class="nav-item">
-              <a class="nav-item nav-link" href="${pageContext.request.contextPath }/freeboard/freeBoardList.do">FreeBoard</a>
+              <a class="nav-item nav-link" style="font-size:14px;" href="${pageContext.request.contextPath }/freeboard/freeBoardList.do">FreeBoard</a>
             </li>
           </ul>
           <form class="form-inline mt-2 mt-md-0" action="${pageContext.request.contextPath }/product/productSearch.do" onsubmit="return fn_search();">
@@ -193,160 +199,10 @@ img#chat-icon{
       </nav>
 <!-- navigation bar end-->
       
-       <%-- <div id="myCarousel" class="carousel slide main-slide carousel-master" data-ride="carousel">
-        <ol class="carousel-indicators">
-          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-          <li data-target="#myCarousel" data-slide-to="1"></li>
-          <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner carousel-inner-master">
-          <div class="carousel-item active carousel-item-master">
-            <img class="first-slide main-event-img-master" src="${pageContext.request.contextPath }/resources/img/resource_img1.jpg" alt="First slide">
-          </div>
-          <div class="carousel-item carousel-item-master">
-            <img class="second-slide main-event-img-master" src="${pageContext.request.contextPath }/resources/img/resource_img2.jpg" alt="First slide">
-          </div>
-          <div class="carousel-item carousel-item-master">
-            <img class="third-slide main-event-img-master" src="${pageContext.request.contextPath }/resources/img/resource_img3.jpg" alt="First slide">
-          </div>
-        </div>
-        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
-      </div> --%>
-        <%-- <nav class="nav-bar">
-            <div class="nav-bar-wrapper">
-                <a href="${pageContext.request.contextPath }" class="nav-bar-logo">편의점마스터</a>
-                <ul class="nav-bar-site">
-                    <c:if test="${member_id!=null}">
-                    	<li class="nav-bar-site-li">
-                    		<a href="${pageContext.request.contextPath }/member/myPage.do?member_id=${member_id }" style="color:black">
-                    			<img src="${pageContext.request.contextPath }/resources/img/mypage.png" alt="" />마이페이지
-                    		</a>
-                    	</li>
-                    </c:if>
-					<c:if test="${member_id==null}">
-						<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");'
-							style="color: black">마이페이지</a>
-					</c:if>
-
-                    <li class="nav-bar-site-li">
-	                    <c:if test="${member_id!=null}">
-	                    	<a href="${pageContext.request.contextPath }/member/myPageBasket.do?member_id=${member_id}" style="color:black">
-	                    		<img src="${pageContext.request.contextPath }/resources/img/basket.png" alt="" />장바구니
-	                    	</a>
-
-	                    </c:if>
-	                    <c:if test="${member_id==null}">
-	                    	<a href='javascript:window.alert("로그인 후 이용하실 수 있습니다.");' style="color:black">장바구니</a>
-	                    </c:if>     	
-                    </li>
-
-					<!-- 관리자 로그인 했을때만 관리자 페이지 들어가도록! --> 
-                    <!-- 권한에 따른 접근 방법 기술 -->
-               		<sec:authorize access="hasRole('ROLE_ADMIN')">
-                    <li class="nav-bar-site-li"><a href="${pageContext.request.contextPath }/manager/managerPage.do">관리자페이지</a></li>  
-              		</sec:authorize>
      
-
-                </ul>
-<!--                 <ul class="nav-bar-list">
-                        <li class="nav-bar-site-li"><a href="http://www.7-eleven.co.kr" target="blank">세븐일레븐</a></li>
-                        <li class="nav-bar-site-li"><a href="http://gs25.gsretail.com/gscvs/ko/main"target="blank">GS25</a></li>
-                        <li class="nav-bar-site-li"><a href="http://cu.bgfretail.com/index.do"target="blank">CU</a></li>
-                        <li class="nav-bar-site-li"><a href="https://www.ministop.co.kr"target="blank">미니스톱</a></li>
-                        <li class="nav-bar-site-li"><a href="https://www.emart24.co.kr/index.asp"target="blank">이마트24</a></li>
-                </ul>  -->      
-
-                <fieldset class="nav-search">
-                    <div class="col-lg-6">
-                       <form action="${pageContext.request.contextPath }/product/productSearch.do">
-                       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                       <div class="input-group border-hyelin width450-hyelin">
-                         <input type="text" class="form-control focus-hyelin border0-hyelin" id="productKey" placeholder="${param.pageSearch }" name="searchKeyword" autocomplete="off">
-                         <span class="input-group-btn">
-                           <button type="submit" class="btn btn-transparent-hyelin border0-hyelin focus-hyelin"> <img src="${pageContext.request.contextPath }/resources/img/search2.png" alt="" /></button>
-                         </span><br />       
-                          	<ul id="autoComplete"></ul>                     
-                       </div>
-                       </form>
-                     </div>
-                </fieldset>
-               
-              	<!-- 로그인 회원가입 -->
-              	<div class="nav-bar-btn">
-              		<c:choose>
-              		<c:when test="${empty member_id and empty admin_id}">
-	               <c:if test="${memberLoggedIn==null}">
-	               <!--  
-	                  <button type="button" class="btn btn-outline-success" data-toggle="modal" 
-			    		data-target="#exampleModal">로그인</button>
-			    	!-->
-			    		<button type="button" class="btn btn-outline-success"
-	               		 onclick="location.href='${pageContext.request.contextPath}/member/loginPage.do'">로그인</button>
-			    		&nbsp;
-	                  <button type="button" class="btn btn-outline-success"
-	               		 onclick="location.href='${pageContext.request.contextPath}/member/memberEnroll.do'">회원가입</button>
-
-	               </c:if>
-	             	</c:when>
-	             	<c:otherwise>
-	                <c:if test="${memberLoggedIn!=null }">
-	                <c:if test="${not empty member_id }">
-				   	 <a>${member_name }</a>님, 안녕하세요			    
-	                </c:if>
-				     <button class="btn btn-outline-success" type="button" onclick="document.getElementById('logout-form').submit();">
- 						로그아웃
-			    	</button>
-			    	<form id="logout-form" action="<c:url value="/logout"/>" method="post">
-				        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-				    </form>
-				    </c:if>
-				    </c:otherwise>
-				    </c:choose>
-
-                </div>
-            </div>
-            
-             <!-- 채팅아이콘 -->
-            <img src="${pageContext.request.contextPath }/resources/img/chat-icon.png" id="chat-icon"/>
- 
-            <!-- 채팅 관련 html 시작 -->            
-             <div id="chatting-room">
-               <input type="hidden" name="member_id" value="${member_id}" />
-                <div style="text-align:center;">현재 접속중인 사용자<span id="connected-member"style="font-weight:bold;"> ? </span> 명 
-                   <button type="button" class="close" aria-label="Close" id="hide_chatting">
-                    <span aria-hidden="true">&times;</span>
-               </button>
-                </div> 
-               <c:if test="${member_id!=null }">
-               <div style="text-align:center;margin-top:10px;">채팅방에 접속되었습니다.</div>  
-               </c:if>
-               <c:if test="${member_id==null }">
-               <div style="text-align:center;margin-top:10px;">로그인 후 사용가능합니다.</div>  
-               </c:if>        
-               <div id="chatting-content"></div>
-               <sec:authorize access="hasRole('ROLE_USER')">
-               <div id="member-chat">
-                  <input id="insertText" style="float:left; width:230px;"class="form-control form-control-sm" type="text">
-                  <button style="float:left; width:50px;" type="button" class="btn btn-primary" id="insertChat">전송</button>
-               </div>
-               </sec:authorize>
-                  <sec:authorize access="hasRole('ROLE_ADMIN')">
-               <input type="text" name="" id="admin-notice" /><button id="insertNotice">전송!!</button>
-               </sec:authorize>
-            </div> 
-            <!-- 채팅관련 끝 -->
-
-        </nav> --%>
          <!-- 채팅아이콘 -->
             <img src="${pageContext.request.contextPath }/resources/img/chat-icon.png" id="chat-icon"/>
- 
+			<input type="hidden" name="" id="popupFlag" value=${param.flag}/>
             <!-- 채팅 관련 html 시작 -->            
              <div id="chatting-room">
                <input type="hidden" name="member_id" value="${member_id}" />
@@ -386,51 +242,7 @@ img#chat-icon{
         
         <!-- 여기있었으 -->
         
-        <nav class="nav-list">
-     <div class="nav-list-wrapper">
-     <!--       <ul class="nav nav-tabs nav-justified">
-               <li role="presentation" class="active"><a href="#">카테고리</a></li>
-               <li role="presentation"><a href="#">행사</a></li>
-               <li role="presentation"><a href="notice.html">공지사항</a></li>
-               <li role="presentation"><a href="./freeboard/freeBoardList.do">게시판</a></li>
-               <li role="presentation"><a href="#">1:1문의</a></li>
-           </ul>  -->
-           <!-- <ul class="nav nav-tabs justify-content-center">
-			  <li class="nav-item dropdown">
-			    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">카테고리</a>
-			    <div class="dropdown-menu">
-			      <a class="dropdown-item" href="#">간편식사</a>
-			      <a class="dropdown-item" href="#">즉석조리</a>
-			      <a class="dropdown-item" href="#">과자류</a>
-			      <a class="dropdown-item" href="#">아이스크림</a>
-			      <a class="dropdown-item" href="#">식품</a>
-			      <a class="dropdown-item" href="#">음료</a>
-			      <a class="dropdown-item" href="#">생활용품</a>
-			      <div class="dropdown-divider"></div>
-			      <a class="dropdown-item" href="#">Separated link</a>
-			    </div>
-			  </li>
-			  <li class="nav-item">
-			    <a class="nav-link" href="#">행사</a>
-			  </li>
-			  <li class="nav-item">
-			    <a class="nav-link" href="#">공지사항</a>
-			  </li>
-			  <li class="nav-item">
-			    <a class="nav-link" href="${pageContext.request.contextPath}/freeboard/freeBoardList.do">게시판</a>
-			  </li>
-			  <li class="nav-item">
-			    <a class="nav-link" href="#">1:1문의</a>
-			  </li>
-			</ul> -->
-			<!-- ----------------- -->
-			
-			
-			<!-- ----------------- -->
-			
-     </div>
-     
- </nav>
+      
         
 
 	<section>
@@ -545,6 +357,7 @@ $(document).ready(function(){
 	
 });
 </script>
+
 
 
 <script>
@@ -705,7 +518,12 @@ function onMessage(evt){
 	      $("#chatting-content").append(html);        
 	      var offset = $(".chatting-comment:last").offset();  
 	      $("#chatting-content").animate({scrollTop : offset.top}, 10); 
-  }else{  
+  }else if(sessionid=="신상품업로드"){
+	  var popUrl = "${pageContext.request.contextPath}/product/newProductPop.do";   
+	    var popOption = "width=460, height=360,top=300, left=400, resizable=no, scrollbars=no, status=no;"; 
+	      window.open(popUrl,"",popOption);   
+  }
+  else{  
        var html='<div class="chatting-comment" style="text-align:left;">';  
        html+='<strong>['+sessionid+'] :</strong>'+message;  
        html+='</div>';  
@@ -842,4 +660,13 @@ function onMessage(evt){
 
 }) */
 
+</script>
+<script>
+$(function(){	
+	if($("#popupFlag") !=''){
+		console.log("ttt"+$("#popupFlag"));
+		sock.send("신상품업로드!@#");		
+	}
+
+})
 </script>
