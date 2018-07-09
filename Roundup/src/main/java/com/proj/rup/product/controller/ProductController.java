@@ -289,7 +289,7 @@ public class ProductController {
 			int result = productService.insertProduct(p,pf);
 			
 			//view단 분기
-			String loc = "/product/productEnroll.do?flag=1";
+			String loc = "/product/allProductList.do?flag=1";
 			String msg = "";
 			
 			if(result>0) {
@@ -499,6 +499,28 @@ public class ProductController {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		return mav;
+	}
+	
+	@RequestMapping("/product/deleteProduct")
+	public ModelAndView deleteProduct(@RequestParam("productNo") int productNo) {
+		ModelAndView mav = new ModelAndView();
+		int result = productService.deleteProduct(productNo);
+		//view단 분기
+		String loc = "/product/allProductList.do";
+		String msg = "";
+		
+		if(result>0) {
+			msg="상품삭제 성공!";
+		}else {
+			msg="상품삭제 실패!";
+		}
+		
+		mav.addObject("msg",msg);
+		mav.addObject("loc",loc);
+		mav.setViewName("common/msg");
+		
+		mav.setViewName("common/msg");
 		return mav;
 	}
 	

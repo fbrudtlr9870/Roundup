@@ -152,6 +152,13 @@ $(function(){
    });
 });
 
+function deleteProduct(productNo){
+	if(confirm("삭제하시겠습니가??")){	
+		location.href = "${pageContext.request.contextPath}/product/deleteProduct?productNo="+productNo;
+	}else{
+		return;
+	}
+}
 
 </script>
 
@@ -300,7 +307,7 @@ $(function(){
 										</div>
 									</div>
 									<div class="btn-group">
-										<button type="button" class="btn btn-outline-primary">삭제</button>
+										<button type="button" class="btn btn-outline-primary" onclick="deleteProduct(${product.productNo});">삭제</button>
 										<button type="submit" class="btn btn-outline-primary">수정</button>									
 									</div>
 								</form>

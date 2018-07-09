@@ -40,13 +40,6 @@ public class ProductDAOImpl implements ProductDAO {
 		return session.selectList("product.reSearch", map);
 	}
 
-    
-  
-    //상품삭제
-    @Override
-    public void deleteProduct(int productId) {
-    	session.delete("product.deleteProduct", productId);
-    }
     //상품이미지 삭제를 위한 이미지파일 정보
     @Override
     public String fileInfo(int productId) {
@@ -236,6 +229,12 @@ public class ProductDAOImpl implements ProductDAO {
 	@Override
 	public int updateProductFile(Product_File pf) {
 		return session.update("product.updateProductFile",pf);
+	}
+
+
+	@Override
+	public int deleteProduct(int productNo) {
+		return session.delete("product.deleteProduct",productNo);
 	}
 
 

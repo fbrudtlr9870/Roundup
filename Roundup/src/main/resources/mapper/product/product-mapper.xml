@@ -518,5 +518,9 @@
 	<update id="updateProductFile">
 	update product_file set original_filename=#{originalFileName},renamed_filename=#{renamedFileName} where product_no=#{productNo}
 	</update>
+	
+	<delete id="deleteProduct">
+	delete from product where product_no = #{productNo}
+	</delete>
 </mapper>
 

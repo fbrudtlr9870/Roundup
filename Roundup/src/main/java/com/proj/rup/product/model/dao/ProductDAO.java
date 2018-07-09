@@ -19,11 +19,6 @@ public interface ProductDAO {
 
 
 	List<Product> productSearch(String searchKeyword);
-	
-	
-	
-	void deleteProduct(int productId);
-
 
 	int insertProduct(Product p);
 
@@ -110,6 +105,9 @@ public interface ProductDAO {
 
 
 	int updateProductFile(Product_File pf);
+
+
+	int deleteProduct(int productNo);
 
 
 
