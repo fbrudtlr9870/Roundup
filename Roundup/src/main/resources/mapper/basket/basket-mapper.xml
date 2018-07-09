@@ -3,7 +3,7 @@
 <mapper namespace="basket">
 
 <select id="selectBasketList" resultType="basketProduct">
-	select * from basket b join product p on b.product_no = p.product_no left join product_file f on p.product_no = f.product_no left join brand br on p.brand_no = br.brand_no where b.member_id = #{member_Id} order by basket_no desc 
+	select * from basket b join product p on b.product_no = p.product_no left join product_file f on p.product_no = f.product_no left join brand br on p.brand_no = br.brand_no where b.member_id = #{member_Id} and p.status='Y' order by basket_no desc 
 </select>
 
 <delete id="deleteBasket">

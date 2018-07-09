@@ -18,9 +18,6 @@ public interface ProductService<ProductVO> {
 	List<Product> reSearch(Map<String, Object> map);
 
 
-
-	void deleteProduct(int productId);
-
 	String fileInfo(int productId);
 
 	int insertProduct(Product p, Product_File pf);
@@ -94,6 +91,9 @@ public interface ProductService<ProductVO> {
 
 
 	int updateProduct(Product p, Product_File pf);
+
+
+	int deleteProduct(int productNo);
 
 
 

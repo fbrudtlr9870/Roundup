@@ -242,7 +242,7 @@ div.mypage{
 
 						}
 					%>
-					<%=com.proj.rup.common.util.Utils.getPageBar(totalContents, cPage, numPerPage, "memberPurchaseComplete.do")%>
+					<%=com.proj.rup.common.util.Utils.getPageBar(totalContents, cPage, numPerPage, "managerPurchaseComplete.do")%>
 									</ul>
 							
 

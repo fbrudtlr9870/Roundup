@@ -36,7 +36,21 @@ public class Member implements java.io.Serializable{
       this.member_grade = member_grade;
    }
 
-   public String getMember_id() {
+   
+   public Member(String member_id, String member_password, String member_name, String member_gender, Date member_birthday,
+		String member_phone, String member_email) {
+	super();
+	this.member_id = member_id;
+	this.member_password = member_password;
+	this.member_name = member_name;
+	this.member_gender = member_gender;
+	this.member_birthday = member_birthday;
+	this.member_phone = member_phone;
+	this.member_email = member_email;
+}
+
+
+public String getMember_id() {
       return member_id;
    }
 

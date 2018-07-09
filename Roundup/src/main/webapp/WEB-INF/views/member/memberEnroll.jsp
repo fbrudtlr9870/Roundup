@@ -151,8 +151,7 @@ function validate(str){
 	var member_name = $("#member_name_").val().trim();
 	/* var member_birthday = $("#member_birthday_").val().trim(); */
 	var member_phone = $("#member_phone_").val().trim();
-	
-	
+
 	var regExp = /^[가-힣]{2,8}$/;
 	var regExp0 = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
 	var regExp1 = /^[a-z]{4,8}$/;
@@ -289,8 +288,8 @@ function sample4_execDaumPostcode() {
 				<td><input type="text" name="member_phone" id="member_phone_" class="form-control" placeholder="-를 제외하고 입력하세요" required autocomplete="off"/></td>
 			</tr>
 			<tr>
-				<th><label for="member_birthday_">생일</label></th>
-				<td><input type="date" name="member_birthday" id="member_birthday_" class="form-control"  /></td>
+				<th><label for="member_birthday_">생일<span class="req">*</span></label></th>
+				<td><input type="date" name="member_birthday" id="member_birthday_" class="form-control"  required/></td>
 			</tr>
 			<tr>
 				<th><label for="member_gender_">성별</label></th>

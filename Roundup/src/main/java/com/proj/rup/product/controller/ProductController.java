@@ -46,17 +46,17 @@ public class ProductController {
 		ModelAndView mav=new ModelAndView();
 		logger.info("검색 키워드 : "+searchKeyword);
 		searchKeyword=searchKeyword.replaceAll("^\\s+","");//처음엔 트림해주고
-		if(searchKeyword.equals(""))searchKeyword="공백1";//트림 했는데 아무것도 입력안돼있으면 공백한칸으로 넘어오게
+		if(searchKeyword.equals(""))searchKeyword="공백";//트림 했는데 아무것도 입력안돼있으면 공백한칸으로 넘어오게
 		//String searchKeywordd=searchKeyword.replaceAll("[!@\\\\#$%\\^&*\\(\\)_+-=|\\[\\]\\{\\}<\\,>.?/]", " ");//특문>>공백
 		//String searchKeywordd=searchKeyword.replaceAll("\\W|[^가-힣]", " ");//특문>>공백
 		String searchKeywordd=searchKeyword.replaceAll("[^0-9a-z가-힣]", " ");//특문>>공백
 		searchKeywordd = searchKeywordd.replaceAll("^\\s+",""); // ltrim
-		if(searchKeywordd.length()==0)searchKeywordd="공백2";
+		if(searchKeywordd.length()==0)searchKeywordd="공백";
 		String[] keyword=searchKeywordd.split(" ");//공백으로 나눈다.
 		Map<String,Object> map=new HashMap<String,Object>();
 		int notblank=0;
 		for(int i=0;i<keyword.length;i++) {
-			System.out.println(keyword[i]);
+			//System.out.println(keyword[i]);
 			logger.info("keyword[i] : "+keyword[i]);
 			if(keyword[i]!="") notblank++;
 		}
@@ -145,15 +145,13 @@ public class ProductController {
 		/*for(String s:brand) {
 			System.out.println("브랜드="+s);
 		}*/
-		System.out.println(categoryselect);
-		
-		System.out.println(price1+"~"+price2+"범위");
+		//System.out.println(price1+"~"+price2+"범위");
 		if(brand[0].equals("all"))
 			brand=new String[] {"CU","GS25","7ELEVEN","MINISTOP","EMART24"};
 		Map<String,Object> map=new HashMap<String, Object>();
 		int notblank=0;
 		for(int i=0;i<keyword.length;i++) {
-			System.out.println(keyword[i]);
+			//System.out.println(keyword[i]);
 			if(keyword[i]!="") notblank++;
 		}
 		if(notblank==0) {
@@ -192,7 +190,7 @@ public class ProductController {
 				}
 			}
 		}
-		System.out.println("categoryArr="+categoryArr);
+		//System.out.println("categoryArr="+categoryArr);
 		
 		mav.addObject("categoryList", categoryList);
 		map.put("searchKeyword", searchKeyword);
@@ -216,7 +214,7 @@ public class ProductController {
         mav.addObject("popmenu", repopmenu);
         mav.addObject("searchKeyword", searchKeyword);        
         mav.addObject("searchList", list);
-        System.out.println("검색키워드"+searchKeyword+" 브랜드"+brand+" 카테고리 배열 "+categoryArr+"가격1"+price1+" 가격2"+price2);
+        //System.out.println("검색키워드"+searchKeyword+" 브랜드"+brand+" 카테고리 배열 "+categoryArr+"가격1"+price1+" 가격2"+price2);
         mav.setViewName("product/productSearch");
 		return mav;
 	}
@@ -289,7 +287,7 @@ public class ProductController {
 			int result = productService.insertProduct(p,pf);
 			
 			//view단 분기
-			String loc = "/product/productEnroll.do?flag=1";
+			String loc = "/product/allProductList.do?flag=1";
 			String msg = "";
 			
 			if(result>0) {
@@ -320,7 +318,7 @@ public class ProductController {
 	@ResponseBody
 	public Map<String, Object> selectNewProduct(HttpServletResponse response) {
 		List<Product> productNewList = productService.selectNewProduct();
-	    System.out.println("productNewList" + productNewList);
+	    //System.out.println("productNewList" + productNewList);
 	    
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("productNewList", productNewList);
@@ -332,7 +330,7 @@ public class ProductController {
 	@ResponseBody
 	public Map<String, Object> selectHotProduct(HttpServletResponse response) {
 		List<Product> productHotList = productService.selectHotProduct();
-	    System.out.println("productList" + productHotList);
+	    //System.out.println("productList" + productHotList);
 	    
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("productHotList", productHotList);
@@ -410,7 +408,7 @@ public class ProductController {
 	                      response.append(inputLine);
 	                  }
 	                  br.close();
-	                  System.out.println(response.toString());
+	                  //System.out.println(response.toString());
 	                  mav.addObject("bloginfo", response);
 	              } catch (Exception e) {
 	                  System.out.println(e);
@@ -428,9 +426,9 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/product/productView.do")
-	public ModelAndView productView(@RequestParam("product_no") int product_no) {
+	public ModelAndView productView(@RequestParam("productNo") int productNo) {
 		ModelAndView mav = new ModelAndView();
-		Product p = productService.productView(product_no);
+		Product p = productService.productView(productNo);
 		List<Brand> brandList = productService.selectBrandList();
 		List<Category> categoryList = productService.selectCategoryList();
 		
@@ -499,6 +497,28 @@ public class ProductController {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		return mav;
+	}
+	
+	@RequestMapping("/product/deleteProduct")
+	public ModelAndView deleteProduct(@RequestParam("productNo") int productNo) {
+		ModelAndView mav = new ModelAndView();
+		int result = productService.deleteProduct(productNo);
+		//view단 분기
+		String loc = "/product/allProductList.do";
+		String msg = "";
+		
+		if(result>0) {
+			msg="상품삭제 성공!";
+		}else {
+			msg="상품삭제 실패!";
+		}
+		
+		mav.addObject("msg",msg);
+		mav.addObject("loc",loc);
+		mav.setViewName("common/msg");
+		
+		mav.setViewName("common/msg");
 		return mav;
 	}
 	

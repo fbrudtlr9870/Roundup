@@ -90,6 +90,52 @@ img#chat-icon{
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
 
+<script>
+//반응형만듬
+$(function(){
+	/* var w=document.getElementById("main-container"); */
+	var w=$("#main-container");
+	/* var style=window.getComputedStyle(w,null); */
+	console.log(w.css("width"));
+	/* w.css("width").on("change",function(){
+		console.log($(this));
+	}); */
+	if(parseInt(w.css("width"))<742){
+		$("#autoComplete").css("min-width","205px");
+		$("#autoComplete").css("top","250px");
+		if(parseInt(w.css("width"))<550){
+			$("#autoComplete").css("text-align","center");
+			$("#autoComplete").css("padding","0");
+			$(".form-control").css("width","auto");
+		}
+	}
+	$(window).resize(function(){
+		if(parseInt(w.css("width"))<742){
+			$("#autoComplete").css("min-width","205px");
+			$("#autoComplete").css("top","250px");
+			if(parseInt(w.css("width"))<=550){
+				$("#autoComplete").css("text-align","center");
+				//$("#autoComplete").css("margin","0");
+				$(".form-control").css("width","auto");
+			}else{
+				//$("#autoComplete").children("li").css("padding","auto");
+			}
+		}
+		//console.log(parseInt(w.css("width")));
+		if(parseInt(w.css("width"))<740){
+			$("#autoComplete").css("min-width","205px");
+			$("#autoComplete").css("top","250px");
+			//$("#autoComplete").css("position","none");
+		}
+		if(parseInt(w.css("width"))>=740){
+			$("#autoComplete").css("min-width","205px");
+			$("#autoComplete").css("top","50px");
+			//$("#autoComplete").css("position","absolute");
+		}
+	});
+	
+});
+</script>
 
 <body class="Site">
 <div id="main-container">
@@ -127,7 +173,6 @@ img#chat-icon{
                     <a class="dropdown-item" href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=4">아이스크림</a>
                     <a class="dropdown-item" href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=5">즉석식품</a>
                     <a class="dropdown-item" href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=6">음료</a>
-                    <a class="dropdown-item" href="${pageContext.request.contextPath }/product/productCategorySearch.do?categoryNo=7">생활용품</a>
 		        </div>
 		    </li>
 		    <li class="nav-item dropdown">
@@ -150,7 +195,7 @@ img#chat-icon{
             </li>
           </ul>
           <form class="form-inline mt-2 mt-md-0" action="${pageContext.request.contextPath }/product/productSearch.do" onsubmit="return fn_search();">
-            &nbsp;<input type="text" class="form-control focus-hyelin border0-hyelin" id="productKey" placeholder="${param.pageSearch }" name="searchKeyword" size="10" autocomplete="off">
+            &nbsp;<input type="text" class="form-control focus-hyelin border0-hyelin" id="productKey" placeholder="${param.pageSearch }" name="searchKeyword" size="18" autocomplete="off">
             <button type="submit" class="btn btn-transparent-hyelin border0-hyelin focus-hyelin"> <img src="${pageContext.request.contextPath }/resources/img/magnifier.png" alt="" /></button>
 
           	<ul id="autoComplete"></ul>
@@ -672,7 +717,7 @@ function onMessage(evt){
 </script>
 <script>
 $(function(){	
-	if($("#popupFlag") =='1'){
+	if($("#popupFlag").val() =='1'){
 		console.log("ttt"+$("#popupFlag"));
 		sock.send("신상품업로드!@#");		
 	}

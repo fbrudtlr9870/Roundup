@@ -23,11 +23,12 @@ import com.proj.rup.member.model.vo.Address;
 import com.proj.rup.member.model.vo.Member;
 import com.proj.rup.member.model.vo.MemberAddress;
 import com.proj.rup.product.model.vo.Product;
+import com.proj.rup.purchase.iamport.IamportClient;
 import com.proj.rup.purchase.model.service.PurchaseService;
 import com.proj.rup.purchase.model.service.PurchaseServiceImpl;
 import com.proj.rup.purchase.model.vo.Purchase;
 import com.proj.rup.purchase.model.vo.PurchaseComplete;
-import com.siot.IamportRestClient.IamportClient;
+
 import com.siot.IamportRestClient.request.CancelData;
 
 @Controller
@@ -78,10 +79,10 @@ public class PurchaseController {
 							@RequestParam(value="product_amount") String product_amount,
 							@RequestParam(value="address") String address, 
 							@RequestParam(value="zip_code") String zip_code,
-							@RequestParam(value="basketNo") String basketNo,
+							@RequestParam(value="basketNo", required=false) String basketNo,
 							@RequestParam(value="membership") int membership,
 							@RequestParam(value="total_price") int total_price,
-							@RequestParam(value="imp_uid", required=false, defaultValue="none") String imp_uid) {
+							@RequestParam(value="imp_uid", required=false) String imp_uid) {
 		
 		// total_price 상품 금액 + 배송비 - 적립금 => 최종 결제 금액
 		logger.debug(product_no+","+member_id+","+product_amount+","+address+","+zip_code+","+basketNo+","+membership+","+total_price+","+imp_uid);
@@ -200,19 +201,15 @@ public class PurchaseController {
 	public String purchaseCancel(@RequestParam(value="imp_uid") String imp_uid) {
 		IamportClient ic = new IamportClient("5698549912038284", "m95q6GPCjLsPaoOhBUBu8rUtTGdKzL9WVfm1WbDfW657uTp6O0AXrvrlbE6LpfHku3mqfZFb6LjAEIHt");
 		String returnmsg = "";
-		
-		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-		System.out.println(ic.cancelPaymentByImpUid(new CancelData(imp_uid, true)));
-		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-		returnmsg = "success";
-		
-	/*	if(ic.cancelPaymentByImpUid(new CancelData(imp_uid, true)) != null) {
+
+
+		if(ic.cancelPaymentByImpUid(new CancelData(imp_uid, true)) != null) {
 			returnmsg = "success";
 			purchaseService.deletePurchaseComplete(imp_uid);
 			purchaseService.deletePurchase(imp_uid);
 		} else {
 			returnmsg = "fail";
-		}*/
+		}
 		
 		return returnmsg;
 	}

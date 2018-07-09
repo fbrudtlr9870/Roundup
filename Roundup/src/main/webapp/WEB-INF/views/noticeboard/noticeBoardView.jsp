@@ -10,6 +10,10 @@
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
+<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+	<sec:authentication property="principal.username" var="admin_id"/>
+	<sec:authentication property="principal.member_name" var="admin_name"/>
+</sec:authorize>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="게시물-상세보기" name="pageTitle"/>
 </jsp:include>
@@ -112,6 +116,13 @@ div#freeBoard-comment img{
 function fn_insertBoard(){
 	location.href="${pageContext.request.contextPath}/noticeboard/insertBoard.do";
 }
+function fn_deleteBoard(){
+	if(confirm("정말로 삭제하시겠습니까?")==true){
+		location.href="${pageContext.request.contextPath}/noticeboard/deleteBoard.do?no=${fboard['notice_board_no']}";
+	}else{
+		return false;
+	}
+}
 </script>
 
 <br /><br /><br />
@@ -128,6 +139,9 @@ function fn_insertBoard(){
 	
 	<div class="freeBoardView-title member">
 		<span>${fboard["member_id"] }</span>
+		<c:if test="${admin_id!=null}">
+		<input type="button" class="btn btn-danger" value="삭제" style="float:right;" onclick="fn_deleteBoard();"  />
+		</c:if>
 	</div>
 	<div id="freeBoard-comment">
 		${fboard["notice_comment"]}
