@@ -176,7 +176,7 @@ $(function(){
 		else if(brandname=="7ELEVEN") rgb="rgb(27,138,95)";
 		else if(brandname=="MINISTOP") rgb="rgb(0,56,148)";
 		else if(brandname=="EMART24") rgb="rgb(255,179,0)";
-		$(this).css("border","2px solid "+rgb);
+		$(this).css("border","2.5px solid "+rgb);
 	},function(){
 		$(this).css("border","1px solid rgba(0,0,0,.125)");
 	});
@@ -255,11 +255,13 @@ $(function() {
     $(".inner").click(function() {
        var inner = document.getElementsByClassName("inner");
        var selectcategory=$("#selectcategory");
+       var selectcategory1=$("#selectcategory1");
        var no=$(this).parent().siblings("input").val();
        for(var i=0; i<inner.length; i++) {
           if(inner[i].parentNode.parentNode.parentNode.className.indexOf('on') != -1) {
              var classname = 'cate0'+(i+1);
             selectcategory.html(inner[i].innerText+","+no);
+            selectcategory1.html(inner[i].innerText);
              inner[i].parentNode.parentNode.parentNode.className = classname;
           }
        }
@@ -274,15 +276,17 @@ $(function() {
  	$(".inner").click(function() {
  		var inner = document.getElementsByClassName("inner");
  		var selectcategory=$("#selectcategory");
+ 		var selectcategory1=$("#selectcategory1");
  		var no=$(this).parent().siblings("input").val();
  		// 이미 선택된 카테고리 해제
  		for(var i=0; i<inner.length; i++) {
  			if(inner[i].parentNode.parentNode.parentNode.className.indexOf('on') != -1) {
  				inner[i].parentNode.parentNode.parentNode.className = 'cate0'+(i+1);
  				selectcategory.html(inner[i].innerText+","+no);
+ 				selectcategory1.html(inner[i].innerText);
  			}
  		}
- 		
+ 		$(this).parent().parent().siblings("ul").children("li").children("span").css("font-size","1em");
  		// 해당 요소가 선택되었음을 의미하는 on class 추가해줌
  		$(this).parents("li").addClass('on');
 	});
@@ -299,20 +303,26 @@ $(function() {
                    .css("overflow", "visible");       
     });
     var selectcategory=$("#selectcategory");
+    var selectcategory1=$("#selectcategory1");
     $(".thirdli").on("click",function(event){
        console.log($(this).find("li").text());
        selectcategory.html(">>"+$(this).find("li").text()+","+$(this).find("input").val());
+       selectcategory1.html(">>"+$(this).find("li").text());
        event.stopPropagation();
         //ie8이하 브라우져
         event.cancelBubble = true;
         //preventDefault(); - w3school
         $(".layer_more_cate").css("opacity", "0")
             .css("overflow", "hidden"); 
+        $(this).parent().parent().children("span").css("font-size","1em");
     });
     
     $(".secondli").on("click",function(){
        console.log($(this).children("span").text());
        selectcategory.html(">"+$(this).children("span").text()+","+$(this).find("input").val());
+       selectcategory1.html(">"+$(this).children("span").text());
+       $(this).children("span").css("font-size","1.5em");
+       $(this).siblings().children("span").css("font-size","1em");
     });
     
 });
@@ -405,6 +415,7 @@ ul.category-hyelin li label {
 /* 검색페이지 - 카테고리 및 가격대 검색 */
 .search_result_cate {margin-bottom:13px; width: 620px;}
 /* 검색페이지 - 카테고리 */
+#selectcategory{display:none;}
 .search__list_category:after {display:block;clear:both;content:'';}
 .search__list_category .list_cate {float:left;min-height:49px;padding-left: 0;}
 .search__list_category .list_cate > li {float:left;width:100%;}
@@ -564,6 +575,7 @@ ul.category-hyelin li label {
             </div>
          </div> 
          <div id="selectcategory"></div>
+         <div id="selectcategory1"></div>
       </td>
    </tr>
    <tr>

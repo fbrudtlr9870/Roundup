@@ -46,6 +46,7 @@ ul#autoComplete{
 	background:rgb(255,192,203);
 	border-radius: 5px 5px 10px 10px;
 	border:2px solid rgb(1,71,131);
+	z-index:2000;
 }
 ul#autoComplete li{
 	padding:10px;
@@ -56,6 +57,16 @@ ul#autoComplete li.sel{
 	right:30px;
 	border-radius: 10px 10px 10px 10px;
 }
+.mediaadd{
+	text-align: center;
+}
+/* 
+@media screen and (max-width:511px){
+	ul#autoComplete{
+		min-width:500px;
+		background:rgb(0,0,0);
+	}
+} */
 span.srchval{
 	color:red;
 }

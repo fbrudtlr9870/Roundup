@@ -151,8 +151,7 @@ function validate(str){
 	var member_name = $("#member_name_").val().trim();
 	/* var member_birthday = $("#member_birthday_").val().trim(); */
 	var member_phone = $("#member_phone_").val().trim();
-	
-	
+
 	var regExp = /^[가-힣]{2,8}$/;
 	var regExp0 = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
 	var regExp1 = /^[a-z]{4,8}$/;
