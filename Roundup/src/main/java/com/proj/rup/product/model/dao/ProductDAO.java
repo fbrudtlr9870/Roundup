@@ -100,7 +100,7 @@ public interface ProductDAO {
 	Map<String,Object> selectProductFileOne();
 
 
-	Product productView(int product_no);
+	Product productView(int productNo);
 
 
 	int updateProduct(Product p);

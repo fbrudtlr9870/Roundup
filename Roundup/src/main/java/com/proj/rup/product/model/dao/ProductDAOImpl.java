@@ -216,8 +216,8 @@ public class ProductDAOImpl implements ProductDAO {
 
 
 	@Override
-	public Product productView(int product_no) {
-		return session.selectOne("product.productView",product_no);
+	public Product productView(int productNo) {
+		return session.selectOne("product.productView",productNo);
 	}
 
 

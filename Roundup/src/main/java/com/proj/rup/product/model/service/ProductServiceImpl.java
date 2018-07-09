@@ -195,8 +195,8 @@ public class ProductServiceImpl<ProductVO> implements ProductService {
 
 
 	@Override
-	public Product productView(int product_no) {
-		return productDAO.productView(product_no);
+	public Product productView(int productNo) {
+		return productDAO.productView(productNo);
 	}
 
 

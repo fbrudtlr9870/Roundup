@@ -428,9 +428,9 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/product/productView.do")
-	public ModelAndView productView(@RequestParam("product_no") int product_no) {
+	public ModelAndView productView(@RequestParam("productNo") int productNo) {
 		ModelAndView mav = new ModelAndView();
-		Product p = productService.productView(product_no);
+		Product p = productService.productView(productNo);
 		List<Brand> brandList = productService.selectBrandList();
 		List<Category> categoryList = productService.selectCategoryList();
 		
