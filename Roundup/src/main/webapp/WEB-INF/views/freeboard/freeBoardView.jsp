@@ -559,6 +559,7 @@ $(function(){
 </script>
 <script>
 function fn_deleteComment(element){
+
 	   var comment_no = element.nextSibling.nextSibling.value;
 
 	   if(confirm("정말로 삭제하시겠습니까?")==true){
