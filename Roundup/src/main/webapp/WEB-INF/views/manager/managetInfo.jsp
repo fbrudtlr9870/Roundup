@@ -145,163 +145,43 @@ div.mypage{
 			</div>
 		</nav>
 
-		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"> </main>
+		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+			<canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+		
+		 </main>
 	</div>
 </div>
 
-<script>
-	/* 주소검색api */
-	function sample4_execDaumPostcode() {
-		new daum.Postcode(
-				{
-					oncomplete : function(data) {
-						// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-						// 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
-						// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-						var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
-						var extraRoadAddr = ''; // 도로명 조합형 주소 변수
-						// 법정동명이 있을 경우 추가한다. (법정리는 제외)
-						// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-						if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-							extraRoadAddr += data.bname;
-						}
-						// 건물명이 있고, 공동주택일 경우 추가한다.
-						if (data.buildingName !== '' && data.apartment === 'Y') {
-							extraRoadAddr += (extraRoadAddr !== '' ? ', '
-									+ data.buildingName : data.buildingName);
-						}
-						// 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-						if (extraRoadAddr !== '') {
-							extraRoadAddr = ' (' + extraRoadAddr + ')';
-						}
-						// 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
-						if (fullRoadAddr !== '') {
-							fullRoadAddr += extraRoadAddr;
-						}
-						// 우편번호와 주소 정보를 해당 필드에 넣는다.
-						document.getElementById('sample4_postcode').value = data.zonecode; //5자리 새우편번호 사용
-						document.getElementById('sample4_roadAddress').value = fullRoadAddr;
-						document.getElementById('sample4_jibunAddress').value = data.jibunAddress;
-
-						console.log($("#sample4_postcode"));
-						// 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-						if (data.autoRoadAddress) {
-							//예상되는 도로명 주소에 조합형 주소를 추가한다.
-							var expRoadAddr = data.autoRoadAddress
-									+ extraRoadAddr;
-							document.getElementById('guide').innerHTML = '(예상 도로명 주소 : '
-									+ expRoadAddr + ')';
-						} else if (data.autoJibunAddress) {
-							var expJibunAddr = data.autoJibunAddress;
-							document.getElementById('guide').innerHTML = '(예상 지번 주소 : '
-									+ expJibunAddr + ')';
-						} else {
-							document.getElementById('guide').innerHTML = '';
-						}
-					}
-				}).open();
-	}
-	$(function() {
-		$("#password_chk").blur(function() {
-			var p1 = $("#member_password_").val();
-			var p2 = $(this).val();
-			if (p1 != p2) {
-				alert("패스워드가 일치하지 않습니다.");
-				$("#member_password_").focus();
-			}
-			;
-		});
-
-		$("#member_id_").on("keyup", function() {
-			var member_id = $(this).val().trim();
-			if (member_id.length < 4) {
-				$(".guide").hide();
-				$("#idDuplicateCheck").val(0);
-				return;
-			}
-
-			$.ajax({
-				url : "checkIdDuplicate.do",
-				data : {
-					member_id : member_id
-				},
-				dataType : "json",
-				success : function(data) {
-					console.log(data);//{isUsable: false}
-					if (data.isUsable == true) {
-						$(".guide.error").hide();
-						$(".guide.ok").show();
-						$("#idDuplicateCheck").val(1);
-					} else {
-						$(".guide.error").show();
-						$(".guide.ok").hide();
-						$("#idDuplicateCheck").val(0);
-					}
-				},
-				error : function(jqxhr, textStatus, errorThrown) {
-					console.log("ajax실패", jqxhr, textStatus, errorThrown);
-
-				}
-
-			});
-
-		});
-	});
-	/*
-	 * 유효성검사함수
-	 */
-	function validate(str) {
-		var member_id = $("#member_id_");
-		var member_password = $("#member_password_");
-		var member_name = $("#member_name_");
-		var member_birthday = $("#member_birthday_");
-		var member_phone = $("#member_phone_")
-
-		if (member_id.val().trim().length < 4
-				|| member_id.val().trim().length >= 12) {
-			alert("아이디는 최소4자리이상 12자 미만여야 합니다");
-			member_id.focus();
-			return false;
-		}
-
-		if (member_password.val().trim().length < 4
-				|| member_password.val().trim().length > 8) {
-			alert("비밀번호는 최소4자리이상이거나 8자리 미만여야 합니다.");
-			member_password.focus();
-			return false;
-		}
-
-		if (member_name.val().trim().length > 8) {
-			alert("이름을 8글자 미만로 적어주세요");
-			return false;
-		}
-
-		if (member_name.val().indexOf(" ") >= 0) {
-			alert("이름에 공백을 사용할 수 없습니다.")
-			document.member_name_.focus()
-			document.member_name_.select()
-			return false;
-		}
-
-		return true;
-	}
-	$(function() {
-		var memberAddress = "${memberAddress.address}";
-		var address = memberAddress.split("#");
-		console.log(memberAddress);
-		console.log(address);
-		$("#sample4_roadAddress").val(address[0]);
-		$("#sample4_jibunAddress").val(address[1]);
-		$("#sample4_detailAddress").val(address[2]);
-	});
-	function deleteMember(member_id) {
-		if (confirm("탈퇴하시겠습니까?")) {
-			location.href = "${pageContext.request.contextPath}/member/memberDelete.do?member_id="
-					+ member_id;
-		} else {
-			return;
-		}
-	}
-</script>
+ <!-- Graphs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script>
+      var ctx = document.getElementById("myChart");
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          datasets: [{
+            data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
+            lineTension: 0,
+            backgroundColor: 'transparent',
+            borderColor: '#007bff',
+            borderWidth: 4,
+            pointBackgroundColor: '#007bff'
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: false
+              }
+            }]
+          },
+          legend: {
+            display: false,
+          }
+        }
+      });
+    </script>
  
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

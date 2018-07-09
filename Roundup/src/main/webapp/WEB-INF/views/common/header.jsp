@@ -12,15 +12,13 @@
 <meta charset="UTF-8">
 <title>${param.pageTitle }</title>
 <style>
+
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
     color: #fff;
     background: #5c83ad;
     width:80px;
 }
-.nav-item{
-	margin-left:20px;
-	margin-right:20px;
-}
+
 .nav-fill .nav-item {
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
@@ -46,8 +44,17 @@ img#chat-icon{
 	list-style:none;
 }
 .nav-master>a {
-    font-size: 18px;
+    font-size: 16px;
     color: #f5f2f2!important;
+}
+
+
+@media (min-width: 1000px)
+.navbar-expand-md {
+    -ms-flex-flow: row nowrap;
+    flex-flow: row nowrap;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
 }
 </style>
 
@@ -65,6 +72,7 @@ img#chat-icon{
 <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script> -->
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
+
 
 <!-- 메타값 -->
 <meta name="_csrf" content="${_csrf.token}"/> 
@@ -87,18 +95,16 @@ img#chat-icon{
 <div id="main-container">
 <!-- navigation bar start-->
 <nav class="navbar navbar-expand-md navbar-dark fixed-top nav-master">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="${pageContext.request.contextPath }">
 		    <img src="${pageContext.request.contextPath }/resources/img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
-		    RoundUP
+		    RUP
 		  </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="${pageContext.request.contextPath }">Home <span class="sr-only">(current)</span></a>
-            </li>
+            
            <!--  <div class="btn-group dropright">
 			  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			    MENU
@@ -111,7 +117,7 @@ img#chat-icon{
 			  </div>
 			</div> -->
             <li class="nav-item dropdown">
-		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		        <a class="nav-link dropdown-toggle" style="font-size:14px;" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		          Category
 		        </a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -125,7 +131,7 @@ img#chat-icon{
 		        </div>
 		    </li>
 		    <li class="nav-item dropdown">
-		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		        <a class="nav-link dropdown-toggle" style="font-size:14px;" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		          Event
 		        </a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -137,10 +143,10 @@ img#chat-icon{
 		        </div>
 		    </li>
             <li class="nav-item">
-              <a class="nav-item nav-link" href="${pageContext.request.contextPath }/noticeboard/noticeBoardList.do">Notice</a>
+              <a class="nav-item nav-link" style="font-size:14px;" href="${pageContext.request.contextPath }/noticeboard/noticeBoardList.do">Notice</a>
             </li>
             <li class="nav-item">
-              <a class="nav-item nav-link" href="${pageContext.request.contextPath }/freeboard/freeBoardList.do">FreeBoard</a>
+              <a class="nav-item nav-link" style="font-size:14px;" href="${pageContext.request.contextPath }/freeboard/freeBoardList.do">FreeBoard</a>
             </li>
           </ul>
           <form class="form-inline mt-2 mt-md-0" action="${pageContext.request.contextPath }/product/productSearch.do" onsubmit="return fn_search();">

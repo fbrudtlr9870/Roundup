@@ -116,6 +116,16 @@ div.mypage{
 .btnBuy {
    width: 100%;
 }
+.container-fluid-master{
+	position:relative;
+	top:38px;
+	min-height:1000px;
+}
+.nav-item-my>a{
+	font-size:22px;
+	font-family: 'Do Hyeon', sans-serif;
+}
+
 </style>
 
 <div class="container-fluid-master">

@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="편의점마스터" name="pageTitle"/>
 </jsp:include>
@@ -13,6 +14,11 @@
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
 <style>
+.container-fluid-master{
+	position:relative;
+	top:38px;
+	min-height:1000px;
+}
 div#questionView-container{
 	width:640px;
 	min-height:500px;
@@ -76,7 +82,10 @@ div.mypage{
 .col-sm-3 {
     max-width: 200px;
 }
-
+.nav-item-my>a{
+	font-size:25px;
+	font-family: 'Do Hyeon', sans-serif;
+}
 </style>
 <script>
 function fn_insertQuestion(){
@@ -85,111 +94,98 @@ function fn_insertQuestion(){
 
 </script>
 <div class="container-fluid-master">
-      <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-          <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-              <li class="nav-item-my">
-                <a class="nav-link active" href="${pageContext.request.contextPath }/manager/managerPage.do">
-                  <span data-feather="home"></span>
-                  Home <span class="sr-only">(current)</span>
-                </a>
-              </li>
-              <li class="nav-item-my">
-                <a class="nav-link" href="${pageContext.request.contextPath }/manager/memberManagement.do">
-                  <span data-feather="file"></span>
-                  회원관리
-                </a>
-              </li>
-              <li class="nav-item-my">
-                <a class="nav-link" href="${pageContext.request.contextPath }/manager/deletedMember.do">
-                  <span data-feather="shopping-cart"></span>
-                  탈퇴회원목록
-                </a>
-              </li>
-              <li class="nav-item-my">
-                <a class="nav-link" href="${pageContext.request.contextPath }/product/productEnroll.do">
-                  <span data-feather="users"></span>
-                  상품등록
-                </a>
-              </li>
-              <li class="nav-item-my">
-              <!-- wnth지워주세염 -->
-                <a class="nav-link" href="${pageContext.request.contextPath }/product/allProductList.do">
-                  <span data-feather="bar-chart-2"></span>
-                  전체상품
-                </a>
-              </li>
-              <li class="nav-item-my">
-              <!-- wnth지워주세염 -->
-                <a class="nav-link" href="${pageContext.request.contextPath }/manager/managerPurchaseComplete.do">
-                  <span data-feather="bar-chart-2"></span>
-                 전체구매내역
-                </a>
-              </li>
-              <li class="nav-item-my">
-              <!-- wnth지워주세염 -->
-                <a class="nav-link" href="${pageContext.request.contextPath }/manager/managerPurchaseCancel.do">
-                  <span data-feather="bar-chart-2"></span>
-                 전체취소내역
-                </a>
-              </li>
-              <li class="nav-item-my">
-              <!-- wnth지워주세염 -->
-                <a class="nav-link" href="${pageContext.request.contextPath }/manager/managerQuestion.do">
-                  <span data-feather="bar-chart-2"></span>
-                 1:1문의
-                </a>
-              </li>
-              
-            </ul>
-          </div>
-        </nav>
-
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-
-				<div class="mypage container">
 	<div class="row">
-	  <div class="col-8">
-	    <div class="tab-content" id="nav-tabContent">
-	      <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-question-list">
-				<div id="questionView-container">
-					<div class="questionView-title title">
-						<div style="float:left;">
-							<span>${question["question_title"]}</span>
-							| 1:1문의
+		<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+			<div class="sidebar-sticky">
+				<ul class="nav flex-column">
+					<li class="nav-item-my"><a class="nav-link active"
+						href="${pageContext.request.contextPath }/manager/managerPage.do">
+							<span data-feather="home"></span> Home <span class="sr-only">(current)</span>
+					</a></li>
+					<li class="nav-item-my"><a class="nav-link"
+						href="${pageContext.request.contextPath }/manager/memberManagement.do">
+							<span data-feather="file"></span> 회원관리
+					</a></li>
+					<li class="nav-item-my"><a class="nav-link"
+						href="${pageContext.request.contextPath }/manager/deletedMember.do">
+							<span data-feather="shopping-cart"></span> 탈퇴회원목록
+					</a></li>
+					<li class="nav-item-my"><a class="nav-link"
+						href="${pageContext.request.contextPath }/product/productEnroll.do">
+							<span data-feather="users"></span> 상품등록
+					</a></li>
+					<li class="nav-item-my">
+						<!-- wnth지워주세염 --> <a class="nav-link"
+						href="${pageContext.request.contextPath }/product/allProductList.do">
+							<span data-feather="bar-chart-2"></span> 전체상품
+					</a>
+					</li>
+					<li class="nav-item-my">
+						<!-- wnth지워주세염 --> <a class="nav-link"
+						href="${pageContext.request.contextPath }/manager/managerPurchaseComplete.do">
+							<span data-feather="bar-chart-2"></span> 전체구매내역
+					</a>
+					</li>
+					<li class="nav-item-my">
+						<!-- wnth지워주세염 --> <a class="nav-link"
+						href="${pageContext.request.contextPath }/manager/managerPurchaseCancel.do">
+							<span data-feather="bar-chart-2"></span> 전체취소내역
+					</a>
+					</li>
+					<li class="nav-item-my">
+						<!-- wnth지워주세염 --> <a class="nav-link"
+						href="${pageContext.request.contextPath }/manager/managerQuestion.do">
+							<span data-feather="bar-chart-2"></span> 1:1문의
+					</a>
+					</li>
+
+				</ul>
+			</div>
+		</nav>
+
+		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+		<div class="mypage container">
+			<div class="row">
+				<div class="col-8">
+					<div class="tab-content" id="nav-tabContent">
+						<div class="tab-pane fade show active" id="list-home"
+							role="tabpanel" aria-labelledby="list-question-list">
+							<div id="questionView-container">
+								<div class="questionView-title title">
+									<div style="float: left;">
+										<span>${question["question_title"]}</span> | 1:1문의
+									</div>
+									<div style="float: right;">
+										${question["question_reg_date"] }</div>
+								</div>
+
+								<div class="questionView-title member">
+									<span>${question["member_id"] }</span>
+								</div>
+								<br />
+								<br />
+								<div id="questionView-comment">
+									${question["question_comment"]}</div>
+
+
+							</div>
+							<br /> <input type="button" class="btn btn-light" value="답변하기"
+								style="float: left;" onclick="fn_insertQuestion();" />
 						</div>
-						<div style="float:right;">
-							${question["question_reg_date"] }
-						</div>
 					</div>
-					
-					<div class="questionView-title member">
-						<span>${question["member_id"] }</span>
-					</div>
-					<br /><br />
-					<div id="questionView-comment">
-						${question["question_comment"]}
-					</div>
-				
-					
 				</div>
-				<br />
-				<input type="button" class="btn btn-light" value="답변하기" style="float:left;" onclick="fn_insertQuestion();"  />
 			</div>
 		</div>
+
+
+
+
+
+
+		</main>
 	</div>
 </div>
-</div>
-      
-			
-	      	
-	 
-        
-         
-        </main>
-      </div>
-    </div>
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

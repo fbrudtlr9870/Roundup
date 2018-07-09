@@ -221,7 +221,7 @@ $(function(){
 							<br />
 							<div id="product-container">
 
-								<form action="productEnrollEnd.do" name="productFrm"
+								<form action="productUpdate.do" name="productFrm"
 									method="post" enctype="multipart/form-data"
 									onsubmit="return validate();">
 									<input type="hidden" name="${_csrf.parameterName}"
@@ -232,14 +232,14 @@ $(function(){
 										</div>
 										<input type="text" class="form-control" name="productName"
 											aria-label="Default"
-											aria-describedby="inputGroup-sizing-default">
+											aria-describedby="inputGroup-sizing-default" value="${product.productName }">
 									</div>
 									<div class="input-group mb-3">
 										<div class="input-group-prepend">
 											<span class="input-group-text" id="inputGroup-sizing-default">등록자</span>
 										</div>
 										<input type="text" class="form-control" name="memberId"
-											aria-label="Default" value="${admin_id }"
+											aria-label="Default" value="${product.memberId }"
 											aria-describedby="inputGroup-sizing-default" readonly>
 									</div>
 									<div class="input-group mb-3">
@@ -280,7 +280,7 @@ $(function(){
 										</div>
 										<input type="number" class="form-control" name="price"
 											step="100" aria-label="Default"
-											aria-describedby="inputGroup-sizing-default">
+											aria-describedby="inputGroup-sizing-default" value="${product.price }">
 									</div>
 									<div class="input-group mb-3">
 										<div class="input-group-prepend">
@@ -288,14 +288,14 @@ $(function(){
 										</div>
 										<div class="custom-file">
 											<input type="file" class="custom-file-input" name="upFile"
-												id="inputGroupFile01"> <label
+												id="inputGroupFile01" value="${product.originalFileName }"> <label
 												class="custom-file-label" id="chooseFile"
-												for="inputGroupFile01">Choose file</label>
+												for="inputGroupFile01">${product.originalFileName }</label>
 										</div>
 									</div>
 									<div class="btn-group">
-										<button type="reset" class="btn btn-outline-primary">초기화</button>
-										<button type="submit" class="btn btn-outline-primary">상품등록</button>									
+										<button type="button" class="btn btn-outline-primary">삭제</button>
+										<button type="submit" class="btn btn-outline-primary">수정</button>									
 									</div>
 								</form>
 							</div>

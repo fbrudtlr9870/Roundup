@@ -89,6 +89,7 @@ div#main-container{
     top:38px;
     margin-bottom: 50px;
 }
+
 /* nav.nav-bar{
     width:980px;
     height:150px;
@@ -305,11 +306,10 @@ div#chatting-content{
 }
 
 .nav-item{
-	margin-left:10px;
-	margin-right:10px;
+	
 }
 .nav-item>a{
-    font-size: 18px;
+    font-size: 17px;
     color: white;
 }
 

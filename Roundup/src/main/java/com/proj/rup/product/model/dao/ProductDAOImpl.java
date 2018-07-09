@@ -41,11 +41,7 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 
     
-    //상품수정
-    @Override
-    public void updateProduct(Product vo) {
-    	session.update("product.updateProduct", vo);
-    }
+  
     //상품삭제
     @Override
     public void deleteProduct(int productId) {
@@ -217,6 +213,31 @@ public class ProductDAOImpl implements ProductDAO {
 		// TODO Auto-generated method stub
 		return session.selectOne("product.selectProductFileOne");
 	}
+
+
+	@Override
+	public Product productView(int product_no) {
+		return session.selectOne("product.productView",product_no);
+	}
+
+
+	@Override
+	public int updateProduct(Product p) {
+		return session.update("product.updateProduct",p);
+	}
+
+
+	@Override
+	public int updateProductCategory(Map<String, Integer> map) {
+		return session.update("product.updateProductCategory",map);
+	}
+
+
+	@Override
+	public int updateProductFile(Product_File pf) {
+		return session.update("product.updateProductFile",pf);
+	}
+
 
 
 	
