@@ -26,11 +26,7 @@ public class ProductServiceImpl<ProductVO> implements ProductService {
 		return productDAO.productSearch(searchKeyword); //여기를 어떻게 고쳐야할지...고민이 됨.
 	}
 
-    //상품수정
-    @Override
-    public void updateProduct(Product vo) {
-    	productDAO.updateProduct(vo);
-    }
+   
     //상품삭제
     @Override
     public void deleteProduct(int productId) {
@@ -197,6 +193,50 @@ public class ProductServiceImpl<ProductVO> implements ProductService {
 		return productDAO.selectProductFileOne();
 	}
 
+
+	@Override
+	public Product productView(int product_no) {
+		return productDAO.productView(product_no);
+	}
+
+
+	@Override
+	public int updateProduct(Product p, Product_File pf) {
+		int result = 0;
+		int categoryLevel=0;
+		try {
+			result = productDAO.updateProduct(p);
+			
+			int productNo = p.getProductNo();
+			
+			if(p.getCategoryNo()>0) {
+				categoryLevel = productDAO.selectCategoryLevel(p.getCategoryNo());
+	
+				Map<String,Integer> map = new HashMap<>();
+				
+				map.put("productNo", productNo);
+				map.put("categoryNo", p.getCategoryNo());
+				map.put("categoryLevel", categoryLevel);
+				
+				if(categoryLevel>0) {
+					result = productDAO.updateProductCategory(map);
+				}
+			}
+			
+			if(pf!=null) {
+				pf.setProductNo(productNo);
+				result = productDAO.updateProductFile(pf);
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+
+	
 
 
 }

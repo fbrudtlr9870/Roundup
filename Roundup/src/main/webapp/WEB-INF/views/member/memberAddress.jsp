@@ -17,7 +17,7 @@
 <style>
 .width980-hyelin {
 	width: 980px;
-	margin: 0 auto;
+	margin: 0;
 }
 .verticalMiddle-hyelin {
 	vertical-align: middle !important;
@@ -34,60 +34,111 @@
 #submitBtn {
 	float: right;
 }
+.container-fluid-master{
+	position:relative;
+	top:38px;
+	min-height:1000px;
+}
 </style>      
-<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-<table class="table width980-hyelin">
-	<tr>
-		<th></th>
-		<th>번호</th>
-		<th>우편번호</th>
-		<th>주소</th>
-		<th>기본 배송지</th>
-	</tr>
-	<c:if test="${not empty list }">
-		<c:forEach var="i" items="${list }" varStatus="vs">
-			<tr>
-				<td class="tbl-td">
-					<input type="radio" name="addrCheck" id="addr${i.address_level}" />
-					<input type="hidden" name="addrLevel" id="addrLevel" value="${i.address_level}"/>
-					<input type="hidden" name="addrNo" id="addrNo" value="${i.address_no}"/>
-				</td>
-				<td class="tbl-td">${vs.count}</td>
-				<td class="tbl-td">${i.zip_code}</td>
-				<td class="tbl-td">
-					<c:set var="address" value="${fn:split(i.address,'#')}" />				
-					<c:forEach var="addr" items="${address}" varStatus="g">
-					     <%-- <c:if test="${g.count % 2 == 1}"> --%>
-					     	${addr} <br />
-					     <%-- </c:if> --%>
-					</c:forEach> 
-				</td>
-				<td class="verticalMiddle-hyelin">
-					<c:if test="${i.address_level == 1}">
-						<img src="${pageContext.request.contextPath}/resources/img/checked.png" alt="" />
-					</c:if>
-				</td>
-			</tr>
-	 	</c:forEach>
-	</c:if>
-	<tr>
-		<td colspan="5">
-			<button type="button" class="btn" id="insertAddr">배송지 추가</button>
-			<button type="button" class="btn" id="deleteAddr">삭제</button>
-			<button type="button" class="btn" id="updateAddr">수정</button>
-			<button type="button" class="btn" id="defaultAddr">기본배송지 설정</button> <br /> <br />
-			<div id="addressInfo">
-			<input type="text" class="form-control inline-hyelin addr" id="sample4_postcode" placeholder="우편번호" style="width: 120px;" required readonly>
-			<input type="button" class="btn btn-light" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" size="35px"><br> 
-			<input type="text" class="form-control addr" id="sample4_roadAddress" placeholder="도로명 주소" required readonly> 
-			<input type="text" class="form-control addr" id="sample4_jibunAddress" placeholder="지번 주소">
-			<input type="text" class="form-control addr" id="sample4_detailAddress" placeholder="상세 주소" required/>
-			<span id="guide" style="color: #999"></span>
-			<button type="button" class="btn" id="submitBtn">저장</button>
+<div class="container-fluid-master">
+	<div class="row">
+		<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+			<div class="sidebar-sticky">
+				<ul class="nav flex-column">
+					<li class="nav-item-my"><a class="nav-link active"
+						href="${pageContext.request.contextPath }/member/myPage.do?member_id=${member_id }">
+							<span data-feather="home"></span> My Page <span class="sr-only">(current)</span>
+					</a></li>
+					<li class="nav-item-my"><a class="nav-link"
+						href="${pageContext.request.contextPath }/member/myPageMemberView.do?member_id=${member_id }">
+							<span data-feather="file"></span> 내정보
+					</a></li>
+					<li class="nav-item-my"><a class="nav-link"
+						href="${pageContext.request.contextPath }/member/myPageBasket.do?member_id=${member_id }">
+							<span data-feather="shopping-cart"></span> 장바구니
+					</a></li>
+					<li class="nav-item-my"><a class="nav-link"
+						href="${pageContext.request.contextPath }/member/myPagePurchaseComplete.do?member_id=${member_id }">
+							<span data-feather="users"></span> 구매내역
+					</a></li>
+					<li class="nav-item-my">
+						<!-- wnth지워주세염 --> <a class="nav-link"
+						href="${pageContext.request.contextPath}/member/selectMemberAddress.do?member_id=${member_id}">
+							<span data-feather="bar-chart-2"></span> 주소록관리
+					</a>
+					</li>
+					<li class="nav-item-my">
+						<!-- wnth지워주세염 --> <a class="nav-link"
+						href="${pageContext.request.contextPath }/member/myPageQuestion.do?member_id=${member_id }">
+							<span data-feather="bar-chart-2"></span> 1:1문의
+					</a>
+					</li>
+
+				</ul>
 			</div>
-		</td>
-	</tr>
-</table>
+		</nav>
+
+		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h3>주소록관리</h3>
+            
+          </div> 
+			<table class="table width980-hyelin">
+				<tr>
+					<th></th>
+					<th>번호</th>
+					<th>우편번호</th>
+					<th>주소</th>
+					<th>기본 배송지</th>
+				</tr>
+				<c:if test="${not empty list }">
+					<c:forEach var="i" items="${list }" varStatus="vs">
+						<tr>
+							<td class="tbl-td">
+								<input type="radio" name="addrCheck" id="addr${i.address_level}" />
+								<input type="hidden" name="addrLevel" id="addrLevel" value="${i.address_level}"/>
+								<input type="hidden" name="addrNo" id="addrNo" value="${i.address_no}"/>
+							</td>
+							<td class="tbl-td">${vs.count}</td>
+							<td class="tbl-td">${i.zip_code}</td>
+							<td class="tbl-td">
+								<c:set var="address" value="${fn:split(i.address,'#')}" />				
+								<c:forEach var="addr" items="${address}" varStatus="g">
+								     <%-- <c:if test="${g.count % 2 == 1}"> --%>
+								     	${addr} <br />
+								     <%-- </c:if> --%>
+								</c:forEach> 
+							</td>
+							<td class="verticalMiddle-hyelin">
+								<c:if test="${i.address_level == 1}">
+									<img src="${pageContext.request.contextPath}/resources/img/checked.png" alt="" />
+								</c:if>
+							</td>
+						</tr>
+				 	</c:forEach>
+				</c:if>
+				<tr>
+					<td colspan="5">
+						<button type="button" class="btn" id="insertAddr">배송지 추가</button>
+						<button type="button" class="btn" id="deleteAddr">삭제</button>
+						<button type="button" class="btn" id="updateAddr">수정</button>
+						<button type="button" class="btn" id="defaultAddr">기본배송지 설정</button> <br /> <br />
+						<div id="addressInfo">
+						<input type="text" class="form-control inline-hyelin addr" id="sample4_postcode" placeholder="우편번호" style="width: 120px;" required readonly>
+						<input type="button" class="btn btn-light" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" size="35px"><br> 
+						<input type="text" class="form-control addr" id="sample4_roadAddress" placeholder="도로명 주소" required readonly> 
+						<input type="text" class="form-control addr" id="sample4_jibunAddress" placeholder="지번 주소">
+						<input type="text" class="form-control addr" id="sample4_detailAddress" placeholder="상세 주소" required/>
+						<span id="guide" style="color: #999"></span>
+						<button type="button" class="btn" id="submitBtn">저장</button>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</main>
+	</div>
+</div>
+
 <script>
 //우편번호 검색 api
 function sample4_execDaumPostcode() {

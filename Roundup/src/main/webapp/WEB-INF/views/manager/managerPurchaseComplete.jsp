@@ -16,6 +16,7 @@
 <script src="${pageContext.request.contextPath }/resources/js/code/highcharts.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/code/modules/exporting.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/code/modules/export-data.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
 <sec:authorize access="hasAnyRole('ROLE_USER')">
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
@@ -60,8 +61,8 @@ div#btnDiv {
 	text-align: center;
 }
 div.mypage{
-	width:980px;
-	margin:0 auto;
+	width:100%;
+	margin:0;
 	
 	min-height:780px;
 }
@@ -89,7 +90,7 @@ div.mypage{
 }
 
 .table{
-	width:780px;
+	width:100%;
 	font-size:13.5px;
 }
 
@@ -99,7 +100,15 @@ div.mypage{
 .chart-master{
 	width:780px;
 }
-
+.nav-item-my>a{
+	font-size:20px;
+	font-family: 'Do Hyeon', sans-serif;
+}
+.container-fluid-master{
+	position:relative;
+	top:38px;
+	min-height:1000px;
+}
 </style>
 
 <sec:authorize access="hasAnyRole('ROLE_USER')">
@@ -107,172 +116,152 @@ div.mypage{
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
 <div class="container-fluid-master">
-      <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-          <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-              <li class="nav-item-my">
-                <a class="nav-link active" href="${pageContext.request.contextPath }/manager/managerPage.do">
-                  <span data-feather="home"></span>
-                  Home <span class="sr-only">(current)</span>
-                </a>
-              </li>
-              <li class="nav-item-my">
-                <a class="nav-link" href="${pageContext.request.contextPath }/manager/memberManagement.do">
-                  <span data-feather="file"></span>
-                  회원관리
-                </a>
-              </li>
-              <li class="nav-item-my">
-                <a class="nav-link" href="${pageContext.request.contextPath }/manager/deletedMember.do">
-                  <span data-feather="shopping-cart"></span>
-                  탈퇴회원목록
-                </a>
-              </li>
-              <li class="nav-item-my">
-                <a class="nav-link" href="${pageContext.request.contextPath }/product/productEnroll.do">
-                  <span data-feather="users"></span>
-                  상품등록
-                </a>
-              </li>
-              <li class="nav-item-my">
-              <!-- wnth지워주세염 -->
-                <a class="nav-link" href="${pageContext.request.contextPath }/product/allProductList.do">
-                  <span data-feather="bar-chart-2"></span>
-                  전체상품
-                </a>
-              </li>
-              <li class="nav-item-my">
-              <!-- wnth지워주세염 -->
-                <a class="nav-link" href="${pageContext.request.contextPath }/manager/managerPurchaseComplete.do">
-                  <span data-feather="bar-chart-2"></span>
-                 전체구매내역
-                </a>
-              </li>
-              <li class="nav-item-my">
-              <!-- wnth지워주세염 -->
-                <a class="nav-link" href="${pageContext.request.contextPath }/manager/managerPurchaseCancel.do">
-                  <span data-feather="bar-chart-2"></span>
-                 전체취소내역
-                </a>
-              </li>
-              <li class="nav-item-my">
-              <!-- wnth지워주세염 -->
-                <a class="nav-link" href="${pageContext.request.contextPath }/manager/managerQuestion.do">
-                  <span data-feather="bar-chart-2"></span>
-                 1:1문의
-                </a>
-              </li>
-              
-            </ul>
-          </div>
-        </nav>
-
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-
-
-      			<div class="mypage container">
 	<div class="row">
-	  <div class="col-8">
-	    <div class="tab-content" id="nav-tabContent">
-	       <h3>전체구매내역</h3>
-	      <div class="tab-pane fade show active" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
-	      <br>
-	       <p class="imsosotired2">총 구매내역 : ${totalContents }개</p>
-	       <!-- 결재내역페이지 시작-->
-	       <div class="step-buy">
-			<%--  <img src="${pageContext.request.contextPath }/resources/img/purchasebar.png" width="780px" height="auto"> --%>
-			
+		<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+			<div class="sidebar-sticky">
+				<ul class="nav flex-column">
+					<li class="nav-item-my"><a class="nav-link active"
+						href="${pageContext.request.contextPath }/manager/managerPage.do">
+							<span data-feather="home"></span> Home <span class="sr-only">(current)</span>
+					</a></li>
+					<li class="nav-item-my"><a class="nav-link"
+						href="${pageContext.request.contextPath }/manager/memberManagement.do">
+							<span data-feather="file"></span> 회원관리
+					</a></li>
+					<li class="nav-item-my"><a class="nav-link"
+						href="${pageContext.request.contextPath }/manager/deletedMember.do">
+							<span data-feather="shopping-cart"></span> 탈퇴회원목록
+					</a></li>
+					<li class="nav-item-my"><a class="nav-link"
+						href="${pageContext.request.contextPath }/product/productEnroll.do">
+							<span data-feather="users"></span> 상품등록
+					</a></li>
+					<li class="nav-item-my">
+						<!-- wnth지워주세염 --> <a class="nav-link"
+						href="${pageContext.request.contextPath }/product/allProductList.do">
+							<span data-feather="bar-chart-2"></span> 전체상품
+					</a>
+					</li>
+					<li class="nav-item-my">
+						<!-- wnth지워주세염 --> <a class="nav-link"
+						href="${pageContext.request.contextPath }/manager/managerPurchaseComplete.do">
+							<span data-feather="bar-chart-2"></span> 전체구매내역
+					</a>
+					</li>
+					<li class="nav-item-my">
+						<!-- wnth지워주세염 --> <a class="nav-link"
+						href="${pageContext.request.contextPath }/manager/managerPurchaseCancel.do">
+							<span data-feather="bar-chart-2"></span> 전체취소내역
+					</a>
+					</li>
+					<li class="nav-item-my">
+						<!-- wnth지워주세염 --> <a class="nav-link"
+						href="${pageContext.request.contextPath }/manager/managerQuestion.do">
+							<span data-feather="bar-chart-2"></span> 1:1문의
+					</a>
+					</li>
+
+				</ul>
 			</div>
-	       <div class="purchase-complete-container">
-	       		<div class="basket-container">
-						<table class="table">
-							<tr>
-								<th>번호</th>
-								<th>구매자</th>
-								<th>상품정보</th>
-								<th>수량</th>
-								<th>결재금액</th>
-								<th>결재일</th>
-								<!-- <th>배송지조회</th> -->
-							</tr>
-							<c:if test="${not empty list }">
-								<c:forEach var="i" items="${list }" varStatus="vs">
-									<tr>
-									
-										<td class="tbl-td">
-										
-											<span>${i['purchase_no']}</span>
-										 
-										</td>
-										<td class="tbl-td">
-										
-											<span>${i["member_id"]}</span>
-										
-										</td>
-										<td class="tbl-td">
-											<div id="tbl-img-row">
-												<img src="${pageContext.request.contextPath }/resources/upload/productFile/${i['renamed_filename']}" alt="" width="auto" height="70px">
-												<span>[${i["brand_name"]}] &nbsp; ${i["product_name"]}</span>
-											</div>
-										</td>
-										<td class="tbl-td">
-											<input type="number" class="form-control number-hyelin" style="width: 70px; margin: 0 auto;" name="product_amount" value="${i['product_amount']}" min="1">
-										</td>
-										<td class="tbl-td">
-											<input type="hidden" value="${i['product_amount']*i['price']}" name="price" id="price"/>
-											<fmt:formatNumber value="${i['product_amount']*i['price']}" type="currency" currencySymbol=""/>원
-										</td>
-										<td class="tbl-td">
-											<span>${i['purchase_date'] }</span>
-										</td>
-										<!-- <td class="tbl-td">
+		</nav>
+
+		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h3>구매내역</h3>
+            
+          </div>
+
+		<div class="mypage container">
+			<div class="row">
+				
+							<br>
+							<p class="imsosotired2">총 구매내역 : ${totalContents }개</p>
+							<!-- 결재내역페이지 시작-->
+							<div class="step-buy">
+								<%--  <img src="${pageContext.request.contextPath }/resources/img/purchasebar.png" width="780px" height="auto"> --%>
+
+							</div>
+							
+									<table class="table">
+										<tr>
+											<th>번호</th>
+											<th>구매자</th>
+											<th>상품정보</th>
+											<th>수량</th>
+											<th>결재금액</th>
+											<th>결재일</th>
+											<!-- <th>배송지조회</th> -->
+										</tr>
+										<c:if test="${not empty list }">
+											<c:forEach var="i" items="${list }" varStatus="vs">
+												<tr>
+
+													<td class="tbl-td"><span>${i['purchase_no']}</span></td>
+													<td class="tbl-td"><span>${i["member_id"]}</span></td>
+													<td class="tbl-td">
+														<div id="tbl-img-row">
+															<img
+																src="${pageContext.request.contextPath }/resources/upload/productFile/${i['renamed_filename']}"
+																alt="" width="auto" height="70px"> <span>[${i["brand_name"]}]
+																&nbsp; ${i["product_name"]}</span>
+														</div>
+													</td>
+													<td class="tbl-td"><input type="number"
+														class="form-control number-hyelin"
+														style="width: 70px; margin: 0 auto;" name="product_amount"
+														value="${i['product_amount']}" min="1"></td>
+													<td class="tbl-td"><input type="hidden"
+														value="${i['product_amount']*i['price']}" name="price"
+														id="price" /> <fmt:formatNumber
+															value="${i['product_amount']*i['price']}" type="currency"
+															currencySymbol="" />원</td>
+													<td class="tbl-td"><span>${i['purchase_date'] }</span>
+													</td>
+													<!-- <td class="tbl-td">
 											<button type="button" class="btn btn-outline-primary" id="searchMap" onclick="searchMap();">조회</button>
 										</td> -->
-									</tr>
-								</c:forEach>
-							</c:if>
-							<c:if test="${empty list }">
-						          <tr>
-						             <td colspan="6">구매내역이 없습니다.</td>
-						          </tr>
-							</c:if>
-						</table>
-						<hr style="width:780px">
-						
-						 <br />
-				<ul class="pagination justify-content-center pagination-sm" style="clear:both; margin-left:140px;">
-	            <!-- 페이지바 -->
-	            <%
-	               int totalContents = Integer.parseInt(String.valueOf(request.getAttribute("totalContents")));
-	               int numPerPage = Integer.parseInt(String.valueOf(request.getAttribute("numPerPage")));
-	               int cPage = 1;
-	               try {
-	                  cPage = Integer.parseInt(request.getParameter("cPage"));
-	               } catch (NumberFormatException e) {
-	
-	               }
-	            %>
-	            <%=com.proj.rup.common.util.Utils.getPageBar(totalContents, cPage, numPerPage, "memberPurchaseComplete.do")%>
-				</ul>
-					</div> 
-	       </div>
+												</tr>
+											</c:forEach>
+										</c:if>
+										<c:if test="${empty list }">
+											<tr>
+												<td colspan="6">구매내역이 없습니다.</td>
+											</tr>
+										</c:if>
+									</table>
+									<hr style="width: 100%">
+
+									<br />
+									<ul class="pagination justify-content-center pagination-sm"
+										style="clear: both;margin:auto;margin-top: 30px;">
+										<!-- 페이지바 -->
+					<%
+						int totalContents = Integer.parseInt(String.valueOf(request.getAttribute("totalContents")));
+						int numPerPage = Integer.parseInt(String.valueOf(request.getAttribute("numPerPage")));
+						int cPage = 1;
+						try {
+							cPage = Integer.parseInt(request.getParameter("cPage"));
+						} catch (NumberFormatException e) {
+
+						}
+					%>
+					<%=com.proj.rup.common.util.Utils.getPageBar(totalContents, cPage, numPerPage, "memberPurchaseComplete.do")%>
+									</ul>
+							
+
+							<!-- 결재내역페이지 끝-->
 					
-	       <!-- 결재내역페이지 끝-->
-	      </div>
-	    </div>
-	  </div> 
+			</div>
+
+		</div>
+
+
+
+
+
+		</main>
 	</div>
-	
 </div>
-			
-	      	
-	 
-        
-         
-        </main>
-      </div>
-    </div>
 
 <br /><br /><br />
 
