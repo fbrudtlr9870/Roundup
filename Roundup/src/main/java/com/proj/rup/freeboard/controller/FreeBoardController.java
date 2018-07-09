@@ -211,7 +211,7 @@ public class FreeBoardController {
 			sb = new StringBuffer();
 			sb.append("&NewLine=true")
 			  .append("&sFileName=").append(originalFileName)
-			  .append("&sFileURL=").append("http://192.168.10.16:9090/rup/resources/upload/freeboard/")
+			  .append("&sFileURL=").append("http://localhost:9090/rup/resources/upload/freeboard/")
 			  .append(renamedFileName);
 			
 			//유저의 인증세션 값 가져오기
@@ -309,9 +309,24 @@ public class FreeBoardController {
 		int result = freeboardService.deleteBoard(no);
 		
 		
-		String loc = "/";
+		String loc = "/freeboard/freeBoardList.do";
 		String msg = "";
 		if(result>0) msg="게시물이 삭제 되었습니다.";
+		else msg="삭제오류가 발생하였습니다.";
+		
+		mav.addObject("loc",loc);
+		mav.addObject("msg",msg);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+	@RequestMapping("/freeboard/deleteComment.do")
+	public ModelAndView deleteComment(@RequestParam(value="no")int no,@RequestParam(value="parent_no")int pno) {
+		ModelAndView mav = new ModelAndView();
+		int result = freeboardService.deleteComment(no);
+				
+		String loc = "/freeboard/freeBoardView.do?no="+pno;
+		String msg = "";
+		if(result>0) msg="댓글이 삭제 되었습니다.";
 		else msg="삭제오류가 발생하였습니다.";
 		
 		mav.addObject("loc",loc);

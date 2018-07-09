@@ -102,5 +102,8 @@
 <delete id="deleteBoard">
 	delete free_board where free_board_no=#{no}
 </delete>
+<delete id="deleteComment">
+	delete tbl_comment where comment_no=#{no}
+</delete>
 
 </mapper>

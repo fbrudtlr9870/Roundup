@@ -40,6 +40,10 @@
 
 </style>
 <div class="container">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">7ELEVEN</h1>
+            
+          </div>
 	<form name="actFrm" id="actFrm" action="" method="post" accept-charset="utf-8">
 		<input type="hidden" name="seqNo" id="seqNo" value="" title="시퀀스 번호">		
 		<input type="hidden" name="intPageSize" id="intPageSize" value="8" title="더보기 클릭시 추가 리스트 수">		

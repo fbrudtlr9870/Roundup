@@ -43,21 +43,10 @@
 </style>
 <br /><br /><br />
 <div class="container">
-
-	<%-- <table class="table event-table-master">
-		<tr>
-			<th>이벤트명</th>
-			<th>이벤트기간</th>
-			<th>이미지</th>
-		</tr>
-		<c:forEach items="${ministopList}" var="e">
-		<tr onclick="location.href='https://www.ministop.co.kr/MiniStopHomePage/page${e['imgsrc']}'" style="cursor:pointer;">
-			<td>${e["title"]}</td>
-			<td>${e["date"]}</td>
-			<td><img src="https://www.ministop.co.kr/MiniStopHomePage/page${e['imgsrc']}" width="100px"></td>
-		</tr>
-		</c:forEach>
-	</table> --%>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">MINISTOP</h1>
+            
+          </div>
 	<div class="container">
 	<div class="card-columns">	
 		<c:forEach items="${ministopList}" var="i" varStatus="vs">

@@ -256,7 +256,7 @@ $(function(){
      
          <!-- 채팅아이콘 -->
             <img src="${pageContext.request.contextPath }/resources/img/chat-icon.png" id="chat-icon"/>
-			<input type="hidden" name="" id="popupFlag" value=${param.flag}/>
+			<input type="hidden" name="" id="popupFlag" value="${param.flag }"/>
             <!-- 채팅 관련 html 시작 -->            
              <div id="chatting-room">
                <input type="hidden" name="member_id" value="${member_id}" />
@@ -722,5 +722,5 @@ $(function(){
 		sock.send("신상품업로드!@#");		
 	}
 
-})
+});
 </script>

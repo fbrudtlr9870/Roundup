@@ -106,6 +106,9 @@ div#freetable_container tr th{
 div#freeBoard-comment img{
 	max-width:550px;
 }
+div#freeBoard-comment{
+	margin:20px;
+}
 </style>
 
 <!-- 글쓰기 상세보기 아래에 넣음 -->
@@ -168,9 +171,10 @@ function fn_deleteBoard(){
 						<input type="hidden" name="parentId" value="${fc['member_id'] }" />
 						<button class="comment-btn" value="${fc['comment_no'] }">답글</button>
 						<c:if test="${member_id eq fc['member_id'] }">	
-						<button type="button" class="close" aria-label="Close" onclick="fn_deleteComment();">
+						<button type="button" class="close" aria-label="Close" onclick="fn_deleteComment(this);">
                    		 <span aria-hidden="true">&times;</span>
               		 	</button>
+              		 	<input type="hidden" name="${fc['comment_no'] }" value="${fc['comment_no'] }" id="comment_no" />
               		 	</c:if>
 	 					<sec:authorize access="hasRole('ROLE_ADMIN')">
               		    <button type="button" class="close" aria-label="Close" id="delete_comment" style="color:red;"
@@ -194,13 +198,14 @@ function fn_deleteBoard(){
 						<input type="hidden" name="parentId" value="${fc['member_id'] }" />
 						<button class="comment-btn-reply" value="${fc['parent_comment'] }">답글</button>
 						<c:if test="${member_id eq fc['member_id']}">
-						<button type="button" class="close" aria-label="Close" id="delete_comment" onclick="fn_deleteComment();">
+						<button type="button" class="close" aria-label="Close" id="delete_comment" onclick="fn_deleteComment(this);">
                    		 <span aria-hidden="true">&times;</span>
               		 	</button>
+              		 	<input type="hidden" name="${fc['comment_no'] }" value="${fc['comment_no'] }" id="comment_no" />
               		 	</c:if>
               		 	<sec:authorize access="hasRole('ROLE_ADMIN')">
               		    <button type="button" class="close" aria-label="Close" id="delete_comment" style="color:red;"
-              		    onclick="fn_deleteComment();" value="${fc['comment_no'] }">
+              		    onclick="fn_deleteComment(this);">
                    		 <span aria-hidden="true">&times;</span>
               		 	</button>
               		 	<input type="hidden" name="${fc['comment_no'] }" value="${fc['comment_no'] }" id="comment_no" />
@@ -557,16 +562,15 @@ $(function(){
 </script>
 <script>
 function fn_deleteComment(element){
-	/* var comment_no = $(this).parent().parent().next().val(); */
-	console.log(element);
-	console.log(element.nextSibling.nextSibling.value);
-	/* console.log($(this).siblings("#comment_no")); */
-	/* if(confirm("정말로 삭제하시겠습니까?")==true){
-		location.href="${pageContext.request.contextPath}/freeboard/deleteComment.do?no="+comment_no;
-	}else{
-		return false;
-	} */
-}
+
+	   var comment_no = element.nextSibling.nextSibling.value;
+
+	   if(confirm("정말로 삭제하시겠습니까?")==true){
+	      location.href="${pageContext.request.contextPath}/freeboard/deleteComment.do?no="+comment_no+"&parent_no=${fboard['free_board_no']}";;
+	   }else{
+	      return false;
+	   }
+	}
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

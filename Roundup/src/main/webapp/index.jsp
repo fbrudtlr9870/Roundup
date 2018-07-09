@@ -269,6 +269,10 @@ $(function(){
       <div class="carousel-item carousel-item-master">
          <img class="third-slide main-event-img-master" src="${pageContext.request.contextPath }/resources/img/resource_img3.jpg" alt="First slide">
       </div>
+      <div class="carousel-item carousel-item-master">
+         <img class="third-slide main-event-img-master" src="${pageContext.request.contextPath }/resources/img/main-display.png" alt="First slide">
+      </div>
+      
    </div>
    <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span>
    </a> <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span>

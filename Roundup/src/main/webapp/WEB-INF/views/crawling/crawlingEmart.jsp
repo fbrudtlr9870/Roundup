@@ -39,20 +39,10 @@
 </style>
 <br /><br /><br />
 <div class="container">
-	<%-- <table class="table event-table-master">
-		<tr>
-			<th>이벤트명</th>
-			<th>이벤트기간</th>
-			<th>이미지</th>
-		</tr>
-		<c:forEach items="${emartCrawlingList}" var="e">
-		<tr onclick="location.href='https://www.emart24.co.kr/service${e['a.href']}'" style="cursor:pointer;">
-			<td>${e["title"]}</td>
-			<td>${e["date"]}</td>
-			<td><img src="http://www.emart24.co.kr/${e['img.src']}" width="100px"></td>
-		</tr>
-		</c:forEach>
-	</table> --%>
+	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">EMART24</h1>
+            
+          </div>
 	<div class="card-columns">	
 		<c:forEach items="${emartCrawlingList}" var="i" varStatus="vs">
 			<div class="card text-white" onclick="window.open('https://www.emart24.co.kr/service${i.href}')">
