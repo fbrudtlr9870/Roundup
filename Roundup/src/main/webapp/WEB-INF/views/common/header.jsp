@@ -106,7 +106,7 @@ $(function(){
 		if(parseInt(w.css("width"))<550){
 			$("#autoComplete").css("text-align","center");
 			$("#autoComplete").css("padding","0");
-			$(".form-control").css("width","auto");
+			$(".searchbar").css("width","auto");
 		}
 	}
 	$(window).resize(function(){
@@ -116,7 +116,7 @@ $(function(){
 			if(parseInt(w.css("width"))<=550){
 				$("#autoComplete").css("text-align","center");
 				//$("#autoComplete").css("margin","0");
-				$(".form-control").css("width","auto");
+				$(".searchbar").css("width","auto");
 			}else{
 				//$("#autoComplete").children("li").css("padding","auto");
 			}
@@ -196,7 +196,7 @@ $(function(){
             </li>
           </ul>
           <form class="form-inline mt-2 mt-md-0" action="${pageContext.request.contextPath }/product/productSearch.do" onsubmit="return fn_search();">
-            &nbsp;<input type="text" class="form-control focus-hyelin border0-hyelin" id="productKey" placeholder="${param.pageSearch }" name="searchKeyword" size="18" autocomplete="off">
+            &nbsp;<input type="text" class="form-control focus-hyelin border0-hyelin searchbar" id="productKey" placeholder="${param.pageSearch }" name="searchKeyword" size="18" autocomplete="off">
             <button type="submit" class="btn btn-transparent-hyelin border0-hyelin focus-hyelin"> <img src="${pageContext.request.contextPath }/resources/img/magnifier.png" alt="" /></button>
 
           	<ul id="autoComplete"></ul>

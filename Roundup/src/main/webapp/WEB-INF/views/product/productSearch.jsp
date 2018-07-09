@@ -599,7 +599,7 @@ ul.category-hyelin li label {
          <div class="card-body">
             <%-- <p>판매량 ${p.purchaseAmount }</p> --%>
             <img src="${pageContext.request.contextPath}/resources/upload/productFile/${p.renamedFileName}" class="prod-img-hyelin">
-            <h5 class="card-title"><span id="brandchk">${p.brandName }</span> ${p.productName }</h5>
+            <h5 class="card-title" ${p.productName.length()>10?"style='font-size:0.5em'":"" }><span id="brandchk">${p.brandName }</span> ${p.productName }</h5>
             <p class="card-text card-text-hyelin inline-hyelin"><fmt:formatNumber value="${p.price }" type="currency" currencySymbol=""/>원
                <c:if test="${searchList.size()>1 }">
                   <c:if test="${p.price>avgprice }">
