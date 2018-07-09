@@ -174,7 +174,7 @@ function fn_deleteBoard(){
               		 	</c:if>
 	 					<sec:authorize access="hasRole('ROLE_ADMIN')">
               		    <button type="button" class="close" aria-label="Close" id="delete_comment" style="color:red;"
-              		    onclick="fn_deleteComment();">
+              		    onclick="fn_deleteComment(this);">
                    		 	<span aria-hidden="true">&times;</span>
               		 	</button>
               		 	<input type="hidden" name="${fc['comment_no'] }" value="${fc['comment_no'] }" id="comment_no" />
@@ -556,10 +556,11 @@ $(function(){
 })
 </script>
 <script>
-function fn_deleteComment(){
-	var comment_no = $(this).parent().parent().next().val();
-	console.log($(this));
-	console.log($(this).siblings("#comment_no"));
+function fn_deleteComment(element){
+	/* var comment_no = $(this).parent().parent().next().val(); */
+	console.log(element);
+	console.log(element.nextSibling.nextSibling.value);
+	/* console.log($(this).siblings("#comment_no")); */
 	/* if(confirm("정말로 삭제하시겠습니까?")==true){
 		location.href="${pageContext.request.contextPath}/freeboard/deleteComment.do?no="+comment_no;
 	}else{

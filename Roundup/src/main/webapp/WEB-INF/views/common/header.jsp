@@ -717,7 +717,7 @@ function onMessage(evt){
 </script>
 <script>
 $(function(){	
-	if($("#popupFlag") =='1'){
+	if($("#popupFlag").val() =='1'){
 		console.log("ttt"+$("#popupFlag"));
 		sock.send("신상품업로드!@#");		
 	}

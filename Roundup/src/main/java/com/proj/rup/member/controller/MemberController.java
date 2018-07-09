@@ -86,6 +86,7 @@ public class MemberController {
 								  @RequestParam(value="sample4_detailAddress") String detail
 									) {
 		Date member_birth = Date.valueOf(member_birthday);
+		
 		Member member = new Member(member_id, member_password, member_name, member_gender, member_birth, member_phone, member_email);
 		if(logger.isDebugEnabled())
 			logger.debug("회원등록처리페이지");
@@ -317,6 +318,7 @@ public class MemberController {
 		
 		if(result>0){ 
 			msg="회원정보수정성공!";
+			loc="/member/myPageMemberView.do?member_id="+member.getMember_id();
 			/*mav.addObject("memberLoggedIn", member);*/
 		}
 		else msg="회원정보수정실패!";

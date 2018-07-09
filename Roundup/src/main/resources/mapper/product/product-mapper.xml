@@ -461,6 +461,7 @@
 	select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level,nvl(pp.purchase_amount,0) as purchase_amount
 	from product p,product_file pf,brand b,category c,product_category pc ,product_purchase pp
 	where p.product_no=pc.product_no 
+	and p.status= 'Y'
 	and p.brand_no=b.brand_no 
 	and p.product_no=pf.product_no 
 	and pc.category_no=c.category_no 
