@@ -33,5 +33,6 @@ public interface NoticeBoardDAO {
 	int insertFile(NoticeBoardFile fbf);
 
 	int deleteuploadPhoto(String username);
-
+	
+	int deleteBoard(int no);
 }

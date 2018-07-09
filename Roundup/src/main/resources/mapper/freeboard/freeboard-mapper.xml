@@ -99,6 +99,8 @@
 <delete id="deleteuploadPhoto">
 	delete uploadPhoto where member_id=#{username}
 </delete>
-
+<delete id="deleteBoard">
+	delete free_board where free_board_no=#{no}
+</delete>
 
 </mapper>

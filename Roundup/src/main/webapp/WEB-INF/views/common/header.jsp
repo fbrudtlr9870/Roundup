@@ -663,7 +663,7 @@ function onMessage(evt){
 </script>
 <script>
 $(function(){	
-	if($("#popupFlag") !=''){
+	if($("#popupFlag") =='1'){
 		console.log("ttt"+$("#popupFlag"));
 		sock.send("신상품업로드!@#");		
 	}

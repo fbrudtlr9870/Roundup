@@ -32,6 +32,7 @@ public interface NoticeBoardService {
 
 	int deleteuploadPhoto(String username);
 
+	int deleteBoard(int no);
 
 
 }
