@@ -261,7 +261,22 @@ public class NoticeBoardController {
 		
 		return mav;
 	}
-	
+	@RequestMapping("/noticeboard/deleteBoard.do")
+	public ModelAndView deleteBoard(@RequestParam(value="no")int no) {
+		ModelAndView mav = new ModelAndView();
+		int result = noticeboardService.deleteBoard(no);
+		
+		
+		String loc = "/";
+		String msg = "";
+		if(result>0) msg="게시물이 삭제 되었습니다.";
+		else msg="삭제오류가 발생하였습니다.";
+		
+		mav.addObject("loc",loc);
+		mav.addObject("msg",msg);
+		mav.setViewName("common/msg");
+		return mav;
+	}
 	
 }
 
