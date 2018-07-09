@@ -286,8 +286,8 @@ function sample4_execDaumPostcode() {
 				<td><input type="text" name="member_phone" id="member_phone_" class="form-control" placeholder="-를 제외하고 입력하세요" required autocomplete="off"/></td>
 			</tr>
 			<tr>
-				<th><label for="member_birthday_">생일</label></th>
-				<td><input type="date" name="member_birthday" id="member_birthday_" class="form-control"  /></td>
+				<th><label for="member_birthday_">생일<span class="req">*</span></label></th>
+				<td><input type="date" name="member_birthday" id="member_birthday_" class="form-control"  required/></td>
 			</tr>
 			<tr>
 				<th><label for="member_gender_">성별</label></th>

@@ -234,7 +234,7 @@ public class ProductDAOImpl implements ProductDAO {
 
 	@Override
 	public int deleteProduct(int productNo) {
-		return session.delete("product.deleteProduct",productNo);
+		return session.update("product.deleteProduct",productNo);
 	}
 
 

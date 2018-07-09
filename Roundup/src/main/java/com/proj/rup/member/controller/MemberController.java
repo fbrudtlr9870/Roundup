@@ -1,6 +1,7 @@
 package com.proj.rup.member.controller;
 
 import java.io.File;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,17 +72,26 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/memberEnrollEnd.do")
-	public String memberEnrollEnd(Member member, Model model,
+	public String memberEnrollEnd( Model model,
+								  @RequestParam(value="member_id") String member_id,
+								  @RequestParam(value="member_password") String member_password,
+								  @RequestParam(value="member_name") String member_name,
+								  @RequestParam(value="member_email",required=false) String member_email,
+								  @RequestParam(value="member_phone") String member_phone,
+								  @RequestParam(value="member_birthday") String member_birthday,
+								  @RequestParam(value="member_gender",required=false) String member_gender,
 								  @RequestParam(value="sample4_postcode") String postCode,
 								  @RequestParam(value="sample4_roadAddress") String road,
 								  @RequestParam(value="sample4_jibunAddress",required=false) String jibun,
 								  @RequestParam(value="sample4_detailAddress") String detail
 									) {
+		Date member_birth = Date.valueOf(member_birthday);
+		Member member = new Member(member_id, member_password, member_name, member_gender, member_birth, member_phone, member_email);
 		if(logger.isDebugEnabled())
 			logger.debug("회원등록처리페이지");
-		
 		logger.debug(member.toString());
-		String rawPassword = member.getMember_password();
+		/*logger.debug(member.toString());*/
+		String rawPassword = member_password;
 		
 		/***암호화시작****/
 		String encodedPassword = bcryptPasswordEncoder.encode(rawPassword);
