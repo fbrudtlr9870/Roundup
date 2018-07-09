@@ -423,7 +423,7 @@ function payRequest() {
                     zip_code : $("#sample4_postcode").val(),
                     basketNo : basketList,
                     membership : $("#membership").val(),
-                    total_price : purchasePrice
+                    total_price : 0
                  },
                  success:function(data) {
                     console.log(data);
