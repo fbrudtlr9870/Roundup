@@ -43,7 +43,10 @@ $(function(){
         	alert("내용을 입력해주세요");
         	return false;
         }
-        
+        if(text.length>300){
+            alert("길이를 초과하였습니다.");
+            return false;
+         }
         //폼 submit
         $("#insertBoardFrm").submit();
     });
@@ -64,6 +67,8 @@ div#insertBoard-container{
 	width:640px;
 	margin:0 auto;
 	border:1px solid lightgray;
+	position:relative;
+	top:50px;
 }
 </style>
 

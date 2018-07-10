@@ -10,6 +10,7 @@
 	<jsp:param value="마이페이지" name="pageTitle"/>
 </jsp:include>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7a701e8b07c907d6b0da0dbd2a200e68&libraries=services"></script>
 <script charset="UTF-8" type="text/javascript"
@@ -91,6 +92,11 @@ div#btnDiv {
 	top:38px;
 	min-height:1000px;
 }
+.nav-item-my>a{
+	font-size:20px;
+	font-family: 'Do Hyeon', sans-serif;
+}
+
 </style>
 <script>
 //smarteditor 관련 설정

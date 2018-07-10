@@ -23,7 +23,35 @@
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
 <style>
-
+div#questionView-container{
+	width:640px;
+	min-height:500px;
+	margin:0 auto;
+	border:1px solid lightgray;
+}
+div.questionView-title{
+	width:590px;
+	height:30px;
+}
+div.questionView-title.title{
+	margin:20px 20px 0px 20px;
+	border-bottom: 1px dotted lightgray;
+}
+div.questionView-title.title span, div.questionView-title.member span{
+	font-size: 15sp;
+	font-weight: bold;
+}
+div.questionView-title.member{
+	margin:10px 10px 10px 20px;
+}
+div#questionView-comment{
+	width:638px;
+	background: rgb(229, 228, 221);
+}
+div#questionView-comment.read{
+	width:600px;
+	margin:0 auto;
+}
 div#update-container{
 	width: 700px;
     /* margin: 0 auto; */
