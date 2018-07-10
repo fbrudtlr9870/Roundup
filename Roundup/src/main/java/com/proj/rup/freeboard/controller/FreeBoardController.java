@@ -303,5 +303,37 @@ public class FreeBoardController {
 		return mav;
 	}
 	
+	@RequestMapping("/freeboard/deleteBoard.do")
+	public ModelAndView deleteBoard(@RequestParam(value="no")int no) {
+		ModelAndView mav = new ModelAndView();
+		int result = freeboardService.deleteBoard(no);
+		
+		
+		String loc = "/freeboard/freeBoardList.do";
+		String msg = "";
+		if(result>0) msg="게시물이 삭제 되었습니다.";
+		else msg="삭제오류가 발생하였습니다.";
+		
+		mav.addObject("loc",loc);
+		mav.addObject("msg",msg);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+	@RequestMapping("/freeboard/deleteComment.do")
+	public ModelAndView deleteComment(@RequestParam(value="no")int no,@RequestParam(value="parent_no")int pno) {
+		ModelAndView mav = new ModelAndView();
+		int result = freeboardService.deleteComment(no);
+				
+		String loc = "/freeboard/freeBoardView.do?no="+pno;
+		String msg = "";
+		if(result>0) msg="댓글이 삭제 되었습니다.";
+		else msg="삭제오류가 발생하였습니다.";
+		
+		mav.addObject("loc",loc);
+		mav.addObject("msg",msg);
+		mav.setViewName("common/msg");
+		return mav;
+	}
+	
 	
 }

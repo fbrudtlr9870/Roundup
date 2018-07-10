@@ -128,7 +128,7 @@ $(function(){
                console.log(data[i].category_name);
                html += "<option value='"+data[i].category_no+"'>"+data[i].category_name+"</option>";
             }
-            
+            nextE.next().html("");
             nextE.html(html);
          },error:function(jqxhr, textStatus, errorThrown) {
                 console.log("ajax처리실패!");
@@ -151,6 +151,15 @@ $(function(){
       $(this).next(".custom-file-label").html(fileName);
    });
 });
+
+function deleteProduct(productNo){
+	if(confirm("삭제하시겠습니까??")){	
+		location.href = "${pageContext.request.contextPath}/product/deleteProduct?productNo="+productNo;
+	}else{
+		return;
+	}
+}
+
 </script>
 
 <sec:authorize access="hasAnyRole('ROLE_USER')">
@@ -210,7 +219,7 @@ $(function(){
 		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 		<div
 			class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-			<h3>상품등록</h3>
+			<h3>상품수정/삭제</h3>
 
 		</div>
 		<div class="mypage container">
@@ -221,11 +230,9 @@ $(function(){
 							<br />
 							<div id="product-container">
 
-								<form action="productUpdate.do" name="productFrm"
-									method="post" enctype="multipart/form-data"
-									onsubmit="return validate();">
-									<input type="hidden" name="${_csrf.parameterName}"
-										value="${_csrf.token}" />
+								<form action="productUpdate.do" name="productFrm" method="post" enctype="multipart/form-data" onsubmit="return validate();">
+									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+									<input type="hidden" name="productNo" value="${product.productNo }" />
 									<div class="input-group mb-3">
 										<div class="input-group-prepend">
 											<span class="input-group-text" id="inputGroup-sizing-default">상품이름</span>
@@ -249,10 +256,16 @@ $(function(){
 										<select class="custom-select" name="brandNo"
 											id="inputGroupSelect01">
 											<c:forEach var="b" items="${brandList }" varStatus="vs">
-												<option value="${b.brand_no }">${b.brand_name }</option>
+												<c:if test="${product.brandNo ==b.brand_no }">
+													<option value="${b.brand_no }" selected>${b.brand_name }</option>
+												</c:if>
+												<c:if test="${product.brandNo !=b.brand_no }">												
+													<option value="${b.brand_no }">${b.brand_name }</option>
+												</c:if>
 											</c:forEach>
 										</select>
 									</div>
+									<p style="font-size:13px;color:#f47979;">* 다시 입력해주세요</p>
 									<div class="input-group mb-3">
 										<div class="input-group-prepend">
 											<label class="input-group-text" for="inputGroupSelect01">카테고리</label>
@@ -294,7 +307,7 @@ $(function(){
 										</div>
 									</div>
 									<div class="btn-group">
-										<button type="button" class="btn btn-outline-primary">삭제</button>
+										<button type="button" class="btn btn-outline-primary" onclick="deleteProduct(${product.productNo});">삭제</button>
 										<button type="submit" class="btn btn-outline-primary">수정</button>									
 									</div>
 								</form>

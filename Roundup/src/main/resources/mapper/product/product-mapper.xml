@@ -5,6 +5,7 @@
 	select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level,nvl(pp.purchase_amount,0) as purchase_amount
 	from product p,product_file pf,brand b,category c,product_category pc ,product_purchase pp
 	where p.product_no=pc.product_no 
+	and p.status = 'Y'
 	and p.brand_no=b.brand_no 
 	and p.product_no=pf.product_no 
 	and pc.category_no=c.category_no 
@@ -36,6 +37,7 @@
 	select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level,nvl(pp.purchase_amount,0) as purchase_amount
 	from product p,product_file pf,brand b,category c,product_category pc ,product_purchase pp
 	where p.product_no=pc.product_no 
+	and p.status = 'Y'
 	and p.brand_no=b.brand_no 
 	and p.product_no=pf.product_no 
 	and pc.category_no=c.category_no 
@@ -82,7 +84,7 @@
 	</select>
 	
 	<insert id="insertProduct">
-	insert into product values(seq_product_no.nextval,#{productName},#{brandNo},#{price},default,#{memberId})
+	insert into product values(seq_product_no.nextval,#{productName},#{brandNo},#{price},default,#{memberId},default)
 		<selectKey keyProperty="productNo" resultType="_int" order="AFTER">
 			select seq_product_no.currval from dual
 		</selectKey>
@@ -101,11 +103,11 @@
 	</insert>
 	
 	<select id="selectNewProduct" resultMap="search">
-	select * from product p left join product_file f on p.product_no = f.product_no left join brand b on p.brand_no = b.brand_no order by reg_date DESC
+	select * from product p left join product_file f on p.product_no = f.product_no left join brand b on p.brand_no = b.brand_no where p.status='Y' order by reg_date DESC
 	</select>
 	
 	<select id="selectHotProduct" resultMap="search">
-	<![CDATA[select E.* from(select * from (select product_no,count(*) as count from purchase_complete group by product_no) A join product P on A.product_no=P.product_no left join brand b on P.brand_no = b.brand_no left join product_file PF on PF.product_no = P.product_no order by count DESC) E where ROWNUM<=10]]>
+	<![CDATA[select E.* from(select * from (select product_no,count(*) as count from purchase_complete group by product_no) A join product P on A.product_no=P.product_no left join brand b on P.brand_no = b.brand_no left join product_file PF on PF.product_no = P.product_no where P.status='Y' order by count DESC) E where ROWNUM<=10]]>
 	</select>
 	
 	<select id="selectBrandList" resultType="brand">
@@ -125,6 +127,7 @@
 	select least(price) from (select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level,nvl(pp.purchase_amount,0) as purchase_amount
 	from product p,product_file pf,brand b,category c,product_category pc ,product_purchase pp
 	where p.product_no=pc.product_no 
+	and p.status = 'Y'
 	and p.brand_no=b.brand_no 
 	and p.product_no=pf.product_no 
 	and pc.category_no=c.category_no 
@@ -169,6 +172,7 @@
 	select round(avg(price)) as "average" from (select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level,nvl(pp.purchase_amount,0) as purchase_amount
 	from product p,product_file pf,brand b,category c,product_category pc ,product_purchase pp
 	where p.product_no=pc.product_no 
+	and p.status = 'Y'
 	and p.brand_no=b.brand_no 
 	and p.product_no=pf.product_no 
 	and pc.category_no=c.category_no 
@@ -213,6 +217,7 @@
 	select * from (select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level,nvl(pp.purchase_amount,0) as purchase_amount
 	from product p,product_file pf,brand b,category c,product_category pc ,product_purchase pp
 	where p.product_no=pc.product_no 
+	and p.status = 'Y'
 	and p.brand_no=b.brand_no 
 	and p.product_no=pf.product_no 
 	and pc.category_no=c.category_no 
@@ -241,6 +246,7 @@
 	select least(price) from (select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level,nvl(pp.purchase_amount,0) as purchase_amount
 	from product p,product_file pf,brand b,category c,product_category pc ,product_purchase pp
 	where p.product_no=pc.product_no 
+	and p.status = 'Y'
 	and p.brand_no=b.brand_no 
 	and p.product_no=pf.product_no 
 	and pc.category_no=c.category_no 
@@ -306,6 +312,7 @@
 	select round(avg(price)) as "average" from (select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level,nvl(pp.purchase_amount,0) as purchase_amount
 	from product p,product_file pf,brand b,category c,product_category pc ,product_purchase pp
 	where p.product_no=pc.product_no 
+	and p.status = 'Y'
 	and p.brand_no=b.brand_no 
 	and p.product_no=pf.product_no 
 	and pc.category_no=c.category_no 
@@ -371,6 +378,7 @@
 	select * from (select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level,nvl(pp.purchase_amount,0) as purchase_amount
 	from product p,product_file pf,brand b,category c,product_category pc ,product_purchase pp
 	where p.product_no=pc.product_no 
+	and p.status = 'Y'
 	and p.brand_no=b.brand_no 
 	and p.product_no=pf.product_no 
 	and pc.category_no=c.category_no 
@@ -426,6 +434,7 @@
 	select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level,nvl(pp.purchase_amount,0) as purchase_amount
 	from product p,product_file pf,brand b,category c,product_category pc ,product_purchase pp
 	where p.product_no=pc.product_no 
+	and p.status = 'Y'
 	and p.brand_no=b.brand_no 
 	and p.product_no=pf.product_no 
 	and pc.category_no=c.category_no 
@@ -452,6 +461,7 @@
 	select p.product_no,p.product_name,b.brand_no,b.brand_name,p.price,p.reg_date,p.member_id,pf.product_file_no,pf.original_filename,pf.renamed_filename,pf.file_reg_date,pc.pro_category_no,pc.category_no,c.category_name,c.parent_category,c.category_level,nvl(pp.purchase_amount,0) as purchase_amount
 	from product p,product_file pf,brand b,category c,product_category pc ,product_purchase pp
 	where p.product_no=pc.product_no 
+	and p.status= 'Y'
 	and p.brand_no=b.brand_no 
 	and p.product_no=pf.product_no 
 	and pc.category_no=c.category_no 
@@ -478,11 +488,11 @@
 
 	<!-- 180705 추가 by dh1ee  -->
 	<select id="selectAllProductList" resultMap="search">
-	select * from product p join product_file pf on p.product_no=pf.product_no order by p.product_no desc
+	select * from product p join product_file pf on p.product_no=pf.product_no where p.status='Y' order by p.product_no desc
 	</select>
 	
 	  <select id="selectTotalProduct" resultType="_int">
-      select count(*) from product  
+      select count(*) from product where status='Y'  
       </select>
 	
 	<!-- 신상품추가 관련 -->
@@ -493,6 +503,7 @@
 		select *
 		from product_file a
 		join product b on a.product_no=b.product_no
+		where b.status='Y'
 		order by product_file_no desc
 		)
 		where rownum<=1
@@ -504,17 +515,23 @@
 	</update> -->
 	
 	<select id="productView" resultMap="search">
-	select * from product p join product_file pf on p.product_no=pf.product_no join brand b on p.brand_no = b.brand_no where p.product_no = #{product_no}
+	select * from product p join product_file pf on p.product_no=pf.product_no join brand b on p.brand_no = b.brand_no where p.product_no = #{productNo} and p.status='Y'
 	</select>
 	
 	<update id="updateProduct">
-	update product set product_name=#{productName},brand_no=#{brandNo},price=#{price},default,member_id=#{memberId} where product_no=#{product_no} 
+	update product set product_name=#{productName},brand_no=#{brandNo},price=#{price},member_id=#{memberId} where product_no=#{productNo} 
 	</update>
 	
 	<update id="updateProductCategory">
-	update product_category set product_no=#{productNo},category_no=#{categoryNo},category_level=#{categoryLevel} where product_id=#{product_no}
+	update product_category set product_no=#{productNo},category_no=#{categoryNo},category_level=#{categoryLevel} where product_id=#{productNo}
 	</update>
 	
+	<update id="updateProductFile">
+	update product_file set original_filename=#{originalFileName},renamed_filename=#{renamedFileName} where product_no=#{productNo}
+	</update>
 	
+	<update id="deleteProduct">
+	update product set status='D' where product_no = #{productNo}
+	</update>
 </mapper>
 

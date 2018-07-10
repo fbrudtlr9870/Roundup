@@ -268,7 +268,7 @@ div.mypage{
    $(function() {
       $("tr[no]").on("click",function() {
          console.log($(this).attr("no"));
-         location.href = "${pageContext.request.contextPath}/product/productView.do?product_no="
+         location.href = "${pageContext.request.contextPath}/product/productView.do?productNo="
                + $(this).attr("no");
       });
    });

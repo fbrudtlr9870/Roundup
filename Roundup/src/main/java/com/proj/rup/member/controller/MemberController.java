@@ -1,6 +1,7 @@
 package com.proj.rup.member.controller;
 
 import java.io.File;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -69,19 +71,29 @@ public class MemberController {
 			logger.debug("회원등록페이지");
 		return "member/memberEnroll";
 	}
-	
+
 	@RequestMapping("/member/memberEnrollEnd.do")
-	public String memberEnrollEnd(Member member, Model model,
+	public String memberEnrollEnd( Model model,
+								  @RequestParam(value="member_id") String member_id,
+								  @RequestParam(value="member_password") String member_password,
+								  @RequestParam(value="member_name") String member_name,
+								  @RequestParam(value="member_email",required=false) String member_email,
+								  @RequestParam(value="member_phone") String member_phone,
+								  @RequestParam(value="member_birthday") String member_birthday,
+								  @RequestParam(value="member_gender",required=false) String member_gender,
 								  @RequestParam(value="sample4_postcode") String postCode,
 								  @RequestParam(value="sample4_roadAddress") String road,
-								  @RequestParam(value="sample4_jibunAddress") String jibun,
+								  @RequestParam(value="sample4_jibunAddress",required=false) String jibun,
 								  @RequestParam(value="sample4_detailAddress") String detail
 									) {
+		Date member_birth = Date.valueOf(member_birthday);
+		
+		Member member = new Member(member_id, member_password, member_name, member_gender, member_birth, member_phone, member_email);
 		if(logger.isDebugEnabled())
 			logger.debug("회원등록처리페이지");
-		
 		logger.debug(member.toString());
-		String rawPassword = member.getMember_password();
+		/*logger.debug(member.toString());*/
+		String rawPassword = member_password;
 		
 		/***암호화시작****/
 		String encodedPassword = bcryptPasswordEncoder.encode(rawPassword);
@@ -186,7 +198,7 @@ public class MemberController {
 	   } 
 */
 	
-
+	@Secured("ROLE_USER")
 	@RequestMapping("/member/myPage.do")
 	public ModelAndView memberMypage(@RequestParam(value="member_id") String member_id) {
 		ModelAndView mav = new ModelAndView();
@@ -203,28 +215,44 @@ public class MemberController {
 
 		return mav;
 	}
-	
+	@Secured("ROLE_USER")
 	@RequestMapping("/member/myPageMemberView.do")
 	public ModelAndView memberMypageMemberView(@RequestParam(value="member_id") String member_id) {
 		ModelAndView mav = new ModelAndView();
-		System.out.println("member_id@myPage.do:"+member_id);
-		Member m = memberService.selectOneMember(member_id);
-		MemberAddress ma = purchaseService.selectMemberInfo(member_id);
-		System.out.println("member@myPage:"+m);
-		mav.addObject("memberAddress",ma);
-		mav.addObject("member",m);
-		mav.setViewName("member/myInfo");
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); 
+		MemberDetails member = (MemberDetails) authentication.getPrincipal();
+		
+		if(member_id.equals(member.getUsername())){		
+			System.out.println("member_id@myPage.do:"+member_id);
+			Member m = memberService.selectOneMember(member_id);
+			MemberAddress ma = purchaseService.selectMemberInfo(member_id);
+			System.out.println("member@myPage:"+m);
+			mav.addObject("memberAddress",ma);
+			mav.addObject("member",m);
+			mav.setViewName("member/myInfo");
+		}else{
+			mav.setViewName("common/error");
+		}
 
 		return mav;
 	}
-	
+	@Secured("ROLE_USER")
 	@RequestMapping("/member/myPageBasket.do")
 	public ModelAndView memberMypageBasketView(@RequestParam(value="member_id") String member_id) {
 		ModelAndView mav = new ModelAndView();
-		System.out.println("member_id@myPage.do:"+member_id);
-		List<BasketProduct> basketList = basketService.selectBasketList(member_id);
-		mav.addObject("basketList",basketList);
-		mav.setViewName("member/myBasket");
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); 
+		MemberDetails member = (MemberDetails) authentication.getPrincipal();
+		
+		if(member_id.equals(member.getUsername())){			
+			System.out.println("member_id@myPage.do:"+member_id);
+			List<BasketProduct> basketList = basketService.selectBasketList(member_id);
+			mav.addObject("basketList",basketList);
+			mav.setViewName("member/myBasket");
+		}else{
+			mav.setViewName("common/error");
+		}
 
 		return mav;
 	}
@@ -239,7 +267,7 @@ public class MemberController {
 
 		return mav;
 	}*/
-	
+	@Secured("ROLE_USER")
 	@RequestMapping("/member/myPagePurchaseComplete.do")
 	public ModelAndView myPagePurchaseComplete(@RequestParam(value="member_id") String member_id,
 			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage,
@@ -248,28 +276,35 @@ public class MemberController {
 			@RequestParam(value="searchKeyword", required=false) String searchKeyword) {
 		ModelAndView mav = new ModelAndView();
 		
-		int numPerPage = 5;
-		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("searchStartDate", searchStartDate);
-		map.put("searchEndDate", searchEndDate);
-		map.put("searchKeyword", searchKeyword);
-		map.put("member_id", member_id);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); 
+		MemberDetails member = (MemberDetails) authentication.getPrincipal();
 		
-		List<PurchaseComplete> list = purchaseService.selectPurchaseCompleteList(map, cPage, numPerPage);
-		int pcount =  purchaseService.selectPurchaseCompleteListCount(map);
-		
-		/*List<PurchaseComplete> list = purchaseService.selectPurchaseCompleteList(member_id, cPage, numPerPage);
-		int pcount = purchaseService.selectPurchaseCompleteListCount(member_id);*/
-		
-		mav.addObject("count", pcount);
-		mav.addObject("numPerPage", numPerPage);
-		mav.addObject("list", list);
-		
-		mav.setViewName("member/myPurchase");
+		if(member_id.equals(member.getUsername())){	
+			int numPerPage = 5;
+			Map<String,Object> map = new HashMap<String, Object>();
+			map.put("searchStartDate", searchStartDate);
+			map.put("searchEndDate", searchEndDate);
+			map.put("searchKeyword", searchKeyword);
+			map.put("member_id", member_id);
+			
+			List<PurchaseComplete> list = purchaseService.selectPurchaseCompleteList(map, cPage, numPerPage);
+			int pcount =  purchaseService.selectPurchaseCompleteListCount(map);
+			
+			/*List<PurchaseComplete> list = purchaseService.selectPurchaseCompleteList(member_id, cPage, numPerPage);
+			int pcount = purchaseService.selectPurchaseCompleteListCount(member_id);*/
+			
+			mav.addObject("count", pcount);
+			mav.addObject("numPerPage", numPerPage);
+			mav.addObject("list", list);
+			
+			mav.setViewName("member/myPurchase");
+		}else{
+			mav.setViewName("common/error");
+		}
 		
 		return mav;
 	}
-	
+	@Secured("ROLE_USER")
 	@RequestMapping("/member/memberUpdate.do")
 	public ModelAndView memberUpdate(Member member,
 									@RequestParam(value="sample4_postcode") String postCode,
@@ -307,6 +342,7 @@ public class MemberController {
 		
 		if(result>0){ 
 			msg="회원정보수정성공!";
+			loc="/member/myPageMemberView.do?member_id="+member.getMember_id();
 			/*mav.addObject("memberLoggedIn", member);*/
 		}
 		else msg="회원정보수정실패!";
@@ -317,7 +353,7 @@ public class MemberController {
 		
 		return mav;
 	}
-
+	@Secured("ROLE_USER")
 	@RequestMapping("/member/memberDelete.do")
 	public ModelAndView memberDelete(String member_id, SessionStatus sessionStatus) {
 		if(logger.isDebugEnabled())
@@ -405,6 +441,7 @@ public class MemberController {
 		
 		return map;
 	}
+	@Secured("ROLE_USER")
 	@RequestMapping("/member/myPageQuestion.do")
 	public ModelAndView mypageQuestion(
 			@RequestParam(value="cPage", required=false, defaultValue="1")int cPage){
@@ -490,7 +527,7 @@ public class MemberController {
 			mav.setViewName("common/msg");
 			return mav;
 	}
-	
+	@Secured("ROLE_USER")
 	@RequestMapping("/member/myPageQuestionView.do")
 	public ModelAndView myPageQuestionView(@RequestParam(value="no") int no){
 		ModelAndView mav = new ModelAndView();
@@ -504,16 +541,21 @@ public class MemberController {
 	
 
 		
-	
+	@Secured("ROLE_USER")
 	@RequestMapping("/member/selectMemberAddress.do")
 	public ModelAndView selectMemberAddress(@RequestParam("member_id") String member_id) {
 		ModelAndView mav = new ModelAndView();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); 
+		MemberDetails member = (MemberDetails) authentication.getPrincipal();
 		
-		List<Address> list = memberService.selectAddrList(member_id);
-		
-		mav.addObject("list", list);
-		mav.setViewName("/member/memberAddress");
-		
+		if(member_id.equals(member.getUsername())){
+			List<Address> list = memberService.selectAddrList(member_id);
+			
+			mav.addObject("list", list);
+			mav.setViewName("/member/memberAddress");
+		}else{
+				mav.setViewName("common/error");
+			}
 		return mav;
 	}
 	

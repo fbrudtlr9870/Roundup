@@ -14,6 +14,7 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7a701e8b07c907d6b0da0dbd2a200e68&libraries=services"></script>
 <script charset="UTF-8" type="text/javascript"
    src="http://t1.daumcdn.net/cssjs/postcode/1522037570977/180326.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
 <script src="${pageContext.request.contextPath }/resources/js/code/highcharts.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/code/modules/exporting.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/code/modules/export-data.js"></script>
@@ -96,6 +97,10 @@ div.mypage{
 	position:relative;
 	top:38px;
 	min-height:1000px;
+}
+.nav-item-my>a{
+	font-size:20px;
+	font-family: 'Do Hyeon', sans-serif;
 }
 </style>
  <div class="container-fluid-master">

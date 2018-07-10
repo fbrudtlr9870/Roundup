@@ -483,12 +483,12 @@ ul.category-hyelin li label {
 
 
 <br /><br />
-<c:if test="${not empty searchKeyword }">
+<%-- <c:if test="${not empty searchKeyword }">
    <p class="alignCenter-hyelin"><span class="bold-hyelin fontSize30-hyelin">'${searchKeyword }'</span>&nbsp; <span class="fontSize30-hyelin colorGray-hyelin">검색결과</span></p>
 </c:if>
 <c:if test="${empty searchKeyword }">
    <p class="alignCenter-hyelin"><span class="bold-hyelin fontSize30-hyelin">전체</span>&nbsp; <span class="fontSize30-hyelin colorGray-hyelin">검색결과</span></p>
-</c:if>
+</c:if> --%>
 
 <table class="table searchMore-hyelin">
    <tr>

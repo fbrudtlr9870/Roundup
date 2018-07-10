@@ -37,4 +37,8 @@ public interface FreeBoardDAO {
 
 	int deleteuploadPhoto(String username);
 
+	int deleteBoard(int no);
+
+	int deleteComment(int no);
+
 }

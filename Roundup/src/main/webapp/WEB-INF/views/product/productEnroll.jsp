@@ -71,7 +71,6 @@ div.mb-3{
 }
 .input-group-text{
    background-color: #ffffff;
-   width: 110px !important;
 }
 .input-group-prepend>span{
    width:110px;
@@ -81,6 +80,7 @@ control[readonly] {
     background-color: #efefef;
     opacity: 1;
 }
+
 </style>
 
 <script>
@@ -100,6 +100,7 @@ $(function(){
       
       var nextEclasses = nextEclass.split(" ");
       console.log(nextEclasses[2]);
+      console.log("next:",nextE.next());
       
       $.ajax({
          url:"${pageContext.request.contextPath}/product/selectChildCategory.do",
@@ -107,6 +108,7 @@ $(function(){
          success:function(data){
             var html = "";
             console.log(data);
+           
             html += "<option value='' selected disabled>Select</option>";
             for(var i in data){
                console.log(data[i].category_name);

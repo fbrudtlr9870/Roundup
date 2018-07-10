@@ -38,6 +38,10 @@
 </style>
 <br /><br /><br />
 <div class="container">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">GS25</h1>
+            
+          </div>
 	<div class="card-columns">	
 		<c:forEach items="${data}" var="i" varStatus="vs">
 			<div class="card text-white" onclick="window.open('${i['a.href']}')">

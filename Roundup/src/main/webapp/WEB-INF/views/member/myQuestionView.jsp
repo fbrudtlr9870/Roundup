@@ -17,6 +17,7 @@
 <script src="${pageContext.request.contextPath }/resources/js/code/highcharts.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/code/modules/exporting.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/code/modules/export-data.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
 <sec:authorize access="hasAnyRole('ROLE_USER')">
 	<sec:authentication property="principal.username" var="member_id"/>
 	<sec:authentication property="principal.member_name" var="member_name"/>
@@ -89,6 +90,10 @@ div#btnDiv {
 	position:relative;
 	top:38px;
 	min-height:1000px;
+}
+.nav-item-my>a{
+	font-size:20px;
+	font-family: 'Do Hyeon', sans-serif;
 }
 </style>
 <script>

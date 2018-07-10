@@ -83,5 +83,8 @@ public class NoticeBoardDAOImpl implements NoticeBoardDAO {
 	public int deleteuploadPhoto(String username) {
 		return sqlSession.delete("noticeBoard.deleteuploadPhoto",username);
 	}
-
+	@Override
+	public int deleteBoard(int no) {
+		return sqlSession.delete("noticeBoard.deleteBoard",no);
+	}
 }

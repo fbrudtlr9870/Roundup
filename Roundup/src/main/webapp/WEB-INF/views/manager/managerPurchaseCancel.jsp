@@ -188,7 +188,7 @@ div.mypage{
 
 											<th>수량</th>
 											<th>취소금액</th>
-											<th>결재일</th>
+											<th>취소일</th>
 
 											<!-- <th>배송지조회</th> -->
 										</tr>
@@ -207,16 +207,13 @@ div.mypage{
 														</div>
 													</td>
 
-													<td class="tbl-td"><input type="number"
-														class="form-control number-hyelin"
-														style="width: 70px; margin: 0 auto;" name="product_amount"
-														value="${i['product_amount']}" min="1"></td>
+													<td class="tbl-td">${i['product_amount']}</td>
 													<td class="tbl-td"><input type="hidden"
 														value="${i['product_amount']*i['price']}" name="price"
 														id="price" /> <fmt:formatNumber
 															value="${i['product_amount']*i['price']}" type="currency"
 															currencySymbol="" />원</td>
-													<td class="tbl-td"><span>${i['purchase_date'] }</span>
+													<td class="tbl-td"><span>${i['cancel_date'] }</span>
 													</td>
 
 													<!-- <td class="tbl-td">
@@ -247,7 +244,7 @@ div.mypage{
 	
 	               }
 	            %>
-										<%=com.proj.rup.common.util.Utils.getPageBar(totalContents, cPage, numPerPage, "memberPurchaseCancel.do")%>
+										<%=com.proj.rup.common.util.Utils.getPageBar(totalContents, cPage, numPerPage, "managerPurchaseCancel.do")%>
 									</ul>
 
 								</div>

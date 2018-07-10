@@ -65,6 +65,8 @@
 <delete id="deleteuploadPhoto">
 	delete uploadPhoto where member_id=#{username}
 </delete>
-
+<delete id="deleteBoard">
+	delete notice_board where notice_board_no=#{no}
+</delete>
 
 </mapper>

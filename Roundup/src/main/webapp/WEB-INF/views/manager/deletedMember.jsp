@@ -90,7 +90,7 @@ table tr td {
 	<sec:authentication property="principal.member_name" var="member_name"/>
 </sec:authorize>
 
-<script>
+<!-- <script>
    $(function() {
       $("tr[no]").on("click",function() {
          console.log($(this).attr("no"));
@@ -98,7 +98,7 @@ table tr td {
                + $(this).attr("no");
       });
    });
-</script>
+</script> -->
 <div class="container-fluid-master">
 	<div class="row">
 		<nav class="col-md-2 d-none d-md-block bg-light sidebar">

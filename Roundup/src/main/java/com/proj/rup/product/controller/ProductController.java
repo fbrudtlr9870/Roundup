@@ -287,7 +287,7 @@ public class ProductController {
 			int result = productService.insertProduct(p,pf);
 			
 			//view단 분기
-			String loc = "/product/productEnroll.do";
+			String loc = "/product/allProductList.do?flag=1";
 			String msg = "";
 			
 			if(result>0) {

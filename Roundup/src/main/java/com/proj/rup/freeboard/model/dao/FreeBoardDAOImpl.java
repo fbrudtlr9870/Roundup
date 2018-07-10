@@ -93,4 +93,14 @@ public class FreeBoardDAOImpl implements FreeBoardDAO {
 		return sqlSession.delete("freeboard.deleteuploadPhoto",username);
 	}
 
+	@Override
+	public int deleteBoard(int no) {
+		return sqlSession.delete("freeboard.deleteBoard",no);
+	}
+
+	@Override
+	public int deleteComment(int no) {
+		return sqlSession.delete("freeboard.deleteComment",no);
+	}
+
 }

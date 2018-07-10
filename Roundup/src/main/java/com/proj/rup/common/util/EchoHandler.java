@@ -55,8 +55,6 @@ public class EchoHandler extends TextWebSocketHandler {
               sess.sendMessage(new TextMessage("|"+sessionList.size()));    
             }    
           }else if(role.equals("ADMIN")&&message.getPayload().toString().contains("[공지사항]")){
-             Chatting chatting = new Chatting(session.getPrincipal().getName(),message.getPayload().toString());
-              sqlSession.insert("chatting.insertChat",chatting);
               for(WebSocketSession sess : sessionList){
                  if(sess.getPrincipal()!=null&&session.getPrincipal().getName().equals(sess.getPrincipal().getName())) {
                     System.out.println("관리자 제외");
@@ -76,7 +74,7 @@ public class EchoHandler extends TextWebSocketHandler {
                       sess.sendMessage(new TextMessage("img"+session.getPrincipal().getName()+"|"+map.get("RENAMED_FILENAME")));       
                     }
         	  }
-          }else if(message.getPayload().toString().equals("신상품업로드!@#")){
+          }else if(role.equals("ADMIN")&&message.getPayload().toString().equals("/신상품업로드")){
         	  for(WebSocketSession sess : sessionList){
                     sess.sendMessage(new TextMessage("신상품업로드|"+message.getPayload()));
                 }           

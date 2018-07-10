@@ -77,5 +77,8 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
 	public int deleteuploadPhoto(String username) {
 		return NoticeBoardDAO.deleteuploadPhoto(username);
 	}
-
+	@Override
+	public int deleteBoard(int no) {
+		return NoticeBoardDAO.deleteBoard(no);
+	}
 }

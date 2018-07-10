@@ -106,12 +106,22 @@ div#freetable_container tr th{
 div#freeBoard-comment img{
 	max-width:550px;
 }
+div#freeBoard-comment{
+	margin:20px;
+}
 </style>
 
 <!-- 글쓰기 상세보기 아래에 넣음 -->
 <script>
 function fn_insertBoard(){
 	location.href="${pageContext.request.contextPath}/freeboard/insertBoard.do";
+}
+function fn_deleteBoard(){
+	if(confirm("정말로 삭제하시겠습니까?")==true){
+		location.href="${pageContext.request.contextPath}/freeboard/deleteBoard.do?no=${fboard['free_board_no']}";
+	}else{
+		return false;
+	}
 }
 </script>
  
@@ -130,6 +140,9 @@ function fn_insertBoard(){
 	
 	<div class="freeBoardView-title member">
 		<span>${fboard["member_id"] }</span>
+		<c:if test="${member_id eq fboard['member_id']}">
+		<input type="button" class="btn btn-danger" value="삭제" style="float:right;" onclick="fn_deleteBoard();"  />
+		</c:if>
 	</div>
 	<div id="freeBoard-comment">
 		${fboard["free_comment"]}
@@ -152,12 +165,24 @@ function fn_insertBoard(){
 			<c:forEach items="${listc }" var="fc" >
 				<c:if test="${fc['comment_level']==1 }">
 				<div class="freeBoardView-comment read">
-					<input type="hidden" name="${fc['comment_no'] }" />
 					<div class="freeBoardView-comment read title">
 						<span style="font-weight:bold;">${fc['member_id'] }</span>
 						<span>${fc['comment_enrolldate'] }</span>
 						<input type="hidden" name="parentId" value="${fc['member_id'] }" />
 						<button class="comment-btn" value="${fc['comment_no'] }">답글</button>
+						<c:if test="${member_id eq fc['member_id'] }">	
+						<button type="button" class="close" aria-label="Close" onclick="fn_deleteComment(this);">
+                   		 <span aria-hidden="true">&times;</span>
+              		 	</button>
+              		 	<input type="hidden" name="${fc['comment_no'] }" value="${fc['comment_no'] }" id="comment_no" />
+              		 	</c:if>
+	 					<sec:authorize access="hasRole('ROLE_ADMIN')">
+              		    <button type="button" class="close" aria-label="Close" id="delete_comment" style="color:red;"
+              		    onclick="fn_deleteComment(this);">
+                   		 	<span aria-hidden="true">&times;</span>
+              		 	</button>
+              		 	<input type="hidden" name="${fc['comment_no'] }" value="${fc['comment_no'] }" id="comment_no" />
+              		 	</sec:authorize>
 					</div>
 					<p>
 						<span>${fc['comment_content'] }</span>
@@ -172,6 +197,19 @@ function fn_insertBoard(){
 						<span>${fc['comment_enrolldate'] }</span>
 						<input type="hidden" name="parentId" value="${fc['member_id'] }" />
 						<button class="comment-btn-reply" value="${fc['parent_comment'] }">답글</button>
+						<c:if test="${member_id eq fc['member_id']}">
+						<button type="button" class="close" aria-label="Close" id="delete_comment" onclick="fn_deleteComment(this);">
+                   		 <span aria-hidden="true">&times;</span>
+              		 	</button>
+              		 	<input type="hidden" name="${fc['comment_no'] }" value="${fc['comment_no'] }" id="comment_no" />
+              		 	</c:if>
+              		 	<sec:authorize access="hasRole('ROLE_ADMIN')">
+              		    <button type="button" class="close" aria-label="Close" id="delete_comment" style="color:red;"
+              		    onclick="fn_deleteComment(this);">
+                   		 <span aria-hidden="true">&times;</span>
+              		 	</button>
+              		 	<input type="hidden" name="${fc['comment_no'] }" value="${fc['comment_no'] }" id="comment_no" />
+              		 	</sec:authorize>
 					</div>
 					<p>					
 						<span style="padding-left:13px;">
@@ -258,7 +296,11 @@ $(function(){
 		if(pcomment_content==""){
 			alert("댓글을 입력하셔야 합니다.");
 		}
-		
+		if(pcomment_content.length>200){
+			alert("댓글은 200자 이하로 작성해주세요.");
+			
+			return false;
+		}
 		<c:if test="${empty member_id}">
 		alert("로그인 후 이용가능 합니다.");
 		</c:if>
@@ -371,7 +413,11 @@ $(function(){
 			
 			return false;
 		}
-		
+		if(comment_content.length>200){
+			alert("댓글은 200자 이하로 작성해주세요.");
+			
+			return false;
+		}
 		<c:if test="${empty member_id}">
 		alert("로그인 후 이용가능 합니다.");
 		</c:if>
@@ -443,6 +489,11 @@ $(function(){
 			
 			return false;
 		}
+		if(comment_content.length>200){
+			alert("댓글은 200자 이하로 작성해주세요.");
+			
+			return false;
+		}
 		
 		<c:if test="${empty member_id}">
 			alert("로그인 후 이용가능 합니다.");
@@ -508,6 +559,18 @@ $(function(){
 	});	
 	
 })
+</script>
+<script>
+function fn_deleteComment(element){
+
+	   var comment_no = element.nextSibling.nextSibling.value;
+
+	   if(confirm("정말로 삭제하시겠습니까?")==true){
+	      location.href="${pageContext.request.contextPath}/freeboard/deleteComment.do?no="+comment_no+"&parent_no=${fboard['free_board_no']}";;
+	   }else{
+	      return false;
+	   }
+	}
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

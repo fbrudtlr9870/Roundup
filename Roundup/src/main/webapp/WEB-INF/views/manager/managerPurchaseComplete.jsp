@@ -188,8 +188,8 @@ div.mypage{
 											<th>구매자</th>
 											<th>상품정보</th>
 											<th>수량</th>
-											<th>결재금액</th>
-											<th>결재일</th>
+											<th>결제금액</th>
+											<th>결제일</th>
 											<!-- <th>배송지조회</th> -->
 										</tr>
 										<c:if test="${not empty list }">
@@ -206,10 +206,7 @@ div.mypage{
 																&nbsp; ${i["product_name"]}</span>
 														</div>
 													</td>
-													<td class="tbl-td"><input type="number"
-														class="form-control number-hyelin"
-														style="width: 70px; margin: 0 auto;" name="product_amount"
-														value="${i['product_amount']}" min="1"></td>
+													<td class="tbl-td">${i['product_amount']}</td>
 													<td class="tbl-td"><input type="hidden"
 														value="${i['product_amount']*i['price']}" name="price"
 														id="price" /> <fmt:formatNumber
@@ -245,7 +242,7 @@ div.mypage{
 
 						}
 					%>
-					<%=com.proj.rup.common.util.Utils.getPageBar(totalContents, cPage, numPerPage, "memberPurchaseComplete.do")%>
+					<%=com.proj.rup.common.util.Utils.getPageBar(totalContents, cPage, numPerPage, "managerPurchaseComplete.do")%>
 									</ul>
 							
 
